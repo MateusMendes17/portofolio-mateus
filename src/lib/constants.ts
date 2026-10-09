@@ -6,7 +6,7 @@ import type { NavItem } from "./types";
 
 export const SITE_CONFIG = {
   name: "Mateus Mendes",
-  url: "https://mateusmendes.pt", // [SUBSTITUIR] URL final
+  url: "https://mateusmendes.pt",
   locale: "pt-PT",
   email: "mateuslm799@gmail.com",
   phone: "+351 917 810 763",
@@ -26,7 +26,7 @@ export const SITE_URL = (
 
 export const SOCIAL_LINKS = {
   github: "https://github.com/MateusMendes17",
-  linkedin: "https://linkedin.com/in/mateusmendes", // [SUBSTITUIR]
+  linkedin: "https://www.linkedin.com/in/mateus-lucas-mendes-0538b7333/",
   whatsapp: `https://wa.me/351917810763`,
 } as const;
 
