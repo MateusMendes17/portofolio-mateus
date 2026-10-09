@@ -25,69 +25,141 @@ const en: Strings = {
     closeMenu: "Close menu",
   },
 
-  hero: {
-    greeting: "Hi, I'm Mateus.",
-    headline: "I build web experiences that turn visitors into loyal clients.",
-    description:
-      "Freelance web developer specialized in modern websites, online stores, and custom web applications for ambitious businesses.",
-    cta: "Start a Conversation",
-    secondaryCta: "View Projects",
-  },
-
-  servicesPreview: {
-    sectionLabel: "Services",
-    title: "Tailored solutions for your business",
-    description:
-      "Every project is unique. I develop bespoke web solutions crafted for your specific goals and audience.",
-    cta: "View all services",
-  },
-
-  featuredProjects: {
-    sectionLabel: "Projects",
-    title: "Featured Work",
-    description: "A selection of projects showcasing technical excellence and modern design.",
-    cta: "View all projects",
-    conceptBadge: "Concept Project",
-    viewProject: "View project",
-  },
-
-  aboutPreview: {
-    sectionLabel: "About me",
-    title: "Who's behind the code",
-    description:
-      "I am a passionate web developer creating digital experiences that make a difference. I prioritize clear communication, reliable deadlines, and obsessive attention to detail.",
-    cta: "Learn more about me",
-  },
-
-  processPreview: {
-    sectionLabel: "Process",
-    title: "How I Work",
-    steps: [
-      {
-        title: "Discovery",
-        description: "We discuss your vision, business model, and requirements in depth.",
+  home: {
+    hero: {
+      availability: "Available for New Projects",
+      titleBefore: "Websites & Digital Solutions",
+      titleAccent: "Engineered for Growth",
+      subtitle:
+        "Bespoke development with clean code, sub-second speeds, and direct communication.",
+      ctaPrimary: "Get in Touch",
+      ctaSecondary: "View Projects",
+    },
+    metrics: {
+      speed: {
+        unit: "Load time",
+        title: "Lightning Fast Loading",
+        description:
+          "Zero visitor drop-off from slow pages. Certified top scores on Google Core Web Vitals.",
+        widgetLabel: "Score Google",
       },
-      {
-        title: "Architecture",
-        description: "I outline visual structure, user journeys, and technical roadmap.",
+      code: {
+        badge: "Zero Bloat",
+        unit: "Bespoke",
+        title: "Tailor-Made Code",
+        description:
+          "No sluggish generic WordPress templates or builder bloat. Written cleanly from scratch.",
       },
-      {
-        title: "Development",
-        description: "Clean Next.js & TypeScript code with speed and Google SEO built in.",
+      direct: {
+        badge: "Direct Contact",
+        unit: "Middlemen",
+        title: "Direct Dialogue",
+        description:
+          "Speak directly with the software engineer creating your website. Rapid same-day updates.",
+        widgetChat: "1-on-1 Dialogue",
+        widgetCall: "WhatsApp & Calls",
       },
-      {
-        title: "Launch",
-        description: "We deploy with full ownership, speed verification, and dedicated support.",
+      seo: {
+        unit: "Google Reach",
+        title: "Google SEO by Default",
+        description:
+          "Schema.org rich snippets, XML sitemaps, and semantic tags engineered to attract clients.",
+        widgetPosition: "★ Top Posição",
       },
-    ],
-  },
-
-  ctaSection: {
-    title: "Ready to bring your project to life?",
-    description:
-      "Let's discuss how I can help your business grow and stand out online.",
-    cta: "Start a Conversation",
-    secondaryCta: "Send email",
+    },
+    servicesPreview: {
+      badge: "Specialized Services",
+      title: "Crafted for Real Business Growth",
+      description:
+        "Bespoke digital architecture tailored to turn visitors into inquiries and clients.",
+      viewAll: "Explore all services",
+      items: [
+        {
+          badge: "High Conversion",
+          subtitle: "Design & SEO",
+          title: "Websites & Landing Pages",
+          description:
+            "Unique bespoke design, lightning load speeds (< 1s), and complete mobile and Google SEO optimization.",
+          metricLabel: "Performance Guaranteed",
+          metricValue: "Score 100/100 PageSpeed",
+          tags: ["Next.js", "Tailwind CSS", "Google SEO", "Framer Motion"],
+          action: "Build My Website",
+        },
+        {
+          badge: "Automated Sales",
+          subtitle: "Frictionless Checkout",
+          title: "Online Stores & E-Commerce",
+          description:
+            "Full-featured e-commerce platforms with integrated payments (Cards, Apple Pay, MB WAY) and seamless order management.",
+          metricLabel: "Secure Checkout",
+          metricValue: "Stripe • Local Payments • Invoicing",
+          tags: ["E-Commerce", "Stripe", "Fast Checkout", "Catalog Management"],
+          action: "Launch My Online Store",
+          previewStatus: "Order Approved",
+          previewConfirmed: "Confirmed",
+        },
+        {
+          badge: "Custom Software",
+          subtitle: "Workflows & Automation",
+          title: "Web Applications & Portals",
+          description:
+            "Custom web software, interactive dashboards, and client portals that automate manual operations and save your team countless hours.",
+          metricLabel: "Modern Architecture",
+          metricValue: "TypeScript & Cloud Databases",
+          tags: ["TypeScript", "Databases", "Authentication", "Dashboards"],
+          action: "Discuss Custom Solution",
+          previewScalable: "Scalable Traffic",
+        },
+      ],
+    },
+    featuredProjects: {
+      badge: "Selected Case Studies",
+      title: "Recent Projects & Measurable Results",
+      description:
+        "Discover how clean code and strategic digital design generated real business impact.",
+      viewAll: "View all portfolio projects",
+    },
+    aboutPreview: {
+      badge: "Why Work With Me",
+      title: "Direct Engineering, Zero Fluff, Total Accountability",
+      description:
+        "When you hire me, you don't get routed to account managers or outsourced teams. You get a dedicated technical partner.",
+      pillars: [
+        {
+          num: "01",
+          title: "Direct Contact",
+          desc: "Talk directly with the engineer building your platform via WhatsApp, email, or scheduled call.",
+        },
+        {
+          num: "02",
+          title: "Full Code Ownership",
+          desc: "100% of source code, domains, and credentials are completely yours upon completion.",
+        },
+        {
+          num: "03",
+          title: "Legal Tax Compliance",
+          desc: "Every project is legally invoiced with official tax compliance under Portuguese and EU standards.",
+        },
+      ],
+      footerNote: "Want to inspect my code standards and technical philosophy?",
+      footerLink: "Read about Mateus & methodology",
+    },
+    quizTeaser: {
+      badge: "Interactive Solution Finder",
+      title: "Unsure what digital solution your business needs?",
+      description:
+        "Answer 3 quick questions in our interactive advisor to discover the most effective roadmap for your goals and budget.",
+      cta: "Start Solution Quiz",
+    },
+    ctaSection: {
+      badge: "Let's Build Together",
+      title: "Ready to elevate your digital presence?",
+      description:
+        "Let's discuss your project goals without any obligation. Contact me via form, scheduled call, or direct message.",
+      whatsappMessage:
+        "Hello Mateus, I saw your portfolio and would like to talk about a project!",
+      whatsappCta: "Chat on WhatsApp",
+    },
   },
 
   about: {
@@ -1035,15 +1107,49 @@ export const engineeringPrinciples = {
   },
 
   privacy: {
-    title: "Privacy Policy",
-    lastUpdated: "Last updated: October 2026",
+    backHome: "← Back to home page",
+    title: "Privacy Policy & GDPR",
+    lastUpdatedPrefix: "Last updated:",
+    controller: {
+      heading: "1. Data Controller",
+      beforeName:
+        "The data controller responsible for personal information collected through this website is",
+      afterName: ", with direct contact at",
+    },
+    collectedData: {
+      heading: "2. Collected Data & Purpose",
+      intro:
+        "Information collected via the contact form (name, email address, phone/WhatsApp, project type, communication preference, and message) is strictly used to:",
+      list: [
+        "Respond directly to inquiries and provide technical consultations;",
+        "Deliver tailored proposals for requested digital development services;",
+        "Schedule alignment calls or introductory meetings with the user.",
+      ],
+      neverBefore: "Your personal details are",
+      neverStrong: "never",
+      neverAfter:
+        "sold, rented, or distributed to 3rd parties for advertising or unauthorized uses.",
+    },
+    legalBasis: {
+      heading: "3. Legal Basis for Processing",
+      body: "Data processing is grounded upon explicit consent granted by the user when submitting the contact inquiry form (Article 6(1)(a) of the General Data Protection Regulation — GDPR).",
+    },
+    retention: {
+      heading: "4. Data Retention",
+      body: "Personal records are retained only for the duration required to address your consultation and support commercial communications, after which they are safely purged.",
+    },
+    rights: {
+      heading: "5. User Rights",
+      beforeLink:
+        "Under GDPR legislation, you hold the right to access, rectify, or request deletion of your stored details at any moment by sending a request to",
+    },
+    cookies: {
+      heading: "6. Cookies & Local Storage",
+      body: "This website does not deploy invasive tracking or advertising cookies. It strictly utilizes localStorage to retain your interface preferences (Theme & Language selection).",
+    },
   },
 
   common: {
-    learnMore: "Learn more",
-    viewAll: "View all",
-    loading: "Loading...",
-    scrollDown: "Scroll down",
     startConversation: "Start a Conversation",
   },
 } as const;

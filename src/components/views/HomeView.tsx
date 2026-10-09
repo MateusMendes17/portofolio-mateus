@@ -14,7 +14,7 @@ import { FloatingElements } from "@/components/ui/FloatingElements";
 import { TextReveal3D } from "@/components/ui/TextAnimations";
 
 export function HomeView() {
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
 
   // Top 3 featured projects
   const featuredProjects = PROJECTS.slice(0, 3);
@@ -50,42 +50,31 @@ export function HomeView() {
         <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#2A2421]/80 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold text-[#C0AEA0] shadow-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>
-            {isEnglish ? "Available for New Projects" : "Disponível para Novos Projetos"}
+            {t.home.hero.availability}
           </span>
         </div>
 
         {/* Título */}
         <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight !text-[#E6D5C3] leading-tight">
-          {isEnglish ? (
-            <>
-              Websites & Digital Solutions <br className="hidden sm:inline" />
-              <span className="!text-[#C98E6C]">Engineered for Growth</span>
-            </>
-          ) : (
-            <>
-              Websites & Soluções Web <br className="hidden sm:inline" />
-              <span className="!text-[#C98E6C]">Focadas em Resultados</span>
-            </>
-          )}
+          {t.home.hero.titleBefore} <br className="hidden sm:inline" />
+          <span className="!text-[#C98E6C]">{t.home.hero.titleAccent}</span>
         </h1>
 
         {/* Subtítulo */}
         <p className="text-[11px] sm:text-sm lg:text-base text-[#C0AEA0] leading-relaxed max-w-[250px] sm:max-w-md mx-auto font-normal">
-          {isEnglish
-            ? "Bespoke development with clean code, sub-second speeds, and direct communication."
-            : "Desenvolvimento à medida com código limpo, carregamento rápido e contacto direto."}
+          {t.home.hero.subtitle}
         </p>
 
         {/* Botões */}
         <div className="pt-2 flex items-center justify-center gap-3 sm:gap-4 scale-90 sm:scale-100">
           <Link href="/contacto">
             <Button variant="contact" size="sm" withArrow className="[&>span.relative]:!bg-[#E6D5C3] [&>span.relative]:!text-[#1C1816] hover:[&>span.relative]:!bg-[#D8C4AF]">
-              {isEnglish ? "Get in Touch" : "Falar Comigo"}
+              {t.home.hero.ctaPrimary}
             </Button>
           </Link>
           <Link href="/projetos">
             <Button variant="secondary" size="sm" className="bg-[#2A2421] text-[#E6D5C3] border border-white/10 hover:bg-[#372F2B]">
-              {isEnglish ? "View Projects" : "Ver Projetos"}
+              {t.home.hero.ctaSecondary}
             </Button>
           </Link>
         </div>
@@ -189,16 +178,14 @@ export function HomeView() {
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>&lt; 0.8s</span>
                   <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {isEnglish ? "Load time" : "Carregamento"}
+                    {t.home.metrics.speed.unit}
                   </span>
                 </div>
                 <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {isEnglish ? "Lightning Fast Loading" : "Carregamento Relâmpago"}
+                  {t.home.metrics.speed.title}
                 </h4>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {isEnglish
-                    ? "Zero visitor drop-off from slow pages. Certified top scores on Google Core Web Vitals."
-                    : "Nenhum cliente desiste por lentidão. Pontuação máxima nos Core Web Vitals do Google."}
+                  {t.home.metrics.speed.description}
                 </p>
               </div>
             </div>
@@ -206,7 +193,7 @@ export function HomeView() {
             {/* Micro-Widget Visual na Base */}
             <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
               <div className="flex items-center justify-between text-[10px] font-mono text-text-muted mb-1.5">
-                <span>Score Google</span>
+                <span>{t.home.metrics.speed.widgetLabel}</span>
                 <span className="font-bold text-emerald-600 dark:text-emerald-400">100 / 100</span>
               </div>
               <div className="h-1.5 w-full rounded-full bg-surface-hover overflow-hidden">
@@ -232,7 +219,7 @@ export function HomeView() {
                   </svg>
                 </div>
                 <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-[10px] font-bold text-text-secondary">
-                  {isEnglish ? "Zero Bloat" : "Sem Bloatware"}
+                  {t.home.metrics.code.badge}
                 </span>
               </div>
 
@@ -241,16 +228,14 @@ export function HomeView() {
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>100%</span>
                   <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {isEnglish ? "Bespoke" : "Sob Medida"}
+                    {t.home.metrics.code.unit}
                   </span>
                 </div>
                 <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {isEnglish ? "Tailor-Made Code" : "Código Sob Medida"}
+                  {t.home.metrics.code.title}
                 </h4>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {isEnglish
-                    ? "No sluggish generic WordPress templates or builder bloat. Written cleanly from scratch."
-                    : "Sem templates reciclados ou plugins lentos. Construído de raiz com Next.js e TypeScript."}
+                  {t.home.metrics.code.description}
                 </p>
               </div>
             </div>
@@ -281,7 +266,7 @@ export function HomeView() {
                 </div>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-subtle px-2.5 py-0.5 text-[10px] font-bold text-accent">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent animate-ping" />
-                  {isEnglish ? "Direct Contact" : "Linha Direta"}
+                  {t.home.metrics.direct.badge}
                 </span>
               </div>
 
@@ -290,16 +275,14 @@ export function HomeView() {
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>0</span>
                   <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {isEnglish ? "Middlemen" : "Intermediários"}
+                    {t.home.metrics.direct.unit}
                   </span>
                 </div>
                 <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {isEnglish ? "Direct Dialogue" : "Zero Intermediários"}
+                  {t.home.metrics.direct.title}
                 </h4>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {isEnglish
-                    ? "Speak directly with the software engineer creating your website. Rapid same-day updates."
-                    : "Fala diretamente com quem programa o site. Acompanhamento contínuo e canal aberto."}
+                  {t.home.metrics.direct.description}
                 </p>
               </div>
             </div>
@@ -309,9 +292,9 @@ export function HomeView() {
               <div className="flex items-center justify-between text-[10px] text-text-muted">
                 <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  {isEnglish ? "1-on-1 Dialogue" : "Canal 1-para-1"}
+                  {t.home.metrics.direct.widgetChat}
                 </span>
-                <span className="font-medium">{isEnglish ? "WhatsApp & Calls" : "WhatsApp & Chamada"}</span>
+                <span className="font-medium">{t.home.metrics.direct.widgetCall}</span>
               </div>
             </div>
           </div>
@@ -342,16 +325,14 @@ export function HomeView() {
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>#1</span>
                   <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {isEnglish ? "Google Reach" : "No Google"}
+                    {t.home.metrics.seo.unit}
                   </span>
                 </div>
                 <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {isEnglish ? "Google SEO by Default" : "Google SEO de Raiz"}
+                  {t.home.metrics.seo.title}
                 </h4>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {isEnglish
-                    ? "Schema.org rich snippets, XML sitemaps, and semantic tags engineered to attract clients."
-                    : "Arquitetura semântica, Schema.org e sitemaps feitos para atrair tráfego orgânico gratuito."}
+                  {t.home.metrics.seo.description}
                 </p>
               </div>
             </div>
@@ -360,7 +341,7 @@ export function HomeView() {
             <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
               <div className="flex items-center justify-between text-[10px] font-mono text-text-muted">
                 <span className="truncate">google.com/search</span>
-                <span className="text-accent font-bold shrink-0">★ Top Posição</span>
+                <span className="text-accent font-bold shrink-0">{t.home.metrics.seo.widgetPosition}</span>
               </div>
             </div>
           </div>
@@ -377,22 +358,20 @@ export function HomeView() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
             <span className="text-xs uppercase tracking-wider font-bold text-accent">
-              {isEnglish ? "Specialized Services" : "O Que Faço"}
+              {t.home.servicesPreview.badge}
             </span>
             <h2 className="font-heading text-2xl sm:text-4xl font-bold text-text-primary mt-1">
-              <TextReveal3D>{isEnglish ? "Crafted for Real Business Growth" : "Soluções Digitais Sob Medida"}</TextReveal3D>
+              <TextReveal3D>{t.home.servicesPreview.title}</TextReveal3D>
             </h2>
             <p className="text-sm text-text-secondary mt-1.5 max-w-2xl">
-              {isEnglish
-                ? "Bespoke digital architecture tailored to turn visitors into inquiries and clients."
-                : "Cada projeto é desenhado e programado do zero para posicionar a sua marca com máxima autoridade."}
+              {t.home.servicesPreview.description}
             </p>
           </div>
           <Link
             href="/servicos"
             className="text-xs sm:text-sm font-bold text-accent hover:underline inline-flex items-center gap-1 shrink-0"
           >
-            <span>{isEnglish ? "Explore all services" : "Conhecer todos os serviços"}</span>
+            <span>{t.home.servicesPreview.viewAll}</span>
             <span>→</span>
           </Link>
         </div>
@@ -401,25 +380,17 @@ export function HomeView() {
         <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" stagger={0.15}>
           {/* Card 1: Websites & Landing Pages */}
           <StaggerItem rotateX={8}><Card
-            badge={isEnglish ? "High Conversion" : "Alta Conversão"}
+            badge={t.home.servicesPreview.items[0].badge}
             badgeVariant="accent"
-            subtitle={isEnglish ? "Design & SEO" : "Design & SEO"}
-            title={isEnglish ? "Websites & Landing Pages" : "Websites & Landing Pages"}
-            description={
-              isEnglish
-                ? "Unique bespoke design, lightning load speeds (< 1s), and complete mobile and Google SEO optimization."
-                : "Criados para converter visitantes em clientes. Design único, carregamento ultra-rápido (< 1s) e otimização total para telemóveis e Google."
-            }
+            subtitle={t.home.servicesPreview.items[0].subtitle}
+            title={t.home.servicesPreview.items[0].title}
+            description={t.home.servicesPreview.items[0].description}
             metrics={{
-              label: isEnglish ? "Performance Guaranteed" : "Performance Garantida",
-              value: "Score 100/100 PageSpeed",
+              label: t.home.servicesPreview.items[0].metricLabel,
+              value: t.home.servicesPreview.items[0].metricValue,
             }}
-            tags={
-              isEnglish
-                ? ["Next.js", "Tailwind CSS", "Google SEO", "Framer Motion"]
-                : ["Next.js", "Tailwind CSS", "SEO Otimizado", "Animações Framer Motion"]
-            }
-            actionText={isEnglish ? "Build My Website" : "Criar o Meu Website"}
+            tags={t.home.servicesPreview.items[0].tags}
+            actionText={t.home.servicesPreview.items[0].action}
             icon={
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                 <rect width="20" height="14" x="2" y="3" rx="2" />
@@ -455,25 +426,17 @@ export function HomeView() {
           {/* Card 2: Lojas Online */}
           <StaggerItem rotateX={8}><Card
             featured
-            badge={isEnglish ? "Automated Sales" : "Vendas Automáticas"}
+            badge={t.home.servicesPreview.items[1].badge}
             badgeVariant="success"
-            subtitle={isEnglish ? "Frictionless Checkout" : "Pagamentos & Checkout"}
-            title={isEnglish ? "Online Stores & E-Commerce" : "Lojas Online & E-Commerce"}
-            description={
-              isEnglish
-                ? "Full-featured e-commerce platforms with integrated payments (Cards, Apple Pay, MB WAY) and seamless order management."
-                : "Plataformas de venda completas com pagamentos integrados (MB WAY, Multibanco, Cartão) e gestão simples de encomendas e catálogo."
-            }
+            subtitle={t.home.servicesPreview.items[1].subtitle}
+            title={t.home.servicesPreview.items[1].title}
+            description={t.home.servicesPreview.items[1].description}
             metrics={{
-              label: isEnglish ? "Secure Checkout" : "Pagamentos Seguros",
-              value: isEnglish ? "Stripe • Local Payments • Invoicing" : "Stripe • MB WAY • Faturação",
+              label: t.home.servicesPreview.items[1].metricLabel,
+              value: t.home.servicesPreview.items[1].metricValue,
             }}
-            tags={
-              isEnglish
-                ? ["E-Commerce", "Stripe", "Fast Checkout", "Catalog Management"]
-                : ["E-Commerce", "Stripe", "Checkout Rápido", "Catálogo Dinâmico"]
-            }
-            actionText={isEnglish ? "Launch My Online Store" : "Criar a Minha Loja Online"}
+            tags={t.home.servicesPreview.items[1].tags}
+            actionText={t.home.servicesPreview.items[1].action}
             icon={
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
@@ -500,11 +463,11 @@ export function HomeView() {
                       ✓
                     </div>
                     <span className="text-[10px] font-semibold text-text-primary">
-                      {isEnglish ? "Order Approved" : "Encomenda Aprovada"}
+                      {t.home.servicesPreview.items[1].previewStatus}
                     </span>
                   </div>
                   <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                    {isEnglish ? "Confirmed" : "Confirmada"}
+                    {t.home.servicesPreview.items[1].previewConfirmed}
                   </span>
                 </div>
               </div>
@@ -513,25 +476,17 @@ export function HomeView() {
 
           {/* Card 3: Aplicações Web Sob Medida */}
           <StaggerItem rotateX={8}><Card
-            badge={isEnglish ? "Custom Software" : "Sistemas à Medida"}
+            badge={t.home.servicesPreview.items[2].badge}
             badgeVariant="default"
-            subtitle={isEnglish ? "Workflows & Automation" : "Automação & Processos"}
-            title={isEnglish ? "Web Applications & Portals" : "Aplicações Web & Portais"}
-            description={
-              isEnglish
-                ? "Custom web software, interactive dashboards, and client portals that automate manual operations and save your team countless hours."
-                : "Sistemas web personalizados, dashboards interativos e portais de clientes que automatizam processos manuais e poupam horas diárias à sua equipa."
-            }
+            subtitle={t.home.servicesPreview.items[2].subtitle}
+            title={t.home.servicesPreview.items[2].title}
+            description={t.home.servicesPreview.items[2].description}
             metrics={{
-              label: isEnglish ? "Modern Architecture" : "Tecnologia Moderna",
-              value: isEnglish ? "TypeScript & Cloud Databases" : "TypeScript & Bases de Dados",
+              label: t.home.servicesPreview.items[2].metricLabel,
+              value: t.home.servicesPreview.items[2].metricValue,
             }}
-            tags={
-              isEnglish
-                ? ["TypeScript", "Databases", "Authentication", "Dashboards"]
-                : ["TypeScript", "Bases de Dados", "Autenticação", "Painéis de Controlo"]
-            }
-            actionText={isEnglish ? "Discuss Custom Solution" : "Discutir Solução à Medida"}
+            tags={t.home.servicesPreview.items[2].tags}
+            actionText={t.home.servicesPreview.items[2].action}
             icon={
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                 <polyline points="16 18 22 12 16 6" />
@@ -560,7 +515,7 @@ export function HomeView() {
                   <p>{`}`});</p>
                 </div>
                 <div className="flex items-center justify-between pt-0.5 text-[9px] text-text-muted">
-                  <span>{isEnglish ? "Scalable Traffic" : "Tráfego Escalável"}</span>
+                  <span>{t.home.servicesPreview.items[2].previewScalable}</span>
                   <span className="font-bold text-text-primary">10k+ req/min</span>
                 </div>
               </div>
@@ -577,22 +532,20 @@ export function HomeView() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
             <span className="text-xs uppercase tracking-wider font-bold text-accent">
-              {isEnglish ? "Selected Case Studies" : "Portfólio Selecionado"}
+              {t.home.featuredProjects.badge}
             </span>
             <h2 className="font-heading text-2xl sm:text-4xl font-bold text-text-primary mt-1">
-              <TextReveal3D>{isEnglish ? "Recent Projects & Measurable Results" : "Projetos em Destaque & Resultados"}</TextReveal3D>
+              <TextReveal3D>{t.home.featuredProjects.title}</TextReveal3D>
             </h2>
             <p className="text-sm text-text-secondary mt-1.5 max-w-2xl">
-              {isEnglish
-                ? "Discover how clean code and strategic digital design generated real business impact."
-                : "Descubra como o design estratégico e engenharia de software criaram valor tangível para estes clientes."}
+              {t.home.featuredProjects.description}
             </p>
           </div>
           <Link
             href="/projetos"
             className="text-xs sm:text-sm font-bold text-accent hover:underline inline-flex items-center gap-1 shrink-0"
           >
-            <span>{isEnglish ? "View all portfolio projects" : "Ver todos os projetos"}</span>
+            <span>{t.home.featuredProjects.viewAll}</span>
             <span>→</span>
           </Link>
         </div>
@@ -677,44 +630,18 @@ export function HomeView() {
           <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-accent/3 morph-blob pointer-events-none" style={{ animationDelay: '-5s' }} />
           <div className="max-w-2xl mb-10">
             <span className="text-xs uppercase tracking-wider font-bold text-accent">
-              {isEnglish ? "Why Work With Me" : "Diferenciais de Trabalho"}
+              {t.home.aboutPreview.badge}
             </span>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
-              {isEnglish
-                ? "Direct Engineering, Zero Fluff, Total Accountability"
-                : "Engenharia Direta, Rigor Técnico e Transparência Total"}
+              {t.home.aboutPreview.title}
             </h2>
             <p className="text-sm text-text-secondary mt-1.5">
-              {isEnglish
-                ? "When you hire me, you don't get routed to account managers or outsourced teams. You get a dedicated technical partner."
-                : "Não há gestores de conta nem equipas subcontratadas. Trabalha diretamente com quem planeia, desenha e programa cada pixel da sua solução."}
+              {t.home.aboutPreview.description}
             </p>
           </div>
 
           <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.12}>
-            {[
-              {
-                num: "01",
-                title: isEnglish ? "Direct Contact" : "Contacto Direto",
-                desc: isEnglish
-                  ? "Talk directly with the engineer building your platform via WhatsApp, email, or scheduled call."
-                  : "Fala diretamente com o programador da sua plataforma por WhatsApp, chamada ou email em qualquer fase.",
-              },
-              {
-                num: "02",
-                title: isEnglish ? "Full Code Ownership" : "Propriedade Total",
-                desc: isEnglish
-                  ? "100% of source code, domains, and credentials are completely yours upon completion."
-                  : "100% do código fonte, domínio e acessos de administração são entregues inteiramente a si após a conclusão.",
-              },
-              {
-                num: "03",
-                title: isEnglish ? "Legal Tax Compliance" : "Faturação Legal Completa",
-                desc: isEnglish
-                  ? "Every project is legally invoiced with official tax compliance under Portuguese and EU standards."
-                  : "Todos os serviços prestados são legalmente faturados com NIF de acordo com a legislação fiscal portuguesa.",
-              },
-            ].map((pillar) => (
+            {t.home.aboutPreview.pillars.map((pillar) => (
               <StaggerItem key={pillar.num}>
               <div
                 className="rounded-2xl border border-border/70 bg-surface/70 p-6 space-y-3 hover:border-accent/40 transition-all duration-300"
@@ -735,15 +662,13 @@ export function HomeView() {
 
           <div className="mt-8 pt-6 border-t border-border/60 flex flex-wrap items-center justify-between gap-4">
             <p className="text-xs text-text-muted">
-              {isEnglish
-                ? "Want to inspect my code standards and technical philosophy?"
-                : "Quer conhecer a fundo a minha stack e princípios de código?"}
+              {t.home.aboutPreview.footerNote}
             </p>
             <Link
               href="/sobre"
               className="text-xs sm:text-sm font-bold text-accent hover:underline inline-flex items-center gap-1"
             >
-              <span>{isEnglish ? "Read about Mateus & methodology" : "Saber mais sobre o Mateus"}</span>
+              <span>{t.home.aboutPreview.footerLink}</span>
               <span>→</span>
             </Link>
           </div>
@@ -760,23 +685,19 @@ export function HomeView() {
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-accent/8 morph-blob pointer-events-none" />
           <div className="max-w-xl space-y-2">
             <span className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
-              {isEnglish ? "Interactive Solution Finder" : "Assistente Interativo"}
+              {t.home.quizTeaser.badge}
             </span>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-              {isEnglish
-                ? "Unsure what digital solution your business needs?"
-                : "Não sabe ao certo qual a solução ideal para o seu projeto?"}
+              {t.home.quizTeaser.title}
             </h2>
             <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-              {isEnglish
-                ? "Answer 3 quick questions in our interactive advisor to discover the most effective roadmap for your goals and budget."
-                : "Responda a 3 perguntas rápidas no nosso assistente interativo e receba uma recomendação técnica adaptada aos seus objetivos."}
+              {t.home.quizTeaser.description}
             </p>
           </div>
 
           <Link href="/sobre" className="shrink-0">
             <Button variant="primary" size="lg" withArrow>
-              {isEnglish ? "Start Solution Quiz" : "Iniciar Assistente"}
+              {t.home.quizTeaser.cta}
             </Button>
           </Link>
         </div>
@@ -793,40 +714,34 @@ export function HomeView() {
           <FloatingElements count={3} variant="minimal" />
           <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-subtle px-3 py-1 text-xs font-semibold text-accent">
             <span className="h-2 w-2 rounded-full bg-accent animate-ping" />
-            {isEnglish ? "Let's Build Together" : "Vamos Conversar"}
+            {t.home.ctaSection.badge}
           </div>
 
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary max-w-2xl mx-auto">
-            {isEnglish
-              ? "Ready to elevate your digital presence?"
-              : "Pronto para elevar a presença digital da sua empresa?"}
+            {t.home.ctaSection.title}
           </h2>
 
           <p className="text-sm sm:text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
-            {isEnglish
-              ? "Let's discuss your project goals without any obligation. Contact me via form, scheduled call, or direct message."
-              : "Vamos conversar sem qualquer compromisso sobre os seus objetivos. Entre em contacto por formulário, chamada ou mensagem direta."}
+            {t.home.ctaSection.description}
           </p>
 
           <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
             <Link href="/contacto">
               <Button variant="contact" size="lg" withArrow>
-                {isEnglish ? "Start Conversation" : "Iniciar Conversa"}
+                {t.common.startConversation}
               </Button>
             </Link>
 
             <a
               href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(
-                isEnglish
-                  ? "Hello Mateus, I saw your portfolio and would like to talk about a project!"
-                  : "Olá Mateus, vi o teu website e gostaria de conversar sobre um projeto!"
+                t.home.ctaSection.whatsappMessage
               )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-2xl bg-surface border border-border px-6 py-3.5 text-xs sm:text-sm font-bold text-text-primary hover:text-accent hover:border-accent transition-all shadow-sm"
             >
               <WhatsAppIcon className="w-4 h-4" />
-              <span>{isEnglish ? "Chat on WhatsApp" : "Falar no WhatsApp"}</span>
+              <span>{t.home.ctaSection.whatsappCta}</span>
             </a>
           </div>
         </div>

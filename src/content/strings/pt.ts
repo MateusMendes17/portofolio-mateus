@@ -24,69 +24,141 @@ const pt = {
     closeMenu: "Fechar menu",
   },
 
-  hero: {
-    greeting: "Olá, sou o Mateus.",
-    headline: "Crio experiências web que convertem visitantes em clientes.",
-    description:
-      "Programador web freelancer especializado em sites modernos, lojas online e web apps para empresas e profissionais em Portugal.",
-    cta: "Iniciar Conversa",
-    secondaryCta: "Ver Projetos",
-  },
-
-  servicesPreview: {
-    sectionLabel: "Serviços",
-    title: "Soluções à medida do seu negócio",
-    description:
-      "Cada projeto é único. Desenvolvo soluções web pensadas para os seus objetivos e o seu público.",
-    cta: "Ver todos os serviços",
-  },
-
-  featuredProjects: {
-    sectionLabel: "Projetos",
-    title: "Trabalho em destaque",
-    description: "Uma seleção de projetos conceito que demonstram as minhas competências técnicas e criativas.",
-    cta: "Ver todos os projetos",
-    conceptBadge: "Projeto conceito",
-    viewProject: "Ver projeto",
-  },
-
-  aboutPreview: {
-    sectionLabel: "Sobre mim",
-    title: "Quem está por trás do código",
-    description:
-      "Sou um programador web apaixonado por criar soluções digitais que fazem a diferença. Valorizo a comunicação clara, o cumprimento de prazos e a qualidade em cada detalhe.",
-    cta: "Saber mais sobre mim",
-  },
-
-  processPreview: {
-    sectionLabel: "Processo",
-    title: "Como trabalho",
-    steps: [
-      {
-        title: "Conversa",
-        description: "Oiço as suas necessidades e objetivos para entender o projeto a fundo.",
+  home: {
+    hero: {
+      availability: "Disponível para Novos Projetos",
+      titleBefore: "Websites & Soluções Web",
+      titleAccent: "Focadas em Resultados",
+      subtitle:
+        "Desenvolvimento à medida com código limpo, carregamento rápido e contacto direto.",
+      ctaPrimary: "Falar Comigo",
+      ctaSecondary: "Ver Projetos",
+    },
+    metrics: {
+      speed: {
+        unit: "Carregamento",
+        title: "Carregamento Relâmpago",
+        description:
+          "Nenhum cliente desiste por lentidão. Pontuação máxima nos Core Web Vitals do Google.",
+        widgetLabel: "Score Google",
       },
-      {
-        title: "Proposta",
-        description: "Apresento um plano detalhado com prazos, funcionalidades e investimento.",
+      code: {
+        badge: "Sem Bloatware",
+        unit: "Sob Medida",
+        title: "Código Sob Medida",
+        description:
+          "Sem templates reciclados ou plugins lentos. Construído de raiz com Next.js e TypeScript.",
       },
-      {
-        title: "Desenvolvimento",
-        description: "Construo o projeto com atualizações regulares para garantir alinhamento.",
+      direct: {
+        badge: "Linha Direta",
+        unit: "Intermediários",
+        title: "Zero Intermediários",
+        description:
+          "Fala diretamente com quem programa o site. Acompanhamento contínuo e canal aberto.",
+        widgetChat: "Canal 1-para-1",
+        widgetCall: "WhatsApp & Chamada",
       },
-      {
-        title: "Entrega",
-        description: "Lanço o projeto, dou formação e garanto suporte contínuo.",
+      seo: {
+        unit: "No Google",
+        title: "Google SEO de Raiz",
+        description:
+          "Arquitetura semântica, Schema.org e sitemaps feitos para atrair tráfego orgânico gratuito.",
+        widgetPosition: "★ Top Posição",
       },
-    ],
-  },
-
-  ctaSection: {
-    title: "Pronto para dar vida ao seu projeto?",
-    description:
-      "Vamos conversar sobre como posso ajudar o seu negócio a crescer online.",
-    cta: "Iniciar Conversa",
-    secondaryCta: "Enviar email",
+    },
+    servicesPreview: {
+      badge: "O Que Faço",
+      title: "Soluções Digitais Sob Medida",
+      description:
+        "Cada projeto é desenhado e programado do zero para posicionar a sua marca com máxima autoridade.",
+      viewAll: "Conhecer todos os serviços",
+      items: [
+        {
+          badge: "Alta Conversão",
+          subtitle: "Design & SEO",
+          title: "Websites & Landing Pages",
+          description:
+            "Criados para converter visitantes em clientes. Design único, carregamento ultra-rápido (< 1s) e otimização total para telemóveis e Google.",
+          metricLabel: "Performance Garantida",
+          metricValue: "Score 100/100 PageSpeed",
+          tags: ["Next.js", "Tailwind CSS", "SEO Otimizado", "Animações Framer Motion"],
+          action: "Criar o Meu Website",
+        },
+        {
+          badge: "Vendas Automáticas",
+          subtitle: "Pagamentos & Checkout",
+          title: "Lojas Online & E-Commerce",
+          description:
+            "Plataformas de venda completas com pagamentos integrados (MB WAY, Multibanco, Cartão) e gestão simples de encomendas e catálogo.",
+          metricLabel: "Pagamentos Seguros",
+          metricValue: "Stripe • MB WAY • Faturação",
+          tags: ["E-Commerce", "Stripe", "Checkout Rápido", "Catálogo Dinâmico"],
+          action: "Criar a Minha Loja Online",
+          previewStatus: "Encomenda Aprovada",
+          previewConfirmed: "Confirmada",
+        },
+        {
+          badge: "Sistemas à Medida",
+          subtitle: "Automação & Processos",
+          title: "Aplicações Web & Portais",
+          description:
+            "Sistemas web personalizados, dashboards interativos e portais de clientes que automatizam processos manuais e poupam horas diárias à sua equipa.",
+          metricLabel: "Tecnologia Moderna",
+          metricValue: "TypeScript & Bases de Dados",
+          tags: ["TypeScript", "Bases de Dados", "Autenticação", "Painéis de Controlo"],
+          action: "Discutir Solução à Medida",
+          previewScalable: "Tráfego Escalável",
+        },
+      ],
+    },
+    featuredProjects: {
+      badge: "Portfólio Selecionado",
+      title: "Projetos em Destaque & Resultados",
+      description:
+        "Descubra como o design estratégico e engenharia de software criaram valor tangível para estes clientes.",
+      viewAll: "Ver todos os projetos",
+    },
+    aboutPreview: {
+      badge: "Diferenciais de Trabalho",
+      title: "Engenharia Direta, Rigor Técnico e Transparência Total",
+      description:
+        "Não há gestores de conta nem equipas subcontratadas. Trabalha diretamente com quem planeia, desenha e programa cada pixel da sua solução.",
+      pillars: [
+        {
+          num: "01",
+          title: "Contacto Direto",
+          desc: "Fala diretamente com o programador da sua plataforma por WhatsApp, chamada ou email em qualquer fase.",
+        },
+        {
+          num: "02",
+          title: "Propriedade Total",
+          desc: "100% do código fonte, domínio e acessos de administração são entregues inteiramente a si após a conclusão.",
+        },
+        {
+          num: "03",
+          title: "Faturação Legal Completa",
+          desc: "Todos os serviços prestados são legalmente faturados com NIF de acordo com a legislação fiscal portuguesa.",
+        },
+      ],
+      footerNote: "Quer conhecer a fundo a minha stack e princípios de código?",
+      footerLink: "Saber mais sobre o Mateus",
+    },
+    quizTeaser: {
+      badge: "Assistente Interativo",
+      title: "Não sabe ao certo qual a solução ideal para o seu projeto?",
+      description:
+        "Responda a 3 perguntas rápidas no nosso assistente interativo e receba uma recomendação técnica adaptada aos seus objetivos.",
+      cta: "Iniciar Assistente",
+    },
+    ctaSection: {
+      badge: "Vamos Conversar",
+      title: "Pronto para elevar a presença digital da sua empresa?",
+      description:
+        "Vamos conversar sem qualquer compromisso sobre os seus objetivos. Entre em contacto por formulário, chamada ou mensagem direta.",
+      whatsappMessage:
+        "Olá Mateus, vi o teu website e gostaria de conversar sobre um projeto!",
+      whatsappCta: "Falar no WhatsApp",
+    },
   },
 
   about: {
@@ -1032,15 +1104,49 @@ export const principiosDeEngenharia = {
   },
 
   privacy: {
-    title: "Política de Privacidade",
-    lastUpdated: "Última atualização: outubro de 2026",
+    backHome: "← Voltar à página inicial",
+    title: "Política de Privacidade & RGPD",
+    lastUpdatedPrefix: "Última atualização:",
+    controller: {
+      heading: "1. Responsável pelo Tratamento de Dados",
+      beforeName:
+        "O responsável pelo tratamento dos dados recolhidos através deste website é",
+      afterName: ", com endereço eletrónico de contacto em",
+    },
+    collectedData: {
+      heading: "2. Dados Recolhidos e Finalidade",
+      intro:
+        "Os dados recolhidos através do formulário de contacto (nome, endereço de email, contacto telefónico, tipo de projeto, preferência de contacto e mensagem) destinam-se exclusivamente a:",
+      list: [
+        "Responder a pedidos de informação e esclarecimento de dúvidas;",
+        "Apresentar propostas personalizadas relativas aos serviços solicitados;",
+        "Agendamento de reuniões ou chamadas de alinhamento com o utilizador.",
+      ],
+      neverBefore: "Os seus dados",
+      neverStrong: "nunca",
+      neverAfter:
+        "serão vendidos, cedidos a terceiros para efeitos de marketing ou utilizados para qualquer fim não autorizado.",
+    },
+    legalBasis: {
+      heading: "3. Base Legal para o Tratamento",
+      body: "O tratamento dos seus dados fundamenta-se no consentimento expresso prestado pelo utilizador no momento da submissão do formulário de contacto (Artigo 6.º, n.º 1, alínea a) do Regulamento Geral sobre a Proteção de Dados — RGPD).",
+    },
+    retention: {
+      heading: "4. Conservação dos Dados",
+      body: "Os dados pessoais serão conservados apenas durante o período necessário para responder à sua solicitação e dar seguimento à eventual relação comercial, sendo eliminados decorrido o prazo legal ou caso solicite o seu apagamento.",
+    },
+    rights: {
+      heading: "5. Direitos do Titular dos Dados",
+      beforeLink:
+        "Nos termos do RGPD, tem o direito de aceder, retificar, limitar ou solicitar o apagamento dos seus dados pessoais a qualquer momento. Para exercer estes direitos, basta enviar uma mensagem para",
+    },
+    cookies: {
+      heading: "6. Cookies e Rastreamento",
+      body: "Este website não utiliza cookies invasivos ou de publicidade direcionada. Utiliza unicamente armazenamento local estritamente necessário para guardar as suas preferências de tema (Dia / Noite) e idioma (PT / EN).",
+    },
   },
 
   common: {
-    learnMore: "Saber mais",
-    viewAll: "Ver todos",
-    loading: "A carregar...",
-    scrollDown: "Scroll para baixo",
     startConversation: "Iniciar Conversa",
   },
 };
