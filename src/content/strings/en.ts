@@ -91,52 +91,50 @@ const en: Strings = {
   },
 
   about: {
-    sectionLabel: "About me",
-    title: "Mateus Mendes",
-    subtitle: "Freelance Web Developer",
-    bio: [
-      "I am a freelance web developer helping businesses and professionals establish a commanding digital presence. My focus is on creating fast, accessible, and conversion-oriented websites.",
-      "A great website isn't just visually stunning — it must be lightning fast, responsive, and engineered to drive measurable results.",
-      "When I'm not coding, I'm exploring new technologies, refining user interface design, or contributing to open-source software.",
-    ],
-    values: {
-      title: "Core Values",
-      items: [
+    hero: {
+      badge: "Behind the Code",
+      title: "About Me.",
+      introBefore: "I am ",
+      introAfter:
+        ", a freelance web developer based in Portugal. I blend technical software engineering with modern design aesthetics to create websites, e-commerce stores, and digital tools that command authority and generate measurable results.",
+    },
+    methodology: {
+      label: "Methodology",
+      title: "How I create tangible value for your project",
+      description:
+        "Streamlined workflows, transparent communication, and dedicated craftsmanship.",
+      pillars: [
         {
-          title: "Transparent Communication",
+          number: "01",
+          title: "Business-Driven Results",
           description:
-            "Direct communication with no technical jargon or hidden surprises.",
+            "A website shouldn't just look attractive — it must generate sales, attract high-value inquiries, and cement brand credibility. Every interface component is strategically built to convert.",
         },
         {
-          title: "Rigorous Delivery",
+          number: "02",
+          title: "Cutting-Edge Code & Zero Bloat",
           description:
-            "Realistic timelines, meticulous planning, and proactive updates.",
+            "I reject sluggish page builders and heavy generic themes. I engineer clean Next.js and TypeScript architecture, guaranteeing instant loading speeds (< 0.8 seconds).",
         },
         {
-          title: "Detail & Craftsmanship",
+          number: "03",
+          title: "Direct & Transparent Communication",
           description:
-            "From pixel perfection to Core Web Vitals, every aspect is crafted with pride.",
+            "You talk directly with the engineer writing your code. Continuous updates, transparent milestones, and reliable delivery with zero hidden overhead.",
+        },
+        {
+          number: "04",
+          title: "Ongoing Support & Full Autonomy",
+          description:
+            "After launch, your brand is fully supported. I deliver full code ownership and hands-on guidance so you manage your content with complete independence.",
         },
       ],
     },
-    stack: {
-      title: "Technologies & Stack",
+    cta: {
+      title: "Have an idea or project in mind?",
       description:
-        "I select modern, high-performance tools for each project. Here are the core technologies I use:",
-      categories: [
-        {
-          name: "Frontend",
-          items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
-        },
-        {
-          name: "Backend",
-          items: ["Node.js", "Express", "PostgreSQL", "Prisma", "REST APIs"],
-        },
-        {
-          name: "Tools",
-          items: ["Git", "VS Code", "Figma", "Vercel", "Docker"],
-        },
-      ],
+        "Let's discuss your vision without obligation and define the best digital roadmap for your business.",
+      secondary: "Explore All Services",
     },
     photoAlt: "Photograph of Mateus Mendes",
   },
@@ -442,6 +440,306 @@ const en: Strings = {
     ],
   },
 
+  terminal: {
+    badge: "Behind the Scenes & Rigor",
+    title: "My Engineering Philosophy",
+    description:
+      "Inspect the engineering standards, methodology, and commitments applied to every line of code I craft for you.",
+    path: "philosophy",
+    copy: "Copy",
+    copied: "✓ Copied",
+    status: "Build succeeded — 0 errors",
+    files: [
+      {
+        id: "valores",
+        name: "principles.ts",
+        language: "typescript",
+        content: `// Engineering Philosophy — Mateus Mendes
+export const engineeringPrinciples = {
+  cleanCode: {
+    zeroBloatware: true, // I reject sluggish templates and heavy page builders
+    architecture: "Next.js 16 + TypeScript + Tailwind CSS",
+    speedTarget: "< 0.8s initial page load",
+  },
+  clientRelationship: {
+    middlemen: 0, // You speak directly with the engineer writing your code
+    transparency: "Clear roadmap defined in private consultation with zero hidden fees",
+    communication: "Direct channel open throughout the entire project",
+  },
+  ultimateGoal: "Deliver a revenue engine and undeniable digital authority for your brand.",
+};`,
+      },
+      {
+        id: "processo",
+        name: "process.json",
+        language: "json",
+        content: `{
+  "phase_01": {
+    "name": "Diagnosis & Strategy",
+    "goal": "Understand target audience and business objectives."
+  },
+  "phase_02": {
+    "name": "UI/UX Design & Architecture",
+    "goal": "Iterative design approval prior to writing production code."
+  },
+  "phase_03": {
+    "name": "Development & Optimization",
+    "goal": "Bespoke clean code, strict mobile tests, and top PageSpeed score."
+  },
+  "phase_04": {
+    "name": "Deployment & Handover",
+    "goal": "Production launch with SSL and complete client autonomy."
+  }
+}`,
+      },
+      {
+        id: "garantias",
+        name: "guarantees.md",
+        language: "markdown",
+        content: `# Commitments Upheld in Every Project
+
+✓ 100% Full Code Ownership & Asset Handover upon completion
+✓ Compliant Legal Invoicing according to regulations
+✓ Deep Technical Google Search Engine Optimization (SEO)
+✓ Rigorous responsiveness across iOS, Android, macOS & Windows
+✓ Post-launch support and training for autonomous content management`,
+      },
+    ],
+  },
+
+  stackExplorer: {
+    badge: "Interactive Explorer",
+    title: "My Tech Stack & Business Value",
+    description:
+      "Click on any technology to inspect its real impact on your website speed, security, and revenue.",
+    filters: {
+      all: "All",
+      backend: "Backend & Payments",
+    },
+    labels: {
+      businessBenefit: "Business Benefit",
+      appliedIn: "Applied In",
+    },
+    items: [
+      {
+        id: "nextjs",
+        name: "Next.js 16 & React 19",
+        category: "frontend",
+        categoryLabel: "Frontend Architecture",
+        tagline: "The gold standard for world-class web applications.",
+        businessBenefit:
+          "Server-side rendering (SSR) that positions your website at the top of Google searches and delivers instant sub-second page loads.",
+        metric: "< 0.8s",
+        metricLabel: "Load Speed Target",
+        usedFor: "Brand websites, e-commerce stores, and high-traffic web platforms.",
+      },
+      {
+        id: "typescript",
+        name: "TypeScript",
+        category: "frontend",
+        categoryLabel: "Reliability & Code",
+        tagline: "Robust, statically typed code free of runtime glitches.",
+        businessBenefit:
+          "Catches bugs before your customers ever encounter them, ensuring your website stays rock solid 24/7 without unexpected crashes.",
+        metric: "99.9%",
+        metricLabel: "Production Reliability",
+        usedFor: "Every production application, guaranteeing long-term stability and maintainability.",
+      },
+      {
+        id: "tailwind",
+        name: "Tailwind CSS v4 & Modern CSS",
+        category: "frontend",
+        categoryLabel: "Styling & Responsive UI",
+        tagline: "Tailored UI design without legacy framework bloat.",
+        businessBenefit:
+          "Produces ultra-lean CSS and razor-sharp responsiveness, giving your site native app speed on every smartphone and desktop.",
+        metric: "100%",
+        metricLabel: "Responsive Fidelity",
+        usedFor: "Fluid interfaces, dark/light modes, and custom bespoke design systems.",
+      },
+      {
+        id: "motion",
+        name: "Framer Motion & CSS Animations",
+        category: "animation",
+        categoryLabel: "Motion & Polish",
+        tagline: "Delightful micro-interactions that captivate visitors.",
+        businessBenefit:
+          "Elevates standard static browsing into an engaging, polished journey that increases dwell time and conversion rates.",
+        metric: "60 FPS",
+        metricLabel: "Animation Smoothness",
+        usedFor: "Page transitions, scroll-triggered reveals, and magnetic interactive buttons.",
+      },
+      {
+        id: "threejs",
+        name: "Three.js & Canvas 3D",
+        category: "animation",
+        categoryLabel: "Visual Experiences",
+        tagline: "Interactive 3D graphics rendered directly in the browser.",
+        businessBenefit:
+          "Sets your brand unmistakably apart from competitors, signaling prestige and high-tech innovation.",
+        metric: "WebGL",
+        metricLabel: "Hardware Acceleration",
+        usedFor: "Interactive 3D product previews, hero canvas visuals, and memorable experiences.",
+      },
+      {
+        id: "payments",
+        name: "Stripe & Portuguese Payments",
+        category: "backend",
+        categoryLabel: "Frictionless Checkout",
+        tagline: "Zero-friction payment experience for local & global buyers.",
+        businessBenefit:
+          "Empowers clients to pay with their preferred payment methods (MB WAY, Multibanco, Apple Pay, Cards) without friction.",
+        metric: "0 Friction",
+        metricLabel: "Checkout Flow",
+        usedFor: "Online stores, ticket sales, digital consulting, and product subscriptions.",
+      },
+      {
+        id: "backend",
+        name: "Node.js, PostgreSQL & Prisma",
+        category: "backend",
+        categoryLabel: "Databases & APIs",
+        tagline: "Enterprise data security and lightning processing.",
+        businessBenefit:
+          "Secure encrypted storage for client data, orders, and inquiries with zero data loss.",
+        metric: "A+",
+        metricLabel: "Security Rating",
+        usedFor: "User portals, client authentication, live dashboards, and internal automation.",
+      },
+      {
+        id: "seo",
+        name: "Technical SEO & Web Vitals",
+        category: "seo",
+        categoryLabel: "Google Optimization",
+        tagline: "Engineered from the ground up for the Google search algorithm.",
+        businessBenefit:
+          "Dynamic metadata, XML sitemaps, Schema.org rich snippets, and 100/100 PageSpeed scores to dominate organic search.",
+        metric: "100/100",
+        metricLabel: "PageSpeed Target",
+        usedFor: "All client websites to drive free high-intent organic visitors from Google.",
+      },
+    ],
+  },
+
+  quiz: {
+    badge: "Interactive Project Assistant",
+    title: "Find the Ideal Solution for Your Business",
+    description:
+      "Answer 3 quick questions to receive a tailored technical roadmap for your goals.",
+    previousQuestion: "← Previous question",
+    retake: "Retake quiz",
+    includesTitle: "What this solution includes for your case:",
+    discussSolution: "Discuss This Solution",
+    exploreService: "Explore Service Details",
+    resultsBadge: "Ideal Recommendation",
+    questions: {
+      goal: "1. What is your primary digital goal right now?",
+      stage: "2. Where is your project currently at?",
+      priority: "3. What do you value most in the final delivery?",
+    },
+    goalOptions: [
+      {
+        id: "authority",
+        title: "Establish High-Authority Brand Presence",
+        desc: "Project utmost credibility to prospective clients and partners.",
+      },
+      {
+        id: "leads",
+        title: "Generate Qualified Leads from Ads",
+        desc: "Attract high-intent inquiries via Google and Meta advertising.",
+      },
+      {
+        id: "ecommerce",
+        title: "Sell Products Online 24/7",
+        desc: "Modern store with frictionless checkout and catalog management.",
+      },
+      {
+        id: "webapp",
+        title: "Automate Workflows with a Web App",
+        desc: "Client portals, secure authentication, or internal dashboards.",
+      },
+    ],
+    stageOptions: [
+      {
+        id: "idea",
+        title: "I Only Have the Idea",
+        desc: "I need end-to-end guidance, including UX architecture and strategy.",
+      },
+      {
+        id: "ready",
+        title: "Branding & Content Ready",
+        desc: "I already have brand assets, copywriting, and media ready to launch.",
+      },
+      {
+        id: "redesign",
+        title: "Existing Site to Overhaul",
+        desc: "I have an existing website that is slow, dated, or underperforming.",
+      },
+    ],
+    priorityOptions: [
+      {
+        id: "speed",
+        title: "Speed & Google SEO",
+        desc: "Instant load times engineered to rank at the top of Google searches.",
+      },
+      {
+        id: "design",
+        title: "Prestige Design & Wow Factor",
+        desc: "Sleek micro-interactions and refined aesthetics that leave a lasting mark.",
+      },
+      {
+        id: "mobile",
+        title: "Mobile First & Zero Friction",
+        desc: "Seamless smartphone experience and effortless inquiry flows.",
+      },
+    ],
+    results: {
+      ecommerce: {
+        title: "Custom E-Commerce & Online Store",
+        description:
+          "To sell with confidence and maximize revenue, a modern high-performance e-commerce platform with zero-friction checkout and secure payment integrations is the best strategy.",
+        highlights: [
+          "Streamlined single-page checkout without friction",
+          "Integrated card, Apple Pay, Google Pay & local payments",
+          "Intuitive backend dashboard for orders and inventory",
+          "Ultra-fast architecture driving sustained conversions",
+        ],
+      },
+      leads: {
+        title: "High-Converting Landing Page",
+        description:
+          "If your priority is lead generation through paid advertising (Google Ads / Meta), a surgically structured landing page with focused conversion funnels is the most profitable choice.",
+        highlights: [
+          "Persuasive copywriting and direct call-to-action flow",
+          "Sub-second loading speeds maximizing ad budget ROI",
+          "Instant WhatsApp and contact form integration",
+          "Configured tracking pixels and conversion analytics",
+        ],
+      },
+      webapp: {
+        title: "Custom Web Application & Portal",
+        description:
+          "To automate manual processes or offer a dedicated client portal, a custom TypeScript web app with secure authentication and modern cloud database is the ultimate solution.",
+        highlights: [
+          "Private member area with encrypted authentication",
+          "Real-time dashboards and interactive analytics",
+          "Seamless integration with 3rd-party APIs and CRM",
+          "Scalable cloud architecture built to expand",
+        ],
+      },
+      website: {
+        title: "High-Performance Brand Website",
+        description:
+          "Showcase your company with undeniable market authority. An elegant, rapid, and Google-optimized website that turns casual traffic into loyal clientele.",
+        highlights: [
+          "Exclusive visual design tailored to your brand identity",
+          "Full technical search engine optimization (Google SEO)",
+          "Flawless responsive experience across mobile & desktop",
+          "User-friendly CMS for effortless content updates",
+        ],
+      },
+    },
+  },
+
   privacy: {
     title: "Privacy Policy",
     lastUpdated: "Last updated: October 2026",
@@ -452,6 +750,7 @@ const en: Strings = {
     viewAll: "View all",
     loading: "Loading...",
     scrollDown: "Scroll down",
+    startConversation: "Start a Conversation",
   },
 } as const;
 

@@ -29,61 +29,9 @@ const InteractiveStats = dynamic(
 );
 
 export function SobreView() {
-  const { isEnglish, t } = useLanguage();
+  const { t } = useLanguage();
 
-  const pillars = isEnglish
-    ? [
-        {
-          number: "01",
-          title: "Business-Driven Results",
-          description:
-            "A website shouldn't just look attractive — it must generate sales, attract high-value inquiries, and cement brand credibility. Every interface component is strategically built to convert.",
-        },
-        {
-          number: "02",
-          title: "Cutting-Edge Code & Zero Bloat",
-          description:
-            "I reject sluggish page builders and heavy generic themes. I engineer clean Next.js and TypeScript architecture, guaranteeing instant loading speeds (< 0.8 seconds).",
-        },
-        {
-          number: "03",
-          title: "Direct & Transparent Communication",
-          description:
-            "You talk directly with the engineer writing your code. Continuous updates, transparent milestones, and reliable delivery with zero hidden overhead.",
-        },
-        {
-          number: "04",
-          title: "Ongoing Support & Full Autonomy",
-          description:
-            "After launch, your brand is fully supported. I deliver full code ownership and hands-on guidance so you manage your content with complete independence.",
-        },
-      ]
-    : [
-        {
-          number: "01",
-          title: "Orientado a Resultados de Negócio",
-          description:
-            "Um site não deve ser apenas visualmente atraente — tem de vender, atrair contactos e posicionar a sua marca como referência no mercado. Cada secção é pensada para converter visitantes em clientes pagantes.",
-        },
-        {
-          number: "02",
-          title: "Tecnologia de Ponta & Sem Bloatware",
-          description:
-            "Não uso templates pesados ou construtores lentos que deixam o site arrastado. Desenvolvo código limpo com Next.js e TypeScript, garantindo carregamento instantâneo (< 0.8 segundos).",
-        },
-        {
-          number: "03",
-          title: "Comunicação Clara & Sem Intermediários",
-          description:
-            "Fale diretamente com quem escreve o código do seu site. Garanto acompanhamento contínuo, transparência total e cumprimento escrupuloso dos prazos acordados, sem custos ocultos.",
-        },
-        {
-          number: "04",
-          title: "Suporte Contínuo & Independência",
-          description:
-            "Após o lançamento, o seu negócio não fica desamparado. Entrego todo o código e formação necessária para gerir o seu conteúdo de forma autónoma, com planos de manutenção preventiva disponíveis.",
-        },
-      ];
+  const pillars = t.about.methodology.pillars;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 space-y-24 relative">
@@ -94,23 +42,15 @@ export function SobreView() {
         <ScrollReveal direction="up" distance={40}>
         <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary mb-3 shadow-sm">
           <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-          {isEnglish ? "Behind the Code" : "Quem Está Por Trás do Código"}
+          {t.about.hero.badge}
         </span>
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary">
-          <TextReveal3D>{isEnglish ? "About Me." : "Sobre Mim."}</TextReveal3D>
+          <TextReveal3D>{t.about.hero.title}</TextReveal3D>
         </h1>
         <p className="mt-6 text-lg sm:text-xl text-text-secondary leading-relaxed">
-          {isEnglish ? (
-            <>
-              I am <strong className="text-text-primary font-bold">Mateus Mendes</strong>, a freelance web developer based in Portugal. 
-              I blend technical software engineering with modern design aesthetics to create websites, e-commerce stores, and digital tools that command authority and generate measurable results.
-            </>
-          ) : (
-            <>
-              Sou o <strong className="text-text-primary font-bold">Mateus Mendes</strong>, programador web freelance baseado em Portugal. 
-              Combino rigor de engenharia com estética moderna para criar websites, lojas online e ferramentas digitais que geram autoridade e resultados comerciais mensuráveis.
-            </>
-          )}
+          {t.about.hero.introBefore}
+          <strong className="text-text-primary font-bold">Mateus Mendes</strong>
+          {t.about.hero.introAfter}
         </p>
         </ScrollReveal>
       </section>
@@ -131,15 +71,13 @@ export function SobreView() {
           <div className="mb-10 max-w-2xl">
             <ScrollReveal direction="up" distance={30}>
             <span className="text-xs uppercase tracking-wider font-bold text-accent">
-            {isEnglish ? "Methodology" : "Metodologia"}
+            {t.about.methodology.label}
           </span>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
-            <TextReveal3D>{isEnglish ? "How I create tangible value for your project" : "Como crio valor tangível para o seu projeto"}</TextReveal3D>
+            <TextReveal3D>{t.about.methodology.title}</TextReveal3D>
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-text-secondary">
-            {isEnglish
-              ? "Streamlined workflows, transparent communication, and dedicated craftsmanship."
-              : "Processos simples, comunicação transparente e foco em criar uma ferramenta de vendas duradoura."}
+            {t.about.methodology.description}
           </p>
           </ScrollReveal>
         </div>
@@ -203,24 +141,20 @@ export function SobreView() {
           
           <div className="relative z-10">
             <h2 className="font-heading text-3xl sm:text-4xl font-bold text-text-primary">
-              {isEnglish
-                ? "Have an idea or project in mind?"
-                : "Tem uma ideia ou projeto em mente?"}
+              {t.about.cta.title}
             </h2>
             <p className="mt-2 text-base text-text-secondary max-w-xl mx-auto">
-              {isEnglish
-                ? "Let's discuss your vision without obligation and define the best digital roadmap for your business."
-                : "Vamos conversar sem qualquer compromisso sobre os seus objetivos e definir a melhor estratégia para o seu negócio."}
+              {t.about.cta.description}
             </p>
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
               <Link href="/contacto">
                 <Button variant="contact" size="lg" withArrow className="font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-                  {t.hero.cta}
+                  {t.common.startConversation}
                 </Button>
               </Link>
               <Link href="/servicos">
                 <Button variant="secondary" size="lg" className="hover:scale-105 transition-all">
-                  {isEnglish ? "Explore All Services" : "Conhecer Todos os Serviços"}
+                  {t.about.cta.secondary}
                 </Button>
               </Link>
             </div>

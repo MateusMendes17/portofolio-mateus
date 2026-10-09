@@ -90,54 +90,52 @@ const pt = {
   },
 
   about: {
-    sectionLabel: "Sobre mim",
-    title: "Mateus Mendes",
-    subtitle: "Programador Web Freelancer",
-    bio: [
-      "Sou programador web freelancer e ajudo empresas e profissionais liberais em Portugal a construir a sua presença digital. O meu foco está em criar soluções web modernas, rápidas e que realmente servem os objetivos de cada cliente.",
-      "Acredito que um bom site não é apenas bonito — é funcional, acessível e pensado para converter. Por isso, cada projeto que desenvolvo combina design cuidado com código limpo e boas práticas de performance.",
-      "Quando não estou a programar, estou a aprender novas tecnologias, a contribuir para projetos open-source ou a explorar o mundo do design de interfaces.",
-    ],
-    values: {
-      title: "Os meus valores",
-      items: [
-        {
-          title: "Comunicação clara",
-          description:
-            "Mantenho-o informado em cada etapa. Sem jargão técnico desnecessário, sem surpresas.",
-        },
-        {
-          title: "Cumprimento de prazos",
-          description:
-            "Defino prazos realistas e cumpro-os. Se algo mudar, aviso com antecedência.",
-        },
-        {
-          title: "Qualidade no detalhe",
-          description:
-            "Do pixel ao performance score, cada detalhe conta. Entrego trabalho de que me orgulho.",
-        },
-      ],
+    hero: {
+      badge: "Quem Está Por Trás do Código",
+      title: "Sobre Mim.",
+      introBefore: "Sou o ",
+      introAfter:
+        ", programador web freelance baseado em Portugal. Combino rigor de engenharia com estética moderna para criar websites, lojas online e ferramentas digitais que geram autoridade e resultados comerciais mensuráveis.",
     },
-    stack: {
-      title: "Tecnologias e ferramentas",
+    methodology: {
+      label: "Metodologia",
+      title: "Como crio valor tangível para o seu projeto",
       description:
-        "Escolho as ferramentas certas para cada projeto. Aqui estão as que uso com mais frequência:",
-      categories: [
+        "Processos simples, comunicação transparente e foco em criar uma ferramenta de vendas duradoura.",
+      pillars: [
         {
-          name: "Frontend",
-          items: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Framer Motion"],
+          number: "01",
+          title: "Orientado a Resultados de Negócio",
+          description:
+            "Um site não deve ser apenas visualmente atraente — tem de vender, atrair contactos e posicionar a sua marca como referência no mercado. Cada secção é pensada para converter visitantes em clientes pagantes.",
         },
         {
-          name: "Backend",
-          items: ["Node.js", "Express", "PostgreSQL", "Prisma", "REST APIs"],
+          number: "02",
+          title: "Tecnologia de Ponta & Sem Bloatware",
+          description:
+            "Não uso templates pesados ou construtores lentos que deixam o site arrastado. Desenvolvo código limpo com Next.js e TypeScript, garantindo carregamento instantâneo (< 0.8 segundos).",
         },
         {
-          name: "Ferramentas",
-          items: ["Git", "VS Code", "Figma", "Vercel", "Docker"],
+          number: "03",
+          title: "Comunicação Clara & Sem Intermediários",
+          description:
+            "Fale diretamente com quem escreve o código do seu site. Garanto acompanhamento contínuo, transparência total e cumprimento escrupuloso dos prazos acordados, sem custos ocultos.",
+        },
+        {
+          number: "04",
+          title: "Suporte Contínuo & Independência",
+          description:
+            "Após o lançamento, o seu negócio não fica desamparado. Entrego todo o código e formação necessária para gerir o seu conteúdo de forma autónoma, com planos de manutenção preventiva disponíveis.",
         },
       ],
     },
-    photoAlt: "Fotografia de Mateus Mendes", // [SUBSTITUIR] quando tiver foto real
+    cta: {
+      title: "Tem uma ideia ou projeto em mente?",
+      description:
+        "Vamos conversar sem qualquer compromisso sobre os seus objetivos e definir a melhor estratégia para o seu negócio.",
+      secondary: "Conhecer Todos os Serviços",
+    },
+    photoAlt: "Fotografia de Mateus Mendes",
   },
 
   services: {
@@ -453,6 +451,306 @@ const pt = {
     ],
   },
 
+  terminal: {
+    badge: "Bastidores & Rigor Técnico",
+    title: "A Minha Filosofia de Trabalho",
+    description:
+      "Inspecione os padrões de código, metodologia e garantias que aplico em cada linha que escrevo para si.",
+    path: "filosofia",
+    copy: "Copiar",
+    copied: "✓ Copiado",
+    status: "Compilação OK — 0 erros",
+    files: [
+      {
+        id: "valores",
+        name: "valores.ts",
+        language: "typescript",
+        content: `// Filosofia de Desenvolvimento — Mateus Mendes
+export const principiosDeEngenharia = {
+  codigoLimpo: {
+    semBloatware: true, // Recuso templates lentos e construtores pesados
+    arquitetura: "Next.js 16 + TypeScript + Tailwind CSS",
+    velocidadeAlvo: "< 0.8s de carregamento inicial",
+  },
+  relacaoComCliente: {
+    intermedios: 0, // Fala diretamente com o programador do seu site
+    transparencia: "Proposta clara e definida em chamada privada sem taxas escondidas",
+    comunicacao: "Acompanhamento direto e canal aberto durante todo o projeto",
+  },
+  objetivoFinal: "Criar um canal de vendas e autoridade inquestionável para o seu negócio.",
+};`,
+      },
+      {
+        id: "processo",
+        name: "processo.json",
+        language: "json",
+        content: `{
+  "fase_01": {
+    "nome": "Diagnóstico & Estratégia",
+    "objetivo": "Compreender os clientes e o modelo de negócio da sua empresa."
+  },
+  "fase_02": {
+    "nome": "Design & Estrutura Visual",
+    "objetivo": "Aprovação do layout antes de iniciar o desenvolvimento."
+  },
+  "fase_03": {
+    "nome": "Construção & Otimização",
+    "objetivo": "Código sob medida, testes rigorosos em telemóveis e pontuação SEO."
+  },
+  "fase_04": {
+    "nome": "Lançamento & Formação",
+    "objetivo": "Colocar no ar com SSL e garantir total autonomia ao cliente."
+  }
+}`,
+      },
+      {
+        id: "garantias",
+        name: "garantias.md",
+        language: "markdown",
+        content: `# Compromissos Assumidos em Cada Projeto
+
+✓ Faturação Legal Completa (com NIF) de acordo com a lei portuguesa
+✓ 100% de Propriedade do Código e Domínio após entrega final
+✓ Otimização Técnica para Motores de Busca (Google SEO incluído)
+✓ Compatibilidade perfeita testada em iPhone, Android, Mac e Windows
+✓ Formação e suporte pós-lançamento para esclarecimento de dúvidas`,
+      },
+    ],
+  },
+
+  stackExplorer: {
+    badge: "Explorador Interativo",
+    title: "A Minha Stack & o Valor que Traz ao Seu Negócio",
+    description:
+      "Clique em qualquer tecnologia para inspecionar o seu impacto real na velocidade, segurança e vendas da sua empresa.",
+    filters: {
+      all: "Todas",
+      backend: "Backend & Pagamentos",
+    },
+    labels: {
+      businessBenefit: "Benefício para o Seu Negócio",
+      appliedIn: "Aplica-se em",
+    },
+    items: [
+      {
+        id: "nextjs",
+        name: "Next.js 16 & React 19",
+        category: "frontend",
+        categoryLabel: "Arquitetura Frontend",
+        tagline: "O padrão-ouro das empresas tecnológicas mundiais.",
+        businessBenefit:
+          "Permite renderização no servidor (SSR) que posiciona o seu site nos primeiros lugares do Google e garante páginas instantâneas.",
+        metric: "< 0.8s",
+        metricLabel: "Tempo de Carregamento",
+        usedFor: "Websites institucionais, lojas online e portais corporativos de alto tráfego.",
+      },
+      {
+        id: "typescript",
+        name: "TypeScript",
+        category: "frontend",
+        categoryLabel: "Fiabilidade & Código",
+        tagline: "Código robusto, tipado e sem erros inesperados.",
+        businessBenefit:
+          "Elimina erros em tempo de execução antes que os seus clientes os vejam, garantindo que o seu site funciona sem falhas 24 horas por dia.",
+        metric: "99.9%",
+        metricLabel: "Estabilidade em Produção",
+        usedFor: "Todos os projetos, garantindo manutenção fácil e longevidade do investimento.",
+      },
+      {
+        id: "tailwind",
+        name: "Tailwind CSS v4 & CSS Moderno",
+        category: "frontend",
+        categoryLabel: "Estilo & Responsividade",
+        tagline: "Design à medida sem o peso de frameworks antigas.",
+        businessBenefit:
+          "Gera CSS ultra-leve e perfeitamente responsivo, fazendo com que o site pareça uma aplicação nativa no telemóvel e no computador.",
+        metric: "100%",
+        metricLabel: "Fidelidade Responsiva",
+        usedFor: "Interfaces fluidas, modo claro/escuro e sistemas de design à medida.",
+      },
+      {
+        id: "motion",
+        name: "Framer Motion & CSS Animations",
+        category: "animation",
+        categoryLabel: "Animação & Efeito Uau",
+        tagline: "Micro-interações que encantam o utilizador.",
+        businessBenefit:
+          "Transforma uma navegação estática numa experiência memorável e envolvente, aumentando o tempo de permanência e a conversão.",
+        metric: "60 FPS",
+        metricLabel: "Fluidez de Animação",
+        usedFor: "Transições de página, revelação de conteúdos em scroll e botões interativos.",
+      },
+      {
+        id: "threejs",
+        name: "Three.js & Canvas 3D",
+        category: "animation",
+        categoryLabel: "Experiências Visuais",
+        tagline: "Gráficos tridimensionais interativos na web.",
+        businessBenefit:
+          "Destaca a sua marca da concorrência de forma inconfundível, transmitindo uma imagem tecnológica inovadora e de prestígio.",
+        metric: "WebGL",
+        metricLabel: "Aceleração por Hardware",
+        usedFor: "Modelos de produtos 3D, elementos visuais de topo e portfólios impactantes.",
+      },
+      {
+        id: "payments",
+        name: "Stripe, MB WAY & Multibanco",
+        category: "backend",
+        categoryLabel: "Pagamentos Nacionais",
+        tagline: "Checkout fluido sem fricção para clientes portugueses.",
+        businessBenefit:
+          "Oferece aos clientes portugueses os seus métodos de pagamento de eleição (MB WAY e Referência Multibanco), maximizando as vendas.",
+        metric: "0 Fricção",
+        metricLabel: "Experiência de Checkout",
+        usedFor: "Lojas online, venda de bilhetes, consultorias e serviços digitais.",
+      },
+      {
+        id: "backend",
+        name: "Node.js, PostgreSQL & Prisma",
+        category: "backend",
+        categoryLabel: "Bases de Dados & APIs",
+        tagline: "Segurança de dados e processamento veloz.",
+        businessBenefit:
+          "Armazenamento seguro de clientes, encomendas e contactos com encriptação e proteção total contra perda de dados.",
+        metric: "A+",
+        metricLabel: "Nível de Segurança",
+        usedFor: "Áreas reservadas, autenticação de clientes, dashboards e sistemas internos.",
+      },
+      {
+        id: "seo",
+        name: "SEO Técnico & Core Web Vitals",
+        category: "seo",
+        categoryLabel: "Otimização Google",
+        tagline: "Construído de raiz para o algoritmo do Google.",
+        businessBenefit:
+          "Meta tags dinâmicas, Sitemap XML, dados estruturados Schema.org e pontuações máximas no Google PageSpeed para atrair tráfego orgânico gratuito.",
+        metric: "100/100",
+        metricLabel: "Google PageSpeed Target",
+        usedFor: "Todos os websites para atrair clientes que pesquisam pelos seus serviços no Google.",
+      },
+    ],
+  },
+
+  quiz: {
+    badge: "Assistente Interativo de Projeto",
+    title: "Descubra a Solução Ideal para o Seu Negócio",
+    description:
+      "Responda a 3 perguntas rápidas para receber uma recomendação técnica adaptada aos seus objetivos.",
+    previousQuestion: "← Pergunta anterior",
+    retake: "Fazer novamente",
+    includesTitle: "O que esta solução inclui para o seu caso:",
+    discussSolution: "Falar sobre esta Solução",
+    exploreService: "Ver Detalhes do Serviço",
+    resultsBadge: "Recomendação Ideal",
+    questions: {
+      goal: "1. Qual é a sua meta principal na internet neste momento?",
+      stage: "2. Em que ponto se encontra o seu projeto?",
+      priority: "3. O que mais valoriza na entrega final?",
+    },
+    goalOptions: [
+      {
+        id: "authority",
+        title: "Apresentar a Minha Empresa com Autoridade",
+        desc: "Transmitir confiança máxima a novos clientes e parceiros.",
+      },
+      {
+        id: "leads",
+        title: "Gerar Contactos (Leads) de Publicidade",
+        desc: "Captar clientes para serviços através de Google ou Meta Ads.",
+      },
+      {
+        id: "ecommerce",
+        title: "Vender Produtos Online 24/7",
+        desc: "Loja com pagamentos portugueses (MB WAY) e gestão de stock.",
+      },
+      {
+        id: "webapp",
+        title: "Automatizar Processos com um Sistema Web",
+        desc: "Portal de clientes, login reservado ou dashboard interno.",
+      },
+    ],
+    stageOptions: [
+      {
+        id: "idea",
+        title: "Apenas Tenho a Ideia",
+        desc: "Preciso de acompanhamento do zero, incluindo conselhos de design e estrutura.",
+      },
+      {
+        id: "ready",
+        title: "Conteúdos & Marca Prontos",
+        desc: "Já possuo logotipo, textos e fotografias organizadas para colocar online.",
+      },
+      {
+        id: "redesign",
+        title: "Site Antigo a Renovar",
+        desc: "Já tenho um site, mas está desatualizado, lento ou não gera resultados.",
+      },
+    ],
+    priorityOptions: [
+      {
+        id: "speed",
+        title: "Velocidade & Google SEO",
+        desc: "Carregamento instantâneo para conquistar o topo das pesquisas do Google.",
+      },
+      {
+        id: "design",
+        title: "Design de Prestígio & Efeito Uau",
+        desc: "Animações modernas e identidade visual sofisticada que marque os clientes.",
+      },
+      {
+        id: "mobile",
+        title: "Mobile First & Zero Complicações",
+        desc: "Facilidade de navegação em telemóveis e processos de contacto diretos.",
+      },
+    ],
+    results: {
+      ecommerce: {
+        title: "Loja Online / E-Commerce Sob Medida",
+        description:
+          "Para vender com segurança e maximizar receitas, a melhor estratégia é uma plataforma e-commerce moderna com checkout otimizado e integração direta com MB WAY, Multibanco e cartões.",
+        highlights: [
+          "Checkout em 1 página sem atrito",
+          "Pagamentos por MB WAY, Multibanco e Stripe",
+          "Painel intuitivo para gerir produtos e encomendas",
+          "Arquitetura rápida e segura para conversões contínuas",
+        ],
+      },
+      leads: {
+        title: "Landing Page de Alta Conversão",
+        description:
+          "Se o foco é captação de clientes em campanhas de marketing (Google Ads / Meta), uma landing page cirurgicamente estruturada para captar contactos é a solução mais eficaz.",
+        highlights: [
+          "Copywriting persuasivo e foco em ação direta",
+          "Carregamento ultra-rápido para maximizar o tráfego de anúncios",
+          "Integração com WhatsApp e formulários instantâneos",
+          "Pixels de rastreio e conversão configurados",
+        ],
+      },
+      webapp: {
+        title: "Aplicação Web / Portal Sob Medida",
+        description:
+          "Para automatizar operações ou oferecer uma área reservada aos seus clientes, uma aplicação web com TypeScript, autenticação segura e base de dados moderna é a escolha certa.",
+        highlights: [
+          "Área de utilizadores com login protegido",
+          "Dashboards e relatórios em tempo real",
+          "Integração com APIs e sistemas externos",
+          "Arquitetura escalável na cloud",
+        ],
+      },
+      website: {
+        title: "Website Institucional de Alta Performance",
+        description:
+          "Apresente a sua empresa com autoridade no mercado. Um website elegante, rápido e otimizado para o Google que transforma visitantes em clientes fidelizados.",
+        highlights: [
+          "Design exclusivo adaptado à sua marca",
+          "Otimização completa para motores de busca (Google SEO)",
+          "Experiência perfeita em telemóveis e computadores",
+          "Painel simples para edição autónoma de conteúdos",
+        ],
+      },
+    },
+  },
+
   privacy: {
     title: "Política de Privacidade",
     lastUpdated: "Última atualização: outubro de 2026",
@@ -463,6 +761,7 @@ const pt = {
     viewAll: "Ver todos",
     loading: "A carregar...",
     scrollDown: "Scroll para baixo",
+    startConversation: "Iniciar Conversa",
   },
 };
 

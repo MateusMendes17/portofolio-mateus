@@ -12,122 +12,10 @@ interface TabFile {
 }
 
 export function CodePhilosophyTerminal() {
-  const { isEnglish } = useLanguage();
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
 
-  const files: TabFile[] = isEnglish
-    ? [
-        {
-          id: "valores",
-          name: "principles.ts",
-          language: "typescript",
-          content: `// Engineering Philosophy — Mateus Mendes
-export const engineeringPrinciples = {
-  cleanCode: {
-    zeroBloatware: true, // I reject sluggish templates and heavy page builders
-    architecture: "Next.js 16 + TypeScript + Tailwind CSS",
-    speedTarget: "< 0.8s initial page load",
-  },
-  clientRelationship: {
-    middlemen: 0, // You speak directly with the engineer writing your code
-    transparency: "Clear roadmap defined in private consultation with zero hidden fees",
-    communication: "Direct channel open throughout the entire project",
-  },
-  ultimateGoal: "Deliver a revenue engine and undeniable digital authority for your brand.",
-};`,
-        },
-        {
-          id: "processo",
-          name: "process.json",
-          language: "json",
-          content: `{
-  "phase_01": {
-    "name": "Diagnosis & Strategy",
-    "goal": "Understand target audience and business objectives."
-  },
-  "phase_02": {
-    "name": "UI/UX Design & Architecture",
-    "goal": "Iterative design approval prior to writing production code."
-  },
-  "phase_03": {
-    "name": "Development & Optimization",
-    "goal": "Bespoke clean code, strict mobile tests, and top PageSpeed score."
-  },
-  "phase_04": {
-    "name": "Deployment & Handover",
-    "goal": "Production launch with SSL and complete client autonomy."
-  }
-}`,
-        },
-        {
-          id: "garantias",
-          name: "guarantees.md",
-          language: "markdown",
-          content: `# Commitments Upheld in Every Project
-
-✓ 100% Full Code Ownership & Asset Handover upon completion
-✓ Compliant Legal Invoicing according to regulations
-✓ Deep Technical Google Search Engine Optimization (SEO)
-✓ Rigorous responsiveness across iOS, Android, macOS & Windows
-✓ Post-launch support and training for autonomous content management`,
-        },
-      ]
-    : [
-        {
-          id: "valores",
-          name: "valores.ts",
-          language: "typescript",
-          content: `// Filosofia de Desenvolvimento — Mateus Mendes
-export const principiosDeEngenharia = {
-  codigoLimpo: {
-    semBloatware: true, // Recuso templates lentos e construtores pesados
-    arquitetura: "Next.js 16 + TypeScript + Tailwind CSS",
-    velocidadeAlvo: "< 0.8s de carregamento inicial",
-  },
-  relacaoComCliente: {
-    intermedios: 0, // Fala diretamente com o programador do seu site
-    transparencia: "Proposta clara e definida em chamada privada sem taxas escondidas",
-    comunicacao: "Acompanhamento direto e canal aberto durante todo o projeto",
-  },
-  objetivoFinal: "Criar um canal de vendas e autoridade inquestionável para o seu negócio.",
-};`,
-        },
-        {
-          id: "processo",
-          name: "processo.json",
-          language: "json",
-          content: `{
-  "fase_01": {
-    "nome": "Diagnóstico & Estratégia",
-    "objetivo": "Compreender os clientes e o modelo de negócio da sua empresa."
-  },
-  "fase_02": {
-    "nome": "Design & Estrutura Visual",
-    "objetivo": "Aprovação do layout antes de iniciar o desenvolvimento."
-  },
-  "fase_03": {
-    "nome": "Construção & Otimização",
-    "objetivo": "Código sob medida, testes rigorosos em telemóveis e pontuação SEO."
-  },
-  "fase_04": {
-    "nome": "Lançamento & Formação",
-    "objetivo": "Colocar no ar com SSL e garantir total autonomia ao cliente."
-  }
-}`,
-        },
-        {
-          id: "garantias",
-          name: "garantias.md",
-          language: "markdown",
-          content: `# Compromissos Assumidos em Cada Projeto
-
-✓ Faturação Legal Completa (com NIF) de acordo com a lei portuguesa
-✓ 100% de Propriedade do Código e Domínio após entrega final
-✓ Otimização Técnica para Motores de Busca (Google SEO incluído)
-✓ Compatibilidade perfeita testada em iPhone, Android, Mac e Windows
-✓ Formação e suporte pós-lançamento para esclarecimento de dúvidas`,
-        },
-      ];
+  const files: TabFile[] = t.terminal.files;
 
   const [activeFileId, setActiveFileId] = useState<string>("valores");
   const activeFile = files.find((f) => f.id === activeFileId) || files[0];
@@ -142,15 +30,13 @@ export const principiosDeEngenharia = {
     <div className="rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-6 sm:p-10 shadow-sm">
       <div className="max-w-2xl mb-8">
         <span className="text-xs uppercase tracking-wider font-bold text-accent">
-          {isEnglish ? "Behind the Scenes & Rigor" : "Bastidores & Rigor Técnico"}
+          {t.terminal.badge}
         </span>
         <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
-          {isEnglish ? "My Engineering Philosophy" : "A Minha Filosofia de Trabalho"}
+          {t.terminal.title}
         </h2>
         <p className="mt-1.5 text-xs sm:text-sm text-text-secondary">
-          {isEnglish
-            ? "Inspect the engineering standards, methodology, and commitments applied to every line of code I craft for you."
-            : "Inspecione os padrões de código, metodologia e garantias que aplico em cada linha que escrevo para si."}
+          {t.terminal.description}
         </p>
       </div>
 
@@ -164,7 +50,7 @@ export const principiosDeEngenharia = {
             <span className="h-3 w-3 rounded-full bg-[#E5A93B]/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-[#52BA69]/80 inline-block" />
             <span className="ml-2 text-[11px] text-[#A8988B] hidden sm:inline">
-              mateus@workstation: ~/portfolio/{isEnglish ? "philosophy" : "filosofia"}
+              mateus@workstation: ~/portfolio/{t.terminal.path}
             </span>
           </div>
 
@@ -175,9 +61,7 @@ export const principiosDeEngenharia = {
             className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] text-[#A8988B] hover:text-white hover:bg-white/10 transition-colors"
           >
             <span>
-              {copied
-                ? (isEnglish ? "✓ Copied" : "✓ Copiado")
-                : (isEnglish ? "Copy" : "Copiar")}
+              {copied ? t.terminal.copied : t.terminal.copy}
             </span>
           </button>
         </div>
@@ -227,7 +111,7 @@ export const principiosDeEngenharia = {
           <span>UTF-8 • {activeFile.language}</span>
           <span className="flex items-center gap-1.5 text-emerald-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            {isEnglish ? "Build succeeded — 0 errors" : "Compilação OK — 0 erros"}
+            {t.terminal.status}
           </span>
         </div>
       </div>

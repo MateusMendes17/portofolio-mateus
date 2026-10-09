@@ -20,206 +20,15 @@ interface TechItem {
 type FilterTab = "all" | TechItem["category"];
 
 export function TechStackExplorer() {
-  const { isEnglish } = useLanguage();
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState<FilterTab>("all");
 
-  const techItems: TechItem[] = isEnglish
-    ? [
-        {
-          id: "nextjs",
-          name: "Next.js 16 & React 19",
-          category: "frontend",
-          categoryLabel: "Frontend Architecture",
-          tagline: "The gold standard for world-class web applications.",
-          businessBenefit:
-            "Server-side rendering (SSR) that positions your website at the top of Google searches and delivers instant sub-second page loads.",
-          metric: "< 0.8s",
-          metricLabel: "Load Speed Target",
-          usedFor: "Brand websites, e-commerce stores, and high-traffic web platforms.",
-        },
-        {
-          id: "typescript",
-          name: "TypeScript",
-          category: "frontend",
-          categoryLabel: "Reliability & Code",
-          tagline: "Robust, statically typed code free of runtime glitches.",
-          businessBenefit:
-            "Catches bugs before your customers ever encounter them, ensuring your website stays rock solid 24/7 without unexpected crashes.",
-          metric: "99.9%",
-          metricLabel: "Production Reliability",
-          usedFor: "Every production application, guaranteeing long-term stability and maintainability.",
-        },
-        {
-          id: "tailwind",
-          name: "Tailwind CSS v4 & Modern CSS",
-          category: "frontend",
-          categoryLabel: "Styling & Responsive UI",
-          tagline: "Tailored UI design without legacy framework bloat.",
-          businessBenefit:
-            "Produces ultra-lean CSS and razor-sharp responsiveness, giving your site native app speed on every smartphone and desktop.",
-          metric: "100%",
-          metricLabel: "Responsive Fidelity",
-          usedFor: "Fluid interfaces, dark/light modes, and custom bespoke design systems.",
-        },
-        {
-          id: "motion",
-          name: "Framer Motion & CSS Animations",
-          category: "animation",
-          categoryLabel: "Motion & Polish",
-          tagline: "Delightful micro-interactions that captivate visitors.",
-          businessBenefit:
-            "Elevates standard static browsing into an engaging, polished journey that increases dwell time and conversion rates.",
-          metric: "60 FPS",
-          metricLabel: "Animation Smoothness",
-          usedFor: "Page transitions, scroll-triggered reveals, and magnetic interactive buttons.",
-        },
-        {
-          id: "threejs",
-          name: "Three.js & Canvas 3D",
-          category: "animation",
-          categoryLabel: "Visual Experiences",
-          tagline: "Interactive 3D graphics rendered directly in the browser.",
-          businessBenefit:
-            "Sets your brand unmistakably apart from competitors, signaling prestige and high-tech innovation.",
-          metric: "WebGL",
-          metricLabel: "Hardware Acceleration",
-          usedFor: "Interactive 3D product previews, hero canvas visuals, and memorable experiences.",
-        },
-        {
-          id: "payments",
-          name: "Stripe & Portuguese Payments",
-          category: "backend",
-          categoryLabel: "Frictionless Checkout",
-          tagline: "Zero-friction payment experience for local & global buyers.",
-          businessBenefit:
-            "Empowers clients to pay with their preferred payment methods (MB WAY, Multibanco, Apple Pay, Cards) without friction.",
-          metric: "0 Friction",
-          metricLabel: "Checkout Flow",
-          usedFor: "Online stores, ticket sales, digital consulting, and product subscriptions.",
-        },
-        {
-          id: "backend",
-          name: "Node.js, PostgreSQL & Prisma",
-          category: "backend",
-          categoryLabel: "Databases & APIs",
-          tagline: "Enterprise data security and lightning processing.",
-          businessBenefit:
-            "Secure encrypted storage for client data, orders, and inquiries with zero data loss.",
-          metric: "A+",
-          metricLabel: "Security Rating",
-          usedFor: "User portals, client authentication, live dashboards, and internal automation.",
-        },
-        {
-          id: "seo",
-          name: "Technical SEO & Web Vitals",
-          category: "seo",
-          categoryLabel: "Google Optimization",
-          tagline: "Engineered from the ground up for the Google search algorithm.",
-          businessBenefit:
-            "Dynamic metadata, XML sitemaps, Schema.org rich snippets, and 100/100 PageSpeed scores to dominate organic search.",
-          metric: "100/100",
-          metricLabel: "PageSpeed Target",
-          usedFor: "All client websites to drive free high-intent organic visitors from Google.",
-        },
-      ]
-    : [
-        {
-          id: "nextjs",
-          name: "Next.js 16 & React 19",
-          category: "frontend",
-          categoryLabel: "Arquitetura Frontend",
-          tagline: "O padrão-ouro das empresas tecnológicas mundiais.",
-          businessBenefit:
-            "Permite renderização no servidor (SSR) que posiciona o seu site nos primeiros lugares do Google e garante páginas instantâneas.",
-          metric: "< 0.8s",
-          metricLabel: "Tempo de Carregamento",
-          usedFor: "Websites institucionais, lojas online e portais corporativos de alto tráfego.",
-        },
-        {
-          id: "typescript",
-          name: "TypeScript",
-          category: "frontend",
-          categoryLabel: "Fiabilidade & Código",
-          tagline: "Código robusto, tipado e sem erros inesperados.",
-          businessBenefit:
-            "Elimina erros em tempo de execução antes que os seus clientes os vejam, garantindo que o seu site funciona sem falhas 24 horas por dia.",
-          metric: "99.9%",
-          metricLabel: "Estabilidade em Produção",
-          usedFor: "Todos os projetos, garantindo manutenção fácil e longevidade do investimento.",
-        },
-        {
-          id: "tailwind",
-          name: "Tailwind CSS v4 & CSS Moderno",
-          category: "frontend",
-          categoryLabel: "Estilo & Responsividade",
-          tagline: "Design à medida sem o peso de frameworks antigas.",
-          businessBenefit:
-            "Gera CSS ultra-leve e perfeitamente responsivo, fazendo com que o site pareça uma aplicação nativa no telemóvel e no computador.",
-          metric: "100%",
-          metricLabel: "Fidelidade Responsiva",
-          usedFor: "Interfaces fluidas, modo claro/escuro e sistemas de design à medida.",
-        },
-        {
-          id: "motion",
-          name: "Framer Motion & CSS Animations",
-          category: "animation",
-          categoryLabel: "Animação & Efeito Uau",
-          tagline: "Micro-interações que encantam o utilizador.",
-          businessBenefit:
-            "Transforma uma navegação estática numa experiência memorável e envolvente, aumentando o tempo de permanência e a conversão.",
-          metric: "60 FPS",
-          metricLabel: "Fluidez de Animação",
-          usedFor: "Transições de página, revelação de conteúdos em scroll e botões interativos.",
-        },
-        {
-          id: "threejs",
-          name: "Three.js & Canvas 3D",
-          category: "animation",
-          categoryLabel: "Experiências Visuais",
-          tagline: "Gráficos tridimensionais interativos na web.",
-          businessBenefit:
-            "Destaca a sua marca da concorrência de forma inconfundível, transmitindo uma imagem tecnológica inovadora e de prestígio.",
-          metric: "WebGL",
-          metricLabel: "Aceleração por Hardware",
-          usedFor: "Modelos de produtos 3D, elementos visuais de topo e portfólios impactantes.",
-        },
-        {
-          id: "payments",
-          name: "Stripe, MB WAY & Multibanco",
-          category: "backend",
-          categoryLabel: "Pagamentos Nacionais",
-          tagline: "Checkout fluido sem fricção para clientes portugueses.",
-          businessBenefit:
-            "Oferece aos clientes portugueses os seus métodos de pagamento de eleição (MB WAY e Referência Multibanco), maximizando as vendas.",
-          metric: "0 Fricção",
-          metricLabel: "Experiência de Checkout",
-          usedFor: "Lojas online, venda de bilhetes, consultorias e serviços digitais.",
-        },
-        {
-          id: "backend",
-          name: "Node.js, PostgreSQL & Prisma",
-          category: "backend",
-          categoryLabel: "Bases de Dados & APIs",
-          tagline: "Segurança de dados e processamento veloz.",
-          businessBenefit:
-            "Armazenamento seguro de clientes, encomendas e contactos com encriptação e proteção total contra perda de dados.",
-          metric: "A+",
-          metricLabel: "Nível de Segurança",
-          usedFor: "Áreas reservadas, autenticação de clientes, dashboards e sistemas internos.",
-        },
-        {
-          id: "seo",
-          name: "SEO Técnico & Core Web Vitals",
-          category: "seo",
-          categoryLabel: "Otimização Google",
-          tagline: "Construído de raiz para o algoritmo do Google.",
-          businessBenefit:
-            "Meta tags dinâmicas, Sitemap XML, dados estruturados Schema.org e pontuações máximas no Google PageSpeed para atrair tráfego orgânico gratuito.",
-          metric: "100/100",
-          metricLabel: "Google PageSpeed Target",
-          usedFor: "Todos os websites para atrair clientes que pesquisam pelos seus serviços no Google.",
-        },
-      ];
+  // `category` chega como string genérica dos strings — restringe-se ao union
+  // do TechItem (os ids/categorias são estáticos em pt.ts/en.ts).
+  const techItems: TechItem[] = t.stackExplorer.items.map((item) => ({
+    ...item,
+    category: item.category as TechItem["category"],
+  }));
 
   const [selectedTech, setSelectedTech] = useState<TechItem>(techItems[0]);
 
@@ -237,17 +46,13 @@ export function TechStackExplorer() {
       <div className="space-y-4 mb-8">
         <div>
           <span className="text-xs uppercase tracking-wider font-bold text-accent">
-            {isEnglish ? "Interactive Explorer" : "Explorador Interativo"}
+            {t.stackExplorer.badge}
           </span>
           <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
-            {isEnglish
-              ? "My Tech Stack & Business Value"
-              : "A Minha Stack & o Valor que Traz ao Seu Negócio"}
+            {t.stackExplorer.title}
           </h2>
           <p className="mt-1.5 text-xs sm:text-sm text-text-secondary max-w-2xl leading-relaxed">
-            {isEnglish
-              ? "Click on any technology to inspect its real impact on your website speed, security, and revenue."
-              : "Clique em qualquer tecnologia para inspecionar o seu impacto real na velocidade, segurança e vendas da sua empresa."}
+            {t.stackExplorer.description}
           </p>
         </div>
 
@@ -255,10 +60,10 @@ export function TechStackExplorer() {
         <div className="pt-1">
           <div className="inline-flex items-center gap-1.5 p-1 rounded-2xl bg-surface-hover/70 border border-border/60 max-w-full overflow-x-auto scrollbar-none">
             {([
-              { id: "all", label: isEnglish ? "All" : "Todas" },
+              { id: "all", label: t.stackExplorer.filters.all },
               { id: "frontend", label: "Frontend" },
               { id: "animation", label: "3D & Motion" },
-              { id: "backend", label: isEnglish ? "Backend & Payments" : "Backend & Pagamentos" },
+              { id: "backend", label: t.stackExplorer.filters.backend },
               { id: "seo", label: "Google SEO" },
             ] satisfies { id: FilterTab; label: string }[]).map((cat) => (
               <button
@@ -342,7 +147,7 @@ export function TechStackExplorer() {
               <div className="mt-5 space-y-4 text-xs sm:text-sm">
                 <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
                   <span className="block text-[11px] font-bold uppercase tracking-wider text-text-muted mb-1">
-                    {isEnglish ? "Business Benefit" : "Benefício para o Seu Negócio"}
+                    {t.stackExplorer.labels.businessBenefit}
                   </span>
                   <p className="text-text-secondary leading-relaxed">
                     {currentSelected.businessBenefit}
@@ -361,7 +166,7 @@ export function TechStackExplorer() {
 
                   <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
                     <span className="block text-[11px] font-bold uppercase tracking-wider text-text-muted mb-1">
-                      {isEnglish ? "Applied In" : "Aplica-se em"}
+                      {t.stackExplorer.labels.appliedIn}
                     </span>
                     <span className="text-xs text-text-secondary font-medium block leading-tight">
                       {currentSelected.usedFor}
