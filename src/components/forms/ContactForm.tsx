@@ -18,8 +18,69 @@ interface ProjectOption {
   icon: React.ReactNode;
 }
 
+/* Ícones por id — os textos vivem em t.contact.form.* */
+const PROJECT_TYPE_ICONS: Record<string, React.ReactNode> = {
+  "site-institucional": (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="M3 21h18M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16M9 7h1m4 0h1M9 11h1m4 0h1M9 15h1m4 0h1" />
+    </svg>
+  ),
+  "landing-page": (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  ),
+  "loja-online": (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+      <path d="M3 6h18M16 10a4 4 0 0 1-8 0" />
+    </svg>
+  ),
+  "web-app": (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <rect width="18" height="18" x="3" y="3" rx="2" />
+      <path d="M9 3v18M3 9h18" />
+    </svg>
+  ),
+  "manutencao-redesign": (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="m12 14 4-4" />
+      <path d="M3.34 19a10 10 0 1 1 17.32 0" />
+    </svg>
+  ),
+  outro: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+    </svg>
+  ),
+};
+
+const PREFERENCE_ICONS: Record<string, React.ReactNode> = {
+  chamada: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    </svg>
+  ),
+  whatsapp: <WhatsAppIcon className="w-5 h-5" />,
+  email: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <rect width="20" height="16" x="2" y="4" rx="2" />
+      <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+    </svg>
+  ),
+  outro: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="10" />
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+      <path d="M12 17h.01" />
+    </svg>
+  ),
+};
+
 export function ContactForm() {
-  const { isEnglish } = useLanguage();
+  const { t } = useLanguage();
   const [currentStep, setCurrentStep] = useState<1 | 2 | 3>(1);
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
@@ -40,266 +101,17 @@ export function ContactForm() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [serverMessage, setServerMessage] = useState("");
 
-  const projectTypes: ProjectOption[] = isEnglish
-    ? [
-        {
-          id: "site-institucional",
-          title: "Brand Website",
-          badge: "Business & Corporate",
-          description: "Present your company with authority, elegance, and build deep trust with prospective clients.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="18" height="18" x="3" y="3" rx="2" />
-              <path d="M3 9h18M9 21V9" />
-            </svg>
-          ),
-        },
-        {
-          id: "landing-page",
-          title: "High-Converting Landing Page",
-          badge: "Lead Generation",
-          description: "Laser-focused page designed for advertising campaigns (Google/Meta) and direct lead acquisition.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="m13 2-2 10h8l-8 10 2-10H3z" />
-            </svg>
-          ),
-        },
-        {
-          id: "loja-online",
-          title: "E-Commerce & Online Store",
-          badge: "24/7 Sales",
-          description: "Complete digital store with multi-currency payments, seamless checkout, and inventory management.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <circle cx="8" cy="21" r="1" />
-              <circle cx="19" cy="21" r="1" />
-              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-            </svg>
-          ),
-        },
-        {
-          id: "web-app",
-          title: "Custom Web App & Portal",
-          badge: "Automation & Systems",
-          description: "Advanced web portals, customer login dashboards, and internal business process automation.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="20" height="14" x="2" y="3" rx="2" />
-              <line x1="8" x2="16" y1="21" y2="21" />
-              <line x1="12" x2="12" y1="17" y2="21" />
-            </svg>
-          ),
-        },
-        {
-          id: "manutencao-redesign",
-          title: "Redesign, Speed & Support",
-          badge: "Modernization",
-          description: "Modernize an existing website, boost loading speeds (SEO), or retain ongoing technical engineering.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-          ),
-        },
-        {
-          id: "outro",
-          title: "Other Project Type",
-          badge: "Custom",
-          description: "Have a unique idea or bespoke specification? Describe it directly.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
-          ),
-        },
-      ]
-    : [
-        {
-          id: "site-institucional",
-          title: "Website Institucional",
-          badge: "Empresas & Negócios",
-          description: "Apresentar a sua empresa com autoridade, elegância e transmitir máxima confiança aos seus clientes.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="18" height="18" x="3" y="3" rx="2" />
-              <path d="M3 9h18M9 21V9" />
-            </svg>
-          ),
-        },
-        {
-          id: "landing-page",
-          title: "Landing Page de Alta Conversão",
-          badge: "Geração de Leads",
-          description: "Página hiper-focada em campanhas de anúncios (Google/Meta), captação de contactos e vendas diretas.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="m13 2-2 10h8l-8 10 2-10H3z" />
-            </svg>
-          ),
-        },
-        {
-          id: "loja-online",
-          title: "Loja Online / E-commerce",
-          badge: "Vendas 24/7",
-          description: "Plataforma de venda completa com pagamentos portugueses (MB WAY, Multibanco, Cartão) e gestão de stock.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <circle cx="8" cy="21" r="1" />
-              <circle cx="19" cy="21" r="1" />
-              <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-            </svg>
-          ),
-        },
-        {
-          id: "web-app",
-          title: "Aplicação Web / Portal Sob Medida",
-          badge: "Automação & Sistemas",
-          description: "Sistemas web avançados, portais com login de clientes, dashboards ou automações de processos.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="20" height="14" x="2" y="3" rx="2" />
-              <line x1="8" x2="16" y1="21" y2="21" />
-              <line x1="12" x2="12" y1="17" y2="21" />
-            </svg>
-          ),
-        },
-        {
-          id: "manutencao-redesign",
-          title: "Redesign, Otimização ou Suporte",
-          badge: "Modernização",
-          description: "Modernizar um site existente, otimizar a velocidade de carregamento (SEO) ou suporte técnico.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
-              <circle cx="12" cy="12" r="3" />
-            </svg>
-          ),
-        },
-        {
-          id: "outro",
-          title: "Outro Tipo de Projeto",
-          badge: "Personalizado",
-          description: "Tem uma necessidade específica ou ideia diferente? Descreva-a diretamente.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M12 20h9M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
-            </svg>
-          ),
-        },
-      ];
+  const projectTypes: ProjectOption[] = t.contact.form.projectTypes.map((item) => ({
+    ...item,
+    icon: PROJECT_TYPE_ICONS[item.id],
+  }));
 
-  const contactPreferences = isEnglish
-    ? [
-        {
-          id: "chamada",
-          title: "Phone Call",
-          desc: "Direct telephone conversation for rapid alignment and answering questions.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          ),
-        },
-        {
-          id: "whatsapp",
-          title: "WhatsApp",
-          desc: "Quick instant messaging, voice notes, and easy sharing of visual references.",
-          icon: <WhatsAppIcon className="w-5 h-5" />,
-        },
-        {
-          id: "email",
-          title: "Email",
-          desc: "Formal written communication with detailed proposal sent directly to your inbox.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-          ),
-        },
-        {
-          id: "outro",
-          title: "Other Medium",
-          desc: "Video conference (Google Meet / Teams) or another platform of your choice.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" x2="12" y1="8" y2="12" />
-              <line x1="12" x2="12.01" y1="16" y2="16" />
-            </svg>
-          ),
-        },
-      ]
-    : [
-        {
-          id: "chamada",
-          title: "Chamada Telefónica",
-          desc: "Conversa direta por telefone para alinhamento rápido e esclarecimento de dúvidas.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-          ),
-        },
-        {
-          id: "whatsapp",
-          title: "WhatsApp",
-          desc: "Troca rápida de mensagens, notas de voz e partilha prática de referências.",
-          icon: <WhatsAppIcon className="w-5 h-5" />,
-        },
-        {
-          id: "email",
-          title: "Email",
-          desc: "Comunicação formal por escrito com proposta detalhada enviada para a sua caixa de entrada.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="20" height="16" x="2" y="4" rx="2" />
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-            </svg>
-          ),
-        },
-        {
-          id: "outro",
-          title: "Outro Meio",
-          desc: "Reunião por videoconferência (Google Meet/Teams) ou outra plataforma à sua escolha.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" x2="12" y1="8" y2="12" />
-              <line x1="12" x2="12.01" y1="16" y2="16" />
-            </svg>
-          ),
-        },
-      ];
+  const contactPreferences = t.contact.form.contactPreferences.map((item) => ({
+    ...item,
+    icon: PREFERENCE_ICONS[item.id],
+  }));
 
-  const featureTags = isEnglish
-    ? [
-        "Exclusive UI/UX Design",
-        "Google SEO Optimization",
-        "Secure Card & Local Payments",
-        "Content Management System (CMS)",
-        "Member Area / User Login",
-        "Direct WhatsApp Integration",
-        "Fluid Motion & Micro-interactions",
-        "Multilingual Support (PT / EN)",
-        "CRM & Email Integration",
-        "Sub-Second Instant Loading",
-      ]
-    : [
-        "Design UI/UX Exclusivo",
-        "Otimização SEO (Google)",
-        "Pagamentos MB WAY & Cartão",
-        "Gestor de Conteúdos (CMS)",
-        "Área Reservada / Login",
-        "Integração WhatsApp Direto",
-        "Animações Fluidas & Efeito Uau",
-        "Multi-idioma (PT / EN)",
-        "Integração de CRM / Newsletter",
-        "Carregamento Instantâneo",
-      ];
-
+  const featureTags = t.contact.form.featureTags;
   const toggleFeature = (tag: string) => {
     setFormData((prev) => {
       const current = prev.features || [];
@@ -334,17 +146,13 @@ export function ContactForm() {
   const handleNextStep1 = () => {
     if (!formData.projectType) {
       setStepErrors({
-        projectType: isEnglish
-          ? "Please select the project type you need."
-          : "Por favor, selecione o tipo de projeto pretendido.",
+        projectType: t.contact.form.errors.selectProjectType,
       });
       return;
     }
     if (formData.projectType === "outro" && (!formData.otherProjectType || formData.otherProjectType.trim().length < 3)) {
       setStepErrors({
-        otherProjectType: isEnglish
-          ? "Please briefly describe the intended project type."
-          : "Por favor, descreva o tipo de projeto pretendido.",
+        otherProjectType: t.contact.form.errors.describeProjectType,
       });
       return;
     }
@@ -356,17 +164,13 @@ export function ContactForm() {
   const handleNextStep2 = () => {
     if (!formData.contactPreference) {
       setStepErrors({
-        contactPreference: isEnglish
-          ? "Please select your preferred communication channel."
-          : "Por favor, selecione como prefere ser contactado.",
+        contactPreference: t.contact.form.errors.selectContactPreference,
       });
       return;
     }
     if (formData.contactPreference === "outro" && (!formData.otherContactPreference || formData.otherContactPreference.trim().length < 3)) {
       setStepErrors({
-        otherContactPreference: isEnglish
-          ? "Please specify your preferred medium."
-          : "Por favor, especifique o meio de contacto pretendido.",
+        otherContactPreference: t.contact.form.errors.specifyContactPreference,
       });
       return;
     }
@@ -409,28 +213,14 @@ export function ContactForm() {
 
       if (response.ok && result.success) {
         setSubmitStatus("success");
-        setServerMessage(
-          result.message ||
-            (isEnglish
-              ? "Thank you for reaching out! We will be in touch shortly."
-              : "Obrigado pelo seu contacto! Falaremos em breve.")
-        );
+        setServerMessage(result.message || t.contact.form.errors.submitSuccessFallback);
       } else {
         setSubmitStatus("error");
-        setServerMessage(
-          result.message ||
-            (isEnglish
-              ? "An error occurred while sending. You can also contact directly via WhatsApp."
-              : "Ocorreu um erro ao enviar. Pode também contactar diretamente por WhatsApp.")
-        );
+        setServerMessage(result.message || t.contact.form.errors.submitErrorFallback);
       }
     } catch {
       setSubmitStatus("error");
-      setServerMessage(
-        isEnglish
-          ? "Could not connect to the server. Please send a direct message via WhatsApp or email."
-          : "Não foi possível conectar ao servidor. Por favor, envie uma mensagem direta por WhatsApp ou email."
-      );
+      setServerMessage(t.contact.form.errors.networkError);
     } finally {
       setIsSubmitting(false);
     }
@@ -438,12 +228,12 @@ export function ContactForm() {
 
   const selectedProjectTypeTitle =
     formData.projectType === "outro" && formData.otherProjectType
-      ? (isEnglish ? `Other: ${formData.otherProjectType}` : `Outro: ${formData.otherProjectType}`)
+      ? t.contact.form.otherPrefix + formData.otherProjectType
       : projectTypes.find((p) => p.id === formData.projectType)?.title || formData.projectType;
 
   const selectedContactPreferenceTitle =
     formData.contactPreference === "outro" && formData.otherContactPreference
-      ? (isEnglish ? `Other: ${formData.otherContactPreference}` : `Outro: ${formData.otherContactPreference}`)
+      ? t.contact.form.otherPrefix + formData.otherContactPreference
       : contactPreferences.find((c) => c.id === formData.contactPreference)?.title || formData.contactPreference;
 
   return (
@@ -452,12 +242,12 @@ export function ContactForm() {
       <div className="mb-8">
         <div className="flex items-center justify-between text-xs font-semibold text-text-secondary mb-3">
           <span className="uppercase tracking-wider text-[11px] font-bold text-accent">
-            {isEnglish ? `Phase ${currentStep} of 3` : `Fase ${currentStep} de 3`}
+            {t.contact.form.steps.phase.replace("{current}", String(currentStep))}
           </span>
           <span className="text-text-muted">
-            {currentStep === 1 && (isEnglish ? "1. Project Type" : "1. Tipo de Projeto")}
-            {currentStep === 2 && (isEnglish ? "2. Contact Preference" : "2. Preferência de Contacto")}
-            {currentStep === 3 && (isEnglish ? "3. Your Details & Message" : "3. Seus Dados & Mensagem")}
+            {currentStep === 1 && t.contact.form.steps.titles[0]}
+            {currentStep === 2 && t.contact.form.steps.titles[1]}
+            {currentStep === 3 && t.contact.form.steps.titles[2]}
           </span>
         </div>
 
@@ -481,7 +271,7 @@ export function ContactForm() {
                     ? "bg-accent shadow-sm"
                     : "bg-surface-hover cursor-not-allowed"
                 }`}
-                title={isEnglish ? `Go to Phase ${step}` : `Ir para Fase ${step}`}
+                title={t.contact.form.steps.goToPhase.replace("{step}", String(step))}
               />
             );
           })}
@@ -503,31 +293,18 @@ export function ContactForm() {
 
           <div className="space-y-2 max-w-lg mx-auto">
             <h3 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-              {isEnglish ? "Message Received!" : "Mensagem Recebida!"}
+              {t.contact.form.success.title}
             </h3>
             <p className="text-sm text-text-secondary leading-relaxed">
-              {isEnglish ? (
-                <>
-                  Thank you, <strong className="text-text-primary">{formData.name}</strong>. I have registered your inquiry regarding{" "}
-                  <strong className="text-accent">{selectedProjectTypeTitle}</strong>.
-                </>
-              ) : (
-                <>
-                  Obrigado, <strong className="text-text-primary">{formData.name}</strong>. Já registei o seu pedido sobre{" "}
-                  <strong className="text-accent">{selectedProjectTypeTitle}</strong>.
-                </>
-              )}
+              {t.contact.form.success.thanksBefore}
+              <strong className="text-text-primary">{formData.name}</strong>
+              {t.contact.form.success.thanksAfter}
+              <strong className="text-accent">{selectedProjectTypeTitle}</strong>.
             </p>
             <p className="text-xs text-text-muted mt-2">
-              {isEnglish ? (
-                <>
-                  I will reach out via <strong className="text-text-primary">{selectedContactPreferenceTitle}</strong> as promptly as possible to discuss your project in detail.
-                </>
-              ) : (
-                <>
-                  Entrarei em contacto consigo via <strong className="text-text-primary">{selectedContactPreferenceTitle}</strong> com a máxima brevidade para conversarmos em detalhe.
-                </>
-              )}
+              {t.contact.form.success.contactBefore}
+              <strong className="text-text-primary">{selectedContactPreferenceTitle}</strong>
+              {t.contact.form.success.contactAfter}
             </p>
           </div>
 
@@ -535,16 +312,14 @@ export function ContactForm() {
           <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
               href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(
-                isEnglish
-                  ? `Hello Mateus, I just sent an inquiry on your website about ${selectedProjectTypeTitle}!`
-                  : `Olá Mateus, acabei de enviar uma mensagem através do teu website sobre ${selectedProjectTypeTitle}!`
+                t.contact.form.success.whatsappMessage.replace("{project}", selectedProjectTypeTitle)
               )}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-xs font-bold transition-all shadow-md hover:shadow-lg"
             >
               <WhatsAppIcon className="w-4 h-4" />
-              <span>{isEnglish ? "Chat Now on WhatsApp" : "Falar Agora pelo WhatsApp"}</span>
+              <span>{t.contact.form.success.whatsappCta}</span>
             </a>
 
             <button
@@ -568,7 +343,7 @@ export function ContactForm() {
               }}
               className="px-5 py-3 text-xs font-semibold text-text-secondary hover:text-text-primary transition-colors"
             >
-              {isEnglish ? "Send another message" : "Enviar nova mensagem"}
+              {t.contact.form.success.sendAnother}
             </button>
           </div>
         </motion.div>
@@ -611,12 +386,10 @@ export function ContactForm() {
               >
                 <div>
                   <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
-                    {isEnglish ? "What does your business need?" : "O que precisa para o seu negócio?"}
+                    {t.contact.form.step1.title}
                   </h3>
                   <p className="mt-1 text-xs sm:text-sm text-text-secondary">
-                    {isEnglish
-                      ? "Select the option that best matches your project goals."
-                      : "Selecione a opção que melhor representa o objetivo pretendido."}
+                    {t.contact.form.step1.description}
                   </p>
                 </div>
 
@@ -699,7 +472,7 @@ export function ContactForm() {
                             className="mt-3 pl-4 pr-1"
                           >
                             <label htmlFor="otherProjectType" className="block text-xs font-bold text-text-primary mb-1.5">
-                              {isEnglish ? "Describe your project:" : "Descreva o seu projeto:"}{" "}
+                              {t.contact.form.step1.otherLabel}{" "}
                               <span className="text-accent">*</span>
                             </label>
                             <input
@@ -708,11 +481,7 @@ export function ContactForm() {
                               name="otherProjectType"
                               value={formData.otherProjectType || ""}
                               onChange={handleInputChange}
-                              placeholder={
-                                isEnglish
-                                  ? "E.g.: Online booking system, custom blog, technical consulting..."
-                                  : "Ex: Plataforma de reservas online, renovação de blog, consultoria técnica..."
-                              }
+                              placeholder={t.contact.form.step1.otherPlaceholder}
                               className={`w-full rounded-xl border bg-surface px-4 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent ${
                                 stepErrors.otherProjectType ? "border-destructive ring-1 ring-destructive" : "border-border"
                               }`}
@@ -739,7 +508,7 @@ export function ContactForm() {
                     withArrow
                     onClick={handleNextStep1}
                   >
-                    {isEnglish ? "Proceed to Contact Preference" : "Avançar para Preferência de Contacto"}
+                    {t.contact.form.step1.next}
                   </Button>
                 </div>
               </motion.div>
@@ -759,19 +528,17 @@ export function ContactForm() {
               >
                 <div>
                   <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
-                    {isEnglish ? "How do you prefer to discuss the project?" : "Como prefere conversar sobre o projeto?"}
+                    {t.contact.form.step2.title}
                   </h3>
                   <p className="mt-1 text-xs sm:text-sm text-text-secondary">
-                    {isEnglish
-                      ? "Select the most convenient channel for us to align and clarify questions."
-                      : "Escolha o meio mais conveniente para alinharmos detalhes e esclarecer dúvidas."}
+                    {t.contact.form.step2.description}
                   </p>
                 </div>
 
                 {/* Secção A: Preferência de Contacto */}
                 <div className="space-y-3">
                   <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary">
-                    {isEnglish ? "Communication Preference" : "Preferência de Comunicação"}{" "}
+                    {t.contact.form.step2.preferenceLabel}{" "}
                     <span className="text-accent">*</span>
                   </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -834,7 +601,7 @@ export function ContactForm() {
                               className="mt-2.5"
                             >
                               <label htmlFor="otherContactPreference" className="block text-xs font-bold text-text-primary mb-1">
-                                {isEnglish ? "Specify your preferred medium:" : "Especifique como prefere ser contactado:"}{" "}
+                                {t.contact.form.step2.otherLabel}{" "}
                                 <span className="text-accent">*</span>
                               </label>
                               <input
@@ -843,11 +610,7 @@ export function ContactForm() {
                                 name="otherContactPreference"
                                 value={formData.otherContactPreference || ""}
                                 onChange={handleInputChange}
-                                placeholder={
-                                  isEnglish
-                                    ? "E.g.: Google Meet video call, Telegram, etc."
-                                    : "Ex: Videoconferência Google Meet, Telegram, etc."
-                                }
+                                placeholder={t.contact.form.step2.otherPlaceholder}
                                 className={`w-full rounded-xl border bg-surface px-4 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent ${
                                   stepErrors.otherContactPreference ? "border-destructive ring-1 ring-destructive" : "border-border"
                                 }`}
@@ -870,10 +633,10 @@ export function ContactForm() {
                 <div className="space-y-3 pt-2">
                   <div className="flex items-center justify-between">
                     <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary">
-                      {isEnglish ? "Relevant Features (Optional)" : "Funcionalidades Relevantes (Opcional)"}
+                      {t.contact.form.step2.featuresLabel}
                     </label>
                     <span className="text-[11px] text-text-muted">
-                      {isEnglish ? "Select any that apply" : "Selecione as pretendidas"}
+                      {t.contact.form.step2.featuresHint}
                     </span>
                   </div>
 
@@ -906,7 +669,7 @@ export function ContactForm() {
                     onClick={() => setCurrentStep(1)}
                     className="text-xs font-bold text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5 cursor-pointer"
                   >
-                    {isEnglish ? "← Back to Project Type" : "← Voltar ao Tipo de Projeto"}
+                    {t.contact.form.step2.back}
                   </button>
 
                   <Button
@@ -916,7 +679,7 @@ export function ContactForm() {
                     withArrow
                     onClick={handleNextStep2}
                   >
-                    {isEnglish ? "Proceed to Your Details" : "Avançar para os Seus Dados"}
+                    {t.contact.form.step2.next}
                   </Button>
                 </div>
               </motion.div>
@@ -936,12 +699,10 @@ export function ContactForm() {
               >
                 <div>
                   <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
-                    {isEnglish ? "Where can I reach you?" : "Onde posso contactá-lo?"}
+                    {t.contact.form.step3.title}
                   </h3>
                   <p className="mt-1 text-xs sm:text-sm text-text-secondary">
-                    {isEnglish
-                      ? "Provide your contact information so we can get in touch."
-                      : "Indique os seus dados para que possamos iniciar a conversa."}
+                    {t.contact.form.step3.description}
                   </p>
                 </div>
 
@@ -949,14 +710,14 @@ export function ContactForm() {
                 <div className="rounded-2xl border border-accent/20 bg-accent-subtle/30 p-4 text-xs space-y-1.5">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-text-primary uppercase tracking-wider text-[10px]">
-                      {isEnglish ? "Your selection summary:" : "Resumo da sua seleção:"}
+                      {t.contact.form.step3.summaryTitle}
                     </span>
                     <button
                       type="button"
                       onClick={() => setCurrentStep(1)}
                       className="text-accent hover:underline font-semibold text-[11px] cursor-pointer"
                     >
-                      {isEnglish ? "Edit selection" : "Alterar seleção"}
+                      {t.contact.form.step3.summaryEdit}
                     </button>
                   </div>
                   <div className="flex flex-wrap items-center gap-2 text-text-secondary">
@@ -971,7 +732,7 @@ export function ContactForm() {
                       <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                       </svg>
-                      {isEnglish ? "Preference:" : "Preferência:"} {selectedContactPreferenceTitle}
+                      {t.contact.form.step3.summaryPreference} {selectedContactPreferenceTitle}
                     </span>
                     {formData.features && formData.features.length > 0 && (
                       <>
@@ -980,7 +741,7 @@ export function ContactForm() {
                           <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                             <polyline points="20 6 9 17 4 12" />
                           </svg>
-                          {formData.features.length} {isEnglish ? "features selected" : "funcionalidades selecionadas"}
+                          {formData.features.length} {t.contact.form.step3.summaryFeatures}
                         </span>
                       </>
                     )}
@@ -991,7 +752,7 @@ export function ContactForm() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="name" className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2">
-                      {isEnglish ? "Your Name or Company" : "O Seu Nome ou Empresa"} <span className="text-accent">*</span>
+                      {t.contact.form.step3.nameLabel} <span className="text-accent">*</span>
                     </label>
                     <input
                       type="text"
@@ -999,7 +760,7 @@ export function ContactForm() {
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      placeholder={isEnglish ? "E.g.: Sarah Jenkins or Acme Ltd" : "Ex: Ana Silva ou Empresa Lda"}
+                      placeholder={t.contact.form.step3.namePlaceholder}
                       disabled={isSubmitting}
                       className={`w-full rounded-2xl border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
                         stepErrors.name ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
@@ -1010,7 +771,7 @@ export function ContactForm() {
 
                   <div>
                     <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2">
-                      {isEnglish ? "Email Address" : "Endereço de Email"} <span className="text-accent">*</span>
+                      {t.contact.form.step3.emailLabel} <span className="text-accent">*</span>
                     </label>
                     <input
                       type="email"
@@ -1018,7 +779,7 @@ export function ContactForm() {
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      placeholder={isEnglish ? "email@example.com" : "email@exemplo.pt"}
+                      placeholder={t.contact.form.step3.emailPlaceholder}
                       disabled={isSubmitting}
                       className={`w-full rounded-2xl border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
                         stepErrors.email ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
@@ -1031,14 +792,14 @@ export function ContactForm() {
                 {/* Telefone / WhatsApp */}
                 <div>
                   <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2">
-                    {isEnglish ? "Phone Number / WhatsApp" : "Contacto Telefónico / WhatsApp"}{" "}
+                    {t.contact.form.step3.phoneLabel}{" "}
                     {formData.contactPreference === "chamada" || formData.contactPreference === "whatsapp" ? (
                       <span className="text-accent">
-                        {isEnglish ? "* (Required for the selected preference)" : "* (Necessário para a preferência selecionada)"}
+                        {t.contact.form.step3.phoneRequired}
                       </span>
                     ) : (
                       <span className="text-text-muted font-normal">
-                        {isEnglish ? "(Optional)" : "(Opcional)"}
+                        {t.contact.form.step3.phoneOptional}
                       </span>
                     )}
                   </label>
@@ -1048,7 +809,7 @@ export function ContactForm() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleInputChange}
-                    placeholder={isEnglish ? "E.g.: +351 917 810 763" : "Ex: 917 810 763"}
+                    placeholder={t.contact.form.step3.phonePlaceholder}
                     disabled={isSubmitting}
                     className={`w-full rounded-2xl border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
                       stepErrors.phone ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
@@ -1060,7 +821,7 @@ export function ContactForm() {
                 {/* Mensagem / Detalhes */}
                 <div>
                   <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-text-secondary mb-2">
-                    {isEnglish ? "Tell me about your project & goals" : "Conte-me sobre o seu projeto & objetivos"}{" "}
+                    {t.contact.form.step3.messageLabel}{" "}
                     <span className="text-accent">*</span>
                   </label>
                   <textarea
@@ -1069,11 +830,7 @@ export function ContactForm() {
                     rows={4}
                     value={formData.message}
                     onChange={handleInputChange}
-                    placeholder={
-                      isEnglish
-                        ? "Share a bit about your business, the desired results, and any visual or functional references you have..."
-                        : "Conte-me um pouco sobre o seu negócio, os objetivos pretendidos e qualquer detalhe ou referência visual que ache relevante..."
-                    }
+                    placeholder={t.contact.form.step3.messagePlaceholder}
                     disabled={isSubmitting}
                     className={`w-full rounded-2xl border bg-surface/70 p-4 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent resize-y ${
                       stepErrors.message ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
@@ -1099,23 +856,11 @@ export function ContactForm() {
                       className="mt-0.5 h-4 w-4 rounded-md border-border text-accent focus:ring-accent cursor-pointer accent-accent"
                     />
                     <span className="text-xs text-text-secondary leading-relaxed group-hover:text-text-primary transition-colors">
-                      {isEnglish ? (
-                        <>
-                          I authorize data handling strictly to respond to this request, in accordance with the{" "}
-                          <Link href="/privacidade" className="text-accent underline underline-offset-2 hover:opacity-80">
-                            Privacy Policy
-                          </Link>
-                          .
-                        </>
-                      ) : (
-                        <>
-                          Autorizo o tratamento dos dados estritamente para contacto em resposta a esta solicitação, conforme a{" "}
-                          <Link href="/privacidade" className="text-accent underline underline-offset-2 hover:opacity-80">
-                            Política de Privacidade
-                          </Link>
-                          .
-                        </>
-                      )}
+                      {t.contact.form.step3.consentBefore}
+                      <Link href="/privacidade" className="text-accent underline underline-offset-2 hover:opacity-80">
+                        {t.contact.form.step3.consentLink}
+                      </Link>
+                      .
                     </span>
                   </label>
                   {stepErrors.consent && <p className="mt-1.5 text-xs text-destructive">{stepErrors.consent}</p>}
@@ -1128,7 +873,7 @@ export function ContactForm() {
                     onClick={() => setCurrentStep(2)}
                     className="text-xs font-bold text-text-secondary hover:text-text-primary transition-colors flex items-center gap-1.5 order-2 sm:order-1 cursor-pointer"
                   >
-                    {isEnglish ? "← Back to Contact Preference" : "← Voltar à Preferência de Contacto"}
+                    {t.contact.form.step3.back}
                   </button>
 
                   <Button
@@ -1140,8 +885,8 @@ export function ContactForm() {
                     className="w-full sm:w-auto order-1 sm:order-2"
                   >
                     {isSubmitting
-                      ? (isEnglish ? "Sending..." : "A enviar...")
-                      : (isEnglish ? "Send Message" : "Enviar Mensagem")}
+                      ? t.contact.form.step3.submitting
+                      : t.contact.form.step3.submit}
                   </Button>
                 </div>
               </motion.div>

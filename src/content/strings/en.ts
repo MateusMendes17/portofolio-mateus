@@ -463,36 +463,186 @@ const en: Strings = {
   },
 
   contact: {
-    sectionLabel: "Contact",
-    title: "Let's Work Together",
-    subtitle:
-      "Have a project in mind? Fill in the form or reach out directly.",
+    badge: "Start a Project",
+    title: "Contact.",
+    description:
+      "Have an idea, need a high-converting website for your brand, or want to overhaul an existing platform? Fill in the form or reach out directly.",
+    channelsTitle: "Direct Channels",
+    emailLabel: "Direct Email",
+    emailNote: "Guaranteed same-day response",
+    whatsappLabel: "Professional WhatsApp",
+    whatsappNote: "Ideal for quick questions & voice notes",
+    locationLabel: "Location",
+    location: "Lisbon, Portugal",
+    locationNote: "Working with clients across Portugal & worldwide",
+    networksLabel: "Networks & Profiles",
+    faqTitle: "Frequently Asked Questions",
+    faq: [
+      {
+        q: "How does the first contact work?",
+        a: "We speak directly via call or message to thoroughly understand your goals and technical scope.",
+      },
+      {
+        q: "Will I have full ownership of the website?",
+        a: "Yes, 100% of source code, domain assets, and administrative access are handed over to you.",
+      },
+      {
+        q: "Do you issue official tax invoices?",
+        a: "Yes, every service is legally invoiced with official tax compliance according to Portuguese law.",
+      },
+    ],
     form: {
-      name: "Name",
-      namePlaceholder: "Your name",
-      email: "Email",
-      emailPlaceholder: "email@example.com",
-      projectType: "Project type",
-      budget: "Project details",
-      message: "Message",
-      messagePlaceholder: "Describe your project, vision, and requirements...",
-      consent:
-        "I authorize the processing of my personal data for contact purposes, in accordance with the Privacy Policy.",
-      submit: "Send Message",
-      sending: "Sending...",
-      successTitle: "Message sent!",
-      successMessage:
-        "Thank you for reaching out. I will be in touch shortly.",
-      errorTitle: "Error sending",
-      errorMessage:
-        "An error occurred while sending your message. Please try again or contact me directly by email.",
-    },
-    direct: {
-      title: "Direct Contact",
-      emailLabel: "Email",
-      whatsappLabel: "WhatsApp",
-      linkedinLabel: "LinkedIn",
-      responseLabel: "Response time",
+      steps: {
+        phase: "Phase {current} of 3",
+        titles: ["1. Project Type", "2. Contact Preference", "3. Your Details & Message"],
+        goToPhase: "Go to Phase {step}",
+      },
+      projectTypes: [
+        {
+          id: "site-institucional",
+          title: "Brand Website",
+          badge: "Business & Corporate",
+          description:
+            "Present your company with authority, elegance, and build deep trust with prospective clients.",
+        },
+        {
+          id: "landing-page",
+          title: "High-Converting Landing Page",
+          badge: "Lead Generation",
+          description:
+            "Laser-focused page designed for advertising campaigns (Google/Meta) and direct lead acquisition.",
+        },
+        {
+          id: "loja-online",
+          title: "E-Commerce & Online Store",
+          badge: "24/7 Sales",
+          description:
+            "Complete digital store with multi-currency payments, seamless checkout, and inventory management.",
+        },
+        {
+          id: "web-app",
+          title: "Custom Web App & Portal",
+          badge: "Automation & Systems",
+          description:
+            "Advanced web portals, customer login dashboards, and internal business process automation.",
+        },
+        {
+          id: "manutencao-redesign",
+          title: "Redesign, Speed & Support",
+          badge: "Modernization",
+          description:
+            "Modernize an existing website, boost loading speeds (SEO), or retain ongoing technical engineering.",
+        },
+        {
+          id: "outro",
+          title: "Other Project Type",
+          badge: "Custom",
+          description: "Have a unique idea or bespoke specification? Describe it directly.",
+        },
+      ],
+      contactPreferences: [
+        {
+          id: "chamada",
+          title: "Phone Call",
+          desc: "Direct telephone conversation for rapid alignment and answering questions.",
+        },
+        {
+          id: "whatsapp",
+          title: "WhatsApp",
+          desc: "Quick instant messaging, voice notes, and easy sharing of visual references.",
+        },
+        {
+          id: "email",
+          title: "Email",
+          desc: "Formal written communication with detailed proposal sent directly to your inbox.",
+        },
+        {
+          id: "outro",
+          title: "Other Medium",
+          desc: "Video conference (Google Meet / Teams) or another platform of your choice.",
+        },
+      ],
+      featureTags: [
+        "Exclusive UI/UX Design",
+        "Google SEO Optimization",
+        "Secure Card & Local Payments",
+        "Content Management System (CMS)",
+        "Member Area / User Login",
+        "Direct WhatsApp Integration",
+        "Fluid Motion & Micro-interactions",
+        "Multilingual Support (PT / EN)",
+        "CRM & Email Integration",
+        "Sub-Second Instant Loading",
+      ],
+      errors: {
+        selectProjectType: "Please select the project type you need.",
+        describeProjectType: "Please briefly describe the intended project type.",
+        selectContactPreference: "Please select your preferred communication channel.",
+        specifyContactPreference: "Please specify your preferred medium.",
+        submitSuccessFallback: "Thank you for reaching out! We will be in touch shortly.",
+        submitErrorFallback:
+          "An error occurred while sending. You can also contact directly via WhatsApp.",
+        networkError:
+          "Could not connect to the server. Please send a direct message via WhatsApp or email.",
+      },
+      otherPrefix: "Other: ",
+      success: {
+        title: "Message Received!",
+        thanksBefore: "Thank you, ",
+        thanksAfter: ". I have registered your inquiry regarding ",
+        contactBefore: "I will reach out via ",
+        contactAfter:
+          " as promptly as possible to discuss your project in detail.",
+        whatsappMessage:
+          "Hello Mateus, I just sent an inquiry on your website about {project}!",
+        whatsappCta: "Chat Now on WhatsApp",
+        sendAnother: "Send another message",
+      },
+      step1: {
+        title: "What does your business need?",
+        description: "Select the option that best matches your project goals.",
+        otherLabel: "Describe your project:",
+        otherPlaceholder:
+          "E.g.: Online booking system, custom blog, technical consulting...",
+        next: "Proceed to Contact Preference",
+      },
+      step2: {
+        title: "How do you prefer to discuss the project?",
+        description:
+          "Select the most convenient channel for us to align and clarify questions.",
+        preferenceLabel: "Communication Preference",
+        otherLabel: "Specify your preferred medium:",
+        otherPlaceholder: "E.g.: Google Meet video call, Telegram, etc.",
+        featuresLabel: "Relevant Features (Optional)",
+        featuresHint: "Select any that apply",
+        back: "← Back to Project Type",
+        next: "Proceed to Your Details",
+      },
+      step3: {
+        title: "Where can I reach you?",
+        description: "Provide your contact information so we can get in touch.",
+        summaryTitle: "Your selection summary:",
+        summaryEdit: "Edit selection",
+        summaryPreference: "Preference:",
+        summaryFeatures: "features selected",
+        nameLabel: "Your Name or Company",
+        namePlaceholder: "E.g.: Sarah Jenkins or Acme Ltd",
+        emailLabel: "Email Address",
+        emailPlaceholder: "email@example.com",
+        phoneLabel: "Phone Number / WhatsApp",
+        phoneRequired: "* (Required for the selected preference)",
+        phoneOptional: "(Optional)",
+        phonePlaceholder: "E.g.: +351 917 810 763",
+        messageLabel: "Tell me about your project & goals",
+        messagePlaceholder:
+          "Share a bit about your business, the desired results, and any visual or functional references you have...",
+        consentBefore:
+          "I authorize data handling strictly to respond to this request, in accordance with the ",
+        consentLink: "Privacy Policy",
+        back: "← Back to Contact Preference",
+        submitting: "Sending...",
+        submit: "Send Message",
+      },
     },
   },
 

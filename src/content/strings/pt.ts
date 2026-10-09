@@ -462,36 +462,184 @@ const pt = {
   },
 
   contact: {
-    sectionLabel: "Contacto",
-    title: "Vamos trabalhar juntos",
-    subtitle:
-      "Tem um projeto em mente? Preencha o formulário abaixo ou entre em contacto diretamente.",
+    badge: "Iniciar um Projeto",
+    title: "Contacto.",
+    description:
+      "Tem uma ideia, precisa de um novo website para a sua empresa ou quer renovar uma plataforma existente? Preencha o formulário ou fale comigo diretamente.",
+    channelsTitle: "Canais Diretos",
+    emailLabel: "Email Direto",
+    emailNote: "Resposta garantida no próprio dia",
+    whatsappLabel: "WhatsApp Profissional",
+    whatsappNote: "Ideal para esclarecer dúvidas rápidas",
+    locationLabel: "Localização",
+    location: "Lisboa, Portugal",
+    locationNote: "Atendimento em todo o país e no estrangeiro",
+    networksLabel: "Redes & Perfis",
+    faqTitle: "Perguntas Frequentes",
+    faq: [
+      {
+        q: "Como funciona o primeiro contacto?",
+        a: "Conversamos diretamente em chamada ou mensagem para compreender os seus objetivos e requisitos específicos.",
+      },
+      {
+        q: "Terei total propriedade do website?",
+        a: "Sim, 100% do código fonte, domínio e acessos de gestão são entregues inteiramente a si.",
+      },
+      {
+        q: "Passa fatura com NIF?",
+        a: "Sim, todos os serviços são faturados legalmente de acordo com a legislação fiscal portuguesa.",
+      },
+    ],
     form: {
-      name: "Nome",
-      namePlaceholder: "O seu nome",
-      email: "Email",
-      emailPlaceholder: "email@exemplo.pt",
-      projectType: "Tipo de projeto",
-      budget: "Detalhes do projeto",
-      message: "Mensagem",
-      messagePlaceholder: "Descreva o seu projeto e os seus objetivos...",
-      consent:
-        "Autorizo o tratamento dos meus dados pessoais para efeitos de contacto, de acordo com a Política de Privacidade.",
-      submit: "Enviar Mensagem",
-      sending: "A enviar...",
-      successTitle: "Mensagem enviada!",
-      successMessage:
-        "Obrigado pelo contacto. Entrarei em contacto em breve.",
-      errorTitle: "Erro ao enviar",
-      errorMessage:
-        "Ocorreu um erro ao enviar a mensagem. Por favor, tente novamente ou contacte-me diretamente por email.",
-    },
-    direct: {
-      title: "Contacto direto",
-      emailLabel: "Email",
-      whatsappLabel: "WhatsApp",
-      linkedinLabel: "LinkedIn",
-      responseLabel: "Tempo de resposta",
+      steps: {
+        phase: "Fase {current} de 3",
+        titles: ["1. Tipo de Projeto", "2. Preferência de Contacto", "3. Seus Dados & Mensagem"],
+        goToPhase: "Ir para Fase {step}",
+      },
+      projectTypes: [
+        {
+          id: "site-institucional",
+          title: "Website Institucional",
+          badge: "Empresas & Negócios",
+          description:
+            "Apresentar a sua empresa com autoridade, elegância e transmitir máxima confiança aos seus clientes.",
+        },
+        {
+          id: "landing-page",
+          title: "Landing Page de Alta Conversão",
+          badge: "Geração de Leads",
+          description:
+            "Página hiper-focada em campanhas de anúncios (Google/Meta), captação de contactos e vendas diretas.",
+        },
+        {
+          id: "loja-online",
+          title: "Loja Online / E-commerce",
+          badge: "Vendas 24/7",
+          description:
+            "Plataforma de venda completa com pagamentos portugueses (MB WAY, Multibanco, Cartão) e gestão de stock.",
+        },
+        {
+          id: "web-app",
+          title: "Aplicação Web / Portal Sob Medida",
+          badge: "Automação & Sistemas",
+          description:
+            "Sistemas web avançados, portais com login de clientes, dashboards ou automações de processos.",
+        },
+        {
+          id: "manutencao-redesign",
+          title: "Redesign, Otimização ou Suporte",
+          badge: "Modernização",
+          description:
+            "Modernizar um site existente, otimizar a velocidade de carregamento (SEO) ou suporte técnico.",
+        },
+        {
+          id: "outro",
+          title: "Outro Tipo de Projeto",
+          badge: "Personalizado",
+          description: "Tem uma necessidade específica ou ideia diferente? Descreva-a diretamente.",
+        },
+      ],
+      contactPreferences: [
+        {
+          id: "chamada",
+          title: "Chamada Telefónica",
+          desc: "Conversa direta por telefone para alinhamento rápido e esclarecimento de dúvidas.",
+        },
+        {
+          id: "whatsapp",
+          title: "WhatsApp",
+          desc: "Troca rápida de mensagens, notas de voz e partilha prática de referências.",
+        },
+        {
+          id: "email",
+          title: "Email",
+          desc: "Comunicação formal por escrito com proposta detalhada enviada para a sua caixa de entrada.",
+        },
+        {
+          id: "outro",
+          title: "Outro Meio",
+          desc: "Reunião por videoconferência (Google Meet/Teams) ou outra plataforma à sua escolha.",
+        },
+      ],
+      featureTags: [
+        "Design UI/UX Exclusivo",
+        "Otimização SEO (Google)",
+        "Pagamentos MB WAY & Cartão",
+        "Gestor de Conteúdos (CMS)",
+        "Área Reservada / Login",
+        "Integração WhatsApp Direto",
+        "Animações Fluidas & Efeito Uau",
+        "Multi-idioma (PT / EN)",
+        "Integração de CRM / Newsletter",
+        "Carregamento Instantâneo",
+      ],
+      errors: {
+        selectProjectType: "Por favor, selecione o tipo de projeto pretendido.",
+        describeProjectType: "Por favor, descreva o tipo de projeto pretendido.",
+        selectContactPreference: "Por favor, selecione como prefere ser contactado.",
+        specifyContactPreference: "Por favor, especifique o meio de contacto pretendido.",
+        submitSuccessFallback: "Obrigado pelo seu contacto! Falaremos em breve.",
+        submitErrorFallback:
+          "Ocorreu um erro ao enviar. Pode também contactar diretamente por WhatsApp.",
+        networkError:
+          "Não foi possível conectar ao servidor. Por favor, envie uma mensagem direta por WhatsApp ou email.",
+      },
+      otherPrefix: "Outro: ",
+      success: {
+        title: "Mensagem Recebida!",
+        thanksBefore: "Obrigado, ",
+        thanksAfter: ". Já registei o seu pedido sobre ",
+        contactBefore: "Entrarei em contacto consigo via ",
+        contactAfter: " com a máxima brevidade para conversarmos em detalhe.",
+        whatsappMessage:
+          "Olá Mateus, acabei de enviar uma mensagem através do teu website sobre {project}!",
+        whatsappCta: "Falar Agora pelo WhatsApp",
+        sendAnother: "Enviar nova mensagem",
+      },
+      step1: {
+        title: "O que precisa para o seu negócio?",
+        description: "Selecione a opção que melhor representa o objetivo pretendido.",
+        otherLabel: "Descreva o seu projeto:",
+        otherPlaceholder:
+          "Ex: Plataforma de reservas online, renovação de blog, consultoria técnica...",
+        next: "Avançar para Preferência de Contacto",
+      },
+      step2: {
+        title: "Como prefere conversar sobre o projeto?",
+        description: "Escolha o meio mais conveniente para alinharmos detalhes e esclarecer dúvidas.",
+        preferenceLabel: "Preferência de Comunicação",
+        otherLabel: "Especifique como prefere ser contactado:",
+        otherPlaceholder: "Ex: Videoconferência Google Meet, Telegram, etc.",
+        featuresLabel: "Funcionalidades Relevantes (Opcional)",
+        featuresHint: "Selecione as pretendidas",
+        back: "← Voltar ao Tipo de Projeto",
+        next: "Avançar para os Seus Dados",
+      },
+      step3: {
+        title: "Onde posso contactá-lo?",
+        description: "Indique os seus dados para que possamos iniciar a conversa.",
+        summaryTitle: "Resumo da sua seleção:",
+        summaryEdit: "Alterar seleção",
+        summaryPreference: "Preferência:",
+        summaryFeatures: "funcionalidades selecionadas",
+        nameLabel: "O Seu Nome ou Empresa",
+        namePlaceholder: "Ex: Ana Silva ou Empresa Lda",
+        emailLabel: "Endereço de Email",
+        emailPlaceholder: "email@exemplo.pt",
+        phoneLabel: "Contacto Telefónico / WhatsApp",
+        phoneRequired: "* (Necessário para a preferência selecionada)",
+        phoneOptional: "(Opcional)",
+        phonePlaceholder: "Ex: 917 810 763",
+        messageLabel: "Conte-me sobre o seu projeto & objetivos",
+        messagePlaceholder:
+          "Conte-me um pouco sobre o seu negócio, os objetivos pretendidos e qualquer detalhe ou referência visual que ache relevante...",
+        consentBefore:
+          "Autorizo o tratamento dos dados estritamente para contacto em resposta a esta solicitação, conforme a ",
+        consentLink: "Política de Privacidade",
+        back: "← Voltar à Preferência de Contacto",
+        submitting: "A enviar...",
+        submit: "Enviar Mensagem",
+      },
     },
   },
 

@@ -10,7 +10,7 @@ import { TextReveal3D } from "@/components/ui/TextAnimations";
 import { TiltCard3D } from "@/components/ui/TiltCard3D";
 
 export function ContactoView() {
-  const { isEnglish } = useLanguage();
+  const { t } = useLanguage();
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 relative">
@@ -20,15 +20,13 @@ export function ContactoView() {
         <ScrollReveal direction="up" distance={30}>
         <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary mb-3 shadow-sm">
           <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-          {isEnglish ? "Start a Project" : "Iniciar um Projeto"}
+          {t.contact.badge}
         </span>
         <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary">
-          <TextReveal3D>{isEnglish ? "Contact." : "Contacto."}</TextReveal3D>
+          <TextReveal3D>{t.contact.title}</TextReveal3D>
         </h1>
         <p className="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed">
-          {isEnglish
-            ? "Have an idea, need a high-converting website for your brand, or want to overhaul an existing platform? Fill in the form or reach out directly."
-            : "Tem uma ideia, precisa de um novo website para a sua empresa ou quer renovar uma plataforma existente? Preencha o formulário ou fale comigo diretamente."}
+          {t.contact.description}
         </p>
         </ScrollReveal>
       </div>
@@ -43,7 +41,7 @@ export function ContactoView() {
           <TiltCard3D>
           <div className="rounded-3xl border border-border/80 bg-surface/80 backdrop-blur-xl p-7 shadow-sm space-y-6 shimmer-scan">
             <h2 className="font-heading text-lg font-bold text-text-primary">
-              {isEnglish ? "Direct Channels" : "Canais Diretos"}
+              {t.contact.channelsTitle}
             </h2>
 
             {/* Email */}
@@ -56,7 +54,7 @@ export function ContactoView() {
               </div>
               <div>
                 <span className="block text-xs font-bold uppercase tracking-wider text-text-muted">
-                  {isEnglish ? "Direct Email" : "Email Direto"}
+                  {t.contact.emailLabel}
                 </span>
                 <a
                   href={`mailto:${SITE_CONFIG.email}`}
@@ -65,7 +63,7 @@ export function ContactoView() {
                   {SITE_CONFIG.email}
                 </a>
                 <span className="block text-[11px] text-text-muted mt-0.5">
-                  {isEnglish ? "Guaranteed same-day response" : "Resposta garantida no próprio dia"}
+                  {t.contact.emailNote}
                 </span>
               </div>
             </div>
@@ -77,7 +75,7 @@ export function ContactoView() {
               </div>
               <div>
                 <span className="block text-xs font-bold uppercase tracking-wider text-text-muted">
-                  {isEnglish ? "Professional WhatsApp" : "WhatsApp Profissional"}
+                  {t.contact.whatsappLabel}
                 </span>
                 <a
                   href={SOCIAL_LINKS.whatsapp}
@@ -88,7 +86,7 @@ export function ContactoView() {
                   {SITE_CONFIG.phone}
                 </a>
                 <span className="block text-[11px] text-text-muted mt-0.5">
-                  {isEnglish ? "Ideal for quick questions & voice notes" : "Ideal para esclarecer dúvidas rápidas"}
+                  {t.contact.whatsappNote}
                 </span>
               </div>
             </div>
@@ -103,15 +101,13 @@ export function ContactoView() {
               </div>
               <div>
                 <span className="block text-xs font-bold uppercase tracking-wider text-text-muted">
-                  {isEnglish ? "Location" : "Localização"}
+                  {t.contact.locationLabel}
                 </span>
                 <span className="text-sm font-semibold text-text-primary">
-                  {isEnglish ? "Lisbon, Portugal" : "Lisboa, Portugal"}
+                  {t.contact.location}
                 </span>
                 <span className="block text-[11px] text-text-muted mt-0.5">
-                  {isEnglish
-                    ? "Working with clients across Portugal & worldwide"
-                    : "Atendimento em todo o país e no estrangeiro"}
+                  {t.contact.locationNote}
                 </span>
               </div>
             </div>
@@ -119,7 +115,7 @@ export function ContactoView() {
             {/* Redes Profissionais */}
             <div className="pt-4 border-t border-border/60">
               <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-3">
-                {isEnglish ? "Networks & Profiles" : "Redes & Perfis"}
+                {t.contact.networksLabel}
               </span>
               <div className="flex items-center gap-3">
                 <a
@@ -160,40 +156,16 @@ export function ContactoView() {
           <TiltCard3D>
           <div className="rounded-3xl border border-border/80 bg-surface/80 backdrop-blur-xl p-7 shadow-sm space-y-4">
             <h3 className="font-heading text-base font-bold text-text-primary">
-              {isEnglish ? "Frequently Asked Questions" : "Perguntas Frequentes"}
+              {t.contact.faqTitle}
             </h3>
 
             <div className="space-y-3 text-xs leading-relaxed text-text-secondary">
-              <div>
-                <p className="font-bold text-text-primary">
-                  {isEnglish ? "How does the first contact work?" : "Como funciona o primeiro contacto?"}
-                </p>
-                <p className="mt-0.5">
-                  {isEnglish
-                    ? "We speak directly via call or message to thoroughly understand your goals and technical scope."
-                    : "Conversamos diretamente em chamada ou mensagem para compreender os seus objetivos e requisitos específicos."}
-                </p>
-              </div>
-              <div className="pt-2 border-t border-border/60">
-                <p className="font-bold text-text-primary">
-                  {isEnglish ? "Will I have full ownership of the website?" : "Terei total propriedade do website?"}
-                </p>
-                <p className="mt-0.5">
-                  {isEnglish
-                    ? "Yes, 100% of source code, domain assets, and administrative access are handed over to you."
-                    : "Sim, 100% do código fonte, domínio e acessos de gestão são entregues inteiramente a si."}
-                </p>
-              </div>
-              <div className="pt-2 border-t border-border/60">
-                <p className="font-bold text-text-primary">
-                  {isEnglish ? "Do you issue official tax invoices?" : "Passa fatura com NIF?"}
-                </p>
-                <p className="mt-0.5">
-                  {isEnglish
-                    ? "Yes, every service is legally invoiced with official tax compliance according to Portuguese law."
-                    : "Sim, todos os serviços são faturados legalmente de acordo com a legislação fiscal portuguesa."}
-                </p>
-              </div>
+              {t.contact.faq.map((item, i) => (
+                <div key={i} className={i > 0 ? "pt-2 border-t border-border/60" : undefined}>
+                  <p className="font-bold text-text-primary">{item.q}</p>
+                  <p className="mt-0.5">{item.a}</p>
+                </div>
+              ))}
             </div>
           </div>
           </TiltCard3D>
