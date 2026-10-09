@@ -9,16 +9,27 @@ export const contactFormSchema = z
     email: z
       .string()
       .email({ message: "Por favor, introduza um endereço de email válido." }),
-    phone: z.string().optional(),
+    phone: z
+      .string()
+      .max(40, { message: "O número de telefone não pode exceder 40 caracteres." })
+      .optional(),
     projectType: z
       .string()
-      .min(1, { message: "Por favor, selecione o tipo de projeto pretendido." }),
-    otherProjectType: z.string().optional(),
+      .min(1, { message: "Por favor, selecione o tipo de projeto pretendido." })
+      .max(100, { message: "O tipo de projeto não pode exceder 100 caracteres." }),
+    otherProjectType: z
+      .string()
+      .max(100, { message: "A descrição do projeto não pode exceder 100 caracteres." })
+      .optional(),
     contactPreference: z
       .string()
-      .min(1, { message: "Por favor, selecione a sua preferência de contacto." }),
-    otherContactPreference: z.string().optional(),
-    features: z.array(z.string()).optional(),
+      .min(1, { message: "Por favor, selecione a sua preferência de contacto." })
+      .max(100, { message: "A preferência de contacto não pode exceder 100 caracteres." }),
+    otherContactPreference: z
+      .string()
+      .max(100, { message: "A preferência indicada não pode exceder 100 caracteres." })
+      .optional(),
+    features: z.array(z.string().max(100)).max(12).optional(),
     message: z
       .string()
       .min(10, { message: "Por favor, descreva o seu projeto com pelo menos 10 caracteres." })

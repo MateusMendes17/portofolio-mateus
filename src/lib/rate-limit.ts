@@ -7,6 +7,12 @@
  * para um limite global deveria usar Upstash/Redis.
  */
 
+export interface RateLimitResult {
+  allowed: boolean;
+  /** Segundos até poder tentar de novo (0 quando o pedido foi aceite). */
+  retryAfterSeconds: number;
+}
+
 const DEFAULT_LIMIT = 5;
 const DEFAULT_WINDOW_MS = 60_000;
 const MAX_KEYS = 10_000;
@@ -28,28 +34,33 @@ function prune(now: number, windowMs: number): void {
 }
 
 /**
- * Regista um pedido para `key`.
+ * Regista um pedido para `key` e devolve a decisão.
  *
- * @returns `true` se o pedido é permitido, `false` se excedeu o limite.
+ * Janela deslizante: quando o limite é atingido, o tempo de espera indicado é
+ * o que falta para a entrada mais antiga sair da janela — não um minuto fixo.
  */
-export function rateLimit(
+export function checkRateLimit(
   key: string,
   limit: number = DEFAULT_LIMIT,
   windowMs: number = DEFAULT_WINDOW_MS
-): boolean {
+): RateLimitResult {
   const now = Date.now();
   const cutoff = now - windowMs;
   const stamps = (buckets.get(key) ?? []).filter((t) => t > cutoff);
 
   if (stamps.length >= limit) {
     buckets.set(key, stamps);
-    return false;
+    const oldest = stamps[0] ?? now;
+    return {
+      allowed: false,
+      retryAfterSeconds: Math.max(1, Math.ceil((oldest + windowMs - now) / 1000)),
+    };
   }
 
   stamps.push(now);
   buckets.set(key, stamps);
   prune(now, windowMs);
-  return true;
+  return { allowed: true, retryAfterSeconds: 0 };
 }
 
 /** IP do cliente, prioritizando os cabeçalhos definidos pelo proxy.
