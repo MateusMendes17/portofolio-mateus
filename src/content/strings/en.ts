@@ -355,17 +355,91 @@ const en: Strings = {
   },
 
   footer: {
-    copyright: `© ${new Date().getFullYear()} Mateus Mendes. All rights reserved.`,
+    availability: "Available for new projects in {year}",
+    ctaTitle: "Ready to elevate your digital presence?",
+    ctaDescription: "Let's discuss your goals and build a tailored solution.",
+    cta: "Start a Conversation",
+    tagline:
+      "Professional web development focused on technical excellence, speed, and real business results.",
+    location: "Lisbon, Portugal",
+    responseTime: "Response within {time}",
+    servicesTitle: "Services",
+    services: [
+      "Corporate Websites",
+      "High-Converting Landing Pages",
+      "Online Stores & E-Commerce",
+      "Custom Web Applications",
+      "SEO & Performance Optimization",
+    ],
+    navTitle: "Navigation",
+    contactTitle: "Direct Contact",
     privacy: "Privacy Policy",
-    madeWith: "Crafted with",
-    inPortugal: "in Portugal",
+    madeWith: "Built with Next.js & Tailwind CSS",
+    copyright: "© {year} Mateus Mendes. All rights reserved.",
   },
 
   notFound: {
-    title: "404",
     headline: "Page Not Found",
-    description: "The page you are looking for does not exist or has been moved.",
-    cta: "Back to Home",
+    description:
+      "The page you are looking for does not exist or has been moved to another address.",
+    backHome: "Back to home",
+    contact: "Contact me",
+    navLabel: "Error navigation",
+  },
+
+  backToTop: {
+    label: "Back to top",
+  },
+
+  languageToggle: {
+    switchToPortuguese: "Mudar idioma para Português",
+    switchToEnglish: "Switch language to English",
+    currentPt: "Português / English (Current: PT)",
+    currentEn: "Português / English (Current: EN)",
+  },
+
+  mobileNav: {
+    language: "Language",
+    theme: "Theme",
+  },
+
+  stats: {
+    clickToClose: "Click to close",
+    clickToLearnMore: "Click to learn more",
+    items: [
+      {
+        id: "speed",
+        metric: "< 0.8s",
+        label: "Lightning-Fast Loading",
+        badge: "Performance",
+        details:
+          "Top scores on Google PageSpeed ensuring no visitor bounces due to slow loading times.",
+      },
+      {
+        id: "custom",
+        metric: "100%",
+        label: "Tailor-Made Code",
+        badge: "Quality",
+        details:
+          "No bloated templates or vulnerable plugins. Every line is hand-crafted for your business goals.",
+      },
+      {
+        id: "response",
+        metric: "< 24h",
+        label: "Response Time",
+        badge: "Communication",
+        details:
+          "Dedicated direct contact via WhatsApp, email, or scheduled call throughout the entire cycle.",
+      },
+      {
+        id: "roi",
+        metric: "100%",
+        label: "Conversion Focus",
+        badge: "Results",
+        details:
+          "Interfaces structured to turn passive visitors into engaged leads and loyal paying clients.",
+      },
+    ],
   },
 
   privacy: {

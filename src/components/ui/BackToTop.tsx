@@ -6,7 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
-  const { isEnglish } = useLanguage();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const toggleVisibility = () => {
@@ -40,7 +40,7 @@ export function BackToTop() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.8 }}
           onClick={scrollToTop}
-          aria-label={isEnglish ? "Back to top" : "Voltar ao topo"}
+          aria-label={t.backToTop.label}
           className="fixed bottom-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-surface shadow-lg hover:bg-accent-hover hover:scale-110 active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background"
         >
           <svg 

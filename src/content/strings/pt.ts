@@ -366,17 +366,91 @@ const pt = {
   },
 
   footer: {
-    copyright: `© ${new Date().getFullYear()} Mateus Mendes. Todos os direitos reservados.`,
+    availability: "Disponível para novos projetos em {year}",
+    ctaTitle: "Pronto para transformar a sua presença digital?",
+    ctaDescription:
+      "Vamos conversar sobre os seus objetivos e construir uma solução sob medida.",
+    cta: "Iniciar Conversa",
+    tagline:
+      "Desenvolvimento web profissional focado em qualidade técnica, velocidade e geração de resultados para PMEs e profissionais em Portugal.",
+    location: "Lisboa, Portugal",
+    responseTime: "Resposta em {time}",
+    servicesTitle: "Serviços",
+    services: [
+      "Websites Institucionais",
+      "Landing Pages de Alta Conversão",
+      "Lojas Online & E-Commerce",
+      "Aplicações Web Sob Medida",
+      "Otimização SEO & Performance",
+    ],
+    navTitle: "Navegação",
+    contactTitle: "Contacto Direto",
     privacy: "Política de Privacidade",
-    madeWith: "Feito com",
-    inPortugal: "em Portugal",
+    madeWith: "Construído com Next.js & Tailwind CSS",
+    copyright: "© {year} Mateus Mendes. Todos os direitos reservados.",
   },
 
   notFound: {
-    title: "404",
     headline: "Página não encontrada",
-    description: "A página que procura não existe ou foi movida.",
-    cta: "Voltar ao início",
+    description: "A página que procura não existe ou foi movida para outro endereço.",
+    backHome: "Voltar ao início",
+    contact: "Contactar",
+    navLabel: "Navegação de erro",
+  },
+
+  backToTop: {
+    label: "Voltar ao topo",
+  },
+
+  languageToggle: {
+    switchToPortuguese: "Mudar idioma para Português",
+    switchToEnglish: "Switch language to English",
+    currentPt: "Português / English (Atual: PT)",
+    currentEn: "Português / English (Atual: EN)",
+  },
+
+  mobileNav: {
+    language: "Idioma",
+    theme: "Modo de Visualização",
+  },
+
+  stats: {
+    clickToClose: "Clique para fechar",
+    clickToLearnMore: "Clique para saber mais",
+    items: [
+      {
+        id: "speed",
+        metric: "< 0.8s",
+        label: "Carregamento Relâmpago",
+        badge: "Performance",
+        details:
+          "Pontuações máximas no Google PageSpeed para que nenhum visitante desista por lentidão.",
+      },
+      {
+        id: "custom",
+        metric: "100%",
+        label: "Código Sob Medida",
+        badge: "Qualidade",
+        details:
+          "Sem templates reciclados ou plugins vulneráveis. Cada linha é pensada para as suas necessidades.",
+      },
+      {
+        id: "response",
+        metric: "< 24h",
+        label: "Tempo de Resposta",
+        badge: "Comunicação",
+        details:
+          "Acompanhamento próximo por WhatsApp, email ou chamada direta durante todo o processo.",
+      },
+      {
+        id: "roi",
+        metric: "100%",
+        label: "Foco em Conversão",
+        badge: "Resultados",
+        details:
+          "Estrutura desenhada para transformar utilizadores casuais em contactos e clientes pagantes.",
+      },
+    ],
   },
 
   privacy: {

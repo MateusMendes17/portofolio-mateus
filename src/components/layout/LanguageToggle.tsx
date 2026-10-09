@@ -10,7 +10,7 @@ import { useMounted } from "@/lib/hooks";
  * ultra suave (curva iOS/macOS) do ThemeToggle para ficarem perfeitamente harmoniosos lado a lado.
  */
 export function LanguageToggle({ className }: { className?: string }) {
-  const { locale, toggleLanguage, isEnglish } = useLanguage();
+  const { locale, toggleLanguage, isEnglish, t } = useLanguage();
   const mounted = useMounted();
 
   if (!mounted) {
@@ -39,8 +39,12 @@ export function LanguageToggle({ className }: { className?: string }) {
         "focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2 select-none",
         className
       )}
-      aria-label={isEnglish ? "Mudar idioma para Português" : "Switch language to English"}
-      title={isEnglish ? "Português / English (Atual: EN)" : "Português / English (Atual: PT)"}
+      aria-label={
+        isEnglish
+          ? t.languageToggle.switchToPortuguese
+          : t.languageToggle.switchToEnglish
+      }
+      title={isEnglish ? t.languageToggle.currentEn : t.languageToggle.currentPt}
     >
       {/* Background tracks com os códigos de idioma fixos */}
       <div className="absolute inset-0 flex items-center justify-between px-2.5 pointer-events-none select-none">

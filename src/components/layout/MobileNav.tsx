@@ -19,7 +19,7 @@ interface MobileNavProps {
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const pathname = usePathname();
-  const { t, isEnglish } = useLanguage();
+  const { t } = useLanguage();
   const prevPathname = React.useRef(pathname);
 
   const navLabels: Record<string, string> = {
@@ -137,14 +137,14 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             <div className="pt-6 border-t border-border/60 space-y-3.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-text-secondary">
-                  {isEnglish ? "Language" : "Idioma"}
+                  {t.mobileNav.language}
                 </span>
                 <LanguageToggle />
               </div>
 
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-text-secondary">
-                  {isEnglish ? "Theme" : "Modo de Visualização"}
+                  {t.mobileNav.theme}
                 </span>
                 <ThemeToggle />
               </div>
