@@ -172,6 +172,13 @@ body {
   contain-intrinsic-size: auto 900px;
 }
 
+/* Corta o transbordo horizontal criado pelos "full-bleed" (`w-[100vw]`)
+   sem recorrer a `overflow-x: hidden`, que quebraria o `position: sticky`
+   das secções (o `clip` não cria contexto de scroll). */
+main {
+  overflow-x: clip;
+}
+
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;

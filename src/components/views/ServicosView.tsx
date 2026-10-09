@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "@/components/ui/Button";
@@ -15,8 +15,36 @@ export function ServicosView() {
   
   // Horizontal Scroll Setup
   const targetRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: targetRef });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-70%"]);
+
+  /* Distância exata a percorrer: largura do track menos a área visível.
+     Assim o último cartão termina alinhado à direita em qualquer ecrã —
+     uma percentagem fixa ("-70%") cortava o último cartão em telemóvel. */
+  const [distance, setDistance] = useState(0);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    const container = track?.parentElement;
+    if (!track || !container) return;
+
+    const update = () =>
+      setDistance(Math.max(0, track.scrollWidth - container.clientWidth));
+
+    if (typeof ResizeObserver === "undefined") {
+      window.addEventListener("resize", update);
+      return () => window.removeEventListener("resize", update);
+    }
+
+    // O ResizeObserver entrega a primeira medição de forma assíncrona,
+    // logo não é preciso chamar `update()` aqui dentro.
+    const observer = new ResizeObserver(update);
+    observer.observe(track);
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
+  const x = useTransform(scrollYProgress, (progress) => -progress * distance);
 
   const servicesList = isEnglish
     ? [
@@ -616,8 +644,10 @@ export function ServicosView() {
       </section>
 
       {/* 4. Processo em 4 Etapas (Horizontal Scroll Invertido) */}
-      <section ref={targetRef} className="relative h-[250vh] w-[100vw] left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] dark dark:light bg-background text-text-primary py-12 border-y border-border transition-colors duration-500">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section ref={targetRef} className="relative h-[250vh] w-[100vw] left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] dark dark:light bg-background text-text-primary pt-24 pb-12 border-y border-border transition-colors duration-500">
+        {/* `h-full` é essencial: dá ao `sticky` um contentor mais alto do que
+            ele próprio, sem o qual não existe espaço para "grudar" no ecrã. */}
+        <div className="mx-auto h-full max-w-6xl px-4 sm:px-6 lg:px-8">
           <div className="sticky top-24 h-[65vh] min-h-[500px] flex flex-col justify-center overflow-hidden">
             
             {/* Cabeçalho Fixo */}
@@ -631,8 +661,8 @@ export function ServicosView() {
             </ScrollReveal>
 
             {/* Área de Movimento Horizontal */}
-            <div className="relative flex-1 flex items-center">
-              <motion.div style={{ x }} className="flex gap-6 w-[280vw] sm:w-[150vw] lg:w-[110vw] pr-[50vw]">
+            <div className="relative flex-1 flex items-center overflow-hidden">
+              <motion.div ref={trackRef} style={{ x }} className="flex gap-6 w-max pr-4">
                 {steps.map((st) => (
                   <div 
                     key={st.step} 
