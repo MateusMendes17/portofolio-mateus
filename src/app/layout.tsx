@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { BackToTop } from "@/components/ui/BackToTop";
-import { SITE_CONFIG, SITE_URL } from "@/lib/constants";
+import { SITE_CONFIG, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
 import { LanguageProvider } from "@/context/LanguageContext";
 import pt from "@/content/strings/pt";
 import "./globals.css";
@@ -38,10 +38,10 @@ export const metadata: Metadata = {
     description: pt.meta.siteDescription,
     images: [
       {
-        url: "/logo.jpg",
-        width: 1024,
-        height: 469,
-        alt: `${SITE_CONFIG.name} — monograma MM`,
+        url: "/og-cover.jpg",
+        width: 1200,
+        height: 630,
+        alt: pt.meta.ogImageAlt,
       },
     ],
   },
@@ -49,13 +49,76 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: pt.meta.siteName,
     description: pt.meta.siteDescription,
-    images: ["/logo.jpg"],
+    images: ["/og-cover.jpg"],
   },
   robots: {
     index: true,
     follow: true,
   },
 };
+
+/* ============================================================
+   DADOS ESTRUTURADOS (JSON-LD)
+   Person + WebSite + ProfessionalService — usados pelo Google
+   para resultados enriquecidos e painel de conhecimento.
+   O texto é sempre o PT (é o que os crawlers indexam); a troca
+   PT/EN é client-side na mesma URL, por isso não há hreflang.
+   ============================================================ */
+const personId = `${SITE_URL}/#mateus-mendes`;
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name: SITE_CONFIG.name,
+      jobTitle: pt.meta.jobTitle,
+      description: pt.meta.siteDescription,
+      url: SITE_URL,
+      email: `mailto:${SITE_CONFIG.email}`,
+      telephone: SITE_CONFIG.phone,
+      image: `${SITE_URL}/logo.jpg`,
+      sameAs: [SOCIAL_LINKS.github, SOCIAL_LINKS.linkedin],
+      knowsLanguage: ["pt-PT", "en"],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: pt.meta.siteName,
+      description: pt.meta.siteDescription,
+      inLanguage: SITE_CONFIG.locale,
+      publisher: { "@id": personId },
+    },
+    {
+      "@type": "ProfessionalService",
+      "@id": `${SITE_URL}/#servicos`,
+      name: pt.meta.siteName,
+      description: pt.services.description,
+      url: SITE_URL,
+      image: `${SITE_URL}/logo.jpg`,
+      founder: { "@id": personId },
+      areaServed: "Portugal",
+      hasOfferCatalog: {
+        "@type": "OfferCatalog",
+        name: pt.services.badge,
+        itemListElement: pt.services.items.map((item, index) => ({
+          "@type": "Offer",
+          position: index + 1,
+          itemOffered: {
+            "@type": "Service",
+            name: item.title,
+            description: item.tagline,
+          },
+        })),
+      },
+    },
+  ],
+};
+
+/* `<` escapado impede que um valor com "</script>" feche a tag cedo. */
+const structuredDataJson = JSON.stringify(structuredData).replace(/</g, "\\u003c");
 
 export default function RootLayout({
   children,
@@ -70,6 +133,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col bg-bg text-text-primary">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: structuredDataJson }}
+        />
         <ThemeProvider>
           <LanguageProvider>
             <SmoothScroll>
@@ -89,4 +156,3 @@ export default function RootLayout({
     </html>
   );
 }
-

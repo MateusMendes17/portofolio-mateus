@@ -11,6 +11,7 @@ const en: Strings = {
     siteDescription:
       "Professional web development for businesses and independent professionals in Portugal & Europe. Websites, e-commerce, web apps, and maintenance.",
     ogImageAlt: "Mateus Mendes — Freelance Web Developer",
+    jobTitle: "Freelance Web Developer",
   },
 
   nav: {
@@ -36,6 +37,7 @@ const en: Strings = {
       ctaSecondary: "View Projects",
     },
     metrics: {
+      sectionHeading: "Quality in numbers",
       speed: {
         unit: "Load time",
         title: "Lightning Fast Loading",
@@ -768,6 +770,7 @@ const en: Strings = {
   },
 
   stats: {
+    sectionHeading: "My work in numbers",
     clickToClose: "Click to close",
     clickToLearnMore: "Click to learn more",
     items: [

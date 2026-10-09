@@ -152,6 +152,7 @@ export function HomeView() {
           2. BARRA DE MÉTRICAS & RIGOR TÉCNICO (COM VIDA & MICRO-WIDGETS)
           ============================================================== */}
       <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <h2 className="sr-only">{t.home.metrics.sectionHeading}</h2>
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" stagger={0.12}>
           {/* Card 1: Velocidade & Performance */}
           <StaggerItem><TiltCard3D className="h-full">
@@ -181,9 +182,9 @@ export function HomeView() {
                     {t.home.metrics.speed.unit}
                   </span>
                 </div>
-                <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
+                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
                   {t.home.metrics.speed.title}
-                </h4>
+                </h3>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
                   {t.home.metrics.speed.description}
                 </p>
@@ -231,9 +232,9 @@ export function HomeView() {
                     {t.home.metrics.code.unit}
                   </span>
                 </div>
-                <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
+                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
                   {t.home.metrics.code.title}
-                </h4>
+                </h3>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
                   {t.home.metrics.code.description}
                 </p>
@@ -278,9 +279,9 @@ export function HomeView() {
                     {t.home.metrics.direct.unit}
                   </span>
                 </div>
-                <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
+                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
                   {t.home.metrics.direct.title}
-                </h4>
+                </h3>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
                   {t.home.metrics.direct.description}
                 </p>
@@ -328,9 +329,9 @@ export function HomeView() {
                     {t.home.metrics.seo.unit}
                   </span>
                 </div>
-                <h4 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
+                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
                   {t.home.metrics.seo.title}
-                </h4>
+                </h3>
                 <p className="text-xs text-text-secondary leading-relaxed mt-1">
                   {t.home.metrics.seo.description}
                 </p>

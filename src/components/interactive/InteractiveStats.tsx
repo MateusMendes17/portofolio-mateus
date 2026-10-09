@@ -38,9 +38,9 @@ export function InteractiveStats() {
               {stat.metric}
             </div>
 
-            <h4 className="font-heading text-sm font-bold text-text-primary mb-2">
+            <h3 className="font-heading text-sm font-bold text-text-primary mb-2">
               {stat.label}
-            </h4>
+            </h3>
 
             <p className="text-xs text-text-secondary leading-relaxed">
               {stat.details}

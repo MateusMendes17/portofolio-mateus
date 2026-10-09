@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_CONFIG, SITE_URL } from "./constants";
+import pt from "@/content/strings/pt";
 
 /* ============================================================
    Helper de metadata por página.
@@ -41,10 +42,10 @@ export function pageMetadata({ title, description, path }: PageSeo): Metadata {
       description,
       images: [
         {
-          url: "/logo.jpg",
-          width: 1024,
-          height: 469,
-          alt: `${SITE_CONFIG.name} — monograma MM`,
+          url: "/og-cover.jpg",
+          width: 1200,
+          height: 630,
+          alt: pt.meta.ogImageAlt,
         },
       ],
     },
@@ -52,7 +53,7 @@ export function pageMetadata({ title, description, path }: PageSeo): Metadata {
       card: "summary_large_image",
       title,
       description,
-      images: ["/logo.jpg"],
+      images: ["/og-cover.jpg"],
     },
   };
 }

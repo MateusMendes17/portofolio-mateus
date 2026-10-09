@@ -10,6 +10,7 @@ const pt = {
     siteDescription:
       "Desenvolvimento web profissional para empresas e profissionais liberais em Portugal. Sites, lojas online, web apps e manutenção.",
     ogImageAlt: "Mateus Mendes — Programador Web Freelancer",
+    jobTitle: "Programador Web Freelancer",
   },
 
   nav: {
@@ -35,6 +36,7 @@ const pt = {
       ctaSecondary: "Ver Projetos",
     },
     metrics: {
+      sectionHeading: "Qualidade em números",
       speed: {
         unit: "Carregamento",
         title: "Carregamento Relâmpago",
@@ -765,6 +767,7 @@ const pt = {
   },
 
   stats: {
+    sectionHeading: "O meu trabalho em números",
     clickToClose: "Clique para fechar",
     clickToLearnMore: "Clique para saber mais",
     items: [

@@ -57,6 +57,7 @@ export function SobreView() {
 
       {/* 2. Estatísticas & Métricas Interativas */}
       <section>
+        <h2 className="sr-only">{t.stats.sectionHeading}</h2>
         <InteractiveStats />
       </section>
 

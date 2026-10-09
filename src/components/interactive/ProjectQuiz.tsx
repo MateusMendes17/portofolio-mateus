@@ -197,9 +197,9 @@ export function ProjectQuiz() {
                     {GOAL_ICONS[opt.id]}
                   </div>
                   <div>
-                    <h4 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                    <h3 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
                       {opt.title}
-                    </h4>
+                    </h3>
                     <p className="text-xs text-text-secondary mt-1">{opt.desc}</p>
                   </div>
                 </button>
@@ -244,9 +244,9 @@ export function ProjectQuiz() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface border border-border text-text-secondary group-hover:text-accent group-hover:border-accent/40 transition-colors mb-3">
                     {STAGE_ICONS[opt.id]}
                   </div>
-                  <h4 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                  <h3 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
                     {opt.title}
-                  </h4>
+                  </h3>
                   <p className="text-xs text-text-secondary mt-1">{opt.desc}</p>
                 </button>
               ))}
@@ -290,9 +290,9 @@ export function ProjectQuiz() {
                   <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface border border-border text-text-secondary group-hover:text-accent group-hover:border-accent/40 transition-colors mb-3">
                     {PRIORITY_ICONS[opt.id]}
                   </div>
-                  <h4 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                  <h3 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
                     {opt.title}
-                  </h4>
+                  </h3>
                   <p className="text-xs text-text-secondary mt-1">{opt.desc}</p>
                 </button>
               ))}
