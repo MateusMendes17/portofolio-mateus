@@ -140,155 +140,221 @@ const en: Strings = {
   },
 
   services: {
-    sectionLabel: "Services",
-    title: "How I can elevate your business",
-    subtitle:
-      "Comprehensive web solutions from strategic conception to high-performance launch and support.",
+    badge: "Web Development Services",
+    title: "Services.",
+    description:
+      "From high-converting landing pages to prestigious corporate websites and custom e-commerce platforms. Every project is crafted with clean code, sub-second speed, and meticulous attention to detail.",
+    labels: {
+      businessImpact: "Business Impact",
+      recommendedFor: "Recommended for:",
+      discussService: "Discuss this Service",
+      deliverables: "Deliverables & Capabilities",
+      includedStandard: "Included as Standard",
+      techStack: "Key Technologies",
+    },
     items: [
       {
-        id: "site-institucional",
-        title: "Corporate Websites",
+        id: "websites",
+        title: "High-Prestige Corporate Websites",
+        badge: "Enterprises & Business",
+        tagline: "Present your business with commanding authority.",
         description:
-          "High-prestige corporate websites tailored to your brand, conveying instant credibility and trust.",
-        icon: "building",
-        features: [
-          "Bespoke modern responsive design",
-          "Engineered for Google SEO",
-          "Interactive multi-step contact form",
-          "Google Analytics 4 setup",
-          "Intuitive CMS for autonomy",
+          "I design bespoke, high-performance corporate websites tailored to your brand identity. Engineered to foster immediate trust with prospective clients and position your firm ahead of the competition.",
+        includes: [
+          "100% bespoke design customized to your brand colors and visual identity",
+          "Fully responsive (flawless on smartphones, tablets, and desktops)",
+          "Comprehensive Google SEO optimization with structured microdata",
+          "Intuitive content management dashboard to update texts and articles independently",
+          "Interactive multi-step contact form with real-time email notifications",
+          "Seamless WhatsApp, Google Maps, and social media integration",
+          "Compliant legal pages (Terms & Privacy Policy conforming to GDPR)",
         ],
-        startingPrice: 800,
+        businessImpact:
+          "Projects authority, technical prestige, and trust from the first second, converting visitors into qualified corporate inquiries.",
+        techStack: ["Next.js 16", "TypeScript", "Tailwind CSS", "Framer Motion", "SEO Schema.org"],
+        idealFor:
+          "SMEs, law firms, consultants, medical clinics, real estate agencies, and premium service providers.",
       },
       {
-        id: "landing-page",
+        id: "landing-pages",
         title: "High-Converting Landing Pages",
+        badge: "Lead Gen & Paid Traffic",
+        tagline: "Laser-focused pages built to turn advertising clicks into paying clients.",
         description:
-          "Laser-focused pages designed for paid advertising campaigns with rapid conversion mechanics.",
-        icon: "rocket",
-        features: [
-          "Conversion-centered psychology",
-          "Ultra-fast loading speed (< 1s)",
-          "A/B testing ready architecture",
-          "Marketing pixel integration",
-          "WhatsApp direct click-to-chat",
+          "Surgically crafted landing pages for advertising campaigns across Google Ads, Meta Ads, or LinkedIn. Built with conversion copywriting and instant loading to maximize return on ad spend.",
+        includes: [
+          "Conversion-centered layout hierarchy with persuasive action-driven copy",
+          "Sub-second load times maximizing ad quality score and reducing bounce rate",
+          "Dynamic lead capture forms and floating WhatsApp click-to-chat",
+          "Conversion tracking setup (Google Tag Manager, Meta Pixel, Google Analytics 4)",
+          "Thorough mobile usability testing across smartphone screen sizes",
+          "Structured social proof, verified client reviews, and risk-reversal guarantees",
         ],
-        startingPrice: 500,
+        businessImpact:
+          "Lowers cost-per-lead (CPL) and maximizes return on advertising investment (ROAS).",
+        techStack: ["Next.js", "React 19", "Tailwind CSS", "Google Tag Manager", "Meta Pixel"],
+        idealFor:
+          "Product launches, lead generation for events/courses, service professionals, and seasonal promotions.",
       },
       {
-        id: "loja-online",
-        title: "Online Stores & E-Commerce",
+        id: "lojas-online",
+        title: "Bespoke Online Stores & E-Commerce",
+        badge: "Automated 24/7 Sales",
+        tagline: "Sell your products with Portuguese & international payments in a friction-free checkout.",
         description:
-          "Custom e-commerce platforms with smooth checkout, Portuguese & international payment gateways.",
-        icon: "shoppingBag",
-        features: [
-          "Dynamic product catalog with filters",
-          "One-page secure checkout",
-          "Real-time stock management",
-          "MB WAY, Multibanco & Stripe integration",
-          "Automated transactional emails",
+          "Complete, robust, and intuitive e-commerce platforms equipped with Portuguese customer payment favorites (MB WAY & Multibanco) and international credit cards.",
+        includes: [
+          "Seamless national and international payments (MB WAY, Multibanco, Cards, Stripe)",
+          "Streamlined product catalog, inventory alerts, variants, and order fulfillment",
+          "One-page optimized checkout architecture reducing cart abandonment",
+          "Elegant automated transactional emails for order confirmations and dispatch",
+          "Configurable shipping tier calculation and postal zone rates",
+          "Full SSL encryption and PCI banking security for client peace of mind",
         ],
-        startingPrice: 2000,
+        businessImpact:
+          "Boosts conversion rates through familiar payment channels and automates order fulfillment.",
+        techStack: ["Next.js E-Commerce", "Stripe API", "MB WAY / Multibanco", "PostgreSQL", "Tailwind CSS"],
+        idealFor:
+          "Apparel brands, artisanal crafts, retail, digital products, and businesses scaling online.",
       },
       {
-        id: "web-app",
-        title: "Custom Web Applications",
+        id: "web-apps",
+        title: "Custom Web Applications & Portals",
+        badge: "Automation & Internal Systems",
+        tagline: "Tailored web software that streamlines operations and solves complex workflows.",
         description:
-          "Bespoke SaaS and dashboards that streamline operations and offer digital products directly to users.",
-        icon: "code",
-        features: [
-          "Custom user interfaces and UX",
-          "Secure authentication and roles",
-          "REST APIs and database models",
-          "Analytics and reporting dashboards",
-          "Lightweight scalable architecture",
+          "Custom web systems that replace chaotic spreadsheets or legacy software with a centralized, modern interface. Analytics dashboards, customer client portals, and operational business tools.",
+        includes: [
+          "Secure user authentication with role-based permission tiers",
+          "Analytical dashboards with real-time graphs and automated KPI reports",
+          "Database integration and third-party APIs (invoicing, CRM, calendars)",
+          "Universal data export capabilities (PDF, CSV, Excel)",
+          "Cloud-scalable serverless architecture with end-to-end data encryption",
         ],
-        startingPrice: 3000,
+        businessImpact:
+          "Saves hours of weekly manual work for your team and centralizes business intelligence in one secure hub.",
+        techStack: ["Next.js App Router", "TypeScript", "Node.js", "PostgreSQL", "Prisma ORM", "Auth.js"],
+        idealFor:
+          "Startups, businesses with heavy manual workflows, membership communities, and scaling companies.",
       },
       {
         id: "manutencao",
-        title: "Redesign & Maintenance",
+        title: "Redesign, Speed Optimization & Support",
+        badge: "Maintenance & Evolution",
+        tagline: "Keep your online presence blazing fast, secure, and continuously evolving.",
         description:
-          "Keep your website secure, blazing fast, and up to date with dedicated technical support.",
-        icon: "wrench",
-        features: [
-          "Security patches and updates",
-          "Continuous uptime monitoring",
-          "Core Web Vitals optimization",
-          "Bug fixes and feature additions",
-          "Direct priority assistance",
+          "Have an outdated or slow website? I transform it into a modern, instant-loading platform, or manage ongoing maintenance so you never have to worry about downtime or security vulnerabilities.",
+        includes: [
+          "Comprehensive audit covering performance, security, and Core Web Vitals",
+          "Modern visual redesign aligned with current aesthetic benchmarks",
+          "Extreme asset and code optimization for instant page loads",
+          "Automated off-site backups and 24/7 uptime monitoring",
+          "Continuous security patch deployment and vulnerability mitigation",
         ],
-        startingPrice: 100,
+        businessImpact:
+          "Provides total peace of mind, eliminates downtime revenue loss, and keeps your brand digitally competitive.",
+        techStack: ["Web Vitals Auditing", "Next.js Migration", "Code Refactoring", "Security Patches"],
+        idealFor:
+          "Businesses with existing sites looking to modernize or outsource technical management with confidence.",
       },
     ],
+    standards: {
+      badge: "Engineering Standards",
+      title: "Guarantees built into every solution",
+      description:
+        "Regardless of the solution selected, all projects adhere strictly to high-standard benchmarks.",
+      items: [
+        {
+          id: "ownership",
+          title: "100% Code Ownership",
+          description:
+            "All source code, domains, and access credentials belong entirely to you. No hidden lock-in fees or hostage files.",
+        },
+        {
+          id: "speed",
+          title: "Instant Speed (< 1s)",
+          description:
+            "Sub-second Core Web Vitals with server-side rendering. Every second saved translates to higher conversion rates and Google rankings.",
+        },
+        {
+          id: "seo",
+          title: "Native Google SEO Architecture",
+          description:
+            "HTML5 semantic structure, Schema.org microdata, Open Graph social share tags, and dynamic sitemaps configured from day one.",
+        },
+        {
+          id: "cms",
+          title: "Effortless Content Autonomy",
+          description:
+            "Intuitive administration dashboard allowing any team member to update texts, products, or photos without touching code.",
+        },
+        {
+          id: "mobile",
+          title: "Flawless Mobile Experience",
+          description:
+            "Engineered with a mobile-first philosophy, meticulously tested across iPhone, Android, tablet, and desktop viewports.",
+        },
+        {
+          id: "invoicing",
+          title: "Compliant Invoicing & Direct Support",
+          description:
+            "Official legal invoicing with direct communication and guidance from the developer who engineered your platform.",
+        },
+      ],
+    },
     process: {
-      title: "Development Process",
-      description: "A clear, transparent journey from first contact to online launch.",
+      badge: "Transparent Workflow",
+      title: "How we collaborate step-by-step",
       steps: [
         {
-          number: 1,
-          title: "Initial Consultation",
-          description:
-            "We explore your business goals, target audience, and project scope without obligation.",
-          icon: "messageCircle",
+          step: "01",
+          title: "Diagnosis & Discovery",
+          desc: "We discuss in a call or chat to deeply understand your business model, target audience, and key goals.",
         },
         {
-          number: 2,
-          title: "Strategy & Proposal",
-          description:
-            "I provide a clear proposal with scope, features, and tailored roadmap.",
-          icon: "fileText",
+          step: "02",
+          title: "Visual Architecture & Scope",
+          desc: "I outline the visual blueprints and navigation flows for your feedback before development begins.",
         },
         {
-          number: 3,
-          title: "Visual Architecture",
-          description:
-            "Interactive previews and structure approved before programming begins.",
-          icon: "palette",
+          step: "03",
+          title: "Development & Rigorous QA",
+          desc: "Engineered with Next.js and TypeScript, backed by rigorous mobile compatibility, security, and performance testing.",
         },
         {
-          number: 4,
-          title: "Programming & QA",
-          description:
-            "Built with Next.js & TypeScript, tested thoroughly across phones, tablets, and desktops.",
-          icon: "code",
-        },
-        {
-          number: 5,
+          step: "04",
           title: "Launch & Walkthrough",
-          description:
-            "Live deployment with SSL, Google SEO, and a video walkthrough for effortless content updates.",
-          icon: "checkCircle",
+          desc: "Live deployment with domain, SSL, and Google SEO, accompanied by video guidance for independent content management.",
         },
       ],
     },
     faq: {
-      title: "Frequently Asked Questions",
+      badge: "Questions & Answers",
+      title: "Common questions clarified",
       items: [
         {
-          question: "Do I need to have all texts and branding ready?",
-          answer:
-            "Not necessarily. If you have them, that's great! If not, I will guide you on structure and help curate high-quality visual assets.",
+          q: "Do I need to have all texts, logos, and photos ready before starting?",
+          a: "Not necessarily. If you already have brand materials, that is great! If not, I guide you on structure and assist in selecting high-resolution visuals aligned with your niche.",
         },
         {
-          question: "Can I update the website content myself?",
-          answer:
-            "Yes, absolutely. All corporate sites and stores include an intuitive content management system with video training.",
+          q: "Will I be able to edit texts and add products independently later?",
+          a: "Yes, absolutely. All corporate sites and stores include a clean CMS dashboard where you can edit content and upload imagery without touching any code.",
         },
         {
-          question: "What if I need updates after launch?",
-          answer:
-            "Minor adjustments post-launch are included. For new features or expansions, we plan implementation together.",
+          q: "How do we communicate throughout project development?",
+          a: "Communication is direct with Mateus through your preferred channel (WhatsApp, email, or video call). You receive continuous updates and private preview links.",
         },
         {
-          question: "Do you work with international clients?",
-          answer:
-            "Yes, I collaborate remotely with clients worldwide via video calls, email, and WhatsApp.",
+          q: "Is the website compliant with GDPR and secure?",
+          a: "Yes. Every website includes HTTPS SSL certificates, explicit cookie consent, and standard European GDPR-compliant privacy documentation.",
         },
       ],
     },
-    cta: "Start a conversation",
-    pricePrefix: "Starting from",
+    cta: {
+      title: "Ready to build your solution?",
+      description:
+        "Reach out directly. We will evaluate your goals and outline the perfect strategy.",
+    },
   },
 
   projects: {

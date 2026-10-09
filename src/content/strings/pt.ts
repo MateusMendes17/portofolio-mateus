@@ -139,167 +139,221 @@ const pt = {
   },
 
   services: {
-    sectionLabel: "Serviços",
-    title: "Como posso ajudar o seu negócio",
-    subtitle:
-      "Ofereço soluções web completas, desde o conceito até à manutenção. Cada projeto é pensado à medida das suas necessidades.",
+    badge: "Serviços de Desenvolvimento Web",
+    title: "Serviços.",
+    description:
+      "Desde uma landing page de alta conversão até um website institucional de prestígio ou uma plataforma de e-commerce sob medida. Cada projeto é executado com código limpo, velocidade e atenção obsessiva ao detalhe.",
+    labels: {
+      businessImpact: "Impacto para o seu Negócio",
+      recommendedFor: "Recomendado para:",
+      discussService: "Falar sobre este Serviço",
+      deliverables: "Entregáveis & Especificações",
+      includedStandard: "Incluído de Raiz",
+      techStack: "Tecnologias Utilizadas",
+    },
     items: [
       {
-        id: "site-institucional",
-        title: "Site Institucional",
+        id: "websites",
+        title: "Websites Institucionais de Alto Prestígio",
+        badge: "Empresas & Negócios",
+        tagline: "Apresente a sua empresa com autoridade inquestionável.",
         description:
-          "Um site profissional que representa o seu negócio online. Moderno, rápido e otimizado para motores de busca.",
-        icon: "building",
-        features: [
-          "Design responsivo e moderno",
-          "Otimizado para SEO",
-          "Formulário de contacto",
-          "Integração com Google Analytics",
-          "Painel de gestão de conteúdos",
+          "Desenvolvo websites corporativos elegantes, rápidos e feitos à medida da identidade da sua marca. Criados para inspirar confiança imediata em novos parceiros e clientes, destacando a sua empresa da concorrência.",
+        includes: [
+          "Design 100% exclusivo adaptado à identidade e cores da sua marca",
+          "Totalmente responsivo (perfeito em smartphones, tablets e computadores)",
+          "Otimização completa para motores de busca (Google SEO estruturado)",
+          "Painel de controlo simples para editar textos, notícias e imagens de forma autónoma",
+          "Formulário de contacto interativo com notificações instantâneas",
+          "Integração com WhatsApp, Google Maps e links para redes sociais",
+          "Páginas legais de Termos e Política de Privacidade de acordo com o RGPD",
         ],
-        startingPrice: 800,
+        businessImpact:
+          "Transmite solidez, autoridade e profissionalismo ao primeiro segundo, convertendo visitantes em contactos qualificados.",
+        techStack: ["Next.js 16", "TypeScript", "Tailwind CSS", "Framer Motion", "SEO Schema.org"],
+        idealFor:
+          "PMEs, gabinetes de advocacia, consultores, clínicas médicas, imobiliárias e prestadores de serviços.",
       },
       {
-        id: "landing-page",
-        title: "Landing Page",
+        id: "landing-pages",
+        title: "Landing Pages de Alta Conversão",
+        badge: "Geração de Leads & Vendas",
+        tagline: "Páginas hiper-focadas em transformar tráfego pago em clientes reais.",
         description:
-          "Página focada em conversão para campanhas de marketing, lançamentos de produtos ou captação de leads.",
-        icon: "rocket",
-        features: [
-          "Design focado em conversão",
-          "Otimizado para performance",
-          "Testes A/B ready",
-          "Integração com ferramentas de marketing",
-          "Análise de métricas",
+          "Páginas de destino cirurgicamente pensadas para campanhas de publicidade no Google Ads, Facebook, Instagram ou LinkedIn. Com copywriting estruturado para a ação e carregamento imediato para não perder cliques valiosos.",
+        includes: [
+          "Estrutura psicológica orientada à ação (Copywriting e hierarquia visual estratégica)",
+          "Carregamento ultra-rápido para garantir pontuação máxima nos anúncios",
+          "Formulários dinâmicos de captura e botão de WhatsApp flutuante",
+          "Configuração de pixels de conversão (Google Tag Manager, Meta Pixel, Google Analytics 4)",
+          "Garantia de compatibilidade e testes minuciosos em ecrãs móveis",
+          "Secções de prova social, depoimentos de clientes e garantias para quebrar objeções",
         ],
-        startingPrice: 500,
+        businessImpact:
+          "Diminui o custo por lead (CPL) e maximiza o retorno do seu investimento em publicidade (ROAS).",
+        techStack: ["Next.js", "React 19", "Tailwind CSS", "Google Tag Manager", "Meta Pixel"],
+        idealFor:
+          "Lançamento de novos produtos, captação de leads para cursos/eventos, prestadores de serviços e promoções sazonais.",
       },
       {
-        id: "loja-online",
-        title: "Loja Online",
+        id: "lojas-online",
+        title: "Lojas Online & E-Commerce Sob Medida",
+        badge: "Vendas Automatizadas 24/7",
+        tagline: "Venda os seus produtos com pagamentos portugueses e checkout sem fricção.",
         description:
-          "E-commerce completo para vender os seus produtos ou serviços online, com gestão de inventário e pagamentos seguros.",
-        icon: "shoppingBag",
-        features: [
-          "Catálogo de produtos",
-          "Carrinho e checkout seguros",
-          "Gestão de inventário",
-          "Integração com métodos de pagamento",
-          "Dashboard de vendas",
+          "Plataformas de venda completas, intuitivas e robustas, preparadas com os métodos de pagamento favoritos dos clientes portugueses (MB WAY e Referência Multibanco) e cartões internacionais.",
+        includes: [
+          "Integração de pagamentos nacionais e internacionais (MB WAY, Multibanco, Cartão, Stripe)",
+          "Gestão simplificada de catálogo de produtos, stocks, categorias e encomendas",
+          "Checkout otimizado em página única para reduzir carrinhos abandonados",
+          "Emails automáticos e elegantes de confirmação de encomenda e envio",
+          "Cálculo de custos de expedição e portes de envio configuráveis",
+          "Certificados de encriptação SSL e segurança bancária para total tranquilidade do cliente",
         ],
-        startingPrice: 2000,
+        businessImpact:
+          "Aumenta a taxa de conversão com métodos familiares e automatiza a gestão de encomendas e faturação.",
+        techStack: ["Next.js E-Commerce", "Stripe API", "MB WAY / Multibanco", "PostgreSQL", "Tailwind CSS"],
+        idealFor:
+          "Marcas próprias de roupa, artesanato, retalho, produtos digitais e empresas que pretendem vender online.",
       },
       {
-        id: "web-app",
-        title: "Web App",
+        id: "web-apps",
+        title: "Aplicações Web & Portais Personalizados",
+        badge: "Automação & Sistemas Internos",
+        tagline: "Software na web para resolver desafios operacionais e otimizar rotinas.",
         description:
-          "Aplicações web à medida para automatizar processos, gerir dados ou servir os seus clientes de forma inovadora.",
-        icon: "code",
-        features: [
-          "Interface personalizada",
-          "Autenticação e permissões",
-          "API e integrações",
-          "Base de dados escalável",
-          "Painel de administração",
+          "Sistemas web sob medida que substituem folhas de Excel desorganizadas ou softwares antigos por uma interface moderna e centralizada. Dashboards de métricas, portais de clientes com login ou ferramentas operacionais.",
+        includes: [
+          "Áreas reservadas com autenticação segura de utilizadores e níveis de permissão",
+          "Dashboards analíticos com gráficos e relatórios atualizados em tempo real",
+          "Integração com bases de dados e APIs externas (faturação, CRM, calendários)",
+          "Exportação de dados em formatos universais (PDF, CSV, Excel)",
+          "Arquitetura escalável na cloud com máxima segurança e encriptação de dados",
         ],
-        startingPrice: 3000,
+        businessImpact:
+          "Poupa dezenas de horas semanais à sua equipa e centraliza a informação num único local acessível de qualquer dispositivo.",
+        techStack: ["Next.js App Router", "TypeScript", "Node.js", "PostgreSQL", "Prisma ORM", "Auth.js"],
+        idealFor:
+          "Startups, empresas com processos manuais pesados, portais de membros e negócios em fase de escalabilidade.",
       },
       {
         id: "manutencao",
-        title: "Manutenção e Suporte",
+        title: "Redesign, Otimização & Suporte Técnico",
+        badge: "Manutenção & Evolução",
+        tagline: "Mantenha a sua presença online sempre rápida, segura e a evoluir.",
         description:
-          "Mantenha o seu site atualizado, seguro e a funcionar no pico. Planos mensais adaptados às suas necessidades.",
-        icon: "wrench",
-        features: [
-          "Atualizações de segurança",
-          "Backups regulares",
-          "Monitorização de uptime",
-          "Correção de bugs",
-          "Suporte prioritário",
+          "Tem um site antigo, lento ou desatualizado? Transformo-o numa plataforma moderna e de carregamento instantâneo, ou assumo a manutenção contínua para que nunca tenha preocupações com avarias ou falhas técnicas.",
+        includes: [
+          "Auditoria completa de desempenho, segurança e pontuação Core Web Vitals",
+          "Remodelação visual moderna alinhada com as tendências estéticas atuais",
+          "Otimização extrema de imagens, fontes e código para carregamento instantâneo",
+          "Cópias de segurança (backups) regulares e monitorização ativa de disponibilidade",
+          "Atualizações contínuas de segurança e correção de vulnerabilidades",
         ],
-        startingPrice: 100,
+        businessImpact:
+          "Garante tranquilidade total, evita perdas por inoperacionalidade do site e mantém o seu negócio sempre competitivo.",
+        techStack: ["Web Vitals Auditing", "Next.js Migration", "Code Refactoring", "Security Patches"],
+        idealFor:
+          "Empresas com sites existentes que pretendem modernizar ou terceirizar a gestão técnica com total confiança.",
       },
     ],
+    standards: {
+      badge: "Padrões de Engenharia",
+      title: "Garantias aplicadas a todos os projetos",
+      description:
+        "Independentemente do serviço escolhido, estes princípios são rigorosamente respeitados em qualquer entrega.",
+      items: [
+        {
+          id: "ownership",
+          title: "100% Propriedade do Código",
+          description:
+            "Todo o código fonte, domínio e credenciais de acesso são inteiramente entregues a si. Sem taxas ocultas de fidelização nem retenção de ficheiros.",
+        },
+        {
+          id: "speed",
+          title: "Velocidade Instantânea (< 1s)",
+          description:
+            "Otimização rigorosa de Core Web Vitals e renderização no servidor. Cada segundo de atraso poupado representa mais vendas e melhor classificação no Google.",
+        },
+        {
+          id: "seo",
+          title: "Google SEO Estruturado de Raiz",
+          description:
+            "Estrutura semântica HTML5, micro-dados Schema.org, Open Graph para partilhas em redes sociais e Sitemap XML configurados desde o primeiro dia.",
+        },
+        {
+          id: "cms",
+          title: "Autonomia de Gestão de Conteúdos",
+          description:
+            "Painel intuitivo e limpo onde qualquer membro da sua equipa pode adicionar novos produtos, alterar fotos ou atualizar textos sem tocar em código.",
+        },
+        {
+          id: "mobile",
+          title: "Experiência Mobile Impecável",
+          description:
+            "Desenvolvido com abordagem Mobile-First. Testado em dezenas de resoluções de iPhone, Android, tablets e computadores para garantir perfeição.",
+        },
+        {
+          id: "invoicing",
+          title: "Faturação Legal & Suporte Direto",
+          description:
+            "Emissão de fatura com NIF nos termos da lei portuguesa. Acompanhamento e esclarecimento de dúvidas diretamente com quem construiu o seu projeto.",
+        },
+      ],
+    },
     process: {
-      title: "O meu processo de trabalho",
-      description: "Um processo claro e transparente, do primeiro contacto à entrega final.",
+      badge: "Processo de Trabalho",
+      title: "Como trabalhamos do início ao fim",
       steps: [
         {
-          number: 1,
-          title: "Conversa Inicial",
-          description:
-            "Começamos por uma conversa para entender os seus objetivos, público-alvo e requisitos. Sem compromisso.",
-          icon: "messageCircle",
+          step: "01",
+          title: "Diagnóstico & Alinhamento",
+          desc: "Conversamos em chamada ou mensagem para compreender a fundo o seu modelo de negócio, o público-alvo e os requisitos essenciais da solução.",
         },
         {
-          number: 2,
-          title: "Proposta e Planeamento",
-          description:
-            "Apresento uma proposta detalhada com o âmbito, prazos, funcionalidades e investimento.",
-          icon: "fileText",
+          step: "02",
+          title: "Arquitetura Visual & Estrutura",
+          desc: "Apresento a estrutura visual e os fluxos de navegação para a sua aprovação antes de avançar para a fase de programação.",
         },
         {
-          number: 3,
-          title: "Design",
-          description:
-            "Crio os mockups do projeto para aprovação antes de começar o desenvolvimento.",
-          icon: "palette",
+          step: "03",
+          title: "Desenvolvimento & Testes Rigorosos",
+          desc: "Construo o projeto com Next.js e TypeScript, aplicando rigorosos testes de velocidade, segurança e compatibilidade em telemóveis e computadores.",
         },
         {
-          number: 4,
-          title: "Desenvolvimento",
-          description:
-            "Construo o projeto com atualizações regulares. Tem acesso a uma versão de pré-visualização.",
-          icon: "code",
-        },
-        {
-          number: 5,
-          title: "Testes e Entrega",
-          description:
-            "Testo em diferentes dispositivos e navegadores, otimizo a performance e lanço o projeto.",
-          icon: "checkCircle",
-        },
-        {
-          number: 6,
-          title: "Suporte Contínuo",
-          description:
-            "Após o lançamento, ofereço suporte e manutenção para garantir que tudo funciona na perfeição.",
-          icon: "headphones",
+          step: "04",
+          title: "Lançamento & Formação Prática",
+          desc: "Colocamos o site online com domínio, SSL e Google SEO ativos, acompanhado de formação em vídeo para que saiba gerir os seus conteúdos com total independência.",
         },
       ],
     },
     faq: {
-      title: "Perguntas Frequentes",
+      badge: "Perguntas Frequentes",
+      title: "Dúvidas comuns esclarecidas",
       items: [
         {
-          question: "Como é definido o cronograma do projeto?",
-          answer:
-            "Cada projeto recebe um planeamento personalizado definido em conjunto de acordo com os requisitos e prioridades do negócio.",
+          q: "Preciso de ter logotipo, fotografias e textos já preparados?",
+          a: "Não é obrigatório. Se já tiver os conteúdos, excelente! Se ainda não tiver, oriento-o sobre a estrutura ideal de textos e ajudo na seleção de fotografias e recursos visuais de alta qualidade adequados à sua área.",
         },
         {
-          question: "Como funciona o alojamento e domínio?",
-          answer:
-            "Ajudo na escolha e configuração das melhores opções de alojamento de alta velocidade e domínio para o seu caso.",
+          q: "Vou conseguir alterar textos e adicionar novidades sozinho no futuro?",
+          a: "Sim, absolutamente. Todos os projetos institucionais e lojas incluem uma área de administração simples onde pode atualizar textos, imagens e produtos sem precisar de qualquer conhecimento de programação.",
         },
         {
-          question: "Posso atualizar o conteúdo do site sozinho?",
-          answer:
-            "Sim! Todos os meus sites incluem um sistema de gestão de conteúdos (CMS) intuitivo. Além disso, dou formação para que se sinta confortável a fazer alterações.",
+          q: "Como acompanho a evolução do projeto?",
+          a: "A comunicação é direta com o Mateus através do canal da sua preferência (WhatsApp, email ou chamada). Recebe atualizações regulares e um link de teste para visualizar o site em tempo real antes do lançamento oficial.",
         },
         {
-          question: "E se precisar de alterações depois do site estar pronto?",
-          answer:
-            "Pequenas alterações no período pós-entrega estão incluídas. Para novas funcionalidades, planeamos a implementação em conjunto.",
-        },
-        {
-          question: "Trabalha com clientes fora de Portugal?",
-          answer:
-            "Sim, trabalho remotamente e posso colaborar com clientes em qualquer parte do mundo. A comunicação é feita por videochamada, email ou WhatsApp.",
+          q: "O website fica seguro e em conformidade com o RGPD?",
+          a: "Sim. Todos os sites incluem certificado de segurança SSL (HTTPS), formulários com consentimento explícito e páginas padrão de Política de Privacidade de acordo com a legislação europeia.",
         },
       ],
     },
-    cta: "Iniciar conversa",
-    pricePrefix: "A partir de",
+    cta: {
+      title: "Pronto para avançar com a sua solução digital?",
+      description:
+        "Entre em contacto direto. Vamos avaliar o seu caso em detalhe e desenhar a proposta ideal.",
+    },
   },
 
   projects: {
