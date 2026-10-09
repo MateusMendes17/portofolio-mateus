@@ -3,30 +3,29 @@
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/Button";
-import { LazyMount } from "@/components/ui/LazyMount";
 import { useLanguage } from "@/context/LanguageContext";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { FloatingElements } from "@/components/ui/FloatingElements";
 import { TextReveal3D } from "@/components/ui/TextAnimations";
 
-/* Componentes interativos pesados — carregados em separado e só quando o
-   utilizador chega perto (ver LazyMount), para não pesarem no primeiro ecrã. */
+/*
+  Componentes interativos pesados, carregados em separado (cada um é o seu
+  chunk). NÃO se usa `ssr: false`: nenhum deles toca em `window`/`document` no
+  render, e SSR-los mantém o conteúdo no HTML inicial. Sem SSR, cada um "nascia"
+  no cliente ~1s depois e empurrava a página — CLS de 0.75 em /sobre.
+*/
 const TechStackExplorer = dynamic(
-  () => import("@/components/interactive/TechStackExplorer").then((m) => m.TechStackExplorer),
-  { ssr: false }
+  () => import("@/components/interactive/TechStackExplorer").then((m) => m.TechStackExplorer)
 );
 const ProjectQuiz = dynamic(
-  () => import("@/components/interactive/ProjectQuiz").then((m) => m.ProjectQuiz),
-  { ssr: false }
+  () => import("@/components/interactive/ProjectQuiz").then((m) => m.ProjectQuiz)
 );
 const CodePhilosophyTerminal = dynamic(
-  () => import("@/components/interactive/CodePhilosophyTerminal").then((m) => m.CodePhilosophyTerminal),
-  { ssr: false }
+  () => import("@/components/interactive/CodePhilosophyTerminal").then((m) => m.CodePhilosophyTerminal)
 );
 const InteractiveStats = dynamic(
-  () => import("@/components/interactive/InteractiveStats").then((m) => m.InteractiveStats),
-  { ssr: false }
+  () => import("@/components/interactive/InteractiveStats").then((m) => m.InteractiveStats)
 );
 
 export function SobreView() {
@@ -118,16 +117,12 @@ export function SobreView() {
 
       {/* 2. Estatísticas & Métricas Interativas */}
       <section>
-        <LazyMount minHeight={320}>
-          <InteractiveStats />
-        </LazyMount>
+        <InteractiveStats />
       </section>
 
       {/* 3. Assistente Interativo de Solução (Quiz) */}
       <section>
-        <LazyMount minHeight={520}>
-          <ProjectQuiz />
-        </LazyMount>
+        <ProjectQuiz />
       </section>
 
       {/* 4. Metodologia: Os 4 Pilares de Trabalho (Corte Visual Invertido) */}
@@ -192,16 +187,12 @@ export function SobreView() {
 
       {/* 5. Explorador Interativo de Tecnologias */}
       <section>
-        <LazyMount minHeight={560}>
-          <TechStackExplorer />
-        </LazyMount>
+        <TechStackExplorer />
       </section>
 
       {/* 6. Modo Terminal / Filosofia de Código */}
       <section>
-        <LazyMount minHeight={420}>
-          <CodePhilosophyTerminal />
-        </LazyMount>
+        <CodePhilosophyTerminal />
       </section>
 
       {/* 7. CTA Final */}

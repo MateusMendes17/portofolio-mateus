@@ -1,6 +1,7 @@
 "use client";
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { MotionConfig } from "framer-motion";
 import type { ReactNode } from "react";
 
 interface ThemeProviderProps {
@@ -19,7 +20,12 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       enableSystem
       disableTransitionOnChange={false}
     >
-      {children}
+      {/*
+        `reducedMotion="user"`: o framer-motion passa a respeitar
+        `prefers-reduced-motion` do sistema em TODAS as animações da app
+        (entradas, transições, scroll) sem ter de verificar em cada componente.
+      */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </NextThemesProvider>
   );
 }
