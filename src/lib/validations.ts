@@ -83,3 +83,18 @@ export const contactFormSchema = z
   );
 
 export type ContactFormData = z.infer<typeof contactFormSchema>;
+
+/**
+ * Achata os erros de validação num mapa `campo -> primeira mensagem`.
+ * Vive aqui (e não no componente) para que o cliente possa carregar o
+ * módulo do formulário de forma assíncrona, fora do caminho crítico.
+ */
+export function flattenFieldErrors(error: z.ZodError): Record<string, string> {
+  const { fieldErrors } = z.flattenError(error);
+  const out: Record<string, string> = {};
+  for (const [field, messages] of Object.entries(fieldErrors)) {
+    const first = Array.isArray(messages) ? messages[0] : undefined;
+    if (first) out[field] = first;
+  }
+  return out;
+}

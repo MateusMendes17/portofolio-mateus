@@ -1,10 +1,17 @@
 "use client";
 
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { z } from "zod";
-import { contactFormSchema, type ContactFormData } from "@/lib/validations";
 import { useLanguage } from "@/context/LanguageContext";
+import { type ContactFormData } from "@/lib/validations";
 import { PROJECT_TYPE_ICONS, PREFERENCE_ICONS, type ProjectOption, type PreferenceOption } from "./icons";
+
+// O módulo de validação importa `zod`, que é pesado (~45 kB gzip). Carregá-lo
+// de forma assíncrona (dynamic import) na submissão mantém o bundle inicial da
+// página mais leve, o que melhora o LCP. Só o tipo `ContactFormData` é
+// importado estaticamente (o TypeScript remove-o em tempo de compilação).
+async function loadValidation() {
+  return import("@/lib/validations");
+}
 
 export type FormStep = 1 | 2 | 3;
 
@@ -136,19 +143,12 @@ export function useContactForm() {
     setSubmitStatus("idle");
     setServerMessage("");
 
+    const { contactFormSchema, flattenFieldErrors } = await loadValidation();
     const validation = contactFormSchema.safeParse(formData);
     if (!validation.success) {
       // Mapeia TODOS os erros do schema para a UI (nome, email, telefone,
       // mensagem, consentimento, tipo de projeto, preferência de contacto...).
-      const { fieldErrors } = z.flattenError(validation.error);
-      const nextErrors: Record<string, string> = {};
-
-      for (const [field, messages] of Object.entries(fieldErrors)) {
-        const first = Array.isArray(messages) ? messages[0] : undefined;
-        if (first) nextErrors[field] = first;
-      }
-
-      setStepErrors(nextErrors);
+      setStepErrors(flattenFieldErrors(validation.error));
       return;
     }
 
