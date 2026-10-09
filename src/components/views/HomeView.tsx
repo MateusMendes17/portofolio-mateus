@@ -106,6 +106,7 @@ export function HomeView() {
             alt="Hero Background"
             fill
             priority
+            fetchPriority="high"
             quality={85}
             sizes="100vw"
             className="object-cover object-center transition-transform duration-1000 scale-100 hover:scale-[1.01]"
@@ -148,7 +149,7 @@ export function HomeView() {
 
         {/* ── Ecrã Plano para Mobile (Performance LCP/TBT) ── */}
         <div className="relative z-10 w-full px-4 mx-auto select-none sm:hidden max-w-[340px]">
-          <div className="w-full aspect-[4/5] bg-[#161311]/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col relative animate-fade-in-up">
+          <div className="w-full aspect-[4/5] bg-[#161311]/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col relative animate-fade-in-up sm:bg-[#161311]/90 sm:backdrop-blur-xl">
             {renderScreenContent()}
           </div>
         </div>
@@ -161,7 +162,7 @@ export function HomeView() {
       {/* ==============================================================
           2. BARRA DE MÉTRICAS & RIGOR TÉCNICO (COM VIDA & MICRO-WIDGETS)
           ============================================================== */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" stagger={0.12}>
           {/* Card 1: Velocidade & Performance */}
           <StaggerItem><TiltCard3D className="h-full">
@@ -371,7 +372,7 @@ export function HomeView() {
       {/* ==============================================================
           3. SERVIÇOS EM DESTAQUE (SERVIÇOS RESUMO)
           ============================================================== */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="up" distance={30}>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
@@ -571,7 +572,7 @@ export function HomeView() {
       {/* ==============================================================
           4. PROJETOS EM DESTAQUE (PORTFÓLIO RESUMO)
           ============================================================== */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="up" distance={30}>
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
@@ -668,7 +669,7 @@ export function HomeView() {
       {/* ==============================================================
           5. PORQUÊ TRABALHAR COMIGO (SOBRE / METODOLOGIA RESUMO)
           ============================================================== */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="up" distance={40} scale={0.97}>
         <div className="rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-8 sm:p-12 shadow-sm relative overflow-hidden">
           {/* Decorative morphing blob */}
@@ -753,7 +754,7 @@ export function HomeView() {
       {/* ==============================================================
           6. TEASER DO ASSISTENTE INTERATIVO (QUIZ RESUMO)
           ============================================================== */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="up" distance={35} scale={0.96}>
         <div className="rounded-3xl border border-accent/30 bg-gradient-to-br from-surface to-accent-subtle/30 p-8 sm:p-12 shadow-md flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden animate-gradient-mesh">
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-accent/8 morph-blob pointer-events-none" />
@@ -785,7 +786,7 @@ export function HomeView() {
       {/* ==============================================================
           7. BANNER FINAL DE CONTACTO (CONVERSÃO MÁXIMA)
           ============================================================== */}
-      <section className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <ScrollReveal direction="up" distance={50} scale={0.95}>
         <div className="relative rounded-3xl sm:rounded-[2.5rem] border border-accent/40 bg-surface/90 backdrop-blur-xl p-8 sm:p-14 text-center shadow-xl space-y-6 overflow-hidden">
           {/* Floating 3D elements in CTA */}

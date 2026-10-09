@@ -1,16 +1,33 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/Button";
-import { TechStackExplorer } from "@/components/interactive/TechStackExplorer";
-import { ProjectQuiz } from "@/components/interactive/ProjectQuiz";
-import { CodePhilosophyTerminal } from "@/components/interactive/CodePhilosophyTerminal";
-import { InteractiveStats } from "@/components/interactive/InteractiveStats";
+import { LazyMount } from "@/components/ui/LazyMount";
 import { useLanguage } from "@/context/LanguageContext";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { FloatingElements } from "@/components/ui/FloatingElements";
 import { TextReveal3D } from "@/components/ui/TextAnimations";
+
+/* Componentes interativos pesados — carregados em separado e só quando o
+   utilizador chega perto (ver LazyMount), para não pesarem no primeiro ecrã. */
+const TechStackExplorer = dynamic(
+  () => import("@/components/interactive/TechStackExplorer").then((m) => m.TechStackExplorer),
+  { ssr: false }
+);
+const ProjectQuiz = dynamic(
+  () => import("@/components/interactive/ProjectQuiz").then((m) => m.ProjectQuiz),
+  { ssr: false }
+);
+const CodePhilosophyTerminal = dynamic(
+  () => import("@/components/interactive/CodePhilosophyTerminal").then((m) => m.CodePhilosophyTerminal),
+  { ssr: false }
+);
+const InteractiveStats = dynamic(
+  () => import("@/components/interactive/InteractiveStats").then((m) => m.InteractiveStats),
+  { ssr: false }
+);
 
 export function SobreView() {
   const { isEnglish, t } = useLanguage();
@@ -101,12 +118,16 @@ export function SobreView() {
 
       {/* 2. Estatísticas & Métricas Interativas */}
       <section>
-        <InteractiveStats />
+        <LazyMount minHeight={320}>
+          <InteractiveStats />
+        </LazyMount>
       </section>
 
       {/* 3. Assistente Interativo de Solução (Quiz) */}
       <section>
-        <ProjectQuiz />
+        <LazyMount minHeight={520}>
+          <ProjectQuiz />
+        </LazyMount>
       </section>
 
       {/* 4. Metodologia: Os 4 Pilares de Trabalho (Corte Visual Invertido) */}
@@ -171,12 +192,16 @@ export function SobreView() {
 
       {/* 5. Explorador Interativo de Tecnologias */}
       <section>
-        <TechStackExplorer />
+        <LazyMount minHeight={560}>
+          <TechStackExplorer />
+        </LazyMount>
       </section>
 
       {/* 6. Modo Terminal / Filosofia de Código */}
       <section>
-        <CodePhilosophyTerminal />
+        <LazyMount minHeight={420}>
+          <CodePhilosophyTerminal />
+        </LazyMount>
       </section>
 
       {/* 7. CTA Final */}

@@ -65,6 +65,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-PT"
+      data-scroll-behavior="smooth"
       className={`${spaceGrotesk.variable} ${inter.variable} antialiased`}
       suppressHydrationWarning
     >

@@ -89,8 +89,7 @@ export function ScrollReveal({
         duration,
         delay,
         ease: [0.25, 1, 0.5, 1],
-      }}
-      style={{ willChange: "transform, opacity" }}
+      }}      
     >
       {children}
     </motion.div>
@@ -192,8 +191,7 @@ export function StaggerItem({
             ease: [0.25, 1, 0.5, 1],
           },
         },
-      }}
-      style={{ willChange: "transform, opacity" }}
+      }}      
     >
       {children}
     </motion.div>

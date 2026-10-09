@@ -159,6 +159,19 @@ body {
               color 400ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* ============================================================
+   PERFORMANCE — renderização condicional de secções
+   O browser deixa de fazer layout/paint do que está fora do ecrã,
+   o que alivia bastante a main thread em telemóvel em páginas
+   longas. `contain-intrinsic-size: auto <estimativa>` dá altura
+   enquanto não foi renderizado (para o scrollbar não saltar) e
+   passa a usar a altura real depois da primeira renderização.
+   ============================================================ */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;

@@ -78,6 +78,7 @@ export function Footer() {
                   src="/logo.jpg" 
                   alt="Logo Mateus Mendes" 
                   fill
+                  sizes="64px"
                   className="object-cover"
                 />
               </div>
