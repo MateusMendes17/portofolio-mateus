@@ -11,15 +11,16 @@ interface ProjectGridProps {
 }
 
 export function ProjectGrid({ projects }: ProjectGridProps) {
-  const { isEnglish } = useLanguage();
+  const { t } = useLanguage();
   const [activeFilter, setActiveFilter] = useState("todos");
 
+  const filters = t.projects.grid.filters;
   const categoryFilters = [
-    { id: "todos", label: isEnglish ? "All" : "Todos" },
-    { id: "institucional", label: isEnglish ? "Corporate" : "Institucional" },
-    { id: "loja-online", label: isEnglish ? "Online Store" : "Loja Online" },
-    { id: "landing-page", label: "Landing Page" },
-    { id: "web-app", label: isEnglish ? "Web App / SaaS" : "Web App / SaaS" },
+    { id: "todos", label: filters.all },
+    { id: "institucional", label: filters.institucional },
+    { id: "loja-online", label: filters.lojaOnline },
+    { id: "landing-page", label: filters.landingPage },
+    { id: "web-app", label: filters.webApp },
   ];
 
   const filtered =
@@ -48,9 +49,9 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
           ))}
         </div>
         <span className="text-xs text-text-muted font-medium">
-          {isEnglish
-            ? `Showing ${filtered.length} project${filtered.length !== 1 ? "s" : ""}`
-            : `A mostrar ${filtered.length} projeto${filtered.length !== 1 ? "s" : ""}`}
+          {t.projects.grid.showing
+            .replace("{count}", String(filtered.length))
+            .replace("{s}", filtered.length !== 1 ? "s" : "")}
         </span>
       </div>
 
@@ -58,7 +59,7 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
       <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <AnimatePresence mode="popLayout">
           {filtered.map((project) => (
-            <ProjectCard key={project.slug} project={project} isEnglish={isEnglish} />
+            <ProjectCard key={project.slug} project={project} />
           ))}
         </AnimatePresence>
       </motion.div>
@@ -66,16 +67,15 @@ export function ProjectGrid({ projects }: ProjectGridProps) {
       {/* Empty State */}
       {filtered.length === 0 && (
         <div className="text-center py-20 text-text-muted text-sm">
-          {isEnglish
-            ? "No projects found in this category."
-            : "Nenhum projeto encontrado nesta categoria."}
+          {t.projects.grid.empty}
         </div>
       )}
     </div>
   );
 }
 
-function ProjectCard({ project, isEnglish }: { project: Project; isEnglish: boolean }) {
+function ProjectCard({ project }: { project: Project }) {
+  const { t, isEnglish } = useLanguage();
   const cardRef = React.useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -145,7 +145,7 @@ function ProjectCard({ project, isEnglish }: { project: Project; isEnglish: bool
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
                 </svg>
-                {isEnglish ? "Featured" : "Destaque"}
+                {t.projects.grid.featured}
               </span>
             )}
           </div>
@@ -195,7 +195,7 @@ function ProjectCard({ project, isEnglish }: { project: Project; isEnglish: bool
           {/* Footer with action */}
           <div className="flex items-center justify-between border-t border-border/60 pt-4 text-xs font-semibold text-text-primary mt-auto">
             <span className="transition-colors duration-200 group-hover:text-accent">
-              {isEnglish ? "View Case Study" : "Ver Case Study"}
+              {t.projects.grid.viewCaseStudy}
             </span>
 
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-surface border border-border transition-all duration-300 group-hover:translate-x-1 group-hover:border-accent group-hover:bg-accent group-hover:text-white shadow-sm">

@@ -1,5 +1,6 @@
 "use client";
 
+import { type ReactNode } from "react";
 import Link from "next/link";
 import { PROJECTS } from "@/content/projects";
 import { ProjectGrid } from "@/components/projects/ProjectGrid";
@@ -10,208 +11,56 @@ import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { FloatingElements } from "@/components/ui/FloatingElements";
 import { TextReveal3D } from "@/components/ui/TextAnimations";
 
+/* Ícones por id — os textos vivem em t.projects.* */
+const HIGHLIGHT_ICONS: Record<string, ReactNode> = {
+  design: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+    </svg>
+  ),
+  speed: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+    </svg>
+  ),
+  seo: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+  ),
+  mobile: (
+    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+      <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+      <path d="M12 18h.01" />
+    </svg>
+  ),
+};
+
+/* Ordem fixa: corresponde a t.projects.pills */
+const PILL_ICONS: ReactNode[] = [
+  <svg key="star" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+  </svg>,
+  <svg key="bolt" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+  </svg>,
+  <svg key="search" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="8" />
+    <path d="m21 21-4.3-4.3" />
+  </svg>,
+  <svg key="phone" className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+    <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
+    <path d="M12 18h.01" />
+  </svg>,
+];
+
 export function ProjetosView() {
-  const { isEnglish, t } = useLanguage();
+  const { t } = useLanguage();
 
-  const highlights = isEnglish
-    ? [
-        {
-          title: "100% Bespoke Design",
-          description:
-            "Every project features a distinct visual identity, rejecting generic off-the-shelf templates.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          ),
-        },
-        {
-          title: "Performance & Speed",
-          description:
-            "Engineered with Next.js to guarantee sub-second load times and top Google Core Web Vitals.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-          ),
-        },
-        {
-          title: "Native Google SEO",
-          description:
-            "Semantic architecture and structured schema metadata ensuring high search engine visibility.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          ),
-        },
-        {
-          title: "Mobile-First Experience",
-          description:
-            "Effortless and fluid navigation across all viewports, from smartphones to ultrawide monitors.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-              <path d="M12 18h.01" />
-            </svg>
-          ),
-        },
-      ]
-    : [
-        {
-          title: "Design 100% Sob Medida",
-          description:
-            "Cada projeto tem uma identidade visual única, sem recurso a templates genéricos ou temas pré-fabricados.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          ),
-        },
-        {
-          title: "Desempenho & Velocidade",
-          description:
-            "Construídos em Next.js para garantir carregamentos quase instantâneos e excelentes pontuações no Google.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-          ),
-        },
-        {
-          title: "Google SEO de Raiz",
-          description:
-            "Arquitetura semântica e microdados estruturados para que os clientes encontrem a sua empresa nas pesquisas.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          ),
-        },
-        {
-          title: "Experiência Mobile-First",
-          description:
-            "Navegação intuitiva e fluida garantida em todos os ecrãs, desde smartphones a computadores de secretária.",
-          icon: (
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-              <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-              <path d="M12 18h.01" />
-            </svg>
-          ),
-        },
-      ];
-
-  const pills = isEnglish
-    ? [
-        {
-          label: "100% Bespoke Design",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          ),
-        },
-        {
-          label: "Performance < 1s",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-          ),
-        },
-        {
-          label: "Native Google SEO",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          ),
-        },
-        {
-          label: "100% Responsive",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-              <path d="M12 18h.01" />
-            </svg>
-          ),
-        },
-      ]
-    : [
-        {
-          label: "Design 100% Sob Medida",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-            </svg>
-          ),
-        },
-        {
-          label: "Performance < 1s",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-            </svg>
-          ),
-        },
-        {
-          label: "Google SEO de Raiz",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          ),
-        },
-        {
-          label: "Totalmente Responsivo",
-          icon: (
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-              <rect width="14" height="20" x="5" y="2" rx="2" ry="2" />
-              <path d="M12 18h.01" />
-            </svg>
-          ),
-        },
-      ];
-
-  const steps = isEnglish
-    ? [
-        {
-          step: "01",
-          title: "Strategy & Architecture",
-          desc: "Target audience mapping, information architecture, and defining clear business goals.",
-        },
-        {
-          step: "02",
-          title: "Design & Interactivity",
-          desc: "Crafting a distinctive, modern UI with polished micro-interactions that elevate brand perception.",
-        },
-        {
-          step: "03",
-          title: "Clean Code & Launch",
-          desc: "Development with Next.js, cross-device testing, SEO markup, speed optimization, and handover.",
-        },
-      ]
-    : [
-        {
-          step: "01",
-          title: "Estratégia & Estrutura",
-          desc: "Mapeamento do público-alvo, arquitetura de informação e definição clara dos objetivos que o website precisa de alcançar.",
-        },
-        {
-          step: "02",
-          title: "Design & Interatividade",
-          desc: "Criação de uma interface visual moderna, intuitiva e responsiva, com micro-interações que elevam a perceção da marca.",
-        },
-        {
-          step: "03",
-          title: "Código Limpo & Lançamento",
-          desc: "Desenvolvimento em Next.js com testes em múltiplos dispositivos, otimização de velocidade, SEO estruturado e entrega final.",
-        },
-      ];
+  const highlights = t.projects.highlights.items;
+  const pills = t.projects.pills;
+  const steps = t.projects.process.steps;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 space-y-24 relative">
@@ -223,30 +72,28 @@ export function ProjetosView() {
         <div className="max-w-3xl space-y-4">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary shadow-sm">
             <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-            {isEnglish ? "Portfolio & Selected Works" : "Portfólio & Trabalhos Selecionados"}
+            {t.projects.badge}
           </span>
 
           <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary">
-            <TextReveal3D>{isEnglish ? "Projects." : "Projetos."}</TextReveal3D>
+            <TextReveal3D>{t.projects.title}</TextReveal3D>
           </h1>
 
           <p className="text-base sm:text-lg lg:text-xl text-text-secondary leading-relaxed">
-            {isEnglish
-              ? "A curated selection of corporate websites, e-commerce platforms, high-converting landing pages, and web apps. Every project blends modern aesthetics, maximum speed, and measurable business goals."
-              : "Uma seleção de websites institucionais, plataformas de e-commerce, landing pages de alta conversão e web apps. Cada projeto combina estética moderna, velocidade máxima e foco nos objetivos do cliente."}
+            {t.projects.description}
           </p>
         </div>
         </ScrollReveal>
 
         {/* Badges / Selos de Qualidade Horizontais */}
         <div className="flex flex-wrap items-center gap-2.5 pt-2">
-          {pills.map((pill, i) => (
+          {pills.map((label, i) => (
             <span
               key={i}
               className="inline-flex items-center gap-2 rounded-full border border-border/80 bg-surface/80 px-3.5 py-1.5 text-xs font-medium text-text-secondary shadow-sm transition-colors hover:border-accent/40"
             >
-              <span className="text-text-primary">{pill.icon}</span>
-              {pill.label}
+              <span className="text-text-primary">{PILL_ICONS[i]}</span>
+              {label}
             </span>
           ))}
         </div>
@@ -269,15 +116,13 @@ export function ProjetosView() {
         <ScrollReveal direction="up" distance={30}>
         <div className="max-w-2xl">
           <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-            {isEnglish ? "Quality Commitment" : "Compromisso de Qualidade"}
+            {t.projects.highlights.badge}
           </span>
           <h2 className="mt-1 font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-            <TextReveal3D>{isEnglish ? "Rigorous standards in every delivery" : "Padrões rigorosos em cada entrega"}</TextReveal3D>
+            <TextReveal3D>{t.projects.highlights.title}</TextReveal3D>
           </h2>
           <p className="mt-2 text-sm text-text-secondary leading-relaxed">
-            {isEnglish
-              ? "Every website is built to the highest benchmarks of speed, semantic structure, and conversion UX."
-              : "Cada website é desenvolvido de acordo com os mais elevados padrões de velocidade, arquitetura semântica e experiência de utilização."}
+            {t.projects.highlights.description}
           </p>
         </div>
         </ScrollReveal>
@@ -291,7 +136,7 @@ export function ProjetosView() {
             >
               <div>
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-surface-hover text-text-primary border border-border/80 mb-4">
-                  {h.icon}
+                  {HIGHLIGHT_ICONS[h.id]}
                 </div>
                 <h3 className="text-base font-bold text-text-primary mb-2">{h.title}</h3>
                 <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">{h.description}</p>
@@ -308,15 +153,13 @@ export function ProjetosView() {
         <ScrollReveal direction="up" distance={30}>
         <div className="max-w-2xl mb-12">
           <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-            {isEnglish ? "Creation Process" : "Processo de Criação"}
+            {t.projects.process.badge}
           </span>
           <h2 className="mt-2 font-heading text-3xl font-bold text-text-primary">
-            <TextReveal3D>{isEnglish ? "How each project comes to life" : "Como cada projeto ganha vida"}</TextReveal3D>
+            <TextReveal3D>{t.projects.process.title}</TextReveal3D>
           </h2>
           <p className="mt-3 text-sm sm:text-base text-text-secondary leading-relaxed">
-            {isEnglish
-              ? "No bureaucratic friction. You collaborate directly with me from the first draft to online deployment."
-              : "Sem processos burocráticos. Trabalho diretamente consigo do primeiro esboço ao lançamento online, garantindo transparência e atenção a cada detalhe."}
+            {t.projects.process.description}
           </p>
         </div>
         </ScrollReveal>
@@ -341,30 +184,26 @@ export function ProjetosView() {
         <div className="mx-auto max-w-2xl space-y-6 relative z-10">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary shadow-sm">
             <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-            {isEnglish ? "New Project" : "Novo Projeto"}
+            {t.projects.cta.badge}
           </span>
 
           <h2 className="font-heading text-3xl sm:text-4xl font-bold tracking-tight text-text-primary">
-            {isEnglish
-              ? "Have an idea or need to elevate your digital presence?"
-              : "Tem uma ideia ou precisa de renovar a sua presença digital?"}
+            {t.projects.cta.title}
           </h2>
 
           <p className="text-base text-text-secondary leading-relaxed">
-            {isEnglish
-              ? "Let's discuss your project privately and delineate the perfect roadmap for your brand."
-              : "Podemos analisar o seu caso em chamada ou mensagem e delinear a solução ideal para o seu negócio."}
+            {t.projects.cta.description}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <Link href="/contacto">
               <Button variant="primary" size="lg" withArrow className="font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-                {t.hero.cta}
+                {t.common.startConversation}
               </Button>
             </Link>
             <Link href="/servicos">
               <Button variant="secondary" size="lg" className="hover:scale-105 transition-all">
-                {isEnglish ? "Explore Services" : "Explorar Serviços"}
+                {t.projects.cta.secondary}
               </Button>
             </Link>
           </div>

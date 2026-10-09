@@ -69,7 +69,7 @@ export function ProjectDetailView({
             {project.year}
           </span>
           <span className="rounded-full bg-surface-hover px-3 py-1 text-xs text-text-muted border border-border/60">
-            {isEnglish ? "Client" : "Cliente"}: {project.client}
+            {t.projectDetail.clientLabel}: {project.client}
           </span>
         </div>
 
@@ -107,7 +107,7 @@ export function ProjectDetailView({
             </span>
           </div>
           <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider hidden sm:inline">
-            {isEnglish ? "Interface Preview" : "Demonstração de Interface"}
+            {t.projectDetail.previewLabel}
           </span>
         </div>
 
@@ -121,9 +121,7 @@ export function ProjectDetailView({
             </div>
             <h3 className="text-xl font-bold text-text-primary">{title}</h3>
             <p className="text-sm text-text-secondary max-w-xl mx-auto">
-              {isEnglish
-                ? "Engineered with modern frontend architecture, focus on conversion UX, and enterprise-grade performance."
-                : "Ambiente construído com arquitetura otimizada, design centrado na experiência do utilizador e integrações de topo."}
+              {t.projectDetail.previewDescription}
             </p>
           </div>
 
@@ -138,7 +136,7 @@ export function ProjectDetailView({
                     </svg>
                   </div>
                   <span className="text-xs font-bold text-text-primary">
-                    {isEnglish ? "Measurable Impact" : "Impacto Mensurável"}
+                    {t.projectDetail.impactLabel}
                   </span>
                 </div>
                 <p className="text-xs text-text-secondary leading-relaxed">{res}</p>
@@ -160,7 +158,7 @@ export function ProjectDetailView({
               </svg>
             </div>
             <h2 className="text-xl font-bold text-text-primary">
-              {isEnglish ? "The Challenge" : "O Desafio"}
+              {t.projectDetail.challengeTitle}
             </h2>
           </div>
           <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
@@ -178,7 +176,7 @@ export function ProjectDetailView({
               </svg>
             </div>
             <h2 className="text-xl font-bold text-text-primary">
-              {isEnglish ? "The Solution" : "A Solução"}
+              {t.projectDetail.solutionTitle}
             </h2>
           </div>
           <p className="text-sm sm:text-base text-text-secondary leading-relaxed">
@@ -191,10 +189,10 @@ export function ProjectDetailView({
       <section className="rounded-3xl border border-border/80 bg-surface/60 p-8 sm:p-10 space-y-6">
         <div>
           <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-            {isEnglish ? "Architecture & Specifications" : "Arquitetura & Especificações"}
+            {t.projectDetail.featuresBadge}
           </span>
           <h2 className="mt-1 font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-            {isEnglish ? "Key Features Implemented" : "Funcionalidades Implementadas"}
+            {t.projectDetail.featuresTitle}
           </h2>
         </div>
 
@@ -264,7 +262,7 @@ export function ProjectDetailView({
               </div>
               <div className="text-left">
                 <span className="text-[10px] text-text-muted block uppercase tracking-wider">
-                  {isEnglish ? "Previous" : "Anterior"}
+                  {t.projectDetail.previous}
                 </span>
                 <span className="font-semibold text-text-primary group-hover:text-accent transition-colors">
                   {prevTitle}
@@ -277,7 +275,7 @@ export function ProjectDetailView({
 
           <Link href="/projetos">
             <Button variant="secondary" size="sm">
-              {isEnglish ? "All Projects" : "Todos os Projetos"}
+              {t.projectDetail.allProjects}
             </Button>
           </Link>
 
@@ -288,7 +286,7 @@ export function ProjectDetailView({
             >
               <div className="text-right">
                 <span className="text-[10px] text-text-muted block uppercase tracking-wider">
-                  {isEnglish ? "Next" : "Seguinte"}
+                  {t.projectDetail.next}
                 </span>
                 <span className="font-semibold text-text-primary group-hover:text-accent transition-colors">
                   {nextTitle}
@@ -308,19 +306,15 @@ export function ProjectDetailView({
         {/* CTA Banner */}
         <div className="mt-14 rounded-3xl border border-border/80 bg-surface/70 p-8 sm:p-10 text-center space-y-4">
           <h3 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-            {isEnglish
-              ? "Looking for a tailored solution for your business?"
-              : "Quer uma solução semelhante para o seu negócio?"}
+            {t.projectDetail.ctaTitle}
           </h3>
           <p className="text-sm text-text-secondary max-w-xl mx-auto">
-            {isEnglish
-              ? "Let's discuss your project in detail and craft the optimal proposal."
-              : "Podemos conversar em detalhe sobre o seu projeto e desenhar a proposta ideal."}
+            {t.projectDetail.ctaDescription}
           </p>
           <div className="pt-2">
             <Link href="/contacto">
               <Button variant="primary" withArrow>
-                {t.hero.cta}
+                {t.common.startConversation}
               </Button>
             </Link>
           </div>

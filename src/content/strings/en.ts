@@ -358,30 +358,108 @@ const en: Strings = {
   },
 
   projects: {
-    sectionLabel: "Projects",
-    title: "My Work",
-    subtitle:
-      "A selection of corporate websites, online stores, landing pages, and web apps built for performance.",
-    filterAll: "All",
-    conceptBadge: "Featured Work",
-    viewProject: "View details",
-    detail: {
-      backLink: "Back to projects",
-      objective: "Objective",
-      role: "My role",
-      stack: "Technologies",
-      challenge: "Challenge",
-      solution: "Solution",
-      result: "Result",
-      screenshots: "Screenshots",
-      conceptNotice:
-        "This is a demonstration project created to showcase technical excellence.",
-      nextProject: "Next Project",
-      ctaTitle: "Liked what you saw?",
-      ctaDescription:
-        "I can build something tailored for your business. Let's talk about your project.",
-      ctaCta: "Start a Conversation",
+    badge: "Portfolio & Selected Works",
+    title: "Projects.",
+    description:
+      "A curated selection of corporate websites, e-commerce platforms, high-converting landing pages, and web apps. Every project blends modern aesthetics, maximum speed, and measurable business goals.",
+    pills: [
+      "100% Bespoke Design",
+      "Performance < 1s",
+      "Native Google SEO",
+      "100% Responsive",
+    ],
+    highlights: {
+      badge: "Quality Commitment",
+      title: "Rigorous standards in every delivery",
+      description:
+        "Every website is built to the highest benchmarks of speed, semantic structure, and conversion UX.",
+      items: [
+        {
+          id: "design",
+          title: "100% Bespoke Design",
+          description:
+            "Every project features a distinct visual identity, rejecting generic off-the-shelf templates.",
+        },
+        {
+          id: "speed",
+          title: "Performance & Speed",
+          description:
+            "Engineered with Next.js to guarantee sub-second load times and top Google Core Web Vitals.",
+        },
+        {
+          id: "seo",
+          title: "Native Google SEO",
+          description:
+            "Semantic architecture and structured schema metadata ensuring high search engine visibility.",
+        },
+        {
+          id: "mobile",
+          title: "Mobile-First Experience",
+          description:
+            "Effortless and fluid navigation across all viewports, from smartphones to ultrawide monitors.",
+        },
+      ],
     },
+    process: {
+      badge: "Creation Process",
+      title: "How each project comes to life",
+      description:
+        "No bureaucratic friction. You collaborate directly with me from the first draft to online deployment.",
+      steps: [
+        {
+          step: "01",
+          title: "Strategy & Architecture",
+          desc: "Target audience mapping, information architecture, and defining clear business goals.",
+        },
+        {
+          step: "02",
+          title: "Design & Interactivity",
+          desc: "Crafting a distinctive, modern UI with polished micro-interactions that elevate brand perception.",
+        },
+        {
+          step: "03",
+          title: "Clean Code & Launch",
+          desc: "Development with Next.js, cross-device testing, SEO markup, speed optimization, and handover.",
+        },
+      ],
+    },
+    cta: {
+      badge: "New Project",
+      title: "Have an idea or need to elevate your digital presence?",
+      description:
+        "Let's discuss your project privately and delineate the perfect roadmap for your brand.",
+      secondary: "Explore Services",
+    },
+    grid: {
+      filters: {
+        all: "All",
+        institucional: "Corporate",
+        lojaOnline: "Online Store",
+        landingPage: "Landing Page",
+        webApp: "Web App / SaaS",
+      },
+      showing: "Showing {count} project{s}",
+      empty: "No projects found in this category.",
+      featured: "Featured",
+      viewCaseStudy: "View Case Study",
+    },
+  },
+
+  projectDetail: {
+    clientLabel: "Client",
+    previewLabel: "Interface Preview",
+    previewDescription:
+      "Engineered with modern frontend architecture, focus on conversion UX, and enterprise-grade performance.",
+    impactLabel: "Measurable Impact",
+    challengeTitle: "The Challenge",
+    solutionTitle: "The Solution",
+    featuresBadge: "Architecture & Specifications",
+    featuresTitle: "Key Features Implemented",
+    previous: "Previous",
+    next: "Next",
+    allProjects: "All Projects",
+    ctaTitle: "Looking for a tailored solution for your business?",
+    ctaDescription: "Let's discuss your project in detail and craft the optimal proposal.",
   },
 
   contact: {

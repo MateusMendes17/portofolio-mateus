@@ -357,30 +357,108 @@ const pt = {
   },
 
   projects: {
-    sectionLabel: "Projetos",
-    title: "O meu trabalho",
-    subtitle:
-      "Uma seleção de projetos conceito que demonstram as minhas competências em diferentes tipos de soluções web.",
-    filterAll: "Todos",
-    conceptBadge: "Projeto conceito",
-    viewProject: "Ver detalhes",
-    detail: {
-      backLink: "Voltar aos projetos",
-      objective: "Objetivo",
-      role: "O meu papel",
-      stack: "Tecnologias",
-      challenge: "Desafio",
-      solution: "Solução",
-      result: "Resultado",
-      screenshots: "Screenshots",
-      conceptNotice:
-        "Este é um projeto conceito criado para demonstração. Não representa um cliente ou empresa real.",
-      nextProject: "Projeto seguinte",
-      ctaTitle: "Gostou do que viu?",
-      ctaDescription:
-        "Posso criar algo semelhante para o seu negócio. Vamos conversar sobre o seu projeto.",
-      ctaCta: "Iniciar Conversa",
+    badge: "Portfólio & Trabalhos Selecionados",
+    title: "Projetos.",
+    description:
+      "Uma seleção de websites institucionais, plataformas de e-commerce, landing pages de alta conversão e web apps. Cada projeto combina estética moderna, velocidade máxima e foco nos objetivos do cliente.",
+    pills: [
+      "Design 100% Sob Medida",
+      "Performance < 1s",
+      "Google SEO de Raiz",
+      "Totalmente Responsivo",
+    ],
+    highlights: {
+      badge: "Compromisso de Qualidade",
+      title: "Padrões rigorosos em cada entrega",
+      description:
+        "Cada website é desenvolvido de acordo com os mais elevados padrões de velocidade, arquitetura semântica e experiência de utilização.",
+      items: [
+        {
+          id: "design",
+          title: "Design 100% Sob Medida",
+          description:
+            "Cada projeto tem uma identidade visual única, sem recurso a templates genéricos ou temas pré-fabricados.",
+        },
+        {
+          id: "speed",
+          title: "Desempenho & Velocidade",
+          description:
+            "Construídos em Next.js para garantir carregamentos quase instantâneos e excelentes pontuações no Google.",
+        },
+        {
+          id: "seo",
+          title: "Google SEO de Raiz",
+          description:
+            "Arquitetura semântica e microdados estruturados para que os clientes encontrem a sua empresa nas pesquisas.",
+        },
+        {
+          id: "mobile",
+          title: "Experiência Mobile-First",
+          description:
+            "Navegação intuitiva e fluida garantida em todos os ecrãs, desde smartphones a computadores de secretária.",
+        },
+      ],
     },
+    process: {
+      badge: "Processo de Criação",
+      title: "Como cada projeto ganha vida",
+      description:
+        "Sem processos burocráticos. Trabalho diretamente consigo do primeiro esboço ao lançamento online, garantindo transparência e atenção a cada detalhe.",
+      steps: [
+        {
+          step: "01",
+          title: "Estratégia & Estrutura",
+          desc: "Mapeamento do público-alvo, arquitetura de informação e definição clara dos objetivos que o website precisa de alcançar.",
+        },
+        {
+          step: "02",
+          title: "Design & Interatividade",
+          desc: "Criação de uma interface visual moderna, intuitiva e responsiva, com micro-interações que elevam a perceção da marca.",
+        },
+        {
+          step: "03",
+          title: "Código Limpo & Lançamento",
+          desc: "Desenvolvimento em Next.js com testes em múltiplos dispositivos, otimização de velocidade, SEO estruturado e entrega final.",
+        },
+      ],
+    },
+    cta: {
+      badge: "Novo Projeto",
+      title: "Tem uma ideia ou precisa de renovar a sua presença digital?",
+      description:
+        "Podemos analisar o seu caso em chamada ou mensagem e delinear a solução ideal para o seu negócio.",
+      secondary: "Explorar Serviços",
+    },
+    grid: {
+      filters: {
+        all: "Todos",
+        institucional: "Institucional",
+        lojaOnline: "Loja Online",
+        landingPage: "Landing Page",
+        webApp: "Web App / SaaS",
+      },
+      showing: "A mostrar {count} projeto{s}",
+      empty: "Nenhum projeto encontrado nesta categoria.",
+      featured: "Destaque",
+      viewCaseStudy: "Ver Case Study",
+    },
+  },
+
+  projectDetail: {
+    clientLabel: "Cliente",
+    previewLabel: "Demonstração de Interface",
+    previewDescription:
+      "Ambiente construído com arquitetura otimizada, design centrado na experiência do utilizador e integrações de topo.",
+    impactLabel: "Impacto Mensurável",
+    challengeTitle: "O Desafio",
+    solutionTitle: "A Solução",
+    featuresBadge: "Arquitetura & Especificações",
+    featuresTitle: "Funcionalidades Implementadas",
+    previous: "Anterior",
+    next: "Seguinte",
+    allProjects: "Todos os Projetos",
+    ctaTitle: "Quer uma solução semelhante para o seu negócio?",
+    ctaDescription: "Podemos conversar em detalhe sobre o seu projeto e desenhar a proposta ideal.",
   },
 
   contact: {
