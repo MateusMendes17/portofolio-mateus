@@ -25,7 +25,7 @@ export const SITE_URL = (
 ).replace(/\/+$/, "");
 
 export const SOCIAL_LINKS = {
-  github: "https://github.com/mateusmendes", // [SUBSTITUIR]
+  github: "https://github.com/MateusMendes17",
   linkedin: "https://linkedin.com/in/mateusmendes", // [SUBSTITUIR]
   whatsapp: `https://wa.me/351917810763`,
 } as const;
