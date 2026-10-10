@@ -27,7 +27,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.25 }}
-      className="space-y-8"
+      className="anim-reveal space-y-8"
     >
       <div>
         <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
@@ -82,7 +82,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
                         {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
                       </div>
                     </div>
-                    <p className="text-[11px] text-text-secondary leading-relaxed">{cp.desc}</p>
+                    <p className="text-xs text-text-secondary leading-relaxed">{cp.desc}</p>
                   </div>
                 </div>
 
@@ -129,7 +129,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
           <label className="block text-xs font-bold uppercase tracking-wider text-text-secondary">
             {t.contact.form.step2.featuresLabel}
           </label>
-          <span className="text-[11px] text-text-muted">
+          <span className="text-xs text-text-muted">
             {t.contact.form.step2.featuresHint}
           </span>
         </div>

@@ -23,6 +23,7 @@ const pt = {
     skipToContent: "Saltar para o conteúdo",
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
+    tagline: "Desenvolvimento Web",
   },
 
   home: {
@@ -750,6 +751,33 @@ const pt = {
     navLabel: "Navegação de erro",
   },
 
+  whatsappFloat: {
+    aria: "Falar comigo por WhatsApp",
+  },
+
+  command: {
+    open: "Pesquisa rápida",
+    openAria: "Abrir pesquisa rápida (Ctrl+K)",
+    placeholder: "Pesquisar páginas, projetos, ações…",
+    sections: {
+      navigation: "Navegação",
+      projects: "Projetos",
+      actions: "Ações",
+    },
+    actions: {
+      theme: "Alternar tema (claro / escuro)",
+      language: "Alternar idioma (PT / EN)",
+      copyEmail: "Copiar endereço de email",
+      copied: "Copiado!",
+      whatsapp: "Falar por WhatsApp",
+      github: "Abrir GitHub",
+      linkedin: "Abrir LinkedIn",
+    },
+    empty: "Sem resultados para",
+    hintSelect: "Selecionar",
+    hintClose: "Fechar",
+  },
+
   backToTop: {
     label: "Voltar ao topo",
   },
@@ -1145,7 +1173,7 @@ export const principiosDeEngenharia = {
     },
     cookies: {
       heading: "6. Cookies e Rastreamento",
-      body: "Este website não utiliza cookies invasivos ou de publicidade direcionada. Utiliza unicamente armazenamento local estritamente necessário para guardar as suas preferências de tema (Dia / Noite) e idioma (PT / EN).",
+      body: "Este website não utiliza cookies invasivos ou de publicidade direcionada. Utiliza unicamente armazenamento local estritamente necessário para guardar as suas preferências de tema (Dia / Noite) e idioma (PT / EN). Para estatísticas agregadas e anónimas de utilização é empregue o Vercel Analytics, que não recolhe dados pessoais nem define cookies de rastreamento.",
     },
   },
 

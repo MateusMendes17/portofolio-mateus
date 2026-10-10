@@ -4,10 +4,12 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { motion, useScroll } from "framer-motion";
 import { NAV_ITEMS, SITE_CONFIG } from "@/lib/constants";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import { MobileNav } from "./MobileNav";
+import { CommandPalette } from "./CommandPalette";
 import { Button } from "../ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
@@ -17,6 +19,7 @@ export function Header() {
   const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { scrollYProgress } = useScroll();
 
   const navLabels: Record<string, string> = {
     "/": t.nav.home,
@@ -74,8 +77,8 @@ export function Header() {
               <span className="font-heading text-lg font-bold tracking-tight text-text-primary transition-colors group-hover:text-accent leading-tight">
                 {SITE_CONFIG.name}
               </span>
-              <span className="text-[11px] font-medium text-text-muted tracking-wide">
-                Desenvolvimento Web
+              <span className="text-xs font-medium text-text-muted tracking-wide">
+                {t.nav.tagline}
               </span>
             </div>
           </Link>
@@ -105,8 +108,11 @@ export function Header() {
             })}
           </nav>
 
-          {/* Ações da Direita: Idioma + Tema + Botão CTA + Menu Mobile */}
+          {/* Ações da Direita: Pesquisa + Idioma + Tema + Botão CTA + Menu Mobile */}
           <div className="flex items-center gap-3">
+            {/* Command Palette (⌘K / Ctrl+K) */}
+            <CommandPalette />
+
             {/* Switch Toggle Idioma (PT / EN) */}
             <div className="hidden sm:block">
               <LanguageToggle />
@@ -138,6 +144,13 @@ export function Header() {
             </button>
           </div>
         </div>
+
+        {/* Barra de progresso de leitura (colada à base do header) */}
+        <motion.div
+          aria-hidden="true"
+          style={{ scaleX: scrollYProgress }}
+          className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-accent"
+        />
       </header>
 
       {/* Gaveta do Menu Mobile */}

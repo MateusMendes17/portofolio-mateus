@@ -49,7 +49,7 @@ export function CodePhilosophyTerminal() {
             <span className="h-3 w-3 rounded-full bg-[#E05252]/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-[#E5A93B]/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-[#52BA69]/80 inline-block" />
-            <span className="ml-2 text-[11px] text-[#A8988B] hidden sm:inline">
+            <span className="ml-2 text-xs text-[#A8988B] hidden sm:inline">
               mateus@workstation: ~/portfolio/{t.terminal.path}
             </span>
           </div>
@@ -58,7 +58,7 @@ export function CodePhilosophyTerminal() {
           <button
             type="button"
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[11px] text-[#A8988B] hover:text-white hover:bg-white/10 transition-colors"
+            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-[#A8988B] hover:text-white hover:bg-white/10 transition-colors"
           >
             <span>
               {copied ? t.terminal.copied : t.terminal.copy}
@@ -81,7 +81,7 @@ export function CodePhilosophyTerminal() {
                     : "bg-transparent text-[#8D7D72] border-transparent hover:text-[#C98E6C]"
                 }`}
               >
-                <span className="text-accent text-[10px]">
+                <span className="text-accent text-xs">
                   {file.name.endsWith(".ts") ? "TS" : file.name.endsWith(".json") ? "{}" : "#"}
                 </span>
                 <span>{file.name}</span>
@@ -107,7 +107,7 @@ export function CodePhilosophyTerminal() {
         </div>
 
         {/* Rodapé do Terminal */}
-        <div className="px-4 py-2 bg-[#1C1816] border-t border-white/10 text-[10px] text-[#8D7D72] flex items-center justify-between">
+        <div className="px-4 py-2 bg-[#1C1816] border-t border-white/10 text-xs text-[#8D7D72] flex items-center justify-between">
           <span>UTF-8 • {activeFile.language}</span>
           <span className="flex items-center gap-1.5 text-emerald-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />

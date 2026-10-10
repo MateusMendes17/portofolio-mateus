@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { SITE_CONFIG, SOCIAL_LINKS, NAV_ITEMS } from "@/lib/constants";
@@ -8,7 +9,22 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
-  const { t } = useLanguage();
+  const { t, isEnglish } = useLanguage();
+
+  // Hora local de Lisboa, atualizada a cada 30s. Renderiza só depois de montar
+  // (inicia a null) para evitar divergência de hidratação.
+  const [localTime, setLocalTime] = useState<string | null>(null);
+  useEffect(() => {
+    const fmt = new Intl.DateTimeFormat(isEnglish ? "en-GB" : "pt-PT", {
+      timeZone: "Europe/Lisbon",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const tick = () => setLocalTime(fmt.format(new Date()));
+    tick();
+    const id = setInterval(tick, 30_000);
+    return () => clearInterval(id);
+  }, [isEnglish]);
 
   const services = t.footer.services.map((label) => ({
     label,
@@ -72,7 +88,7 @@ export function Footer() {
             <p className="text-sm leading-relaxed text-text-secondary">
               {t.footer.tagline}
             </p>
-            <div className="pt-2 text-xs text-text-muted flex items-center gap-2">
+            <div className="pt-2 text-xs text-text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
               <span className="inline-flex items-center gap-1">
                 <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
                   <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
@@ -84,6 +100,12 @@ export function Footer() {
               <span>
                 {t.footer.responseTime.replace("{time}", SITE_CONFIG.responseTime)}
               </span>
+              {localTime && (
+                <>
+                  <span>•</span>
+                  <span className="whitespace-nowrap tabular-nums">{localTime}</span>
+                </>
+              )}
             </div>
           </div>
 

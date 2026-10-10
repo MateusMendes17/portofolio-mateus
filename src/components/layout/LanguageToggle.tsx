@@ -51,7 +51,7 @@ export function LanguageToggle({ className }: { className?: string }) {
         {/* Label PT no fundo */}
         <span
           className={cn(
-            "text-[10px] font-bold tracking-wider transition-opacity duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "text-xs font-bold tracking-wider transition-opacity duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
             isEnglish ? "opacity-45 text-text-muted" : "opacity-0"
           )}
         >
@@ -61,7 +61,7 @@ export function LanguageToggle({ className }: { className?: string }) {
         {/* Label EN no fundo */}
         <span
           className={cn(
-            "text-[10px] font-bold tracking-wider transition-opacity duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
+            "text-xs font-bold tracking-wider transition-opacity duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
             isEnglish ? "opacity-0" : "opacity-45 text-text-muted"
           )}
         >
@@ -74,7 +74,7 @@ export function LanguageToggle({ className }: { className?: string }) {
         className={cn(
           "pointer-events-none relative z-10 flex h-7 w-7 items-center justify-center rounded-full shadow-md",
           "will-change-transform transition-all duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
-          "bg-accent text-accent-text font-bold text-[11px] tracking-tight shadow-accent/25",
+          "bg-accent text-accent-text font-bold text-xs tracking-tight shadow-accent/25",
           isEnglish ? "translate-x-8" : "translate-x-0"
         )}
       >

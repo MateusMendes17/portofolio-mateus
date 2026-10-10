@@ -186,7 +186,7 @@ export function ServicosView() {
                   <span className="font-heading text-xs uppercase tracking-wider font-bold text-text-primary">
                     {t.services.labels.deliverables}
                   </span>
-                  <span className="text-[11px] text-text-muted">
+                  <span className="text-xs text-text-muted">
                     {t.services.labels.includedStandard}
                   </span>
                 </div>
@@ -205,14 +205,14 @@ export function ServicosView() {
                 </ul>
 
                 <div className="pt-4 border-t border-border/60">
-                  <span className="text-[11px] font-bold uppercase tracking-wider text-text-muted block mb-2">
+                  <span className="text-xs font-bold uppercase tracking-wider text-text-muted block mb-2">
                     {t.services.labels.techStack}
                   </span>
                   <div className="flex flex-wrap gap-1.5">
                     {service.techStack.map((tech) => (
                       <span
                         key={tech}
-                        className="rounded-lg bg-surface border border-border px-2.5 py-1 text-[11px] font-medium text-text-secondary"
+                        className="rounded-lg bg-surface border border-border px-2.5 py-1 text-xs font-medium text-text-secondary"
                       >
                         {tech}
                       </span>

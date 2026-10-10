@@ -110,7 +110,7 @@ export function TechStackExplorer() {
                     }`}
                   />
                 </div>
-                <span className="text-[11px] text-text-muted">{tech.categoryLabel}</span>
+                <span className="text-xs text-text-muted">{tech.categoryLabel}</span>
               </button>
             );
           })}
@@ -129,7 +129,7 @@ export function TechStackExplorer() {
             >
               {/* Badge de Categoria */}
               <div className="flex items-center justify-between mb-4">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
+                <span className="text-xs font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
                   {currentSelected.categoryLabel}
                 </span>
                 <span className="text-xs text-text-muted font-mono">
@@ -146,7 +146,7 @@ export function TechStackExplorer() {
 
               <div className="mt-5 space-y-4 text-xs sm:text-sm">
                 <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
-                  <span className="block text-[11px] font-bold uppercase tracking-wider text-text-muted mb-1">
+                  <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                     {t.stackExplorer.labels.businessBenefit}
                   </span>
                   <p className="text-text-secondary leading-relaxed">
@@ -156,7 +156,7 @@ export function TechStackExplorer() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
-                    <span className="block text-[11px] font-bold uppercase tracking-wider text-text-muted mb-1">
+                    <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                       {currentSelected.metricLabel}
                     </span>
                     <span className="font-heading text-xl font-bold text-accent">
@@ -165,7 +165,7 @@ export function TechStackExplorer() {
                   </div>
 
                   <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
-                    <span className="block text-[11px] font-bold uppercase tracking-wider text-text-muted mb-1">
+                    <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                       {t.stackExplorer.labels.appliedIn}
                     </span>
                     <span className="text-xs text-text-secondary font-medium block leading-tight">

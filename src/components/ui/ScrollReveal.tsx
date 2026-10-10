@@ -57,7 +57,7 @@ export function ScrollReveal({
   return (
     <motion.div
       ref={ref}
-      className={className}
+      className={`anim-reveal ${className}`}
       initial={{
         opacity: 0,
         x: offset.x,
@@ -171,7 +171,7 @@ export function StaggerItem({
 
   return (
     <motion.div
-      className={className}
+      className={`anim-reveal ${className}`}
       variants={{
         hidden: {
           opacity: 0,

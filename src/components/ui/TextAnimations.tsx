@@ -45,7 +45,7 @@ export function TextReveal3D({
       {units.map((unit, i) => (
         <motion.span
           key={`${unit}-${i}`}
-          className="inline-block"
+          className="anim-reveal inline-block"
           initial={{
             opacity: 0,
             y: 20,

@@ -26,10 +26,10 @@ export function InteractiveStats() {
             }`}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-accent px-2 py-0.5 rounded-full bg-accent-subtle">
+              <span className="text-xs font-bold uppercase tracking-wider text-accent px-2 py-0.5 rounded-full bg-accent-subtle">
                 {stat.badge}
               </span>
-              <span className="text-[10px] text-text-muted">
+              <span className="text-xs text-text-muted">
                 {isActive ? t.stats.clickToClose : t.stats.clickToLearnMore}
               </span>
             </div>

@@ -135,13 +135,13 @@ function ProjectCard({ project }: { project: Project }) {
 
           {/* Header: Badge & Featured */}
           <div className="flex items-center justify-between gap-3 mb-5">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-wide bg-surface border border-border text-text-secondary">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs tracking-wide bg-surface border border-border text-text-secondary">
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               {categoryLabel}
             </span>
 
             {project.featured && (
-              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-accent-subtle/80 border border-accent/30 text-accent">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-accent-subtle/80 border border-accent/30 text-accent">
                 <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                   <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
                 </svg>
@@ -166,7 +166,7 @@ function ProjectCard({ project }: { project: Project }) {
               <span className="h-2.5 w-2.5 rounded-full bg-destructive/40" />
               <span className="h-2.5 w-2.5 rounded-full bg-amber-400/40" />
               <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/40" />
-              <span className="ml-2 text-[10px] text-text-muted font-mono">
+              <span className="ml-2 text-xs text-text-muted font-mono">
                 {project.liveUrl !== "#" ? project.liveUrl?.replace("https://", "") : `${project.slug}.pt`}
               </span>
             </div>
@@ -185,7 +185,7 @@ function ProjectCard({ project }: { project: Project }) {
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-surface-hover px-2.5 py-0.5 text-[11px] font-medium text-text-secondary border border-border/60 transition-colors group-hover:border-accent/25"
+                className="rounded-full bg-surface-hover px-2.5 py-0.5 text-xs font-medium text-text-secondary border border-border/60 transition-colors group-hover:border-accent/25"
               >
                 {tag}
               </span>

@@ -62,7 +62,7 @@ export function ContactoView() {
                 >
                   {SITE_CONFIG.email}
                 </a>
-                <span className="block text-[11px] text-text-muted mt-0.5">
+                <span className="block text-xs text-text-muted mt-0.5">
                   {t.contact.emailNote}
                 </span>
               </div>
@@ -85,7 +85,7 @@ export function ContactoView() {
                 >
                   {SITE_CONFIG.phone}
                 </a>
-                <span className="block text-[11px] text-text-muted mt-0.5">
+                <span className="block text-xs text-text-muted mt-0.5">
                   {t.contact.whatsappNote}
                 </span>
               </div>
@@ -106,7 +106,7 @@ export function ContactoView() {
                 <span className="text-sm font-semibold text-text-primary">
                   {t.contact.location}
                 </span>
-                <span className="block text-[11px] text-text-muted mt-0.5">
+                <span className="block text-xs text-text-muted mt-0.5">
                   {t.contact.locationNote}
                 </span>
               </div>

@@ -22,7 +22,7 @@ export function ContactForm() {
       {/* Barra de Progresso por Fases */}
       <div className="mb-8">
         <div className="flex items-center justify-between text-xs font-semibold text-text-secondary mb-3">
-          <span className="uppercase tracking-wider text-[11px] font-bold text-accent">
+          <span className="uppercase tracking-wider text-xs font-bold text-accent">
             {t.contact.form.steps.phase.replace("{current}", String(form.currentStep))}
           </span>
           <span className="text-text-muted">

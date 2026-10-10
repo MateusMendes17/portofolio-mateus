@@ -24,7 +24,7 @@ export function FormStepProjectType({ form }: { form: ContactFormController }) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.25 }}
-      className="space-y-6"
+      className="anim-reveal space-y-6"
     >
       <div>
         <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
@@ -70,7 +70,7 @@ export function FormStepProjectType({ form }: { form: ContactFormController }) {
                     <span className="font-heading text-sm sm:text-base font-bold text-text-primary">
                       {pt.title}
                     </span>
-                    <span className="text-[10px] font-semibold uppercase tracking-wider text-accent px-2 py-0.5 rounded-full bg-accent-subtle">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-accent px-2 py-0.5 rounded-full bg-accent-subtle">
                       {pt.badge}
                     </span>
                   </div>

@@ -136,7 +136,7 @@ export function Card({
           )}
 
           {badge && (
-            <span className={cn("inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] tracking-wide", badgeStyles)}>
+            <span className={cn("inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs tracking-wide", badgeStyles)}>
               <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
               {badge}
             </span>
@@ -145,7 +145,7 @@ export function Card({
 
         {/* Subtítulo & Título Principal com destaque */}
         {subtitle && (
-          <p className="text-[11px] uppercase tracking-wider font-bold text-accent mb-1">
+          <p className="text-xs uppercase tracking-wider font-bold text-accent mb-1">
             {subtitle}
           </p>
         )}
@@ -169,7 +169,7 @@ export function Card({
         {/* Métrica / Destaque Visual se fornecido */}
         {metrics && (
           <div className="mt-4 rounded-xl border border-border/70 bg-surface/70 p-3 transition-all duration-300 group-hover:border-accent/30 flex items-center justify-between">
-            <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider">
+            <span className="text-xs font-semibold text-text-muted uppercase tracking-wider">
               {metrics.label}
             </span>
             <span className="text-xs font-bold text-text-primary">
@@ -184,7 +184,7 @@ export function Card({
             {tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-surface-hover px-2.5 py-0.5 text-[11px] font-medium text-text-secondary border border-border/60 transition-colors group-hover:border-accent/25"
+                className="rounded-full bg-surface-hover px-2.5 py-0.5 text-xs font-medium text-text-secondary border border-border/60 transition-colors group-hover:border-accent/25"
               >
                 {tag}
               </span>

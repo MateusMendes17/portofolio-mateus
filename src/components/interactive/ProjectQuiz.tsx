@@ -162,7 +162,7 @@ export function ProjectQuiz() {
               }`}
             />
           ))}
-          <span className="text-[11px] font-bold text-accent ml-2">
+          <span className="text-xs font-bold text-accent ml-2">
             {currentQuestion}/3
           </span>
         </div>
@@ -314,7 +314,7 @@ export function ProjectQuiz() {
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
               <div>
-                <span className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
+                <span className="text-xs font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
                   {result.badge}
                 </span>
                 <h3 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-2">

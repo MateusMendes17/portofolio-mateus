@@ -25,7 +25,7 @@ export function HomeView() {
       <div className="laptop-screen-glow hidden sm:block" />
 
       {/* Barra do Navegador no Ecrã */}
-      <div className="laptop-screen-content flex items-center justify-between p-2 sm:p-3 border-b border-white/10 text-[10px] text-[#8E7D70] bg-[#2A2421]/50">
+      <div className="laptop-screen-content flex items-center justify-between p-2 sm:p-3 border-b border-white/10 text-xs text-[#8E7D70] bg-[#2A2421]/50">
         {/* 3 Botões macOS */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#E05252]" />
@@ -47,7 +47,7 @@ export function HomeView() {
       {/* Conteúdo Dentro do Ecrã */}
       <div className="laptop-screen-content flex-1 flex flex-col justify-center items-center text-center px-4 sm:px-8 space-y-4 sm:space-y-6 bg-[#1C1816]">
         {/* Badge */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#2A2421]/80 px-2.5 sm:px-3 py-1 text-[10px] sm:text-xs font-semibold text-[#C0AEA0] shadow-sm">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#2A2421]/80 px-2.5 sm:px-3 py-1 text-xs font-semibold text-[#C0AEA0] shadow-sm">
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>
             {t.home.hero.availability}
@@ -61,7 +61,7 @@ export function HomeView() {
         </h1>
 
         {/* Subtítulo */}
-        <p className="text-[11px] sm:text-sm lg:text-base text-[#C0AEA0] leading-relaxed max-w-[250px] sm:max-w-md mx-auto font-normal">
+        <p className="text-xs sm:text-sm lg:text-base text-[#C0AEA0] leading-relaxed max-w-[250px] sm:max-w-md mx-auto font-normal">
           {t.home.hero.subtitle}
         </p>
 
@@ -168,7 +168,7 @@ export function HomeView() {
                     <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
                   </svg>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   PageSpeed 100
                 </span>
@@ -178,7 +178,7 @@ export function HomeView() {
               <div>
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>&lt; 0.8s</span>
-                  <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
+                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
                     {t.home.metrics.speed.unit}
                   </span>
                 </div>
@@ -193,7 +193,7 @@ export function HomeView() {
 
             {/* Micro-Widget Visual na Base */}
             <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="flex items-center justify-between text-[10px] font-mono text-text-muted mb-1.5">
+              <div className="flex items-center justify-between text-xs font-mono text-text-muted mb-1.5">
                 <span>{t.home.metrics.speed.widgetLabel}</span>
                 <span className="font-bold text-emerald-600 dark:text-emerald-400">100 / 100</span>
               </div>
@@ -219,7 +219,7 @@ export function HomeView() {
                     <polyline points="8 6 2 12 8 18" />
                   </svg>
                 </div>
-                <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-[10px] font-bold text-text-secondary">
+                <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-xs font-bold text-text-secondary">
                   {t.home.metrics.code.badge}
                 </span>
               </div>
@@ -228,7 +228,7 @@ export function HomeView() {
               <div>
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>100%</span>
-                  <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
+                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
                     {t.home.metrics.code.unit}
                   </span>
                 </div>
@@ -243,7 +243,7 @@ export function HomeView() {
 
             {/* Micro-Widget Visual na Base */}
             <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="rounded-xl bg-[#1A1614] border border-white/5 px-2.5 py-1.5 flex items-center justify-between text-[10px] font-mono text-[#E6D5C3]">
+              <div className="rounded-xl bg-[#1A1614] border border-white/5 px-2.5 py-1.5 flex items-center justify-between text-xs font-mono text-[#E6D5C3]">
                 <span className="text-[#C98E6C]">stack</span>
                 <span className="text-emerald-400">Next.js 16 • TS</span>
               </div>
@@ -265,7 +265,7 @@ export function HomeView() {
                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
                   </svg>
                 </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-subtle px-2.5 py-0.5 text-[10px] font-bold text-accent">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-subtle px-2.5 py-0.5 text-xs font-bold text-accent">
                   <span className="h-1.5 w-1.5 rounded-full bg-accent animate-ping" />
                   {t.home.metrics.direct.badge}
                 </span>
@@ -275,7 +275,7 @@ export function HomeView() {
               <div>
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>0</span>
-                  <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
+                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
                     {t.home.metrics.direct.unit}
                   </span>
                 </div>
@@ -290,12 +290,12 @@ export function HomeView() {
 
             {/* Micro-Widget Visual na Base */}
             <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="flex items-center justify-between text-[10px] text-text-muted">
-                <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+              <div className="flex items-center justify-between text-xs text-text-muted">
+                <span className="flex items-center gap-1 whitespace-nowrap text-emerald-600 dark:text-emerald-400 font-semibold">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   {t.home.metrics.direct.widgetChat}
                 </span>
-                <span className="font-medium">{t.home.metrics.direct.widgetCall}</span>
+                <span className="whitespace-nowrap font-medium">{t.home.metrics.direct.widgetCall}</span>
               </div>
             </div>
           </div>
@@ -316,7 +316,7 @@ export function HomeView() {
                     <path d="m21 21-4.3-4.3" />
                   </svg>
                 </div>
-                <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-[10px] font-bold text-accent">
+                <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-xs font-bold text-accent">
                   Google SEO
                 </span>
               </div>
@@ -325,7 +325,7 @@ export function HomeView() {
               <div>
                 <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
                   <span>#1</span>
-                  <span className="text-[11px] font-mono font-medium text-text-muted uppercase tracking-wider">
+                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
                     {t.home.metrics.seo.unit}
                   </span>
                 </div>
@@ -340,7 +340,7 @@ export function HomeView() {
 
             {/* Micro-Widget Visual na Base */}
             <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="flex items-center justify-between text-[10px] font-mono text-text-muted">
+              <div className="flex items-center justify-between text-xs font-mono text-text-muted">
                 <span className="truncate">google.com/search</span>
                 <span className="text-accent font-bold shrink-0">{t.home.metrics.seo.widgetPosition}</span>
               </div>
@@ -412,7 +412,7 @@ export function HomeView() {
                 <div className="rounded-lg bg-surface/50 border border-border/40 p-3 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="h-2 w-16 rounded bg-accent/40" />
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
                       100 PageSpeed
                     </span>
@@ -460,14 +460,14 @@ export function HomeView() {
                 </div>
                 <div className="flex items-center justify-between rounded-lg bg-surface/90 border border-border/70 p-2 shadow-sm">
                   <div className="flex items-center gap-1.5">
-                    <div className="h-5 w-5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-[10px] font-bold">
+                    <div className="h-5 w-5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs font-bold">
                       ✓
                     </div>
-                    <span className="text-[10px] font-semibold text-text-primary">
+                    <span className="text-xs font-semibold text-text-primary">
                       {t.home.servicesPreview.items[1].previewStatus}
                     </span>
                   </div>
-                  <span className="text-[10px] font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
                     {t.home.servicesPreview.items[1].previewConfirmed}
                   </span>
                 </div>
@@ -495,7 +495,7 @@ export function HomeView() {
               </svg>
             }
             preview={
-              <div className="p-3.5 bg-surface/90 border border-border/70 rounded-2xl space-y-2.5 font-mono text-[10px]">
+              <div className="p-3.5 bg-surface/90 border border-border/70 rounded-2xl space-y-2.5 font-mono text-xs">
                 <div className="flex items-center justify-between pb-1.5 border-b border-border/50 text-[9px] text-text-muted">
                   <span className="flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-accent" />
@@ -567,7 +567,7 @@ export function HomeView() {
                 <div>
                   {/* Categoria & Ano */}
                   <div className="flex items-center justify-between mb-3 text-xs">
-                    <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-accent px-2.5 py-0.5 rounded-full bg-accent-subtle">
+                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-accent px-2.5 py-0.5 rounded-full bg-accent-subtle">
                       {category}
                     </span>
                     <span className="text-text-muted">{project.year}</span>
@@ -598,7 +598,7 @@ export function HomeView() {
                     {project.tags.slice(0, 2).map((tag) => (
                       <span
                         key={tag}
-                        className="text-[10px] font-medium text-text-muted px-2 py-0.5 rounded-md bg-surface border border-border/60"
+                        className="text-xs font-medium text-text-muted px-2 py-0.5 rounded-md bg-surface border border-border/60"
                       >
                         {tag}
                       </span>
@@ -685,7 +685,7 @@ export function HomeView() {
         <div className="rounded-3xl border border-accent/30 bg-gradient-to-br from-surface to-accent-subtle/30 p-8 sm:p-12 shadow-md flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden animate-gradient-mesh">
           <div className="absolute -top-16 -right-16 w-48 h-48 bg-accent/8 morph-blob pointer-events-none" />
           <div className="max-w-xl space-y-2">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
+            <span className="text-xs font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
               {t.home.quizTeaser.badge}
             </span>
             <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary">

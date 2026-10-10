@@ -26,7 +26,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
       animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -20 }}
       transition={{ duration: 0.25 }}
-      className="space-y-6"
+      className="anim-reveal space-y-6"
     >
       <div>
         <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
@@ -40,13 +40,13 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
       {/* Resumo Dinâmico das Fases Anteriores */}
       <div className="rounded-2xl border border-accent/20 bg-accent-subtle/30 p-4 text-xs space-y-1.5">
         <div className="flex items-center justify-between">
-          <span className="font-bold text-text-primary uppercase tracking-wider text-[10px]">
+          <span className="font-bold text-text-primary uppercase tracking-wider text-xs">
             {t.contact.form.step3.summaryTitle}
           </span>
           <button
             type="button"
             onClick={() => goToStep(1)}
-            className="text-accent hover:underline font-semibold text-[11px] cursor-pointer"
+            className="text-accent hover:underline font-semibold text-xs cursor-pointer"
           >
             {t.contact.form.step3.summaryEdit}
           </button>
@@ -171,7 +171,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
           {stepErrors.message ? (
             <p className="text-xs text-destructive">{stepErrors.message}</p>
           ) : <span />}
-          <span className="text-[11px] text-text-muted">{formData.message.length}/2000</span>
+          <span className="text-xs text-text-muted">{formData.message.length}/2000</span>
         </div>
       </div>
 

@@ -106,7 +106,7 @@ export function ProjectDetailView({
               {project.liveUrl !== "#" ? project.liveUrl?.replace("https://", "") : `${project.slug}.pt`}
             </span>
           </div>
-          <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider hidden sm:inline">
+          <span className="text-xs font-semibold text-text-muted uppercase tracking-wider hidden sm:inline">
             {t.projectDetail.previewLabel}
           </span>
         </div>
@@ -261,7 +261,7 @@ export function ProjectDetailView({
                 </svg>
               </div>
               <div className="text-left">
-                <span className="text-[10px] text-text-muted block uppercase tracking-wider">
+                <span className="text-xs text-text-muted block uppercase tracking-wider">
                   {t.projectDetail.previous}
                 </span>
                 <span className="font-semibold text-text-primary group-hover:text-accent transition-colors">
@@ -285,7 +285,7 @@ export function ProjectDetailView({
               className="flex items-center gap-3 text-sm text-text-secondary hover:text-text-primary transition-colors group"
             >
               <div className="text-right">
-                <span className="text-[10px] text-text-muted block uppercase tracking-wider">
+                <span className="text-xs text-text-muted block uppercase tracking-wider">
                   {t.projectDetail.next}
                 </span>
                 <span className="font-semibold text-text-primary group-hover:text-accent transition-colors">

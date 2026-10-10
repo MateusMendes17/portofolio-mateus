@@ -24,6 +24,7 @@ const en: Strings = {
     skipToContent: "Skip to content",
     openMenu: "Open menu",
     closeMenu: "Close menu",
+    tagline: "Web Development",
   },
 
   home: {
@@ -753,6 +754,33 @@ const en: Strings = {
     navLabel: "Error navigation",
   },
 
+  whatsappFloat: {
+    aria: "Message me on WhatsApp",
+  },
+
+  command: {
+    open: "Quick search",
+    openAria: "Open quick search (Ctrl+K)",
+    placeholder: "Search pages, projects, actions…",
+    sections: {
+      navigation: "Navigation",
+      projects: "Projects",
+      actions: "Actions",
+    },
+    actions: {
+      theme: "Toggle theme (light / dark)",
+      language: "Toggle language (PT / EN)",
+      copyEmail: "Copy email address",
+      copied: "Copied!",
+      whatsapp: "Message on WhatsApp",
+      github: "Open GitHub",
+      linkedin: "Open LinkedIn",
+    },
+    empty: "No results for",
+    hintSelect: "Select",
+    hintClose: "Close",
+  },
+
   backToTop: {
     label: "Back to top",
   },
@@ -1148,7 +1176,7 @@ export const engineeringPrinciples = {
     },
     cookies: {
       heading: "6. Cookies & Local Storage",
-      body: "This website does not deploy invasive tracking or advertising cookies. It strictly utilizes localStorage to retain your interface preferences (Theme & Language selection).",
+      body: "This website does not deploy invasive tracking or advertising cookies. It strictly utilizes localStorage to retain your interface preferences (Theme & Language selection). Aggregated, anonymous usage statistics are powered by Vercel Analytics, which collects no personal data and sets no tracking cookies.",
     },
   },
 

@@ -5,6 +5,9 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { BackToTop } from "@/components/ui/BackToTop";
+import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { SITE_CONFIG, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
 import { LanguageProvider } from "@/context/LanguageContext";
 import pt from "@/content/strings/pt";
@@ -133,6 +136,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col bg-bg text-text-primary">
+        {/*
+          Fallback sem JS: as animações de revelação (framer-motion) SSRam com
+          opacity/transform escondidos; sem JavaScript o conteúdo ficaria
+          invisível. Este <noscript> força a visibilidade nesse caso.
+        */}
+        <noscript>
+          <style>{`.anim-reveal{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: structuredDataJson }}
@@ -149,9 +160,13 @@ export default function RootLayout({
               </main>
               <Footer />
               <BackToTop />
+              <WhatsAppFloat />
             </SmoothScroll>
           </LanguageProvider>
         </ThemeProvider>
+        {/* Telemetria de campo (só no ambiente da Vercel; cookieless) */}
+        {process.env.VERCEL && <Analytics />}
+        {process.env.VERCEL && <SpeedInsights />}
       </body>
     </html>
   );
