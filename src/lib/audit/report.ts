@@ -7,6 +7,7 @@ import { safeFetch } from "./safe-fetch";
 export interface ReportInput {
   url: string;
   fromCache?: boolean;
+  onProgress?: (step: string, message: string) => void;
 }
 
 const LIMITATIONS = [
@@ -17,11 +18,13 @@ const LIMITATIONS = [
 ];
 
 export async function buildReport(input: ReportInput): Promise<AuditResult | { error: string }> {
+  input.onProgress?.("fetch", "A obter a página...");
   const fetchResult = await safeFetch(input.url);
   if (!fetchResult.ok) {
     return { error: fetchResult.message };
   }
 
+  input.onProgress?.("checks", "A verificar segurança, SEO e acessibilidade...");
   const findings = runAllChecks({
     html: fetchResult.html,
     headers: fetchResult.headers,
@@ -31,6 +34,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
 
   // PageSpeed (opcional)
   let performance: PerformanceData | null = null;
+  input.onProgress?.("pagespeed", "A obter dados de desempenho...");
   const ps = await fetchPageSpeed(fetchResult.url);
   if (ps) {
     performance = {
