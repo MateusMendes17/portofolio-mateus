@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Project } from "@/content/projects";
 import { useLanguage } from "@/context/LanguageContext";
 import { projectCategoryLabel } from "@/lib/projectCategory";
@@ -23,11 +23,25 @@ type StudyKey = keyof ReturnType<typeof useLanguage>["t"]["projectDetail"]["stud
  * Long screenshots are only requested by ProjectPreview after activation.
  */
 export function ProjectCatalog({ projects }: ProjectCatalogProps) {
-  const { t } = useLanguage();
+  const { t, isEnglish } = useLanguage();
   const [railSlug, setRailSlug] = useState<string | null>(null);
   const [centeredSlug, setCenteredSlug] = useState<string | null>(null);
   const [touchLike, setTouchLike] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
   const entryRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    projects.forEach((project) => set.add(project.category));
+    return ["all", ...Array.from(set)];
+  }, [projects]);
+
+  const filteredProjects = useMemo(() => {
+    return projects.filter((project) => {
+      if (activeCategory !== "all" && project.category !== activeCategory) return false;
+      return true;
+    });
+  }, [projects, activeCategory]);
 
   /* Touch / coarse pointer: only the most-centred card animates. */
   useEffect(() => {
@@ -47,7 +61,7 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
       const viewportHeight = window.innerHeight;
       let best: { slug: string; distance: number } | null = null;
 
-      for (const project of projects) {
+      for (const project of filteredProjects) {
         const element = entryRefs.current[project.slug];
         if (!element) continue;
 
@@ -89,110 +103,146 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
       window.removeEventListener("resize", onScroll);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [projects]);
+  }, [filteredProjects]);
 
   return (
-    <div className="mt-14 grid gap-10 lg:mt-20 lg:grid-cols-[var(--rail)_minmax(0,1fr)] lg:gap-[var(--rail-gap)]">
-      {/* Desktop index rail */}
-      <nav className="hidden lg:block" aria-label={t.projects.grid.index}>
-        <div className="sticky top-[calc(var(--header-h)+2rem)]">
-          <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
-            {t.projects.grid.index}
-          </p>
-
-          <ol className="mt-5 space-y-0 border-t border-line">
-            {projects.map((project, index) => {
-              const isActive = railSlug === project.slug;
-              return (
-                <li key={project.slug} className="border-b border-line">
-                  <a
-                    href={`#${project.slug}`}
-                    aria-current={isActive ? "location" : undefined}
-                    className={cn(
-                      "group flex gap-3 py-3 text-sm transition-colors",
-                      isActive ? "text-ink" : "text-muted hover:text-ink"
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        "mt-1 h-px w-4 shrink-0 transition-colors",
-                        isActive ? "bg-highlight" : "bg-line group-hover:bg-ink"
-                      )}
-                      aria-hidden="true"
-                    />
-                    <span className="min-w-0">
-                      <span className="block font-mono text-[10px] tracking-[0.12em] text-muted">
-                        {String(index + 1).padStart(2, "0")}
-                      </span>
-                      <span className="mt-1 block leading-snug">{project.name}</span>
-                    </span>
-                  </a>
-                </li>
-              );
-            })}
-          </ol>
-
-          <p className="mt-5 font-body text-micro leading-relaxed text-muted">
-            {t.projects.grid.projectCount.replace("{count}", String(projects.length))}
-          </p>
-          <p className="mt-3 font-body text-micro leading-relaxed text-muted">
-            {t.projectDetail.labels.disclaimer}
-          </p>
+    <div className="mt-14 space-y-8 lg:mt-20">
+      {/* Pesquisa + filtros */}
+      <div className="space-y-4">
+        <div className="flex flex-wrap gap-2">
+          {categories.map((cat) => {
+            const label =
+              cat === "all"
+                ? isEnglish
+                  ? "All"
+                  : "Todos"
+                : projectCategoryLabel(cat as Project["category"], t);
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  "border px-3 py-1.5 font-body text-micro font-medium transition-colors",
+                  activeCategory === cat
+                    ? "border-ink bg-ink text-bg"
+                    : "border-line text-muted hover:border-line-strong hover:text-ink"
+                )}
+              >
+                {label}
+              </button>
+            );
+          })}
         </div>
-      </nav>
-
-      <div className="min-w-0">
-        {/* Mobile horizontal index */}
-        <nav aria-label={t.projects.grid.index} className="lg:hidden">
-          <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
-            {t.projects.grid.index}
+        {filteredProjects.length === 0 && (
+          <p className="font-body text-sm text-muted">
+            {isEnglish ? "No projects found." : "Nenhum projeto encontrado."}
           </p>
-          <div className="-mx-[var(--gutter)] mt-4 overflow-x-auto px-[var(--gutter)] pb-2 scrollbar-none">
-            <ol className="flex w-max gap-2">
-              {projects.map((project, index) => (
-                <li key={project.slug}>
-                  <a
-                    href={`#${project.slug}`}
-                    className="flex w-[148px] items-center gap-3 border border-line bg-surface p-2 transition-colors hover:border-line-strong focus-visible:border-ink"
-                  >
-                    <span className="relative aspect-[4/3] w-11 shrink-0 overflow-hidden border border-line bg-surface-2">
-                      <Image
-                        src={project.cover.src}
-                        alt=""
-                        fill
-                        sizes="44px"
-                        className="object-cover object-top"
+        )}
+      </div>
+
+      <div className="grid gap-10 lg:grid-cols-[var(--rail)_minmax(0,1fr)] lg:gap-[var(--rail-gap)]">
+        {/* Desktop index rail */}
+        <nav className="hidden lg:block" aria-label={t.projects.grid.index}>
+          <div className="sticky top-[calc(var(--header-h)+2rem)]">
+            <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
+              {t.projects.grid.index}
+            </p>
+
+            <ol className="mt-5 space-y-0 border-t border-line">
+              {filteredProjects.map((project, index) => {
+                const isActive = railSlug === project.slug;
+                return (
+                  <li key={project.slug} className="border-b border-line">
+                    <a
+                      href={`#${project.slug}`}
+                      aria-current={isActive ? "location" : undefined}
+                      className={cn(
+                        "group flex gap-3 py-3 text-sm transition-colors",
+                        isActive ? "text-ink" : "text-muted hover:text-ink"
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "mt-1 h-px w-4 shrink-0 transition-colors",
+                          isActive ? "bg-highlight" : "bg-line group-hover:bg-ink"
+                        )}
+                        aria-hidden="true"
                       />
-                    </span>
-                    <span className="min-w-0">
-                      <span className="block font-mono text-[10px] text-muted">
-                        {String(index + 1).padStart(2, "0")}
+                      <span className="min-w-0">
+                        <span className="block font-mono text-[10px] tracking-[0.12em] text-muted">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="mt-1 block leading-snug">{project.name}</span>
                       </span>
-                      <span className="mt-0.5 block truncate text-xs font-medium text-ink">
-                        {project.name}
-                      </span>
-                    </span>
-                  </a>
-                </li>
-              ))}
+                    </a>
+                  </li>
+                );
+              })}
             </ol>
+
+            <p className="mt-5 font-body text-micro leading-relaxed text-muted">
+              {t.projects.grid.projectCount.replace("{count}", String(filteredProjects.length))}
+            </p>
+            <p className="mt-3 font-body text-micro leading-relaxed text-muted">
+              {t.projectDetail.labels.disclaimer}
+            </p>
           </div>
         </nav>
 
-        <div className="mt-10 lg:mt-0">
-          {projects.map((project, index) => (
-            <ProjectEntry
-              key={project.slug}
-              project={project}
-              index={index}
-              centered={touchLike && centeredSlug === project.slug}
-              study={t.projectDetail.studies[project.slug as StudyKey]}
-              category={projectCategoryLabel(project.category, t)}
-              setRef={(element) => {
-                entryRefs.current[project.slug] = element;
-              }}
-            />
-          ))}
+        <div className="min-w-0">
+          {/* Mobile horizontal index */}
+          <nav aria-label={t.projects.grid.index} className="lg:hidden">
+            <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
+              {t.projects.grid.index}
+            </p>
+            <div className="-mx-[var(--gutter)] mt-4 overflow-x-auto px-[var(--gutter)] pb-2 scrollbar-none">
+              <ol className="flex w-max gap-2">
+                {filteredProjects.map((project, index) => (
+                  <li key={project.slug}>
+                    <a
+                      href={`#${project.slug}`}
+                      className="flex w-[148px] items-center gap-3 border border-line bg-surface p-2 transition-colors hover:border-line-strong focus-visible:border-ink"
+                    >
+                      <span className="relative aspect-[4/3] w-11 shrink-0 overflow-hidden border border-line bg-surface-2">
+                        <Image
+                          src={project.cover.src}
+                          alt=""
+                          fill
+                          sizes="44px"
+                          className="object-cover object-top"
+                        />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-mono text-[10px] text-muted">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <span className="mt-0.5 block truncate text-xs font-medium text-ink">
+                          {project.name}
+                        </span>
+                      </span>
+                    </a>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </nav>
+
+          <div className="mt-10 lg:mt-0">
+            {filteredProjects.map((project, index) => (
+              <ProjectEntry
+                key={project.slug}
+                project={project}
+                index={index}
+                centered={touchLike && centeredSlug === project.slug}
+                study={t.projectDetail.studies[project.slug as StudyKey]}
+                category={projectCategoryLabel(project.category, t)}
+                setRef={(element) => {
+                  entryRefs.current[project.slug] = element;
+                }}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

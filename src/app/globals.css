@@ -154,7 +154,7 @@
   --preview-border-active: var(--ink);
   --preview-bar-bg: var(--surface-2);
   --preview-dot-bg: var(--line-strong);
-  --preview-duration: 12s;
+  --preview-duration: 24s;
   --preview-delay: 80ms;
   --preview-crossfade: 200ms;
   --preview-focus-offset: 3px;

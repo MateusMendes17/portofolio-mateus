@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { PROJECTS } from "@/content/projects";
 import { useLanguage } from "@/context/LanguageContext";
@@ -10,6 +11,8 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { ButtonLink } from "@/components/ui/Button";
 import { CtaPanel } from "@/components/ui/CtaPanel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { TextReveal3D } from "@/components/ui/TextAnimations";
 
 const SERVICE_ANCHORS = ["websites", "lojas-online", "web-apps"] as const;
 
@@ -17,13 +20,24 @@ export function HomeView() {
   const { isEnglish, t } = useLanguage();
   const pathname = usePathname();
 
-  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
-  const heroProject =
-    PROJECTS.find((project) => project.slug === "mendes-valadares") ?? PROJECTS[0];
-  const heroIndex = PROJECTS.findIndex((project) => project.slug === heroProject.slug) + 1;
+  const [heroPosition, setHeroPosition] = useState(0);
+  const [heroPaused, setHeroPaused] = useState(false);
+
+  useEffect(() => {
+    if (heroPaused) return;
+    const id = window.setInterval(() => {
+      setHeroPosition((current) => (current + 1) % PROJECTS.length);
+    }, 5000);
+    return () => window.clearInterval(id);
+  }, [heroPaused]);
+
+  const heroProject = PROJECTS[heroPosition] ?? PROJECTS[0];
+  const heroIndex = heroPosition + 1;
   const heroStudy =
     t.projectDetail.studies[heroProject.slug as keyof typeof t.projectDetail.studies];
   const heroCategory = projectCategoryLabel(heroProject.category, t);
+
+  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
 
   const metrics = [
     t.home.metrics.speed,
@@ -42,9 +56,20 @@ export function HomeView() {
   return (
     <div className="pb-20 lg:pb-24">
       {/* 01 — Hero editorial: uma promessa, um projeto publicado, zero ruído. */}
-      <section className="container-page pt-8 lg:pt-12">
-        <div className="grid gap-12 border-b border-line pb-12 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.78fr)] lg:gap-16 lg:pb-16">
-          <div className="flex flex-col justify-between">
+      <section className="relative overflow-hidden pt-8 lg:pt-12">
+        <div className="absolute inset-0 -z-10">
+          <Image
+            src="/hero-bg.jpg"
+            alt=""
+            fill
+            priority
+            className="object-cover object-center opacity-40 dark:opacity-20"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-bg/60 via-bg/80 to-bg" />
+        </div>
+        <div className="container-page relative z-10">
+          <div className="grid gap-12 border-b border-line pb-12 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.78fr)] lg:gap-16 lg:pb-16">
+            <div className="flex flex-col justify-between">
             <div>
               <p className="flex items-start gap-2.5 font-body text-label uppercase tracking-[0.12em] text-muted">
                 <span
@@ -55,8 +80,10 @@ export function HomeView() {
               </p>
 
               <h1 className="mt-8 max-w-[13ch] font-heading text-display font-semibold text-ink">
-                {t.home.hero.titleBefore}{" "}
-                <span className="block text-muted">{t.home.hero.titleAccent}</span>
+                <TextReveal3D>{t.home.hero.titleBefore}</TextReveal3D>{" "}
+                <span className="block text-muted">
+                  <TextReveal3D>{t.home.hero.titleAccent}</TextReveal3D>
+                </span>
               </h1>
 
               <p className="mt-6 max-w-[48ch] font-body text-lead text-ink-2">
@@ -123,8 +150,12 @@ export function HomeView() {
             <Link
               href={`/projetos/${heroProject.slug}`}
               className="group mt-4 block"
+              onMouseEnter={() => setHeroPaused(true)}
+              onMouseLeave={() => setHeroPaused(false)}
+              onFocus={() => setHeroPaused(true)}
+              onBlur={() => setHeroPaused(false)}
             >
-              <div className="relative aspect-[16/10] overflow-hidden border border-line-strong bg-surface-2">
+              <div className="relative aspect-[16/10] overflow-hidden border border-line-strong bg-surface-2 transition-shadow duration-300 group-hover:shadow-lg">
                 <Image
                   src={heroProject.cover.src}
                   alt={t.projectDetail.labels.coverAlt.replace(
@@ -157,9 +188,11 @@ export function HomeView() {
             </Link>
           </div>
         </div>
+        </div>
       </section>
 
       {/* 02 — Princípios de trabalho, sem widgets de pontuações não medidas. */}
+      <ScrollReveal direction="up" distance={40}>
       <section className="container-page mt-12 lg:mt-16">
         <h2 className="mb-4 font-body text-label uppercase tracking-[0.13em] text-muted">
           {t.home.metrics.sectionHeading}
@@ -168,7 +201,7 @@ export function HomeView() {
           {metrics.map((metric, index) => (
             <article
               key={metric.title}
-              className="border-b border-line py-7 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6 lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+              className="border-b border-line py-7 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6 lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0 transition-all duration-300 hover:-translate-y-1 hover:bg-surface/40"
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="font-body text-micro tabular-nums text-muted">
@@ -189,8 +222,10 @@ export function HomeView() {
           ))}
         </div>
       </section>
+      </ScrollReveal>
 
       {/* 03 — Serviços. */}
+      <ScrollReveal direction="up" distance={40}>
       <section className="container-page mt-24 lg:mt-32">
         <SectionHeading
           index="03"
@@ -207,7 +242,7 @@ export function HomeView() {
           {services.map((service, index) => (
             <article
               key={service.anchor}
-              className="border-b border-line py-8 lg:border-b-0 lg:border-r lg:px-7 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+              className="border-b border-line py-8 lg:border-b-0 lg:border-r lg:px-7 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="font-body text-micro tabular-nums text-muted">
@@ -264,8 +299,10 @@ export function HomeView() {
           ))}
         </div>
       </section>
+      </ScrollReveal>
 
       {/* 04 — Três projetos selecionados. */}
+      <ScrollReveal direction="up" distance={40}>
       <section className="container-page mt-24 lg:mt-32">
         <SectionHeading
           index="04"
@@ -287,10 +324,10 @@ export function HomeView() {
             const category = projectCategoryLabel(project.category, t);
 
             return (
-              <Link
-                key={project.slug}
-                href={`/projetos/${project.slug}`}
-                className="group flex h-full flex-col"
+                <Link
+                  key={project.slug}
+                  href={`/projetos/${project.slug}`}
+                  className="group flex h-full flex-col transition-transform duration-300 hover:-translate-y-1"
               >
                 <div className="flex items-center justify-between border-t border-line pt-2 font-body text-[10px] uppercase tracking-[0.13em] text-muted">
                   <span className="tabular-nums">
@@ -308,7 +345,7 @@ export function HomeView() {
                     )}
                     fill
                     sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 100vw"
-                    className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.015]"
+                    className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
                   />
                 </div>
 
@@ -344,8 +381,10 @@ export function HomeView() {
           })}
         </div>
       </section>
+      </ScrollReveal>
 
       {/* 05 — Diferenciais de trabalho. */}
+      <ScrollReveal direction="up" distance={40}>
       <section className="container-page mt-24 lg:mt-32">
         <SectionHeading
           index="05"
@@ -358,7 +397,7 @@ export function HomeView() {
           {t.home.aboutPreview.pillars.map((pillar) => (
             <article
               key={pillar.num}
-              className="border-b border-line py-7 sm:border-b-0 sm:border-r sm:pr-7 sm:last:border-r-0 sm:last:pr-0 sm:[&:not(:first-child)]:pl-7"
+              className="border-b border-line py-7 sm:border-b-0 sm:border-r sm:pr-7 sm:last:border-r-0 sm:last:pr-0 sm:[&:not(:first-child)]:pl-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30"
             >
               <span className="font-body text-micro tabular-nums text-muted">
                 {pillar.num}
@@ -383,8 +422,10 @@ export function HomeView() {
           </Link>
         </p>
       </section>
+      </ScrollReveal>
 
       {/* 06 — Assistente interativo. */}
+      <ScrollReveal direction="up" distance={40}>
       <section className="container-page mt-24 lg:mt-32">
         <div className="grid gap-8 border-y border-line py-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
           <div>
@@ -406,8 +447,10 @@ export function HomeView() {
           </ButtonLink>
         </div>
       </section>
+      </ScrollReveal>
 
       {/* 07 — Conversão final. */}
+      <ScrollReveal direction="up" distance={40}>
       <div className="mt-24 lg:mt-32">
         <CtaPanel
           eyebrow={t.home.ctaSection.badge}
@@ -419,6 +462,7 @@ export function HomeView() {
           secondaryLabel={t.home.ctaSection.whatsappCta}
         />
       </div>
+      </ScrollReveal>
     </div>
   );
 }

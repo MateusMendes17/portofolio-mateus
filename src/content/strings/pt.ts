@@ -343,6 +343,28 @@ const pt = {
           "Startups, empresas com processos manuais pesados, portais de membros e negócios em fase de escalabilidade.",
       },
       {
+        id: "saas",
+        title: "Plataformas SaaS & Produtos Digitais",
+        badge: "SaaS & Subscrições",
+        tagline: "Transforme uma ideia num produto digital escalável com subscrições e multi-tenant.",
+        description:
+          "Desenvolvo plataformas SaaS completas, desde o MVP até à escala, com autenticação, faturação por subscrição, gestão de organizações multi-tenant e painéis de administração. Tudo pronto para crescer com o seu negócio.",
+        includes: [
+          "Arquitetura multi-tenant com isolamento de dados por organização",
+          "Autenticação segura com login social, magic links e gestão de equipas",
+          "Faturação por subscrição com Stripe (planos, upgrades, cancelamentos)",
+          "Painel de administração com métricas de negócio e gestão de utilizadores",
+          "APIs REST/GraphQL documentadas e webhooks para integrações",
+          "Onboarding guiado e emails transacionais automatizados",
+          "Infraestrutura cloud escalável com backups e monitorização",
+        ],
+        businessImpact:
+          "Lança um produto digital recorrente com receita previsível, pronto para captar os primeiros clientes e escalar.",
+        techStack: ["Next.js App Router", "TypeScript", "PostgreSQL", "Prisma", "Stripe", "Auth.js", "Tailwind CSS"],
+        idealFor:
+          "Founders, startups e empresas que querem lançar um produto digital por subscrição ou monetizar uma ferramenta interna.",
+      },
+      {
         id: "manutencao",
         title: "Redesign, Otimização & Suporte Técnico",
         badge: "Manutenção & Evolução",

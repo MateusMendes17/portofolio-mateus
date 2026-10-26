@@ -344,6 +344,28 @@ const en: Strings = {
           "Startups, businesses with heavy manual workflows, membership communities, and scaling companies.",
       },
       {
+        id: "saas",
+        title: "SaaS Platforms & Digital Products",
+        badge: "SaaS & Subscriptions",
+        tagline: "Turn an idea into a scalable digital product with subscriptions and multi-tenant support.",
+        description:
+          "I build complete SaaS platforms, from MVP to scale, with authentication, subscription billing, multi-tenant organization management and admin dashboards. Ready to grow with your business.",
+        includes: [
+          "Multi-tenant architecture with data isolation per organization",
+          "Secure authentication with social login, magic links and team management",
+          "Subscription billing with Stripe (plans, upgrades, cancellations)",
+          "Admin dashboard with business metrics and user management",
+          "Documented REST/GraphQL APIs and webhooks for integrations",
+          "Guided onboarding and automated transactional emails",
+          "Scalable cloud infrastructure with backups and monitoring",
+        ],
+        businessImpact:
+          "Launch a recurring digital product with predictable revenue, ready to acquire the first customers and scale.",
+        techStack: ["Next.js App Router", "TypeScript", "PostgreSQL", "Prisma", "Stripe", "Auth.js", "Tailwind CSS"],
+        idealFor:
+          "Founders, startups and companies that want to launch a subscription digital product or monetize an internal tool.",
+      },
+      {
         id: "manutencao",
         title: "Redesign, Speed Optimization & Support",
         badge: "Maintenance & Evolution",
