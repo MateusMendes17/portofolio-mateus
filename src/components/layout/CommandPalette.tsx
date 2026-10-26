@@ -249,6 +249,7 @@ export function CommandPalette() {
     "/sobre": t.nav.about,
     "/servicos": t.nav.services,
     "/projetos": t.nav.projects,
+    "/avaliador": t.nav.audit,
     "/contacto": t.nav.contact,
   };
 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -347,10 +347,15 @@ export function ServicosView() {
               {t.services.cta.description}
             </p>
             
-            <div className="pt-2 mt-8 flex justify-center">
+            <div className="pt-2 mt-8 flex flex-wrap justify-center gap-4">
               <Link href="/contacto">
                 <Button variant="primary" size="lg" withArrow className="font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
                   {t.common.startConversation}
+                </Button>
+              </Link>
+              <Link href="/avaliador">
+                <Button variant="secondary" size="lg" className="font-semibold">
+                  {t.nav.audit}
                 </Button>
               </Link>
             </div>

@@ -449,6 +449,30 @@ export function HomeView() {
       </section>
       </ScrollReveal>
 
+      {/* 06.5 — Avaliador de Sites */}
+      <ScrollReveal direction="up" distance={40}>
+      <section className="container-page mt-16 lg:mt-24">
+        <div className="border border-line bg-surface p-8 sm:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-xs">
+          <div className="max-w-2xl">
+            <span className="font-body text-label uppercase tracking-[0.14em] text-muted">
+              {isEnglish ? "Free Tool" : "Ferramenta Gratuita"}
+            </span>
+            <h2 className="mt-2 font-heading text-h2 font-semibold text-ink">
+              {isEnglish ? "Is your current website losing clients?" : "O seu website atual está a perder clientes?"}
+            </h2>
+            <p className="mt-3 font-body text-body text-ink-2">
+              {isEnglish
+                ? "Test your site in seconds and receive a clear business report on speed, SEO, mobile usability, and security."
+                : "Analise o seu site em segundos e receba um diagnóstico claro sobre velocidade, SEO, telemóvel e segurança."}
+            </p>
+          </div>
+          <ButtonLink href="/avaliador" size="lg" withArrow className="shrink-0 self-start md:self-center">
+            {isEnglish ? "Evaluate my website" : "Avaliar o meu site"}
+          </ButtonLink>
+        </div>
+      </section>
+      </ScrollReveal>
+
       {/* 07 — Conversão final. */}
       <ScrollReveal direction="up" distance={40}>
       <div className="mt-24 lg:mt-32">
