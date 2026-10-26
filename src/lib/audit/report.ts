@@ -11,10 +11,10 @@ export interface ReportInput {
 }
 
 const LIMITATIONS = [
-  "audit.limitations.singlePage",
-  "audit.limitations.noContrast",
-  "audit.limitations.noJs",
-  "audit.limitations.indicative",
+  "audit.limitationsKeys.singlePage",
+  "audit.limitationsKeys.noContrast",
+  "audit.limitationsKeys.noJs",
+  "audit.limitationsKeys.indicative",
 ];
 
 export async function buildReport(input: ReportInput): Promise<AuditResult | { error: string }> {
@@ -100,11 +100,155 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
 
   const overallScore = computeOverallScore(categories);
 
-  // strengths: findings com severity info/low que são "passou"? Na v1, strengths = categorias com score >= 80
-  // Usamos findings de info como informativos; strengths derivados de ausência de high/medium
-  const highMedium = findings.filter((f) => f.severity === "high" || f.severity === "medium");
-  const strengths: Finding[] = findings.filter((f) => f.severity === "info");
-  const improvements = sortFindingsByPriority(highMedium.concat(findings.filter((f) => f.severity === "low")));
+  const strengths: Finding[] = [];
+  const findingsIds = new Set(findings.map((f) => f.id));
+
+  if (!findingsIds.has("security.https.missing")) {
+    strengths.push({
+      id: "strengths.https",
+      category: "security",
+      severity: "info",
+      titleKey: "audit.findings.strengths.https.title",
+      whatKey: "audit.findings.strengths.https.what",
+      whyKey: "audit.findings.strengths.https.why",
+      howKey: "audit.findings.strengths.https.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("security.hsts.missing")) {
+    strengths.push({
+      id: "strengths.hsts",
+      category: "security",
+      severity: "info",
+      titleKey: "audit.findings.strengths.hsts.title",
+      whatKey: "audit.findings.strengths.hsts.what",
+      whyKey: "audit.findings.strengths.hsts.why",
+      howKey: "audit.findings.strengths.hsts.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("seo.title.missing") && !findingsIds.has("seo.title.short") && !findingsIds.has("seo.title.long")) {
+    strengths.push({
+      id: "strengths.title",
+      category: "seo",
+      severity: "info",
+      titleKey: "audit.findings.strengths.title.title",
+      whatKey: "audit.findings.strengths.title.what",
+      whyKey: "audit.findings.strengths.title.why",
+      howKey: "audit.findings.strengths.title.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("seo.h1.missing") && !findingsIds.has("seo.h1.multiple")) {
+    strengths.push({
+      id: "strengths.h1",
+      category: "seo",
+      severity: "info",
+      titleKey: "audit.findings.strengths.h1.title",
+      whatKey: "audit.findings.strengths.h1.what",
+      whyKey: "audit.findings.strengths.h1.why",
+      howKey: "audit.findings.strengths.h1.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("seo.canonical.missing")) {
+    strengths.push({
+      id: "strengths.canonical",
+      category: "seo",
+      severity: "info",
+      titleKey: "audit.findings.strengths.canonical.title",
+      whatKey: "audit.findings.strengths.canonical.what",
+      whyKey: "audit.findings.strengths.canonical.why",
+      howKey: "audit.findings.strengths.canonical.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("mobile.viewport.missing") && !findingsIds.has("mobile.viewport.notResponsive")) {
+    strengths.push({
+      id: "strengths.viewport",
+      category: "mobile",
+      severity: "info",
+      titleKey: "audit.findings.strengths.viewport.title",
+      whatKey: "audit.findings.strengths.viewport.what",
+      whyKey: "audit.findings.strengths.viewport.why",
+      howKey: "audit.findings.strengths.viewport.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("mobile.tel.missing") || !findingsIds.has("mobile.mailto.missing") || !findingsIds.has("mobile.whatsapp.missing")) {
+    strengths.push({
+      id: "strengths.contact",
+      category: "mobile",
+      severity: "info",
+      titleKey: "audit.findings.strengths.contact.title",
+      whatKey: "audit.findings.strengths.contact.what",
+      whyKey: "audit.findings.strengths.contact.why",
+      howKey: "audit.findings.strengths.contact.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("seo.lang.missing") && !findingsIds.has("a11y.lang.missing")) {
+    strengths.push({
+      id: "strengths.lang",
+      category: "accessibility",
+      severity: "info",
+      titleKey: "audit.findings.strengths.lang.title",
+      whatKey: "audit.findings.strengths.lang.what",
+      whyKey: "audit.findings.strengths.lang.why",
+      howKey: "audit.findings.strengths.lang.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("content.privacy.missing")) {
+    strengths.push({
+      id: "strengths.privacy",
+      category: "content",
+      severity: "info",
+      titleKey: "audit.findings.strengths.privacy.title",
+      whatKey: "audit.findings.strengths.privacy.what",
+      whyKey: "audit.findings.strengths.privacy.why",
+      howKey: "audit.findings.strengths.privacy.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (!findingsIds.has("weight.html.large") && !findingsIds.has("weight.html.medium")) {
+    strengths.push({
+      id: "strengths.weight",
+      category: "weight",
+      severity: "info",
+      titleKey: "audit.findings.strengths.weight.title",
+      whatKey: "audit.findings.strengths.weight.what",
+      whyKey: "audit.findings.strengths.weight.why",
+      howKey: "audit.findings.strengths.weight.how",
+      pointsLost: 0,
+    });
+  }
+
+  if (performance && performance.scores.performance !== null && performance.scores.performance >= 80) {
+    strengths.push({
+      id: "strengths.pagespeed",
+      category: "performance",
+      severity: "info",
+      titleKey: "audit.findings.strengths.pagespeed.title",
+      whatKey: "audit.findings.strengths.pagespeed.what",
+      whyKey: "audit.findings.strengths.pagespeed.why",
+      howKey: "audit.findings.strengths.pagespeed.how",
+      evidence: `Lighthouse mobile: ${performance.scores.performance}/100`,
+      pointsLost: 0,
+    });
+  }
+
+  const penaltyFindings = findings.filter((f) => f.severity === "high" || f.severity === "medium" || f.severity === "low");
+  const improvements = sortFindingsByPriority(penaltyFindings);
 
   return {
     url: fetchResult.url,
