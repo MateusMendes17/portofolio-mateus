@@ -40,6 +40,9 @@ export const contactFormSchema = z
         message: "Tem de autorizar o tratamento dos dados para podermos responder.",
       }),
     honeypot: z.string().optional(),
+    auditUrl: z.string().max(500).optional(),
+    auditScore: z.number().min(0).max(100).optional(),
+    auditFindings: z.array(z.string().max(200)).max(10).optional(),
   })
   .refine(
     (data) => {

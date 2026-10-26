@@ -110,6 +110,9 @@ export async function POST(request: Request): Promise<NextResponse> {
     contactPreference,
     features: data.features,
     message: data.message,
+    auditUrl: data.auditUrl,
+    auditScore: data.auditScore,
+    auditFindings: data.auditFindings,
   });
 
   if (result.status === "sem-chave") {
