@@ -2,145 +2,385 @@
 
 /* ============================================================
    DESIGN TOKENS — Portfólio Mateus Mendes
-   Paleta Solicitada:
-   Light: #E6D5C3 (Bege Quente), #FFFFFF (Branco), #362C24 (Castanho Café), #9E6747 (Terracota Suave)
-   Dark:  #1C1816 (Carvão Café), #2A2421 (Superfície Escura), #E6D5C3 (Bege Quente), #C98E6C (Terracota Claro)
+   Direção aprovada: Sinal / Oficina (híbrido B, carácter calmo)
+
+   Regras de cor:
+   - O chartreuse (--accent) é uma cor de preenchimento. Em tema claro
+     nunca é usado como cor de texto sobre o fundo, porque o contraste
+     é ~1.03:1. Texto sobre chartreuse é sempre --accent-ink.
+   - --color-accent é um alias de compatibilidade para os componentes
+     antigos: tinta no tema claro e chartreuse no tema escuro. Código
+     novo usa bg-highlight + text-accent-ink para preenchimentos.
+   - Foco em blocos escuros dentro do tema claro usa --code-focus.
    ============================================================ */
 
-/* ---------- Light theme ---------- */
 :root {
-  /* Fundo e Superfícies */
-  --color-background: #E6D5C3;
-  --color-surface: #FFFFFF;
-  --color-surface-hover: #F8F3ED;
+  color-scheme: light;
 
-  /* Bordas */
-  --color-border: #D8C4AF;
-  --color-border-hover: #C5B099;
+  /* Fundo e superfícies */
+  --bg: #f4f2ea;
+  --surface: #fbfaf5;
+  --surface-2: #eeece3;
+  --surface-hover: #f2f0e7;
 
-  /* Texto */
-  --color-text-primary: #362C24;
-  --color-text-secondary: #5C4D42;
-  --color-text-muted: #6A5A4B;
+  /* Tinta e linhas */
+  --ink: #0b0b0c;
+  --ink-2: #3a3a36;
+  --muted: #64645e;
+  --line: #d9d6cb;
+  --line-strong: #7e7a6f;
 
-  /* Accent: Terracota Suave */
-  --color-accent: #9E6747;
-  --color-accent-hover: #865436;
-  --color-accent-subtle: #F3E7DC;
-  --color-accent-text: #FFFFFF;
+  /* Acento — chartreuse */
+  --accent: #d7ff3f;
+  --accent-hover: #c4ed2a;
+  --accent-soft: #edf7c8;
+  --accent-ink: #0b0b0c;
+  --accent-soft-ink: #0b0b0c;
+  --accent-button-border: #0b0b0c;
+  --state-border: #0b0b0c;
 
-  /* Semântico */
-  --color-destructive: #C2410C;
-  --color-destructive-subtle: #FFEDD5;
-  --color-success: #2E7D32;
-  --color-success-subtle: #DCFCE7;
+  /* Foco e seleção */
+  --focus: #0b0b0c;
+  --code-focus: #d7ff3f;
+  --selection-bg: #d7ff3f;
+  --selection-ink: #0b0b0c;
+  --scrim: rgb(11 11 12 / 0.56);
 
-  /* Sombras quentes */
-  --shadow-sm: 0 1px 2px 0 rgb(54 44 36 / 0.05);
-  --shadow-md: 0 4px 10px -2px rgb(54 44 36 / 0.08), 0 2px 4px -2px rgb(54 44 36 / 0.04);
-  --shadow-lg: 0 12px 24px -4px rgb(54 44 36 / 0.12), 0 4px 8px -4px rgb(54 44 36 / 0.06);
-  --shadow-xl: 0 20px 32px -6px rgb(54 44 36 / 0.15), 0 8px 12px -6px rgb(54 44 36 / 0.06);
+  /* Semântica */
+  --destructive: #b42318;
+  --destructive-soft: #fee4e2;
+  --success: #1e6b3a;
+  --success-soft: #dcfce7;
+
+  /* Código / superfícies escuras */
+  --code-bg: #0f0f11;
+  --code-surface: #17171a;
+  --code-ink: #f1efe6;
+  --code-muted: #a3a099;
+  --code-line: #2a2a2d;
+  --code-accent: #d7ff3f;
+
+  /* Compatibilidade com a paleta anterior */
+  --legacy-accent: var(--ink);
+  --legacy-accent-hover: var(--ink-2);
+  --legacy-accent-text: var(--bg);
+
+  /* Tipografia — escala */
+  --type-hero: clamp(3.5rem, 1.2rem + 8vw, 8.5rem);
+  --type-hero-lh: 0.9;
+  --type-hero-ls: -0.055em;
+  --type-display: clamp(2.75rem, 1.5rem + 5vw, 6rem);
+  --type-display-lh: 0.95;
+  --type-display-ls: -0.045em;
+  --type-h2: clamp(2rem, 1.3rem + 3vw, 4rem);
+  --type-h2-lh: 1;
+  --type-h2-ls: -0.035em;
+  --type-h3: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --type-h3-lh: 1.1;
+  --type-h3-ls: -0.025em;
+  --type-lead: clamp(1.125rem, 1rem + 0.8vw, 1.5rem);
+  --type-lead-lh: 1.5;
+  --type-lead-ls: -0.01em;
+  --type-body: clamp(1rem, 0.98rem + 0.15vw, 1.0625rem);
+  --type-body-lh: 1.65;
+  --type-sm: 0.875rem;
+  --type-sm-lh: 1.55;
+  --type-label: clamp(0.8125rem, 0.79rem + 0.1vw, 0.875rem);
+  --type-label-lh: 1.3;
+  --type-label-ls: 0.08em;
+  --type-micro: 0.75rem;
+  --type-micro-lh: 1.4;
+  --type-index: clamp(2rem, 1.2rem + 3vw, 4rem);
+  --type-index-lh: 1;
+  --type-index-ls: -0.04em;
+
+  /* Espaçamento */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+  --space-10: 128px;
+  --section: clamp(4.5rem, 3rem + 6vw, 9rem);
+  --section-sm: clamp(3rem, 2rem + 3vw, 5rem);
+  --gutter: clamp(1.25rem, 0.9rem + 2.2vw, 3.5rem);
+  --grid-gap: clamp(1rem, 0.6rem + 1.2vw, 1.5rem);
+  --container: 1320px;
+  --measure: 68ch;
+  --rail: 176px;
+  --rail-gap: 48px;
+  --header-h: 64px;
+  --statusbar-h: 32px;
+
+  /* Raios e linhas */
+  --r-0: 0px;
+  --r-1: 2px;
+  --r-2: 4px;
+  --r-3: 6px;
+  --r-frame: 8px;
+  --r-frame-mobile: 6px;
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 3px;
+  --border-width: 1px;
+  --state-underline: 2px;
+
+  /* Movimento */
+  --duration-80: 80ms;
+  --duration-160: 160ms;
+  --duration-240: 240ms;
+  --duration-360: 360ms;
+  --duration-600: 600ms;
+  --duration-reduced: 0.01ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --transition-fast: var(--duration-160) var(--ease-out);
+  --transition-base: var(--duration-240) var(--ease-out);
+  --transition-slow: var(--duration-360) var(--ease-out);
+
+  /* Preview de projetos */
+  --preview-aspect-desktop: 16 / 10;
+  --preview-aspect-mobile: 4 / 3;
+  --preview-radius: 8px;
+  --preview-radius-mobile: 6px;
+  --preview-bar-h: 28px;
+  --preview-bar-h-mobile: 24px;
+  --preview-dot: 6px;
+  --preview-dot-mobile: 5px;
+  --preview-border: var(--line-strong);
+  --preview-border-active: var(--ink);
+  --preview-bar-bg: var(--surface-2);
+  --preview-dot-bg: var(--line-strong);
+  --preview-duration: 12s;
+  --preview-delay: 80ms;
+  --preview-crossfade: 200ms;
+  --preview-focus-offset: 3px;
+
+  /* Sombras mínimas — a direção assenta em hairlines */
+  --shadow-sm: 0 1px 2px 0 rgb(11 11 12 / 0.04);
+  --shadow-md: 0 8px 24px -16px rgb(11 11 12 / 0.18);
+  --shadow-lg: 0 16px 40px -24px rgb(11 11 12 / 0.22);
+  --shadow-xl: 0 24px 60px -32px rgb(11 11 12 / 0.26);
 }
 
-/* ---------- Dark theme ---------- */
 .dark {
-  /* Fundo e Superfícies */
-  --color-background: #1C1816;
-  --color-surface: #2A2421;
-  --color-surface-hover: #372F2B;
+  color-scheme: dark;
 
-  /* Bordas */
-  --color-border: #3D342F;
-  --color-border-hover: #4F433D;
+  --bg: #0b0b0c;
+  --surface: #141416;
+  --surface-2: #1c1c1f;
+  --surface-hover: #1a1a1d;
 
-  /* Texto */
-  --color-text-primary: #E6D5C3;
-  --color-text-secondary: #C0AEA0;
-  --color-text-muted: #C0AEA0; /* Era #A8988A (3.2:1) → agora #C0AEA0 (4.8:1) para WCAG AA */
+  --ink: #f1efe6;
+  --ink-2: #c9c6bc;
+  --muted: #a3a099;
+  --line: #2a2a2d;
+  --line-strong: #6a6a70;
 
-  /* Accent: Terracota Claro */
-  --color-accent: #C98E6C;
-  --color-accent-hover: #D7A384;
-  --color-accent-subtle: #3A2B23;
-  --color-accent-text: #1C1816;
+  --accent: #d7ff3f;
+  --accent-hover: #e4ff6b;
+  --accent-soft: #1e2410;
+  --accent-ink: #0b0b0c;
+  --accent-soft-ink: #d7ff3f;
+  --accent-button-border: transparent;
+  --state-border: #f1efe6;
 
-  /* Semântico */
-  --color-destructive: #F87171;
-  --color-destructive-subtle: #2E1B1B;
-  --color-success: #4ADE80;
-  --color-success-subtle: #17271D;
+  --focus: #d7ff3f;
+  --code-focus: #d7ff3f;
+  --selection-bg: #d7ff3f;
+  --selection-ink: #0b0b0c;
+  --scrim: rgb(0 0 0 / 0.72);
 
-  /* Sombras escuras profundas */
+  --destructive: #ff8a80;
+  --destructive-soft: #2e1515;
+  --success: #6ee7a0;
+  --success-soft: #10231a;
+
+  --legacy-accent: var(--accent);
+  --legacy-accent-hover: var(--accent-hover);
+  --legacy-accent-text: var(--bg);
+
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.4);
-  --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.35);
-  --shadow-lg: 0 14px 26px -4px rgb(0 0 0 / 0.6), 0 4px 8px -4px rgb(0 0 0 / 0.4);
-  --shadow-xl: 0 24px 38px -6px rgb(0 0 0 / 0.7), 0 8px 14px -6px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 8px 24px -16px rgb(0 0 0 / 0.55);
+  --shadow-lg: 0 16px 40px -24px rgb(0 0 0 / 0.65);
+  --shadow-xl: 0 24px 60px -32px rgb(0 0 0 / 0.75);
 }
 
-/* ---------- Inverted Theme Utility ---------- */
+/* Inversão forçada para blocos claros dentro do tema escuro. */
 .light {
-  /* Força cores Claras (usado para inverter o dark mode) */
-  --color-background: #E6D5C3;
-  --color-surface: #FFFFFF;
-  --color-surface-hover: #F8F3ED;
-  --color-border: #D8C4AF;
-  --color-border-hover: #C5B099;
-  --color-text-primary: #362C24;
-  --color-text-secondary: #5C4D42;
-  --color-text-muted: #6A5A4B;
-  --color-accent: #9E6747;
-  --color-accent-hover: #865436;
-  --color-accent-subtle: #F3E7DC;
-  --color-accent-text: #FFFFFF;
-  --color-destructive: #C2410C;
-  --color-destructive-subtle: #FFEDD5;
-  --color-success: #2E7D32;
-  --color-success-subtle: #DCFCE7;
-  --shadow-sm: 0 1px 2px 0 rgb(54 44 36 / 0.05);
-  --shadow-md: 0 4px 10px -2px rgb(54 44 36 / 0.08), 0 2px 4px -2px rgb(54 44 36 / 0.04);
-  --shadow-lg: 0 12px 24px -4px rgb(54 44 36 / 0.12), 0 4px 8px -4px rgb(54 44 36 / 0.06);
-  --shadow-xl: 0 20px 32px -6px rgb(54 44 36 / 0.15), 0 8px 12px -6px rgb(54 44 36 / 0.06);
+  color-scheme: light;
+
+  --bg: #f4f2ea;
+  --surface: #fbfaf5;
+  --surface-2: #eeece3;
+  --surface-hover: #f2f0e7;
+
+  --ink: #0b0b0c;
+  --ink-2: #3a3a36;
+  --muted: #64645e;
+  --line: #d9d6cb;
+  --line-strong: #7e7a6f;
+
+  --accent: #d7ff3f;
+  --accent-hover: #c4ed2a;
+  --accent-soft: #edf7c8;
+  --accent-ink: #0b0b0c;
+  --accent-soft-ink: #0b0b0c;
+  --accent-button-border: #0b0b0c;
+  --state-border: #0b0b0c;
+
+  --focus: #0b0b0c;
+  --code-focus: #d7ff3f;
+  --selection-bg: #d7ff3f;
+  --selection-ink: #0b0b0c;
+  --scrim: rgb(11 11 12 / 0.56);
+
+  --destructive: #b42318;
+  --destructive-soft: #fee4e2;
+  --success: #1e6b3a;
+  --success-soft: #dcfce7;
+
+  --legacy-accent: var(--ink);
+  --legacy-accent-hover: var(--ink-2);
+  --legacy-accent-text: var(--bg);
+}
+
+/* Foco de alto contraste em terminais, rodapés e overlays escuros. */
+.code-surface,
+.dark-surface {
+  --focus: var(--code-focus);
 }
 
 /* ---------- Tailwind v4 theme tokens ---------- */
 @theme inline {
-  /* Fonts */
+  /* Fontes */
   --font-heading: var(--font-space-grotesk);
   --font-body: var(--font-inter);
 
-  /* Cores mapeadas */
-  --color-bg: var(--color-background);
-  --color-surface: var(--color-surface);
-  --color-surface-hover: var(--color-surface-hover);
+  /* Escala tipográfica */
+  --text-hero: var(--type-hero);
+  --text-hero--line-height: var(--type-hero-lh);
+  --text-hero--letter-spacing: var(--type-hero-ls);
+  --text-hero--font-weight: 600;
 
-  --color-border: var(--color-border);
-  --color-border-hover: var(--color-border-hover);
+  --text-display: var(--type-display);
+  --text-display--line-height: var(--type-display-lh);
+  --text-display--letter-spacing: var(--type-display-ls);
+  --text-display--font-weight: 600;
 
-  --color-text-primary: var(--color-text-primary);
-  --color-text-secondary: var(--color-text-secondary);
-  --color-text-muted: var(--color-text-muted);
+  --text-h2: var(--type-h2);
+  --text-h2--line-height: var(--type-h2-lh);
+  --text-h2--letter-spacing: var(--type-h2-ls);
+  --text-h2--font-weight: 600;
 
-  --color-accent: var(--color-accent);
-  --color-accent-hover: var(--color-accent-hover);
-  --color-accent-subtle: var(--color-accent-subtle);
-  --color-accent-text: var(--color-accent-text);
+  --text-h3: var(--type-h3);
+  --text-h3--line-height: var(--type-h3-lh);
+  --text-h3--letter-spacing: var(--type-h3-ls);
+  --text-h3--font-weight: 600;
 
-  --color-destructive: var(--color-destructive);
-  --color-destructive-subtle: var(--color-destructive-subtle);
-  --color-success: var(--color-success);
-  --color-success-subtle: var(--color-success-subtle);
+  --text-lead: var(--type-lead);
+  --text-lead--line-height: var(--type-lead-lh);
+  --text-lead--letter-spacing: var(--type-lead-ls);
 
-  /* Radii */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
+  --text-body: var(--type-body);
+  --text-body--line-height: var(--type-body-lh);
+
+  --text-sm: var(--type-sm);
+  --text-sm--line-height: var(--type-sm-lh);
+
+  --text-label: var(--type-label);
+  --text-label--line-height: var(--type-label-lh);
+  --text-label--letter-spacing: var(--type-label-ls);
+  --text-label--font-weight: 500;
+
+  --text-micro: var(--type-micro);
+  --text-micro--line-height: var(--type-micro-lh);
+
+  --text-index: var(--type-index);
+  --text-index--line-height: var(--type-index-lh);
+  --text-index--letter-spacing: var(--type-index-ls);
+  --text-index--font-weight: 600;
+
+  /* Cores — nomes novos */
+  --color-bg: var(--bg);
+  --color-background: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-hover: var(--surface-hover);
+
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+
+  --color-highlight: var(--accent);
+  --color-highlight-hover: var(--accent-hover);
+  --color-highlight-soft: var(--accent-soft);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft-ink: var(--accent-soft-ink);
+  --color-accent-button-border: var(--accent-button-border);
+  --color-state-border: var(--state-border);
+
+  --color-focus: var(--focus);
+  --color-code-focus: var(--code-focus);
+  --color-selection-bg: var(--selection-bg);
+  --color-selection-ink: var(--selection-ink);
+  --color-scrim: var(--scrim);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+
+  --color-code-bg: var(--code-bg);
+  --color-code-surface: var(--code-surface);
+  --color-code-ink: var(--code-ink);
+  --color-code-muted: var(--code-muted);
+  --color-code-line: var(--code-line);
+  --color-code-accent: var(--code-accent);
+
+  /* Cores — compatibilidade com os componentes existentes */
+  --color-border: var(--line);
+  --color-border-hover: var(--line-strong);
+  --color-text-primary: var(--ink);
+  --color-text-secondary: var(--ink-2);
+  --color-text-muted: var(--muted);
+  --color-accent: var(--legacy-accent);
+  --color-accent-hover: var(--legacy-accent-hover);
+  --color-accent-subtle: var(--accent-soft);
+  --color-accent-text: var(--legacy-accent-text);
+  --color-destructive-subtle: var(--destructive-soft);
+  --color-success-subtle: var(--success-soft);
+
+  /* Espaçamento e grelha */
+  --spacing-section: var(--section);
+  --spacing-section-sm: var(--section-sm);
+  --spacing-gutter: var(--gutter);
+  --spacing-grid: var(--grid-gap);
+  --spacing-rail: var(--rail);
+  --spacing-rail-gap: var(--rail-gap);
+  --spacing-header: var(--header-h);
+  --spacing-statusbar: var(--statusbar-h);
+  --container-page: var(--container);
+  --container-measure: var(--measure);
+
+  /* Raios */
+  --radius-0: var(--r-0);
+  --radius-1: var(--r-1);
+  --radius-2: var(--r-2);
+  --radius-3: var(--r-3);
+  --radius-sm: var(--r-1);
+  --radius-md: var(--r-2);
+  --radius-lg: var(--r-3);
+  --radius-xl: var(--r-2);
+  --radius-2xl: var(--r-2);
+  --radius-3xl: var(--r-frame);
+  --radius-frame: var(--r-frame);
   --radius-full: 9999px;
-
-  /* Transições suaves */
-  --transition-fast: 180ms cubic-bezier(0.25, 1, 0.5, 1);
-  --transition-base: 350ms cubic-bezier(0.25, 1, 0.5, 1);
-  --transition-slow: 600ms cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* ============================================================
@@ -149,77 +389,73 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--bg);
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-text-primary);
+  background-color: var(--bg);
+  color: var(--ink);
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
-  transition: background-color 400ms cubic-bezier(0.25, 1, 0.5, 1),
-              color 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  font-size: var(--type-body);
+  line-height: var(--type-body-lh);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  transition:
+    background-color var(--duration-240) var(--ease-out),
+    color var(--duration-240) var(--ease-out);
 }
 
-/* ============================================================
-   PERFORMANCE — renderização condicional de secções
-   O browser deixa de fazer layout/paint do que está fora do ecrã,
-   o que alivia bastante a main thread em telemóvel em páginas
-   longas. `contain-intrinsic-size: auto <estimativa>` dá altura
-   enquanto não foi renderizado (para o scrollbar não saltar) e
-   passa a usar a altura real depois da primeira renderização.
-   ============================================================ */
-.cv-auto {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
-
-/* Corta o transbordo horizontal criado pelos "full-bleed" (`w-[100vw]`)
-   sem recorrer a `overflow-x: hidden`, que quebraria o `position: sticky`
-   das secções (o `clip` não cria contexto de scroll). */
 main {
   overflow-x: clip;
 }
 
-/* Headings */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
-  font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  color: var(--color-text-primary);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  text-wrap: balance;
 }
 
 p {
-  line-height: 1.75;
+  line-height: var(--type-body-lh);
+  text-wrap: pretty;
 }
 
-/* Focus styles — ring-based para melhor controlo visual e compatibilidade com dark/light */
-:focus-visible {
-  outline: none;
-  ring: 2px solid var(--color-accent);
-  ring-offset: 2px;
-  ring-offset-color: var(--color-background);
-  border-radius: var(--radius-full);
+a,
+button,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Utility para componentes que precisam de focus ring personalizado */
-.focus-ring {
-  &:focus-visible {
-    outline: none;
-    ring: 2px solid var(--color-accent);
-    ring-offset: 2px;
-    ring-offset-color: var(--color-background);
-  }
-}
-
-/* Selection */
 ::selection {
-  background-color: var(--color-accent);
-  color: var(--color-accent-text);
+  background-color: var(--selection-bg);
+  color: var(--selection-ink);
 }
 
-/* Scrollbar */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.focus-ring:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Scrollbar discreta, sem pills. */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -227,12 +463,9 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--color-border-hover);
-  border-radius: var(--radius-full);
-}
-
-.dark ::-webkit-scrollbar-thumb {
-  background-color: var(--color-border);
+  background-color: var(--line-strong);
+  border: 3px solid var(--bg);
+  border-radius: var(--radius-1);
 }
 
 /* Skip to content */
@@ -240,13 +473,14 @@ p {
   position: fixed;
   top: -100%;
   left: 50%;
-  transform: translateX(-50%);
   z-index: 9999;
+  transform: translateX(-50%);
   padding: 0.75rem 1.5rem;
-  background-color: var(--color-accent);
-  color: var(--color-accent-text);
+  border: var(--border-width) solid var(--accent-button-border);
+  border-radius: 0 0 var(--radius-2) var(--radius-2);
+  background-color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 600;
-  border-radius: 0 0 var(--radius-md) var(--radius-md);
   transition: top var(--transition-fast);
 }
 
@@ -254,9 +488,41 @@ p {
   top: 0;
 }
 
+/* Utilitários de layout da nova direção. */
+.container-page {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.measure {
+  max-width: var(--measure);
+}
+
+.section {
+  padding-block: var(--section);
+}
+
+.section-sm {
+  padding-block: var(--section-sm);
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+/* Mantém o paint fora do ecrã longe da main thread em páginas longas. */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
 /* ============================================================
-   BORDER BEAM / GLOW ANIMATIONS (Para o Botão Contacte-me)
+   LEGACY — animações decorativas usadas até à Fase 4.
+   Serão removidas com a reescrita da home e das vistas.
    ============================================================ */
+
 @keyframes border-beam {
   0% {
     transform: rotate(0deg);
@@ -274,25 +540,17 @@ p {
   animation: border-beam 2.2s linear infinite;
 }
 
-/* ============================================================
-   LAPTOP OPENING ANIMATION
-   ============================================================ */
-
-/* Perspective container — 50% origin = front view, closed laptop appears as thin edge */
+/* ─── Laptop opening animation ─── */
 .laptop-perspective {
   perspective: 1200px;
   perspective-origin: 50% 50%;
 }
 
-/* The entire laptop wrapper */
 .laptop-wrapper {
   position: relative;
   transform-style: preserve-3d;
 }
 
-/* ─── LID ─── */
-/* The lid rotates from fully closed (-90deg = flat/horizontal) to open (0deg = vertical).
-   A 1s delay lets the user see the closed laptop first. */
 .laptop-lid {
   position: relative;
   transform-origin: bottom center;
@@ -301,21 +559,18 @@ p {
   transform-style: preserve-3d;
 }
 
-/* The SCREEN side of the lid (faces user when open) */
 .laptop-lid-screen {
   position: relative;
   width: 100%;
   backface-visibility: hidden;
 }
 
-/* The BACK/OUTSIDE of the lid (the metallic surface you see when closed) */
 .laptop-lid-back {
   position: absolute;
   inset: 0;
   border-radius: 12px;
   backface-visibility: hidden;
   transform: rotateX(180deg);
-  /* Dark metallic gradient (always dark) */
   background: linear-gradient(
     180deg,
     #3d3935 0%,
@@ -326,28 +581,26 @@ p {
     #1e1b19 100%
   );
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    inset 0 -1px 0 rgba(0,0,0,0.3),
-    0 2px 20px rgba(0,0,0,0.5);
-  /* Subtle Apple-like logo area shimmer */
+    inset 0 1px 0 rgb(255 255 255 / 0.08),
+    inset 0 -1px 0 rgb(0 0 0 / 0.3),
+    0 2px 20px rgb(0 0 0 / 0.5);
   overflow: hidden;
 }
 
 .laptop-lid-back::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     135deg,
     transparent 30%,
-    rgba(255,255,255,0.15) 45%,
-    rgba(255,255,255,0.05) 55%,
+    rgb(255 255 255 / 0.15) 45%,
+    rgb(255 255 255 / 0.05) 55%,
     transparent 70%
   );
   pointer-events: none;
 }
 
-/* ─── BASE ─── */
 .laptop-base {
   position: relative;
   margin-top: -2px;
@@ -357,28 +610,27 @@ p {
   animation: laptop-base-in 0.6s ease-out 0s both;
 }
 
-/* Top surface of the keyboard base — taller to match lid thickness when closed */
 .laptop-base-top {
   position: relative;
   height: 18px;
   border-radius: 0 0 10px 10px;
   background: linear-gradient(180deg, #3d342f 0%, #302823 40%, #2a2421 100%);
-  box-shadow: 
-    inset 0 1px 0 rgba(255,255,255,0.05),
-    0 2px 8px rgba(0,0,0,0.4);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.05),
+    0 2px 8px rgb(0 0 0 / 0.4);
   overflow: hidden;
 }
 
-/* Front edge of the base — gives depth/thickness */
 .laptop-base-front {
   height: 8px;
   margin-top: -1px;
   border-radius: 0 0 8px 8px;
   background: linear-gradient(180deg, #252019 0%, #1a1612 100%);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.4);
+  box-shadow:
+    0 4px 16px rgb(0 0 0 / 0.5),
+    0 1px 4px rgb(0 0 0 / 0.4);
 }
 
-/* Hinge between lid and base */
 .laptop-hinge {
   position: absolute;
   top: 0;
@@ -386,11 +638,17 @@ p {
   right: 8%;
   height: 3px;
   border-radius: 0 0 2px 2px;
-  background: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.3) 80%, transparent 100%);
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(0 0 0 / 0.3) 20%,
+    rgb(0 0 0 / 0.4) 50%,
+    rgb(0 0 0 / 0.3) 80%,
+    transparent 100%
+  );
   z-index: 2;
 }
 
-/* Notch / indent on the front edge */
 .laptop-base-notch {
   position: absolute;
   bottom: 0;
@@ -399,22 +657,18 @@ p {
   width: 50px;
   height: 3px;
   border-radius: 3px 3px 0 0;
-  background: rgba(255,255,255,0.04);
+  background: rgb(255 255 255 / 0.04);
 }
 
-/* ─── SCREEN CONTENT & EFFECTS ─── */
-
-/* Content inside the screen fades in after the lid opens */
 .laptop-screen-content {
   opacity: 0;
   animation: screen-fade-in 0.8s ease-out 2.2s both;
 }
 
-/* Glow / light reflection on the screen surface */
 .laptop-screen-glow {
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+  background: linear-gradient(135deg, rgb(255 255 255 / 0.1) 0%, transparent 50%);
   opacity: 0;
   animation: screen-glow-in 1s ease-out 2.5s both;
   pointer-events: none;
@@ -422,7 +676,6 @@ p {
   border-radius: inherit;
 }
 
-/* Shadow beneath the laptop */
 .laptop-shadow {
   position: absolute;
   bottom: -20px;
@@ -430,20 +683,16 @@ p {
   right: 5%;
   height: 30px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, rgb(0 0 0 / 0.25) 0%, transparent 70%);
   opacity: 0;
   animation: shadow-grow 1s ease-out 0.3s both;
   pointer-events: none;
 }
 
-/* ─── Keyframes ─── */
-
-/* Lid opens: starts flat (-90deg = closed), stays closed briefly, then swings up */
 @keyframes laptop-open {
   0% {
     transform: rotateX(-90deg);
   }
-  /* Hold closed for the first bit (the 1s delay already accounts for most of it) */
   5% {
     transform: rotateX(-90deg);
   }
@@ -478,9 +727,15 @@ p {
 }
 
 @keyframes screen-glow-in {
-  0% { opacity: 0; }
-  50% { opacity: 0.6; }
-  100% { opacity: 0.3; }
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0.3;
+  }
 }
 
 @keyframes shadow-grow {
@@ -494,7 +749,6 @@ p {
   }
 }
 
-/* ─── Responsive ─── */
 @media (min-width: 640px) {
   .laptop-lid-back {
     border-radius: 16px;
@@ -535,11 +789,6 @@ p {
   }
 }
 
-/* ============================================================
-   3D ANIMATION UTILITIES
-   ============================================================ */
-
-/* Fade in from below — generic utility */
 @keyframes fade-in-up {
   0% {
     opacity: 0;
@@ -555,9 +804,9 @@ p {
   animation: fade-in-up 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
 }
 
-/* Gradient mesh animation for section backgrounds */
 @keyframes gradient-shift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -570,7 +819,6 @@ p {
   animation: gradient-shift 12s ease-in-out infinite;
 }
 
-/* Subtle shimmer scan effect — runs once on hover, not infinitely */
 @keyframes shimmer-scan {
   0% {
     transform: translateX(-100%) skewX(-15deg);
@@ -586,15 +834,15 @@ p {
 }
 
 .shimmer-scan::after {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.04) 40%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(255, 255, 255, 0.04) 60%,
+    rgb(255 255 255 / 0.04) 40%,
+    rgb(255 255 255 / 0.08) 50%,
+    rgb(255 255 255 / 0.04) 60%,
     transparent 100%
   );
   transform: translateX(-100%) skewX(-15deg);
@@ -607,9 +855,9 @@ p {
   animation: shimmer-scan 0.8s ease-out forwards;
 }
 
-/* Morphing blob for ambient decoration */
 @keyframes morph-blob {
-  0%, 100% {
+  0%,
+  100% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
   25% {
@@ -627,9 +875,9 @@ p {
   animation: morph-blob 15s ease-in-out infinite;
 }
 
-/* Floating pulse for decorative dots */
 @keyframes float-pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0) scale(1);
     opacity: 0.6;
   }
@@ -643,19 +891,18 @@ p {
   animation: float-pulse 4s ease-in-out infinite;
 }
 
-/* 3D Card perspective container */
 .perspective-container {
   perspective: 1000px;
   transform-style: preserve-3d;
 }
 
-/* Glow ring around important elements */
 @keyframes glow-ring {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(201, 142, 108, 0);
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgb(215 255 63 / 0);
   }
   50% {
-    box-shadow: 0 0 0 8px rgba(201, 142, 108, 0.1);
+    box-shadow: 0 0 0 8px rgb(215 255 63 / 0.1);
   }
 }
 
@@ -663,20 +910,18 @@ p {
   animation: glow-ring 3s ease-in-out infinite;
 }
 
-/* Section divider gradient line */
 .section-divider {
   height: 1px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--color-accent) 20%,
-    var(--color-accent) 80%,
+    var(--accent) 20%,
+    var(--accent) 80%,
     transparent 100%
   );
   opacity: 0.2;
 }
 
-/* ─── Floating shape CSS animation (replaces Framer Motion) ─── */
 @keyframes floating-drift {
   0% {
     transform: translate(0, 0) rotate(0deg) scale(1);
@@ -700,7 +945,6 @@ p {
   will-change: transform;
 }
 
-/* ─── Tilt Card 3D — CSS-only hover effect ─── */
 .tilt-card-3d {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   will-change: transform;
@@ -710,21 +954,23 @@ p {
   transform: translateY(-4px) scale(1.01);
 }
 
-/* Reduce motion for accessibility */
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+
 @media (prefers-reduced-motion: reduce) {
-  .laptop-lid,
-  .laptop-base,
-  .laptop-screen-content,
-  .laptop-screen-glow,
-  .laptop-shadow,
-  .morph-blob,
-  .animate-float-pulse,
-  .animate-gradient-mesh,
-  .animate-fade-in-up,
-  .animate-glow-ring,
-  .floating-shape {
-    animation-duration: 0.01ms !important;
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: var(--duration-reduced) !important;
     animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--duration-reduced) !important;
+    scroll-behavior: auto !important;
   }
 
   .shimmer-scan::after {
@@ -735,4 +981,3 @@ p {
     transform: none;
   }
 }
-
