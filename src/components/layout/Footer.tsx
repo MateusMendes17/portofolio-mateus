@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { SITE_CONFIG, SOCIAL_LINKS, NAV_ITEMS, NAV_LABEL_KEYS } from "@/lib/constants";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
+import { ButtonLink } from "@/components/ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
@@ -23,9 +24,9 @@ export function Footer() {
     return 2026; // fallback para SSR
   });
 
-  // Hora local de Lisboa, atualizada a cada 30s. Renderiza só depois de montar
-  // (inicia a null) para evitar divergência de hidratação.
-  const [localTime, setLocalTime] = useState<string | null>(null);
+  // Hora local de Lisboa, atualizada a cada 30s.
+  const [localTime, setLocalTime] = useState("");
+
   useEffect(() => {
     const fmt = new Intl.DateTimeFormat(isEnglish ? "en-GB" : "pt-PT", {
       timeZone: "Europe/Lisbon",
@@ -43,89 +44,83 @@ export function Footer() {
     href: "/servicos",
   }));
 
-  const getNavLabel = (href: string) => t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
+  const getNavLabel = (href: string) =>
+    t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
 
   return (
-    <footer className="border-t border-border/80 bg-surface/90 pt-16 pb-12 mt-24">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        {/* Banner de Destaque Superior: Disponibilidade para Projetos */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 pb-12 border-b border-border/70">
+    <footer className="mt-24 border-t border-line bg-surface/40" data-hide-whatsapp>
+      <div className="container-page">
+        <div className="flex flex-col gap-5 border-b border-line py-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-3 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+            <p className="flex items-start gap-2 font-body text-label uppercase tracking-[0.12em] text-muted">
+              <span
+                className="mt-[0.4em] h-1.5 w-1.5 shrink-0 bg-highlight ring-1 ring-ink/25"
+                aria-hidden="true"
+              />
               {t.footer.availability.replace("{year}", String(currentYear))}
-            </span>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">
+            </p>
+
+            <p className="mt-2 font-heading text-lg font-semibold tracking-[-0.02em] text-ink">
               {t.footer.ctaTitle}
-            </h2>
-            <p className="mt-1 text-sm text-text-secondary">
+            </p>
+            <p className="mt-1 max-w-[58ch] font-body text-sm text-ink-2">
               {t.footer.ctaDescription}
             </p>
           </div>
 
-          <div className="flex items-center gap-3">
-            <Link
-              href="/contacto"
-              className="inline-flex items-center justify-center rounded-full bg-accent px-6 py-3 text-xs font-semibold text-accent-text shadow-md hover:bg-accent-hover transition-colors duration-200"
-            >
-              {t.footer.cta}
-            </Link>
-          </div>
+          <ButtonLink href="/contacto" size="md" withArrow>
+            {t.footer.cta}
+          </ButtonLink>
         </div>
 
-        {/* Grelha de Colunas do Rodapé */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 py-14 border-b border-border/60">
-          {/* Coluna 1: Marca & Descrição */}
-          <div className="space-y-4">
-            <Link href="/" className="flex items-center gap-3">
-              <div className="relative flex h-10 w-16 items-center justify-center overflow-hidden rounded-xl shadow-sm border border-border/50">
-                <Image 
-                  src="/logo.jpg" 
-                  alt="Logo Mateus Mendes" 
+        <div className="grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.3fr_0.7fr_0.7fr_1fr]">
+          <div>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-3"
+              aria-label={t.nav.homeAria}
+            >
+              <span className="relative block h-9 w-9 shrink-0 overflow-hidden border border-line-strong bg-surface">
+                <Image
+                  src="/logo.jpg"
+                  alt=""
                   fill
-                  sizes="64px"
+                  sizes="36px"
                   className="object-cover"
                 />
-              </div>
-              <span className="font-heading text-lg font-bold tracking-tight text-text-primary">
+              </span>
+              <span className="font-heading text-[15px] font-semibold tracking-[-0.02em] text-ink">
                 {SITE_CONFIG.name}
               </span>
             </Link>
-            <p className="text-sm leading-relaxed text-text-secondary">
+
+            <p className="mt-5 max-w-[34ch] font-body text-sm leading-relaxed text-ink-2">
               {t.footer.tagline}
             </p>
-            <div className="pt-2 text-xs text-text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
-              <span className="inline-flex items-center gap-1">
-                <svg className="w-3.5 h-3.5 text-accent shrink-0" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                  <circle cx="12" cy="10" r="3" />
-                </svg>
-                {t.footer.location}
-              </span>
-              <span>•</span>
-              <span>
-                {t.footer.responseTime.replace("{time}", SITE_CONFIG.responseTime)}
-              </span>
+
+            <p className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-micro text-muted">
+              <span>{t.footer.location}</span>
+              <span aria-hidden="true">/</span>
+              <span>{t.footer.responseTime.replace("{time}", t.footer.responseTimeValue)}</span>
               {localTime && (
                 <>
-                  <span>•</span>
-                  <span className="whitespace-nowrap tabular-nums">{localTime}</span>
+                  <span aria-hidden="true">/</span>
+                  <time className="tabular-nums">{localTime}</time>
                 </>
               )}
-            </div>
+            </p>
           </div>
 
-          {/* Coluna 2: Serviços */}
           <div>
-            <p className="font-heading text-xs uppercase tracking-wider font-bold text-text-primary mb-4">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
               {t.footer.servicesTitle}
             </p>
-            <ul className="space-y-2.5 text-sm text-text-secondary">
+            <ul className="mt-4 space-y-2.5 font-body text-sm text-ink-2">
               {services.map((service) => (
                 <li key={service.label}>
                   <Link
                     href={service.href}
-                    className="hover:text-accent transition-colors duration-200 inline-block"
+                    className="transition-colors duration-200 hover:text-ink"
                   >
                     {service.label}
                   </Link>
@@ -134,17 +129,16 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Coluna 3: Navegação Principal */}
           <div>
-            <p className="font-heading text-xs uppercase tracking-wider font-bold text-text-primary mb-4">
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
               {t.footer.navTitle}
             </p>
-            <ul className="space-y-2.5 text-sm text-text-secondary">
+            <ul className="mt-4 space-y-2.5 font-body text-sm text-ink-2">
               {NAV_ITEMS.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="hover:text-accent transition-colors duration-200 inline-block"
+                    className="transition-colors duration-200 hover:text-ink"
                   >
                     {getNavLabel(item.href)}
                   </Link>
@@ -153,7 +147,7 @@ export function Footer() {
               <li>
                 <Link
                   href="/privacidade"
-                  className="hover:text-accent transition-colors duration-200 inline-block"
+                  className="transition-colors duration-200 hover:text-ink"
                 >
                   {t.footer.privacy}
                 </Link>
@@ -161,15 +155,14 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Coluna 4: Contacto Direto & Redes */}
-          <div className="space-y-4">
-            <p className="font-heading text-xs uppercase tracking-wider font-bold text-text-primary mb-4">
+          <div>
+            <p className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
               {t.footer.contactTitle}
             </p>
-            <div className="space-y-2 text-sm text-text-secondary">
+            <div className="mt-4 space-y-2.5 font-body text-sm text-ink-2">
               <a
                 href={`mailto:${SITE_CONFIG.email}`}
-                className="block hover:text-accent transition-colors duration-200"
+                className="block break-all transition-colors hover:text-ink"
               >
                 {SITE_CONFIG.email}
               </a>
@@ -177,57 +170,69 @@ export function Footer() {
                 href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block hover:text-accent transition-colors duration-200"
+                className="block transition-colors hover:text-ink"
               >
                 {SITE_CONFIG.phone} (WhatsApp)
               </a>
             </div>
 
-            <div className="pt-2 flex items-center gap-3">
+            <div className="mt-5 flex items-center gap-2">
               <a
                 href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-text-secondary hover:text-accent hover:border-accent transition-colors duration-200 shadow-sm"
+                className="flex h-9 w-9 items-center justify-center border border-line bg-surface text-muted transition-colors duration-200 hover:border-line-strong hover:text-ink"
                 aria-label="WhatsApp"
               >
-                <WhatsAppIcon className="w-4 h-4" />
+                <WhatsAppIcon className="h-4 w-4" />
               </a>
               <a
                 href={SOCIAL_LINKS.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-text-secondary hover:text-accent hover:border-accent transition-colors duration-200 shadow-sm"
+                className="flex h-9 w-9 items-center justify-center border border-line bg-surface text-muted transition-colors duration-200 hover:border-line-strong hover:text-ink"
                 aria-label="LinkedIn"
               >
-                <LinkedInIcon className="w-4 h-4" />
+                <LinkedInIcon className="h-4 w-4" />
               </a>
               <a
                 href={SOCIAL_LINKS.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-text-secondary hover:text-accent hover:border-accent transition-colors duration-200 shadow-sm"
+                className="flex h-9 w-9 items-center justify-center border border-line bg-surface text-muted transition-colors duration-200 hover:border-line-strong hover:text-ink"
                 aria-label="GitHub"
               >
-                <GitHubIcon className="w-4 h-4" />
+                <GitHubIcon className="h-4 w-4" />
               </a>
             </div>
           </div>
         </div>
 
-        {/* Newsletter Signup no Footer */}
-        <div className="mt-12 pt-8 border-t border-border/60">
-          <NewsletterSignup variant="inline" showName={false} />
+        <div className="border-t border-line py-8">
+          <div className="grid gap-5 lg:grid-cols-[0.7fr_1.3fr] lg:items-end">
+            <div>
+              <p className="font-body text-[10px] font-semibold uppercase tracking-[0.14em] text-muted">
+                {t.footer.newsletterTitle}
+              </p>
+              <p className="mt-2 max-w-[40ch] font-body text-sm text-ink-2">
+                {t.footer.newsletterNote}
+              </p>
+            </div>
+            <NewsletterSignup
+              variant="inline"
+              showName={false}
+              className="lg:ml-auto"
+            />
+          </div>
         </div>
 
-        {/* Linha Final: Copyright & Detalhes Legais */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 text-xs text-text-muted">
+        <div className="flex flex-col gap-3 border-t border-line pt-6 pb-24 font-body text-micro text-muted sm:flex-row sm:items-center sm:justify-between sm:py-6">
           <p>{t.footer.copyright.replace("{year}", String(currentYear))}</p>
-          <div className="flex items-center gap-4">
-            <Link href="/privacidade" className="hover:text-text-primary transition-colors">
+          <div className="flex flex-wrap items-center gap-4">
+            <Link href="/privacidade" className="transition-colors hover:text-ink">
               {t.footer.privacy}
             </Link>
-            <span>•</span>
+            <span aria-hidden="true">/</span>
             <span>{t.footer.madeWith}</span>
           </div>
         </div>

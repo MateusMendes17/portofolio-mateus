@@ -1,564 +1,285 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { WhatsAppIcon } from "@/components/ui/Icons";
 import { PROJECTS } from "@/content/projects";
 import { useLanguage } from "@/context/LanguageContext";
 import { projectCategoryLabel } from "@/lib/projectCategory";
-import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
-import { TiltCard3D } from "@/components/ui/TiltCard3D";
-import { FloatingElements } from "@/components/ui/FloatingElements";
-import { TextReveal3D } from "@/components/ui/TextAnimations";
-import { Testimonials } from "@/components/ui/Testimonials";
-import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { ButtonLink } from "@/components/ui/Button";
+import { CtaPanel } from "@/components/ui/CtaPanel";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+
+const SERVICE_ANCHORS = ["websites", "lojas-online", "web-apps"] as const;
 
 export function HomeView() {
   const { isEnglish, t } = useLanguage();
   const pathname = usePathname();
 
-  // Three featured published projects
   const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
+  const heroProject =
+    PROJECTS.find((project) => project.slug === "mendes-valadares") ?? PROJECTS[0];
+  const heroIndex = PROJECTS.findIndex((project) => project.slug === heroProject.slug) + 1;
+  const heroStudy =
+    t.projectDetail.studies[heroProject.slug as keyof typeof t.projectDetail.studies];
+  const heroCategory = projectCategoryLabel(heroProject.category, t);
 
-  const renderScreenContent = () => (
-    <>
-      {/* Reflexo de luz no ecrã (apenas visível no 3D mas inofensivo no 2D) */}
-      <div className="laptop-screen-glow hidden sm:block" />
+  const metrics = [
+    t.home.metrics.speed,
+    t.home.metrics.code,
+    t.home.metrics.direct,
+    t.home.metrics.seo,
+  ];
 
-      {/* Barra do Navegador no Ecrã */}
-      <div className="laptop-screen-content flex items-center justify-between p-2 sm:p-3 border-b border-white/10 text-xs text-[#8E7D70] bg-[#2A2421]/50">
-        {/* 3 Botões macOS */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#E05252]" />
-          <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#E5A93B]" />
-          <span className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-full bg-[#52BA69]" />
-        </div>
+  const services = SERVICE_ANCHORS.map((anchor, index) => {
+    const item = t.home.servicesPreview.items[index];
+    return { ...item, anchor };
+  });
 
-        {/* Barra de Endereço URL Minimalista */}
-        <div className="flex items-center gap-1.5 px-3 sm:px-4 py-1 rounded-md bg-[#1C1816] border border-white/10 text-[9px] sm:text-xs font-mono text-[#C0AEA0] shadow-sm">
-          <svg className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-emerald-500" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clipRule="evenodd" />
-          </svg>
-          <span>mateusmendes.pt</span>
-        </div>
-
-        <div className="w-6 sm:w-8" />
-      </div>
-
-      {/* Conteúdo Dentro do Ecrã */}
-      <div className="laptop-screen-content flex-1 flex flex-col justify-center items-center text-center px-4 sm:px-8 space-y-4 sm:space-y-6 bg-[#1C1816]">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#2A2421]/80 px-2.5 sm:px-3 py-1 text-xs font-semibold text-[#C0AEA0] shadow-sm">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-          <span>
-            {t.home.hero.availability}
-          </span>
-        </div>
-
-        {/* Título */}
-        <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight !text-[#E6D5C3] leading-tight">
-          {t.home.hero.titleBefore} <br className="hidden sm:inline" />
-          <span className="!text-[#C98E6C]">{t.home.hero.titleAccent}</span>
-        </h1>
-
-        {/* Subtítulo */}
-        <p className="text-xs sm:text-sm lg:text-base text-[#C0AEA0] leading-relaxed max-w-[250px] sm:max-w-md mx-auto font-normal">
-          {t.home.hero.subtitle}
-        </p>
-
-        {/* Botões */}
-        <div className="pt-2 flex items-center justify-center gap-3 sm:gap-4 scale-90 sm:scale-100">
-          <Link href="/contacto">
-            <Button variant="contact" size="sm" withArrow className="[&>span.relative]:!bg-[#E6D5C3] [&>span.relative]:!text-[#1C1816] hover:[&>span.relative]:!bg-[#D8C4AF]">
-              {t.home.hero.ctaPrimary}
-            </Button>
-          </Link>
-          <Link href="/projetos">
-            <Button variant="secondary" size="sm" className="bg-[#2A2421] text-[#E6D5C3] border border-white/10 hover:bg-[#372F2B]">
-              {t.home.hero.ctaSecondary}
-            </Button>
-          </Link>
-        </div>
-      </div>
-    </>
-  );
+  const whatsappUrl = getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "home");
 
   return (
-    <div className="space-y-24 sm:space-y-32 pb-20">
-      {/* ==============================================================
-          1. HERO SECTION: 100% FULL-SCREEN COM PORTÁTIL A ABRIR
-          ============================================================== */}
-      <section className="relative w-full min-h-screen -mt-[84px] sm:-mt-[88px] pt-[84px] sm:pt-[88px] flex items-center justify-center overflow-hidden">
-        {/* Imagem de Fundo em Ecrã Total (Otimizada para LCP) */}
-        <div className="absolute inset-0 w-full h-full overflow-hidden">
-          <Image
-            src="/hero-bg.jpg"
-            alt="Hero Background"
-            fill
-            priority
-            fetchPriority="high"
-            quality={85}
-            sizes="100vw"
-            className="object-cover object-center transition-transform duration-1000 scale-100 hover:scale-[1.01]"
-          />
-        </div>
+    <div className="pb-20 lg:pb-24">
+      {/* 01 — Hero editorial: uma promessa, um projeto publicado, zero ruído. */}
+      <section className="container-page pt-8 lg:pt-12">
+        <div className="grid gap-12 border-b border-line pb-12 lg:grid-cols-[minmax(0,1.02fr)_minmax(360px,0.78fr)] lg:gap-16 lg:pb-16">
+          <div className="flex flex-col justify-between">
+            <div>
+              <p className="flex items-start gap-2.5 font-body text-label uppercase tracking-[0.12em] text-muted">
+                <span
+                  className="mt-[0.4em] h-1.5 w-1.5 shrink-0 bg-highlight ring-1 ring-ink/25"
+                  aria-hidden="true"
+                />
+                {t.home.hero.availability}
+              </p>
 
-        {/* Gradiente sutil na base para transição perfeita para o fundo do site */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent via-65% to-bg pointer-events-none" />
+              <h1 className="mt-8 max-w-[13ch] font-heading text-display font-semibold text-ink">
+                {t.home.hero.titleBefore}{" "}
+                <span className="block text-muted">{t.home.hero.titleAccent}</span>
+              </h1>
 
-        {/* ── Portátil 3D com Animação de Abertura (Desktop) ── */}
-        <div className="relative z-10 w-full max-w-[340px] sm:max-w-[500px] lg:max-w-[750px] px-4 mx-auto select-none laptop-perspective hidden sm:block">
-          <div className="laptop-wrapper">
-            {/* Tampa / Ecrã do Portátil (Abre de fechado → aberto) */}
-            <div className="laptop-lid">
-              {/* Parte de trás da tampa (superfície metálica visível quando fechado) */}
-              <div className="laptop-lid-back" />
+              <p className="mt-6 max-w-[48ch] font-body text-lead text-ink-2">
+                {t.home.hero.subtitle}
+              </p>
 
-              {/* Parte da frente da tampa (ecrã, visível quando aberto) */}
-              <div className="laptop-lid-screen">
-                <div className="w-full aspect-[16/10] bg-[#161311]/90 backdrop-blur-xl border border-white/10 rounded-xl sm:rounded-2xl lg:rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden flex flex-col relative">
-
-                  {renderScreenContent()}
-                </div>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <ButtonLink
+                  href="/contacto"
+                  size="lg"
+                  withArrow
+                  className="w-full justify-center sm:w-auto"
+                >
+                  {t.home.hero.ctaPrimary}
+                </ButtonLink>
+                <ButtonLink
+                  href="/projetos"
+                  size="lg"
+                  variant="secondary"
+                  className="w-full justify-center sm:w-auto"
+                >
+                  {t.home.hero.ctaSecondary}
+                </ButtonLink>
               </div>
             </div>
 
-            {/* Base / Teclado do Portátil — Multi-camada para profundidade 3D */}
-            <div className="laptop-base">
-              <div className="laptop-hinge" />
-              <div className="laptop-base-top relative">
-                <div className="laptop-base-notch" />
-              </div>
-              <div className="laptop-base-front" />
-            </div>
-
-            {/* Sombra debaixo do portátil */}
-            <div className="laptop-shadow" />
-          </div>
-        </div>
-
-        {/* ── Ecrã Plano para Mobile (Performance LCP/TBT) ── */}
-        <div className="relative z-10 w-full px-4 mx-auto select-none sm:hidden max-w-[340px]">
-          <div className="w-full aspect-[4/5] bg-[#161311]/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden flex flex-col relative animate-fade-in-up sm:bg-[#161311]/90 sm:backdrop-blur-xl">
-            {renderScreenContent()}
-          </div>
-        </div>
-      </section>
-
-
-
-
-
-      {/* ==============================================================
-          2. BARRA DE MÉTRICAS & RIGOR TÉCNICO (COM VIDA & MICRO-WIDGETS)
-          ============================================================== */}
-      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <h2 className="sr-only">{t.home.metrics.sectionHeading}</h2>
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" stagger={0.12}>
-          {/* Card 1: Velocidade & Performance */}
-          <StaggerItem><TiltCard3D className="h-full">
-          <div className="group relative rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-6 shadow-sm hover:shadow-xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between overflow-hidden h-full shimmer-scan">
-            {/* Brilho Ambiente no Hover */}
-            <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-accent/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="relative z-10 space-y-4">
-              {/* Cabeçalho do Card: Ícone Monocromático + Badge */}
-              <div className="flex items-center justify-between">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-surface border border-border group-hover:border-accent/50 group-hover:bg-accent-subtle text-text-primary group-hover:text-accent transition-all duration-300 shadow-sm">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                    <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
-                  </svg>
-                </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2.5 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                  PageSpeed 100
-                </span>
-              </div>
-
-              {/* Métrica & Título */}
+            <dl className="mt-12 grid grid-cols-3 gap-4 border-t border-line pt-5">
               <div>
-                <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
-                  <span>&lt; 0.8s</span>
-                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {t.home.metrics.speed.unit}
-                  </span>
-                </div>
-                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {t.home.metrics.speed.title}
-                </h3>
-                <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {t.home.metrics.speed.description}
-                </p>
+                <dt className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
+                  {t.home.hero.stats.projects}
+                </dt>
+                <dd className="mt-1 font-heading text-sm text-ink tabular-nums">
+                  {String(PROJECTS.length).padStart(2, "0")}
+                </dd>
               </div>
-            </div>
-
-            {/* Micro-Widget Visual na Base */}
-            <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="flex items-center justify-between text-xs font-mono text-text-muted mb-1.5">
-                <span>{t.home.metrics.speed.widgetLabel}</span>
-                <span className="font-bold text-emerald-600 dark:text-emerald-400">100 / 100</span>
-              </div>
-              <div className="h-1.5 w-full rounded-full bg-surface-hover overflow-hidden">
-                <div className="h-full w-full rounded-full bg-gradient-to-r from-accent to-emerald-500 animate-pulse" />
-              </div>
-            </div>
-          </div>
-          </TiltCard3D></StaggerItem>
-
-          {/* Card 2: Código Sob Medida */}
-          <StaggerItem><TiltCard3D className="h-full">
-          <div className="group relative rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-6 shadow-sm hover:shadow-xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between overflow-hidden h-full shimmer-scan">
-            {/* Brilho Ambiente no Hover */}
-            <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-accent/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="relative z-10 space-y-4">
-              {/* Cabeçalho do Card */}
-              <div className="flex items-center justify-between">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-surface border border-border group-hover:border-accent/50 group-hover:bg-accent-subtle text-text-primary group-hover:text-accent transition-all duration-300 shadow-sm">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                    <polyline points="16 18 22 12 16 6" />
-                    <polyline points="8 6 2 12 8 18" />
-                  </svg>
-                </div>
-                <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-xs font-bold text-text-secondary">
-                  {t.home.metrics.code.badge}
-                </span>
-              </div>
-
-              {/* Métrica & Título */}
               <div>
-                <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
-                  <span>100%</span>
-                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {t.home.metrics.code.unit}
-                  </span>
-                </div>
-                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {t.home.metrics.code.title}
-                </h3>
-                <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {t.home.metrics.code.description}
-                </p>
+                <dt className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
+                  {t.home.hero.stats.location}
+                </dt>
+                <dd className="mt-1 font-heading text-sm text-ink">
+                  {t.footer.location}
+                </dd>
               </div>
-            </div>
-
-            {/* Micro-Widget Visual na Base */}
-            <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="rounded-xl bg-[#1A1614] border border-white/5 px-2.5 py-1.5 flex items-center justify-between text-xs font-mono text-[#E6D5C3]">
-                <span className="text-[#C98E6C]">stack</span>
-                <span className="text-emerald-400">Next.js 16 • TS</span>
-              </div>
-            </div>
-          </div>
-          </TiltCard3D></StaggerItem>
-
-          {/* Card 3: Zero Intermediários */}
-          <StaggerItem><TiltCard3D className="h-full">
-          <div className="group relative rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-6 shadow-sm hover:shadow-xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between overflow-hidden h-full shimmer-scan">
-            {/* Brilho Ambiente no Hover */}
-            <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-accent/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="relative z-10 space-y-4">
-              {/* Cabeçalho do Card */}
-              <div className="flex items-center justify-between">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-surface border border-border group-hover:border-accent/50 group-hover:bg-accent-subtle text-text-primary group-hover:text-accent transition-all duration-300 shadow-sm">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                  </svg>
-                </div>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent-subtle px-2.5 py-0.5 text-xs font-bold text-accent">
-                  <span className="h-1.5 w-1.5 rounded-full bg-accent animate-ping" />
-                  {t.home.metrics.direct.badge}
-                </span>
-              </div>
-
-              {/* Métrica & Título */}
               <div>
-                <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
-                  <span>0</span>
-                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {t.home.metrics.direct.unit}
-                  </span>
-                </div>
-                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {t.home.metrics.direct.title}
-                </h3>
-                <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {t.home.metrics.direct.description}
-                </p>
+                <dt className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
+                  {t.home.hero.stats.response}
+                </dt>
+                <dd className="mt-1 font-heading text-sm text-ink">
+                  {t.footer.responseTimeValue}
+                </dd>
               </div>
-            </div>
-
-            {/* Micro-Widget Visual na Base */}
-            <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="flex items-center justify-between text-xs text-text-muted">
-                <span className="flex items-center gap-1 whitespace-nowrap text-emerald-600 dark:text-emerald-400 font-semibold">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                  {t.home.metrics.direct.widgetChat}
-                </span>
-                <span className="whitespace-nowrap font-medium">{t.home.metrics.direct.widgetCall}</span>
-              </div>
-            </div>
+            </dl>
           </div>
-          </TiltCard3D></StaggerItem>
 
-          {/* Card 4: Google SEO de Raiz */}
-          <StaggerItem><TiltCard3D className="h-full">
-          <div className="group relative rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-6 shadow-sm hover:shadow-xl hover:border-accent/60 transition-all duration-300 flex flex-col justify-between overflow-hidden h-full shimmer-scan">
-            {/* Brilho Ambiente no Hover */}
-            <div className="absolute -inset-px rounded-3xl bg-gradient-to-br from-accent/15 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-            <div className="relative z-10 space-y-4">
-              {/* Cabeçalho do Card */}
-              <div className="flex items-center justify-between">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-surface border border-border group-hover:border-accent/50 group-hover:bg-accent-subtle text-text-primary group-hover:text-accent transition-all duration-300 shadow-sm">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.3-4.3" />
-                  </svg>
-                </div>
-                <span className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-surface px-2.5 py-0.5 text-xs font-bold text-accent">
-                  Google SEO
-                </span>
-              </div>
-
-              {/* Métrica & Título */}
-              <div>
-                <div className="font-heading text-3xl sm:text-4xl font-extrabold text-accent tracking-tight group-hover:scale-[1.02] transition-transform duration-300 origin-left flex items-baseline gap-1.5">
-                  <span>#1</span>
-                  <span className="text-xs font-mono font-medium text-text-muted uppercase tracking-wider">
-                    {t.home.metrics.seo.unit}
-                  </span>
-                </div>
-                <h3 className="font-heading text-base font-bold text-text-primary mt-1.5 group-hover:text-accent transition-colors">
-                  {t.home.metrics.seo.title}
-                </h3>
-                <p className="text-xs text-text-secondary leading-relaxed mt-1">
-                  {t.home.metrics.seo.description}
-                </p>
-              </div>
-            </div>
-
-            {/* Micro-Widget Visual na Base */}
-            <div className="relative z-10 mt-5 pt-3 border-t border-border/60">
-              <div className="flex items-center justify-between text-xs font-mono text-text-muted">
-                <span className="truncate">google.com/search</span>
-                <span className="text-accent font-bold shrink-0">{t.home.metrics.seo.widgetPosition}</span>
-              </div>
-            </div>
-          </div>
-          </TiltCard3D></StaggerItem>
-        </StaggerContainer>
-      </section>
-
-
-      {/* ==============================================================
-          3. SERVIÇOS EM DESTAQUE (SERVIÇOS RESUMO)
-          ============================================================== */}
-      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up" distance={30}>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
-            <span className="text-xs uppercase tracking-wider font-bold text-accent">
-              {t.home.servicesPreview.badge}
-            </span>
-            <h2 className="font-heading text-2xl sm:text-4xl font-bold text-text-primary mt-1">
-              <TextReveal3D>{t.home.servicesPreview.title}</TextReveal3D>
-            </h2>
-            <p className="text-sm text-text-secondary mt-1.5 max-w-2xl">
-              {t.home.servicesPreview.description}
-            </p>
+            <div className="flex items-center justify-between border-t border-line pt-2 font-body text-[10px] uppercase tracking-[0.13em] text-muted">
+              <span className="tabular-nums">
+                {String(heroIndex).padStart(2, "0")} /{" "}
+                {String(PROJECTS.length).padStart(2, "0")}
+              </span>
+              <span>{t.projectDetail.labels.published}</span>
+            </div>
+
+            <Link
+              href={`/projetos/${heroProject.slug}`}
+              className="group mt-4 block"
+            >
+              <div className="relative aspect-[16/10] overflow-hidden border border-line-strong bg-surface-2">
+                <Image
+                  src={heroProject.cover.src}
+                  alt={t.projectDetail.labels.coverAlt.replace(
+                    "{name}",
+                    heroProject.name
+                  )}
+                  fill
+                  priority
+                  fetchPriority="high"
+                  sizes="(min-width: 1024px) 44vw, 100vw"
+                  className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.015]"
+                />
+              </div>
+
+              <div className="mt-4 flex items-baseline justify-between gap-4">
+                <h2 className="font-heading text-h3 text-ink">
+                  {heroProject.name}
+                </h2>
+                <span className="shrink-0 font-body text-micro text-muted">
+                  {heroCategory}
+                </span>
+              </div>
+
+              <p className="mt-2 max-w-[46ch] font-body text-sm text-ink-2">
+                {heroStudy.summary}
+              </p>
+              <p className="mt-3 font-body text-[11px] leading-relaxed text-muted">
+                {t.projectDetail.labels.disclaimer}
+              </p>
+            </Link>
           </div>
-          <Link
-            href="/servicos"
-            className="text-xs sm:text-sm font-bold text-accent hover:underline inline-flex items-center gap-1 shrink-0"
-          >
-            <span>{t.home.servicesPreview.viewAll}</span>
-            <span>→</span>
-          </Link>
         </div>
-        </ScrollReveal>
-
-        <StaggerContainer className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" stagger={0.15}>
-          {/* Card 1: Websites & Landing Pages */}
-          <StaggerItem rotateX={8}><Card
-            badge={t.home.servicesPreview.items[0].badge}
-            badgeVariant="accent"
-            subtitle={t.home.servicesPreview.items[0].subtitle}
-            title={t.home.servicesPreview.items[0].title}
-            description={t.home.servicesPreview.items[0].description}
-            metrics={{
-              label: t.home.servicesPreview.items[0].metricLabel,
-              value: t.home.servicesPreview.items[0].metricValue,
-            }}
-            tags={t.home.servicesPreview.items[0].tags}
-            actionText={t.home.servicesPreview.items[0].action}
-            icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                <rect width="20" height="14" x="2" y="3" rx="2" />
-                <line x1="8" x2="16" y1="21" y2="21" />
-                <line x1="12" x2="12" y1="17" y2="21" />
-              </svg>
-            }
-            preview={
-              <div className="p-3.5 bg-surface/90 border border-border/70 rounded-2xl space-y-2.5">
-                <div className="flex items-center gap-1.5 pb-2 border-b border-border/60">
-                  <span className="w-2 h-2 rounded-full bg-red-400/80" />
-                  <span className="w-2 h-2 rounded-full bg-amber-400/80" />
-                  <span className="w-2 h-2 rounded-full bg-emerald-400/80" />
-                  <div className="ml-2 flex-1 rounded-md bg-surface px-2 py-0.5 text-[9px] font-mono text-text-muted border border-border/50 truncate">
-                    mateusmendes.pt
-                  </div>
-                </div>
-                <div className="rounded-lg bg-surface/50 border border-border/40 p-3 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="h-2 w-16 rounded bg-accent/40" />
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-2 py-0.5 text-xs font-bold text-emerald-600 dark:text-emerald-400">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-ping" />
-                      100 PageSpeed
-                    </span>
-                  </div>
-                  <div className="h-1.5 w-full rounded bg-border/60" />
-                  <div className="h-1.5 w-3/4 rounded bg-border/40" />
-                </div>
-              </div>
-            }
-          /></StaggerItem>
-
-          {/* Card 2: Lojas Online */}
-          <StaggerItem rotateX={8}><Card
-            featured
-            badge={t.home.servicesPreview.items[1].badge}
-            badgeVariant="success"
-            subtitle={t.home.servicesPreview.items[1].subtitle}
-            title={t.home.servicesPreview.items[1].title}
-            description={t.home.servicesPreview.items[1].description}
-            metrics={{
-              label: t.home.servicesPreview.items[1].metricLabel,
-              value: t.home.servicesPreview.items[1].metricValue,
-            }}
-            tags={t.home.servicesPreview.items[1].tags}
-            actionText={t.home.servicesPreview.items[1].action}
-            icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
-                <path d="M3 6h18" />
-                <path d="M16 10a4 4 0 0 1-8 0" />
-              </svg>
-            }
-            preview={
-              <div className="p-3.5 bg-gradient-to-br from-surface to-accent-subtle/50 border border-accent/25 rounded-2xl space-y-3">
-                <div className="rounded-xl bg-gradient-to-r from-[#2A2421] to-[#1C1816] p-3 text-white shadow-md border border-white/10 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="h-3 w-5 rounded bg-amber-400/80 border border-amber-300/40" />
-                    <span className="text-[9px] font-mono text-white/70">MB WAY / VISA</span>
-                  </div>
-                  <p className="font-mono text-xs tracking-widest text-white/90">•••• 4242</p>
-                  <div className="flex items-center justify-between text-[9px] text-white/60">
-                    <span>MATEUS MENDES</span>
-                    <span>12/28</span>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between rounded-lg bg-surface/90 border border-border/70 p-2 shadow-sm">
-                  <div className="flex items-center gap-1.5">
-                    <div className="h-5 w-5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-xs font-bold">
-                      ✓
-                    </div>
-                    <span className="text-xs font-semibold text-text-primary">
-                      {t.home.servicesPreview.items[1].previewStatus}
-                    </span>
-                  </div>
-                  <span className="text-xs font-bold text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                    {t.home.servicesPreview.items[1].previewConfirmed}
-                  </span>
-                </div>
-              </div>
-            }
-          /></StaggerItem>
-
-          {/* Card 3: Aplicações Web Sob Medida */}
-          <StaggerItem rotateX={8}><Card
-            badge={t.home.servicesPreview.items[2].badge}
-            badgeVariant="default"
-            subtitle={t.home.servicesPreview.items[2].subtitle}
-            title={t.home.servicesPreview.items[2].title}
-            description={t.home.servicesPreview.items[2].description}
-            metrics={{
-              label: t.home.servicesPreview.items[2].metricLabel,
-              value: t.home.servicesPreview.items[2].metricValue,
-            }}
-            tags={t.home.servicesPreview.items[2].tags}
-            actionText={t.home.servicesPreview.items[2].action}
-            icon={
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
-                <polyline points="16 18 22 12 16 6" />
-                <polyline points="8 6 2 12 8 18" />
-              </svg>
-            }
-            preview={
-              <div className="p-3.5 bg-surface/90 border border-border/70 rounded-2xl space-y-2.5 font-mono text-xs">
-                <div className="flex items-center justify-between pb-1.5 border-b border-border/50 text-[9px] text-text-muted">
-                  <span className="flex items-center gap-1">
-                    <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-                    app.service.ts
-                  </span>
-                  <span className="text-emerald-600 dark:text-emerald-400">● 99.9% Uptime</span>
-                </div>
-                <div className="space-y-1 text-text-secondary bg-[#1C1816] text-[#E6D5C3] p-2.5 rounded-lg border border-white/5">
-                  <p>
-                    <span className="text-[#C98E6C]">const</span> api = <span className="text-[#9E6747] dark:text-[#C98E6C]">deploy</span>({`{`}
-                  </p>
-                  <p className="pl-3 text-emerald-400">
-                    status: <span className="text-white">&quot;online&quot;</span>,
-                  </p>
-                  <p className="pl-3 text-sky-400">
-                    latency: <span className="text-white">&quot;12ms&quot;</span>
-                  </p>
-                  <p>{`}`});</p>
-                </div>
-                <div className="flex items-center justify-between pt-0.5 text-[9px] text-text-muted">
-                  <span>{t.home.servicesPreview.items[2].previewScalable}</span>
-                  <span className="font-bold text-text-primary">10k+ req/min</span>
-                </div>
-              </div>
-            }
-          /></StaggerItem>
-        </StaggerContainer>
       </section>
 
-      {/* ==============================================================
-          4. PROJETOS EM DESTAQUE (PORTFÓLIO RESUMO)
-          ============================================================== */}
-      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up" distance={30}>
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
-          <div>
-            <span className="text-xs uppercase tracking-wider font-bold text-accent">
-              {t.home.featuredProjects.badge}
-            </span>
-            <h2 className="font-heading text-2xl sm:text-4xl font-bold text-text-primary mt-1">
-              <TextReveal3D>{t.home.featuredProjects.title}</TextReveal3D>
-            </h2>
-            <p className="text-sm text-text-secondary mt-1.5 max-w-2xl">
-              {t.home.featuredProjects.description}
-            </p>
-          </div>
-          <Link
-            href="/projetos"
-            className="text-xs sm:text-sm font-bold text-accent hover:underline inline-flex items-center gap-1 shrink-0"
-          >
-            <span>{t.home.featuredProjects.viewAll}</span>
-            <span>→</span>
-          </Link>
-        </div>
-        </ScrollReveal>
+      {/* 02 — Princípios de trabalho, sem widgets de pontuações não medidas. */}
+      <section className="container-page mt-12 lg:mt-16">
+        <h2 className="mb-4 font-body text-label uppercase tracking-[0.13em] text-muted">
+          {t.home.metrics.sectionHeading}
+        </h2>
+        <div className="grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
+          {metrics.map((metric, index) => (
+            <article
+              key={metric.title}
+              className="border-b border-line py-7 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6 lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-body text-micro tabular-nums text-muted">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
+                  {metric.unit}
+                </span>
+              </div>
 
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6" stagger={0.15}>
-          {featuredProjects.map((project) => {
+              <h3 className="mt-8 max-w-[16ch] font-heading text-[1.4rem] tracking-[-0.03em] text-ink">
+                {metric.title}
+              </h3>
+              <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">
+                {metric.description}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* 03 — Serviços. */}
+      <section className="container-page mt-24 lg:mt-32">
+        <SectionHeading
+          index="03"
+          eyebrow={t.home.servicesPreview.badge}
+          title={t.home.servicesPreview.title}
+          description={t.home.servicesPreview.description}
+          action={{
+            href: "/servicos",
+            label: t.home.servicesPreview.viewAll,
+          }}
+        />
+
+        <div className="mt-10 grid border-t border-line lg:grid-cols-3">
+          {services.map((service, index) => (
+            <article
+              key={service.anchor}
+              className="border-b border-line py-8 lg:border-b-0 lg:border-r lg:px-7 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span className="font-body text-micro tabular-nums text-muted">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
+                  {service.badge}
+                </span>
+              </div>
+
+              <p className="mt-8 font-body text-[10px] uppercase tracking-[0.12em] text-muted">
+                {service.subtitle}
+              </p>
+              <h3 className="mt-2 font-heading text-h3 text-ink">
+                <Link
+                  href={`/servicos#${service.anchor}`}
+                  className="underline decoration-transparent underline-offset-4 transition-colors hover:decoration-line-strong"
+                >
+                  {service.title}
+                </Link>
+              </h3>
+              <p className="mt-3 font-body text-sm leading-relaxed text-ink-2">
+                {service.description}
+              </p>
+
+              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
+                {service.tags.map((tag) => (
+                  <li
+                    key={tag}
+                    className="flex items-center gap-2 font-body text-micro text-muted"
+                  >
+                    <span
+                      className="h-1 w-1 bg-line-strong"
+                      aria-hidden="true"
+                    />
+                    {tag}
+                  </li>
+                ))}
+              </ul>
+
+              <Link
+                href="/contacto"
+                className="group mt-6 inline-flex items-center gap-2 font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+              >
+                {service.action}
+                <span
+                  aria-hidden="true"
+                  className="transition-transform duration-200 group-hover:translate-x-1"
+                >
+                  →
+                </span>
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* 04 — Três projetos selecionados. */}
+      <section className="container-page mt-24 lg:mt-32">
+        <SectionHeading
+          index="04"
+          eyebrow={t.home.featuredProjects.badge}
+          title={t.home.featuredProjects.title}
+          description={t.home.featuredProjects.description}
+          action={{
+            href: "/projetos",
+            label: t.home.featuredProjects.viewAll,
+          }}
+        />
+
+        <div className="mt-10 grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+          {featuredProjects.map((project, index) => {
             const study =
               t.projectDetail.studies[
                 project.slug as keyof typeof t.projectDetail.studies
@@ -566,199 +287,138 @@ export function HomeView() {
             const category = projectCategoryLabel(project.category, t);
 
             return (
-              <StaggerItem key={project.slug}><TiltCard3D className="h-full">
-              <div
-                className="group flex flex-col justify-between rounded-3xl border border-border/80 bg-surface/80 backdrop-blur-xl p-6 sm:p-7 shadow-sm hover:border-accent/40 transition-all duration-300 h-full"
+              <Link
+                key={project.slug}
+                href={`/projetos/${project.slug}`}
+                className="group flex h-full flex-col"
               >
-                <div>
-                  {/* Categoria & Ano */}
-                  <div className="flex items-center justify-between mb-3 text-xs">
-                    <span className="font-mono text-xs font-bold uppercase tracking-wider text-accent px-2.5 py-0.5 rounded-full bg-accent-subtle">
-                      {category}
-                    </span>
-                    <span className="text-text-muted">
-                      {t.projectDetail.labels.published}
-                    </span>
-                  </div>
+                <div className="flex items-center justify-between border-t border-line pt-2 font-body text-[10px] uppercase tracking-[0.13em] text-muted">
+                  <span className="tabular-nums">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span>{t.projectDetail.labels.published}</span>
+                </div>
 
-                  {/* Título */}
-                  <h3 className="font-heading text-lg font-bold text-text-primary group-hover:text-accent transition-colors mb-2">
+                <div className="relative mt-3 aspect-[16/10] overflow-hidden border border-line-strong bg-surface-2">
+                  <Image
+                    src={project.cover.src}
+                    alt={t.projectDetail.labels.coverAlt.replace(
+                      "{name}",
+                      project.name
+                    )}
+                    fill
+                    sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 100vw"
+                    className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.015]"
+                  />
+                </div>
+
+                <div className="mt-4 flex items-baseline justify-between gap-3">
+                  <h3 className="font-heading text-h3 text-ink">
                     {project.name}
                   </h3>
+                  <span className="shrink-0 font-body text-micro text-muted">
+                    {category}
+                  </span>
+                </div>
 
-                  {/* Descrição */}
-                  <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                    {study.summary}
-                  </p>
-                  <p className="mt-3 text-[10px] leading-relaxed text-text-muted">
+                <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">
+                  {study.summary}
+                </p>
+
+                <div className="mt-auto pt-4">
+                  <p className="font-body text-[11px] leading-relaxed text-muted">
                     {t.projectDetail.labels.disclaimer}
                   </p>
+                  <span className="mt-3 inline-flex items-center gap-2 font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors group-hover:decoration-ink">
+                    {t.projects.grid.viewCaseStudy}
+                    <span
+                      aria-hidden="true"
+                      className="transition-transform duration-200 group-hover:translate-x-1"
+                    >
+                      →
+                    </span>
+                  </span>
                 </div>
-
-                {/* Rodapé do Card com Tags e Link */}
-                <div className="pt-4 border-t border-border/60 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.tags.slice(0, 2).map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-medium text-text-muted px-2 py-0.5 rounded-md bg-surface border border-border/60"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  <Link
-                    href={`/projetos/${project.slug}`}
-                    className="text-xs font-bold text-accent group-hover:underline inline-flex items-center gap-1"
-                  >
-                    <span>{t.projects.grid.viewCaseStudy}</span>
-                    <span>→</span>
-                  </Link>
-                </div>
-              </div>
-              </TiltCard3D></StaggerItem>
+              </Link>
             );
           })}
-        </StaggerContainer>
-      </section>
-
-      {/* ==============================================================
-          5. PORQUÊ TRABALHAR COMIGO (SOBRE / METODOLOGIA RESUMO)
-          ============================================================== */}
-      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up" distance={40} scale={0.97}>
-        <div className="rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-8 sm:p-12 shadow-sm relative overflow-hidden">
-          {/* Decorative morphing blob */}
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-accent/5 morph-blob pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-48 h-48 bg-accent/3 morph-blob pointer-events-none" style={{ animationDelay: '-5s' }} />
-          <div className="max-w-2xl mb-10">
-            <span className="text-xs uppercase tracking-wider font-bold text-accent">
-              {t.home.aboutPreview.badge}
-            </span>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
-              {t.home.aboutPreview.title}
-            </h2>
-            <p className="text-sm text-text-secondary mt-1.5">
-              {t.home.aboutPreview.description}
-            </p>
-          </div>
-
-          <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.12}>
-            {t.home.aboutPreview.pillars.map((pillar) => (
-              <StaggerItem key={pillar.num}>
-              <div
-                className="rounded-2xl border border-border/70 bg-surface/70 p-6 space-y-3 hover:border-accent/40 transition-all duration-300"
-              >
-                <span className="font-mono text-xs font-bold text-accent px-2.5 py-1 rounded-full bg-accent-subtle">
-                  {pillar.num}
-                </span>
-                <h3 className="font-heading text-base font-bold text-text-primary">
-                  {pillar.title}
-                </h3>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  {pillar.desc}
-                </p>
-              </div>
-              </StaggerItem>
-            ))}
-          </StaggerContainer>
-
-          <div className="mt-8 pt-6 border-t border-border/60 flex flex-wrap items-center justify-between gap-4">
-            <p className="text-xs text-text-muted">
-              {t.home.aboutPreview.footerNote}
-            </p>
-            <Link
-              href="/sobre"
-              className="text-xs sm:text-sm font-bold text-accent hover:underline inline-flex items-center gap-1"
-            >
-              <span>{t.home.aboutPreview.footerLink}</span>
-              <span>→</span>
-            </Link>
-          </div>
         </div>
-        </ScrollReveal>
       </section>
 
-      {/* ==============================================================
-          5.5. TESTEMUNHOS ROTATIVOS (PROVA SOCIAL)
-          ============================================================== */}
-      <Testimonials />
+      {/* 05 — Diferenciais de trabalho. */}
+      <section className="container-page mt-24 lg:mt-32">
+        <SectionHeading
+          index="05"
+          eyebrow={t.home.aboutPreview.badge}
+          title={t.home.aboutPreview.title}
+          description={t.home.aboutPreview.description}
+        />
 
-      {/* ==============================================================
-          6. TEASER DO ASSISTENTE INTERATIVO (QUIZ RESUMO)
-          ============================================================== */}
-      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up" distance={35} scale={0.96}>
-        <div className="rounded-3xl border border-accent/30 bg-gradient-to-br from-surface to-accent-subtle/30 p-8 sm:p-12 shadow-md flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden animate-gradient-mesh">
-          <div className="absolute -top-16 -right-16 w-48 h-48 bg-accent/8 morph-blob pointer-events-none" />
-          <div className="max-w-xl space-y-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
+        <div className="mt-10 grid border-t border-line sm:grid-cols-3">
+          {t.home.aboutPreview.pillars.map((pillar) => (
+            <article
+              key={pillar.num}
+              className="border-b border-line py-7 sm:border-b-0 sm:border-r sm:pr-7 sm:last:border-r-0 sm:last:pr-0 sm:[&:not(:first-child)]:pl-7"
+            >
+              <span className="font-body text-micro tabular-nums text-muted">
+                {pillar.num}
+              </span>
+              <h3 className="mt-6 max-w-[18ch] font-heading text-[1.4rem] tracking-[-0.03em] text-ink">
+                {pillar.title}
+              </h3>
+              <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">
+                {pillar.desc}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <p className="mt-6 font-body text-sm text-muted">
+          {t.home.aboutPreview.footerNote}{" "}
+          <Link
+            href="/sobre"
+            className="font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+          >
+            {t.home.aboutPreview.footerLink}
+          </Link>
+        </p>
+      </section>
+
+      {/* 06 — Assistente interativo. */}
+      <section className="container-page mt-24 lg:mt-32">
+        <div className="grid gap-8 border-y border-line py-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
+          <div>
+            <p className="flex items-center gap-3 font-body text-label uppercase tracking-[0.13em] text-muted">
+              <span className="tabular-nums text-ink">06</span>
+              <span className="h-px w-7 bg-line-strong" aria-hidden="true" />
               {t.home.quizTeaser.badge}
-            </span>
-            <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary">
+            </p>
+            <h2 className="mt-4 max-w-[26ch] font-heading text-h2 text-ink">
               {t.home.quizTeaser.title}
             </h2>
-            <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+            <p className="mt-4 max-w-[56ch] font-body text-body text-ink-2">
               {t.home.quizTeaser.description}
             </p>
           </div>
 
-          <Link href="/sobre" className="shrink-0">
-            <Button variant="primary" size="lg" withArrow>
-              {t.home.quizTeaser.cta}
-            </Button>
-          </Link>
+          <ButtonLink href="/sobre" size="lg" withArrow className="justify-self-start lg:justify-self-end">
+            {t.home.quizTeaser.cta}
+          </ButtonLink>
         </div>
-        </ScrollReveal>
       </section>
 
-      {/* ==============================================================
-          7. BANNER FINAL DE CONTACTO (CONVERSÃO MÁXIMA)
-          ============================================================== */}
-      <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-        <ScrollReveal direction="up" distance={50} scale={0.95}>
-        <div className="relative rounded-3xl sm:rounded-[2.5rem] border border-accent/40 bg-surface/90 backdrop-blur-xl p-8 sm:p-14 text-center shadow-xl space-y-6 overflow-hidden">
-          {/* Floating 3D elements in CTA */}
-          <FloatingElements count={3} variant="minimal" />
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent-subtle px-3 py-1 text-xs font-semibold text-accent">
-            <span className="h-2 w-2 rounded-full bg-accent animate-ping" />
-            {t.home.ctaSection.badge}
-          </div>
-
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-text-primary max-w-2xl mx-auto">
-            {t.home.ctaSection.title}
-          </h2>
-
-          <p className="text-sm sm:text-base text-text-secondary max-w-xl mx-auto leading-relaxed">
-            {t.home.ctaSection.description}
-          </p>
-
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
-            <Link href="/contacto">
-              <Button variant="contact" size="lg" withArrow>
-                {t.common.startConversation}
-              </Button>
-            </Link>
-
-            <a
-              href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "home")}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl bg-surface border border-border px-6 py-3.5 text-xs sm:text-sm font-bold text-text-primary hover:text-accent hover:border-accent transition-all shadow-sm"
-            >
-              <WhatsAppIcon className="w-4 h-4" />
-              <span>{t.home.ctaSection.whatsappCta}</span>
-            </a>
-          </div>
-
-          {/* Newsletter Signup */}
-          <div className="pt-4 w-full max-w-md mx-auto">
-            <NewsletterSignup variant="inline" showName={false} />
-          </div>
-        </div>
-        </ScrollReveal>
-      </section>
+      {/* 07 — Conversão final. */}
+      <div className="mt-24 lg:mt-32">
+        <CtaPanel
+          eyebrow={t.home.ctaSection.badge}
+          title={t.home.ctaSection.title}
+          description={t.home.ctaSection.description}
+          primaryHref="/contacto"
+          primaryLabel={t.common.startConversation}
+          secondaryHref={whatsappUrl}
+          secondaryLabel={t.home.ctaSection.whatsappCta}
+        />
+      </div>
     </div>
   );
 }

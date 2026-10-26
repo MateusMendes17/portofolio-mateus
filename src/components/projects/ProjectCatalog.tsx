@@ -230,7 +230,6 @@ function ProjectEntry({
     >
       <Link
         href={`/projetos/${project.slug}`}
-        aria-label={`${project.name} — ${t.projects.grid.viewCaseStudy}`}
         onPointerEnter={(event) => {
           if (event.pointerType !== "touch") setHovered(true);
         }}

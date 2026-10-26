@@ -83,9 +83,9 @@ export function NewsletterSignup({
           placeholder={placeholder || (isEnglish ? "Your email" : "O seu email")}
           disabled={isSuccess || status === "loading"}
           className={cn(
-            "flex-1 rounded-xl border border-border bg-surface px-4 py-2.5 text-sm text-text-primary placeholder-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent",
-            isSuccess && "bg-emerald-500/10 border-emerald-500/30",
-            status === "error" && "border-destructive/50"
+            "flex-1 rounded-sm border border-line bg-surface px-4 py-2.5 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
+            isSuccess && "border-success/40 bg-success-soft",
+            status === "error" && "border-destructive/60"
           )}
           aria-describedby={status === "error" ? "newsletter-error-minimal" : undefined}
         />
@@ -102,7 +102,7 @@ export function NewsletterSignup({
           <p id="newsletter-error-minimal" className="text-xs text-destructive" role="alert">{errorMessage}</p>
         )}
         {isSuccess && (
-          <p className="text-xs text-emerald-600 dark:text-emerald-400" role="status">
+          <p className="text-xs text-success" role="status">
             {successMessage || (isEnglish ? "Subscribed! Check your inbox." : "Subscrito! Verifique o seu email.")}
           </p>
         )}
@@ -126,9 +126,9 @@ export function NewsletterSignup({
             placeholder={placeholder || (isEnglish ? "Enter your email" : "Insira o seu email")}
             disabled={isSuccess || status === "loading"}
             className={cn(
-              "w-full rounded-xl border border-border bg-surface px-4 py-3 text-sm text-text-primary placeholder-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent",
-              isSuccess && "bg-emerald-500/10 border-emerald-500/30",
-              status === "error" && "border-destructive/50"
+              "w-full rounded-sm border border-line bg-surface px-4 py-3 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
+              isSuccess && "border-success/40 bg-success-soft",
+              status === "error" && "border-destructive/60"
             )}
             aria-describedby={status === "error" ? "newsletter-error-inline" : undefined}
           />
@@ -146,14 +146,12 @@ export function NewsletterSignup({
           {status === "loading" ? (isEnglish ? "Subscribing..." : "A subscrever...") : (buttonText || (isEnglish ? "Subscribe" : "Subscrever"))}
         </Button>
         {isSuccess && (
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-sm text-emerald-600 dark:text-emerald-400 text-center sm:text-left"
+          <p
+            className="text-center font-body text-sm text-success sm:text-left"
             role="status"
           >
             {successMessage || (isEnglish ? "Subscribed! Check your inbox for the guide." : "Subscrito! Verifique o email para o guia.")}
-          </motion.p>
+          </p>
         )}
       </form>
     );

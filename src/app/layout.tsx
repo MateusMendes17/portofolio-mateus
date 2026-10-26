@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { SmoothScroll } from "@/components/layout/SmoothScroll";
+import { SkipLink } from "@/components/layout/SkipLink";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
 import { Analytics } from "@vercel/analytics/react";
@@ -152,9 +153,7 @@ export default function RootLayout({
         <ThemeProvider>
           <LanguageProvider>
             <SmoothScroll>
-              <a href="#main-content" className="skip-to-content">
-                Saltar para o conteúdo
-              </a>
+              <SkipLink />
               <Header />
               <main id="main-content" className="flex-1">
                 {children}

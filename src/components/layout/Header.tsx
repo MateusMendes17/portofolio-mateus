@@ -1,153 +1,141 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, useScroll } from "framer-motion";
 import { NAV_ITEMS, NAV_LABEL_KEYS, SITE_CONFIG } from "@/lib/constants";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import { MobileNav } from "./MobileNav";
 import { CommandPalette } from "./CommandPalette";
-import { Button } from "../ui/Button";
+import { ButtonLink } from "../ui/Button";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
 export function Header() {
   const pathname = usePathname();
   const { t } = useLanguage();
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
 
-  const getNavLabel = (href: string) => t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
+  const getNavLabel = (href: string) =>
+    t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
 
-  const handleOpenMobileMenu = React.useCallback(() => {
+  const isActive = (href: string) =>
+    pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
+
+  const handleOpenMobileMenu = useCallback(() => {
     setMobileMenuOpen(true);
   }, []);
 
-  const handleCloseMobileMenu = React.useCallback(() => {
+  const handleCloseMobileMenu = useCallback(() => {
     setMobileMenuOpen(false);
-  }, []);
-
-  // Efeito de elevação suave ao fazer scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <>
-      <header
-        className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-300 select-none",
-          isScrolled
-            ? "border-b border-border/80 bg-bg/85 backdrop-blur-xl shadow-sm py-3"
-            : "border-b border-transparent bg-transparent py-5"
-        )}
-      >
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          {/* Logo / Marca Mateus Mendes */}
+      <header className="sticky top-0 z-40 w-full select-none border-b border-line bg-bg/92 backdrop-blur-md supports-[backdrop-filter]:bg-bg/80">
+        <div className="container-page flex h-16 items-center justify-between gap-4">
           <Link
             href="/"
-            className="group flex items-center gap-3 transition-transform duration-200 active:scale-95"
-            aria-label="Página inicial — Mateus Mendes"
+            className="group -ml-1 flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
+            aria-label={t.nav.homeAria}
           >
-            <div className="relative flex h-10 w-16 items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-105 group-hover:rotate-2 rounded-xl shadow-sm border border-border/50">
-              <Image 
-                src="/logo.jpg" 
-                alt="Logo Mateus Mendes" 
+            <span className="relative block h-9 w-9 shrink-0 overflow-hidden border border-line-strong bg-surface">
+              <Image
+                src="/logo.jpg"
+                alt=""
                 fill
-                sizes="64px"
+                sizes="36px"
                 className="object-cover"
+                priority
               />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-heading text-lg font-bold tracking-tight text-text-primary transition-colors group-hover:text-accent leading-tight">
+            </span>
+            <span className="flex min-w-0 flex-col leading-none">
+              <span className="truncate font-heading text-[15px] font-semibold tracking-[-0.02em] text-ink">
                 {SITE_CONFIG.name}
               </span>
-              <span className="text-xs font-medium text-text-muted tracking-wide">
+              <span className="mt-1 hidden font-body text-[10px] uppercase tracking-[0.16em] text-muted sm:block">
                 {t.nav.tagline}
               </span>
-            </div>
+            </span>
           </Link>
 
-          {/* Links de Navegação (Desktop) */}
           <nav
-            aria-label="Navegação principal"
-            className="hidden md:flex items-center gap-1 rounded-full border border-border/70 bg-surface/75 backdrop-blur-lg px-3 py-1.5 shadow-sm"
+            aria-label={t.nav.mainAria}
+            className="hidden items-center gap-0.5 md:flex"
           >
             {NAV_ITEMS.map((item) => {
-              const isActive = pathname === item.href;
-              const label = getNavLabel(item.href);
+              const active = isActive(item.href);
               return (
                 <Link
                   key={item.href}
                   href={item.href}
+                  aria-current={active ? "page" : undefined}
                   className={cn(
-                    "relative rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-all duration-200",
-                    isActive
-                      ? "text-accent-text bg-accent shadow-sm"
-                      : "text-text-secondary hover:text-text-primary hover:bg-surface-hover"
+                    "relative px-3 py-2 font-body text-[13px] font-medium transition-colors duration-200",
+                    active ? "text-ink" : "text-muted hover:text-ink"
                   )}
                 >
-                  {label}
+                  {getNavLabel(item.href)}
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "absolute inset-x-3 bottom-0.5 h-px bg-ink transition-opacity duration-200",
+                      active ? "opacity-100" : "opacity-0"
+                    )}
+                  />
                 </Link>
               );
             })}
           </nav>
 
-          {/* Ações da Direita: Pesquisa + Idioma + Tema + Botão CTA + Menu Mobile */}
-          <div className="flex items-center gap-3">
-            {/* Command Palette (⌘K / Ctrl+K) */}
+          <div className="flex shrink-0 items-center gap-1 sm:gap-1.5">
             <CommandPalette />
 
-            {/* Switch Toggle Idioma (PT / EN) */}
             <div className="hidden sm:block">
               <LanguageToggle />
             </div>
-
-            {/* Switch Toggle Dia / Noite */}
             <div className="hidden sm:block">
               <ThemeToggle />
             </div>
 
-            {/* Botão de Contacto */}
-            <Link href="/contacto" className="hidden lg:inline-flex">
-              <Button variant="primary" size="sm" withArrow>
-                {t.nav.cta}
-              </Button>
-            </Link>
+            <ButtonLink
+              href="/contacto"
+              size="sm"
+              withArrow
+              className="ml-1 max-lg:hidden"
+            >
+              {t.nav.cta}
+            </ButtonLink>
 
-            {/* Gatilho Hamburger do Menu Mobile */}
             <button
               type="button"
               onClick={handleOpenMobileMenu}
-              className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-surface text-text-primary transition-colors hover:border-accent hover:text-accent md:hidden shadow-sm active:scale-95"
-              aria-label="Abrir menu de navegação"
+              className="ml-0.5 flex h-10 w-10 items-center justify-center border border-line bg-surface text-ink transition-colors duration-200 hover:border-line-strong md:hidden"
+              aria-label={t.nav.openMenu}
               aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1.7}
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 7h16.5M3.75 12h16.5M3.75 17h16.5"
+                />
               </svg>
             </button>
           </div>
         </div>
-
-        {/* Barra de progresso de leitura (colada à base do header) */}
-        <motion.div
-          aria-hidden="true"
-          style={{ scaleX: scrollYProgress }}
-          className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-accent"
-        />
       </header>
 
-      {/* Gaveta do Menu Mobile */}
       <MobileNav isOpen={mobileMenuOpen} onClose={handleCloseMobileMenu} />
     </>
   );

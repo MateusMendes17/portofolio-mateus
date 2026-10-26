@@ -1,56 +1,85 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { WhatsAppIcon } from "@/components/ui/Icons";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
 
 /**
- * Botão flutuante de WhatsApp (apenas mobile).
- *
- * Aparece depois de o visitante passar o hero e esconde-se na página de
- * contacto, onde o formulário já é o caminho principal — o objetivo é
- * apanhar quem prefere mensagem direta a preencher um formulário.
- *
- * Agora com mensagem contextual baseada na página atual.
+ * Atalho de WhatsApp no mobile. Ícone compacto para não tapar conteúdo;
+ * aparece depois do hero e desaparece na página de contacto, onde o
+ * formulário é o caminho principal.
  */
 export function WhatsAppFloat() {
   const [isVisible, setIsVisible] = useState(false);
+  const [hideForContact, setHideForContact] = useState(false);
   const pathname = usePathname();
-  const { isEnglish } = useLanguage();
+  const { isEnglish, t } = useLanguage();
 
   useEffect(() => {
     const onScroll = () => {
-      setIsVisible(window.scrollY > window.innerHeight * 0.9);
+      const nearBottom =
+        window.innerHeight + window.scrollY >
+        document.documentElement.scrollHeight - 320;
+
+      setIsVisible(
+        window.scrollY > window.innerHeight * 0.9 && !nearBottom
+      );
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const show = isVisible && pathname !== "/contacto";
+  /* Não tapa o CTA final nem a zona de contacto do footer. */
+  useEffect(() => {
+    const targets = document.querySelectorAll("[data-hide-whatsapp]");
+    if (targets.length === 0) return;
+
+    const intersecting = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            intersecting.add(entry.target);
+          } else {
+            intersecting.delete(entry.target);
+          }
+        });
+        setHideForContact(intersecting.size > 0);
+      },
+      { threshold: 0.01 }
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [pathname]);
+
+  const show =
+    isVisible && !hideForContact && pathname !== "/contacto";
   const whatsappUrl = getWhatsAppUrl(pathname, isEnglish ? "en" : "pt");
 
   return (
-    <AnimatePresence>
-      {show && (
-        <motion.a
-          initial={{ opacity: 0, y: 16, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 16, scale: 0.9 }}
-          transition={{ duration: 0.25, ease: [0.25, 1, 0.5, 1] }}
-          href={whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Falar por WhatsApp"
-          className="fixed bottom-6 left-4 z-50 inline-flex items-center gap-2 rounded-full bg-accent px-4 py-3 text-xs font-bold text-surface shadow-lg hover:bg-accent-hover active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-background md:hidden"
-        >
-          <WhatsAppIcon className="h-5 w-5" />
-          WhatsApp
-        </motion.a>
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={t.whatsappFloat.aria}
+      aria-hidden={!show}
+      tabIndex={show ? 0 : -1}
+      className={cn(
+        "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-40 flex h-12 w-12 items-center justify-center md:hidden",
+        "border border-ink bg-ink text-bg shadow-sm",
+        "transition-[opacity,transform] duration-200 ease-[var(--ease-out)]",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
+        show
+          ? "pointer-events-auto translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-2 opacity-0"
       )}
-    </AnimatePresence>
+    >
+      <WhatsAppIcon className="h-5 w-5" />
+    </a>
   );
 }

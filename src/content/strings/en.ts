@@ -25,6 +25,8 @@ const en: Strings = {
     openMenu: "Open menu",
     closeMenu: "Close menu",
     tagline: "Web Development",
+    mainAria: "Main navigation",
+    homeAria: "Home — Mateus Mendes",
   },
 
   home: {
@@ -36,6 +38,11 @@ const en: Strings = {
         "Bespoke development with clean code, sub-second speeds, and direct communication.",
       ctaPrimary: "Get in Touch",
       ctaSecondary: "View Projects",
+      stats: {
+        projects: "Published",
+        location: "Location",
+        response: "Response",
+      },
     },
     metrics: {
       sectionHeading: "Quality in numbers",
@@ -117,9 +124,9 @@ const en: Strings = {
     },
     featuredProjects: {
       badge: "Selected Case Studies",
-      title: "Recent Projects & Measurable Results",
+      title: "Selected Projects",
       description:
-        "Discover how clean code and strategic digital design generated real business impact.",
+        "Three published projects, chosen to show how design and engineering solve concrete problems. The brands are fictional; the sites are published.",
       viewAll: "View all portfolio projects",
     },
     aboutPreview: {
@@ -1073,6 +1080,7 @@ const en: Strings = {
       "Professional web development focused on technical excellence, speed, and real business results.",
     location: "Lisbon, Portugal",
     responseTime: "Response within {time}",
+    responseTimeValue: "24 hours",
     servicesTitle: "Services",
     services: [
       "Corporate Websites",
@@ -1083,6 +1091,8 @@ const en: Strings = {
     ],
     navTitle: "Navigation",
     contactTitle: "Direct Contact",
+    newsletterTitle: "Newsletter",
+    newsletterNote: "Conversion checklist and technical notes. No spam.",
     privacy: "Privacy Policy",
     madeWith: "Built with Next.js & Tailwind CSS",
     copyright: "© {year} Mateus Mendes. All rights reserved.",
@@ -1133,6 +1143,11 @@ const en: Strings = {
     switchToEnglish: "Switch language to English",
     currentPt: "Português / English (Current: PT)",
     currentEn: "Português / English (Current: EN)",
+  },
+
+  themeToggle: {
+    switchToLight: "Switch to light theme",
+    switchToDark: "Switch to dark theme",
   },
 
   mobileNav: {

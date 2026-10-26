@@ -124,6 +124,7 @@ export function CommandPalette() {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   /*atalho global ⌘K / Ctrl+K + Esc */
@@ -170,6 +171,37 @@ export function CommandPalette() {
       triggerRef.current?.focus();
     }
     wasOpenRef.current = isOpen;
+  }, [isOpen]);
+
+  /* Mantém o Tab dentro do diálogo, tal como o menu mobile. */
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || !panelRef.current) return;
+
+      const focusable = Array.from(
+        panelRef.current.querySelectorAll<HTMLElement>(
+          'input:not([disabled]), button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => element.offsetParent !== null);
+
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [isOpen]);
 
   /* Bloqueia o scroll do body enquanto aberta */
@@ -396,16 +428,18 @@ export function CommandPalette() {
         onClick={() => setIsOpen(true)}
         aria-label={t.command.openAria}
         aria-keyshortcuts="Control+K Meta+K"
-        className="hidden xl:inline-flex cursor-pointer items-center gap-2 rounded-full border border-border/70 bg-surface/75 px-3 py-1.5 text-xs font-medium text-text-muted shadow-sm backdrop-blur-lg transition-colors hover:border-accent/50 hover:text-text-primary"
+        aria-haspopup="dialog"
+        aria-expanded={isOpen}
+        className="inline-flex h-9 w-9 cursor-pointer items-center justify-center border border-line bg-surface text-muted transition-colors duration-200 hover:border-line-strong hover:text-ink xl:w-auto xl:justify-start xl:gap-2 xl:px-2.5"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
           <path d="m20 20-3.5-3.5" />
         </svg>
         {/* Label + atalho (a partir de xl o header tem folga para a versão completa) */}
-        <span>{t.command.open}</span>
+        <span className="hidden font-body text-micro xl:inline">{t.command.open}</span>
         {mod && (
-          <kbd className="rounded border border-border bg-surface px-1.5 py-0.5 font-mono text-xs text-text-muted">
+          <kbd className="hidden border border-line bg-surface px-1.5 py-0.5 font-mono text-[10px] text-muted xl:inline">
             {mod === "⌘" ? "⌘K" : "Ctrl K"}
           </kbd>
         )}
@@ -418,11 +452,12 @@ export function CommandPalette() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="fixed inset-0 z-[60] flex items-start justify-center bg-black/50 px-4 pt-[12vh] backdrop-blur-sm"
+            className="fixed inset-0 z-[60] flex items-start justify-center bg-[var(--scrim)] px-4 pt-[10vh]"
             onMouseDown={close}
             role="presentation"
           >
             <motion.div
+              ref={panelRef}
               initial={{ opacity: 0, y: -14, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -8, scale: 0.98 }}
@@ -431,10 +466,10 @@ export function CommandPalette() {
               role="dialog"
               aria-modal="true"
               aria-label={t.command.openAria}
-              className="w-full max-w-xl overflow-hidden rounded-2xl border border-border bg-surface shadow-2xl"
+              className="w-full max-w-xl overflow-hidden border border-line-strong bg-surface shadow-lg"
             >
               {/* Input */}
-              <div className="flex items-center gap-3 border-b border-border px-4">
+              <div className="flex items-center gap-3 border-b border-line px-4">
                 <svg
                   className="h-4 w-4 shrink-0 text-text-muted"
                   fill="none"
@@ -464,7 +499,8 @@ export function CommandPalette() {
                   placeholder={t.command.placeholder}
                   autoComplete="off"
                   spellCheck={false}
-                  className="h-12 w-full bg-transparent text-sm text-text-primary placeholder:text-text-muted focus:outline-none"
+                  className="h-14 w-full bg-transparent font-body text-body text-ink placeholder:text-muted focus:outline-none focus-visible:outline-none"
+                  style={{ outline: "none" }}
                 />
                 <kbd className="hidden shrink-0 rounded border border-border px-1.5 py-0.5 font-mono text-xs text-text-muted sm:block">
                   Esc
@@ -480,9 +516,14 @@ export function CommandPalette() {
               >
                 {groups.map((group) => (
                   <div key={group.section} className="mb-1 last:mb-0">
-                    <p className="px-3 pb-1 pt-2 text-xs font-bold uppercase tracking-wider text-text-muted">
+                    <p className="px-3 pb-1 pt-2 font-body text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">
                       {sectionLabel(group.section)}
                     </p>
+                    {group.section === "projects" && (
+                      <p className="px-3 pb-2 font-body text-[10px] leading-relaxed text-muted">
+                        {t.projectDetail.labels.disclaimer}
+                      </p>
+                    )}
                     {group.items.map((cmd) => {
                       const index = group.indexOf.get(cmd.id) ?? 0;
                       const isActive = index === activeIndex;
@@ -500,21 +541,21 @@ export function CommandPalette() {
                           onMouseEnter={() => setActiveIndex(index)}
                           onClick={cmd.run}
                           className={cn(
-                            "flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm transition-colors",
+                            "flex w-full cursor-pointer items-center gap-3 border-l-2 px-3 py-2.5 text-left font-body text-sm transition-colors",
                             isActive
-                              ? "bg-accent-subtle text-text-primary"
-                              : "text-text-secondary hover:bg-surface-hover"
+                              ? "border-highlight bg-surface-2 text-ink"
+                              : "border-transparent text-ink-2 hover:bg-surface-hover"
                           )}
                         >
-                          <span className={cn("shrink-0", isActive ? "text-accent" : "text-text-muted")}>
+                          <span className={cn("shrink-0", isActive ? "text-ink" : "text-muted")}>
                             {cmd.icon}
                           </span>
                           <span className="flex-1 truncate">{cmd.label}</span>
                           {cmd.hint && (
-                            <span className="shrink-0 truncate text-xs text-text-muted">{cmd.hint}</span>
+                            <span className="shrink-0 truncate font-body text-micro text-muted">{cmd.hint}</span>
                           )}
                           {isActive && (
-                            <span className="shrink-0 text-xs font-bold text-accent" aria-hidden="true">
+                            <span className="shrink-0 font-body text-micro text-muted" aria-hidden="true">
                               ↵
                             </span>
                           )}
@@ -532,7 +573,7 @@ export function CommandPalette() {
               </div>
 
               {/* Rodapé de atalhos */}
-              <div className="flex items-center justify-between border-t border-border px-4 py-2 text-xs text-text-muted">
+              <div className="flex items-center justify-between border-t border-line px-4 py-2 font-body text-micro text-muted">
                 <span aria-hidden="true">↑↓ / ↵ {t.command.hintSelect}</span>
                 <span aria-hidden="true">Esc {t.command.hintClose}</span>
               </div>

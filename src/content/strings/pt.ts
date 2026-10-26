@@ -24,6 +24,8 @@ const pt = {
     openMenu: "Abrir menu",
     closeMenu: "Fechar menu",
     tagline: "Desenvolvimento Web",
+    mainAria: "Navegação principal",
+    homeAria: "Página inicial — Mateus Mendes",
   },
 
   home: {
@@ -35,6 +37,11 @@ const pt = {
         "Desenvolvimento à medida com código limpo, carregamento rápido e contacto direto.",
       ctaPrimary: "Falar Comigo",
       ctaSecondary: "Ver Projetos",
+      stats: {
+        projects: "Publicados",
+        location: "Localização",
+        response: "Resposta",
+      },
     },
     metrics: {
       sectionHeading: "Qualidade em números",
@@ -116,9 +123,9 @@ const pt = {
     },
     featuredProjects: {
       badge: "Portfólio Selecionado",
-      title: "Projetos em Destaque & Resultados",
+      title: "Projetos em Destaque",
       description:
-        "Descubra como o design estratégico e engenharia de software criaram valor tangível para estes clientes.",
+        "Três projetos publicados, escolhidos para mostrar como design e engenharia resolvem problemas concretos. As marcas são fictícias; os sites estão publicados.",
       viewAll: "Ver todos os projetos",
     },
     aboutPreview: {
@@ -1071,6 +1078,7 @@ const pt = {
       "Desenvolvimento web profissional focado em qualidade técnica, velocidade e geração de resultados para PMEs e profissionais em Portugal.",
     location: "Lisboa, Portugal",
     responseTime: "Resposta em {time}",
+    responseTimeValue: "24 horas",
     servicesTitle: "Serviços",
     services: [
       "Websites Institucionais",
@@ -1081,6 +1089,8 @@ const pt = {
     ],
     navTitle: "Navegação",
     contactTitle: "Contacto Direto",
+    newsletterTitle: "Newsletter",
+    newsletterNote: "Checklist de conversão e notas técnicas. Sem spam.",
     privacy: "Política de Privacidade",
     madeWith: "Construído com Next.js & Tailwind CSS",
     copyright: "© {year} Mateus Mendes. Todos os direitos reservados.",
@@ -1130,6 +1140,11 @@ const pt = {
     switchToEnglish: "Switch language to English",
     currentPt: "Português / English (Atual: PT)",
     currentEn: "Português / English (Atual: EN)",
+  },
+
+  themeToggle: {
+    switchToLight: "Mudar para tema claro",
+    switchToDark: "Mudar para tema escuro",
   },
 
   mobileNav: {
