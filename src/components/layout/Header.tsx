@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, useScroll } from "framer-motion";
-import { NAV_ITEMS, SITE_CONFIG } from "@/lib/constants";
+import { NAV_ITEMS, NAV_LABEL_KEYS, SITE_CONFIG } from "@/lib/constants";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import { MobileNav } from "./MobileNav";
@@ -21,13 +21,7 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { scrollYProgress } = useScroll();
 
-  const navLabels: Record<string, string> = {
-    "/": t.nav.home,
-    "/sobre": t.nav.about,
-    "/servicos": t.nav.services,
-    "/projetos": t.nav.projects,
-    "/contacto": t.nav.contact,
-  };
+  const getNavLabel = (href: string) => t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
 
   const handleOpenMobileMenu = React.useCallback(() => {
     setMobileMenuOpen(true);
@@ -90,7 +84,7 @@ export function Header() {
           >
             {NAV_ITEMS.map((item) => {
               const isActive = pathname === item.href;
-              const label = navLabels[item.href] || item.label;
+              const label = getNavLabel(item.href);
               return (
                 <Link
                   key={item.href}

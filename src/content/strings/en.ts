@@ -163,6 +163,30 @@ const en: Strings = {
         "Hello Mateus, I saw your portfolio and would like to talk about a project!",
       whatsappCta: "Chat on WhatsApp",
     },
+    testimonials: {
+      badge: "What Clients Say",
+      title: "Trust Built Project by Project",
+      items: [
+        {
+          quote: "Mateus completely revolutionized our digital presence. We transitioned from an outdated website to a benchmark in our sector. Clients consistently praise the quality of our new platform.",
+          author: "Dr. Ricardo Silva",
+          role: "Managing Partner",
+          company: "Silva & Associates",
+        },
+        {
+          quote: "The online store exceeded all expectations. The checkout with MB WAY and Multibanco is flawless and the dashboard saves us hours every week. Highly recommended.",
+          author: "Ana Martins",
+          role: "Founder",
+          company: "Green Harvest",
+        },
+        {
+          quote: "We needed a Google Ads landing page that actually converted. The result was a dramatic drop in cost per lead and a conversion rate substantially above industry benchmarks.",
+          author: "Dr. João Costa",
+          role: "Clinical Director",
+          company: "Sorrir Dental Clinic",
+        },
+      ],
+    },
   },
 
   about: {
@@ -542,6 +566,9 @@ const en: Strings = {
     title: "Contact.",
     description:
       "Have an idea, need a high-converting website for your brand, or want to overhaul an existing platform? Fill in the form or reach out directly.",
+    newsletterBadge: "Free Resource",
+    newsletterTitle: "Want the Free Conversion Checklist?",
+    newsletterDesc: "12 points to audit your site today. Download the free PDF and start converting more visitors into clients.",
     channelsTitle: "Direct Channels",
     emailLabel: "Direct Email",
     emailNote: "Guaranteed same-day response",
@@ -1182,6 +1209,30 @@ export const engineeringPrinciples = {
 
   common: {
     startConversation: "Start a Conversation",
+  },
+
+  cookieConsent: {
+    title: "Manage Cookies",
+    description: "We use cookies to improve your experience, analyze traffic, and personalize content.",
+    alwaysActive: "Always active",
+    necessary: {
+      title: "Necessary",
+      desc: "Essential for the website to function (security, network, accessibility).",
+    },
+    analytics: {
+      title: "Analytics",
+      desc: "Helps us understand how visitors interact (Vercel Analytics, Google Analytics).",
+    },
+    marketing: {
+      title: "Marketing",
+      desc: "Used for personalized ads and campaign measurement (Meta Pixel, Google Ads).",
+    },
+    acceptAll: "Accept All",
+    rejectAll: "Only Necessary",
+    savePreferences: "Save Preferences",
+    footer: "You can change your preferences at any time in our ",
+    policyLink: "Privacy Policy",
+    footer2: ".",
   },
 } as const;
 

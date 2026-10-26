@@ -40,7 +40,7 @@ export function ThemeToggle({ className }: { className?: string }) {
         "border border-border bg-surface shadow-sm",
         "transition-colors duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
         "hover:border-border-hover",
-        "focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
         className
       )}
       aria-label={isDark ? "Mudar para tema de dia" : "Mudar para tema de noite"}

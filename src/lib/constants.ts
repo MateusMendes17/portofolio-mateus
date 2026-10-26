@@ -37,3 +37,15 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Projetos", href: "/projetos" },
   { label: "Contacto", href: "/contacto" },
 ];
+
+/**
+ * Mapeamento de rotas para chaves de tradução em t.nav.*
+ * Usado por Header e Footer para evitar duplicação.
+ */
+export const NAV_LABEL_KEYS: Record<string, "home" | "about" | "services" | "projects" | "contact"> = {
+  "/": "home",
+  "/sobre": "about",
+  "/servicos": "services",
+  "/projetos": "projects",
+  "/contacto": "contact",
+};

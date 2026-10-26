@@ -41,3 +41,79 @@ export function GitHubIcon({ className = "w-4 h-4" }: { className?: string }) {
     </svg>
   );
 }
+
+/* ============================================================
+   CATEGORY ILLUSTRATIONS — Miniaturas decorativas por tipo de projeto
+   Usadas no ProjectGrid como preview visual em vez de skeleton
+   ============================================================ */
+
+export function InstitutionalIllustration({ className = "w-full h-full" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 150" fill="none" aria-hidden="true">
+      <rect x="10" y="15" width="180" height="120" rx="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="20" y="25" width="60" height="8" rx="2" fill="currentColor" opacity="0.4"/>
+      <rect x="20" y="40" width="140" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="20" y="50" width="100" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="20" y="65" width="80" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="20" y="80" width="120" height="20" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="30" y="85" width="40" height="10" rx="2" fill="currentColor" opacity="0.4"/>
+      <rect x="80" y="85" width="50" height="10" rx="2" fill="currentColor" opacity="0.2"/>
+      <circle cx="160" cy="40" r="18" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <path d="M155 40 L158 43 L165 36" stroke="currentColor" strokeWidth="2" opacity="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+export function EcommerceIllustration({ className = "w-full h-full" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 150" fill="none" aria-hidden="true">
+      <rect x="25" y="20" width="150" height="110" rx="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="35" y="30" width="130" height="8" rx="2" fill="currentColor" opacity="0.4"/>
+      <rect x="35" y="45" width="50" height="50" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="100" y="45" width="70" height="20" rx="4" fill="currentColor" opacity="0.2"/>
+      <rect x="100" y="70" width="45" height="12" rx="2" fill="currentColor" opacity="0.4"/>
+      <rect x="100" y="88" width="60" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="100" y="98" width="40" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="35" y="105" width="60" height="16" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="45" y="109" width="12" height="8" rx="1" fill="currentColor" opacity="0.5"/>
+      <circle cx="165" cy="40" r="18" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <path d="M160 40 L163 43 L170 36" stroke="currentColor" strokeWidth="2" opacity="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+export function LandingPageIllustration({ className = "w-full h-full" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 150" fill="none" aria-hidden="true">
+      <rect x="15" y="10" width="170" height="130" rx="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="25" y="20" width="150" height="10" rx="2" fill="currentColor" opacity="0.4"/>
+      <rect x="25" y="38" width="80" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="25" y="48" width="120" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="25" y="65" width="100" height="30" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="35" y="70" width="60" height="20" rx="3" fill="currentColor" opacity="0.4"/>
+      <rect x="25" y="105" width="130" height="25" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="35" y="110" width="30" height="15" rx="2" fill="currentColor" opacity="0.5"/>
+      <circle cx="165" cy="35" r="18" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <path d="M160 35 L163 38 L170 31" stroke="currentColor" strokeWidth="2" opacity="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+export function WebAppIllustration({ className = "w-full h-full" }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 200 150" fill="none" aria-hidden="true">
+      <rect x="10" y="10" width="180" height="130" rx="8" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="20" y="20" width="160" height="8" rx="2" fill="currentColor" opacity="0.4"/>
+      <rect x="20" y="35" width="45" height="30" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="25" y="40" width="35" height="20" rx="2" fill="currentColor" opacity="0.2"/>
+      <rect x="75" y="35" width="115" height="12" rx="3" fill="currentColor" opacity="0.2"/>
+      <rect x="75" y="55" width="80" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="75" y="65" width="60" height="4" rx="1" fill="currentColor" opacity="0.2"/>
+      <rect x="20" y="75" width="160" height="50" rx="4" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <rect x="30" y="85" width="140" height="10" rx="2" fill="currentColor" opacity="0.15"/>
+      <rect x="30" y="100" width="90" height="10" rx="2" fill="currentColor" opacity="0.15"/>
+      <circle cx="165" cy="35" r="18" stroke="currentColor" strokeWidth="1.5" opacity="0.3"/>
+      <path d="M160 35 L163 38 L170 31" stroke="currentColor" strokeWidth="2" opacity="0.5" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}

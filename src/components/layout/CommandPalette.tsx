@@ -11,9 +11,11 @@ import React, {
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 import { NAV_ITEMS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 /** Subscribe vazio para `useSyncExternalStore` (o valor não muda durante a sessão). */
@@ -108,6 +110,7 @@ const NavIcons: Record<string, React.ReactNode> = {
 
 export function CommandPalette() {
   const router = useRouter();
+  const pathname = usePathname();
   const { t, isEnglish, toggleLanguage } = useLanguage();
   const { setTheme, resolvedTheme } = useTheme();
 
@@ -317,7 +320,7 @@ export function CommandPalette() {
         section: "actions",
         keywords: "whatsapp telefone contacto mensagem",
         icon: <WhatsAppIcon className="h-4 w-4 shrink-0" />,
-        run: () => runExternal(SOCIAL_LINKS.whatsapp),
+        run: () => runExternal(getWhatsAppUrl(pathname, isEnglish ? "en" : "pt")),
       },
       {
         id: "action-github",

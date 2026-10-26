@@ -10,6 +10,7 @@ import { LanguageToggle } from "./LanguageToggle";
 import { Button } from "../ui/Button";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "../ui/Icons";
 import { useLanguage } from "@/context/LanguageContext";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 interface MobileNavProps {
@@ -19,7 +20,7 @@ interface MobileNavProps {
 
 export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const pathname = usePathname();
-  const { t } = useLanguage();
+  const { t, isEnglish } = useLanguage();
   const prevPathname = React.useRef(pathname);
 
   const navLabels: Record<string, string> = {
@@ -159,7 +160,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
 
               <div className="flex items-center justify-center gap-4 pt-3 text-xs text-text-muted">
                 <a
-                  href={SOCIAL_LINKS.whatsapp}
+                  href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt")}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border bg-surface text-text-secondary hover:text-accent hover:border-accent transition-all shadow-sm"

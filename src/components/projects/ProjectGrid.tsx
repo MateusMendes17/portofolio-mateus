@@ -5,9 +5,31 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import type { Project } from "@/content/projects";
 import { useLanguage } from "@/context/LanguageContext";
+import {
+  InstitutionalIllustration,
+  EcommerceIllustration,
+  LandingPageIllustration,
+  WebAppIllustration,
+} from "@/components/ui/Icons";
 
 interface ProjectGridProps {
   projects: Project[];
+}
+
+function getCategoryIllustration(category: Project["category"]) {
+  switch (category) {
+    case "institucional":
+      return <InstitutionalIllustration className="w-full h-full text-text-muted/50" />;
+    case "loja-online":
+      return <EcommerceIllustration className="w-full h-full text-text-muted/50" />;
+    case "landing-page":
+      return <LandingPageIllustration className="w-full h-full text-text-muted/50" />;
+    case "web-app":
+    case "saas":
+      return <WebAppIllustration className="w-full h-full text-text-muted/50" />;
+    default:
+      return <InstitutionalIllustration className="w-full h-full text-text-muted/50" />;
+  }
 }
 
 export function ProjectGrid({ projects }: ProjectGridProps) {
@@ -87,6 +109,21 @@ function ProjectCard({ project }: { project: Project }) {
     cardRef.current.style.setProperty("--mouse-y", `${y}px`);
   };
 
+  const handleFocus = (e: React.FocusEvent<HTMLDivElement>) => {
+    // Se o foco veio do teclado, centrar o spotlight
+    if (e.currentTarget.matches(":focus-visible")) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      e.currentTarget.style.setProperty("--mouse-x", `${rect.width / 2}px`);
+      e.currentTarget.style.setProperty("--mouse-y", `${rect.height / 2}px`);
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    // Resetar posição ao sair do foco
+    e.currentTarget.style.setProperty("--mouse-x", `50%`);
+    e.currentTarget.style.setProperty("--mouse-y", `50%`);
+  };
+
   const title = isEnglish && project.titleEn ? project.titleEn : project.title;
   const description =
     isEnglish && project.shortDescriptionEn
@@ -109,7 +146,11 @@ function ProjectCard({ project }: { project: Project }) {
         <div
           ref={cardRef}
           onMouseMove={handleMouseMove}
-          className="group relative flex flex-col h-full rounded-3xl border border-border/70 bg-surface/85 backdrop-blur-xl p-6 sm:p-7 overflow-hidden shadow-md hover:shadow-2xl hover:border-accent/40 transition-all duration-300 cursor-pointer"
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          tabIndex={0}
+          role="button"
+          className="group relative flex flex-col h-full rounded-3xl border border-border/70 bg-surface/85 backdrop-blur-xl p-6 sm:p-7 overflow-hidden shadow-md hover:shadow-2xl hover:border-accent/40 transition-all duration-300 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg"
         >
           {/* Spotlight */}
           <span
@@ -160,7 +201,7 @@ function ProjectCard({ project }: { project: Project }) {
             {description}
           </p>
 
-          {/* Preview placeholder */}
+          {/* Preview — Ilustração por categoria */}
           <div className="rounded-2xl border border-border/80 bg-surface-hover/50 p-5 mb-5 relative overflow-hidden">
             <div className="flex items-center gap-2 mb-3">
               <span className="h-2.5 w-2.5 rounded-full bg-destructive/40" />
@@ -171,12 +212,8 @@ function ProjectCard({ project }: { project: Project }) {
               </span>
             </div>
 
-            {/* Skeleton content with subtle animation */}
-            <div className="space-y-2.5">
-              <div className="h-2 w-3/4 rounded-full bg-border/60 group-hover:bg-accent/20 transition-colors duration-300" />
-              <div className="h-2 w-1/2 rounded-full bg-border/60 group-hover:bg-accent/15 transition-colors duration-500" />
-              <div className="h-2 w-2/3 rounded-full bg-border/60 group-hover:bg-accent/10 transition-colors duration-700" />
-              <div className="h-8 w-24 mt-3 rounded-lg bg-accent/10 group-hover:bg-accent/25 transition-colors duration-300" />
+            <div className="aspect-video relative">
+              {getCategoryIllustration(project.category)}
             </div>
           </div>
 

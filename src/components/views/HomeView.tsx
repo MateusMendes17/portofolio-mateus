@@ -2,19 +2,23 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { WhatsAppIcon } from "@/components/ui/Icons";
 import { PROJECTS } from "@/content/projects";
-import { SOCIAL_LINKS } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { FloatingElements } from "@/components/ui/FloatingElements";
 import { TextReveal3D } from "@/components/ui/TextAnimations";
+import { Testimonials } from "@/components/ui/Testimonials";
+import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 export function HomeView() {
   const { isEnglish, t } = useLanguage();
+  const pathname = usePathname();
 
   // Top 3 featured projects
   const featuredProjects = PROJECTS.slice(0, 3);
@@ -678,6 +682,11 @@ export function HomeView() {
       </section>
 
       {/* ==============================================================
+          5.5. TESTEMUNHOS ROTATIVOS (PROVA SOCIAL)
+          ============================================================== */}
+      <Testimonials />
+
+      {/* ==============================================================
           6. TEASER DO ASSISTENTE INTERATIVO (QUIZ RESUMO)
           ============================================================== */}
       <section className="cv-auto mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
@@ -734,9 +743,7 @@ export function HomeView() {
             </Link>
 
             <a
-              href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(
-                t.home.ctaSection.whatsappMessage
-              )}`}
+              href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "home")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-2xl bg-surface border border-border px-6 py-3.5 text-xs sm:text-sm font-bold text-text-primary hover:text-accent hover:border-accent transition-all shadow-sm"
@@ -744,6 +751,11 @@ export function HomeView() {
               <WhatsAppIcon className="w-4 h-4" />
               <span>{t.home.ctaSection.whatsappCta}</span>
             </a>
+          </div>
+
+          {/* Newsletter Signup */}
+          <div className="pt-4 w-full max-w-md mx-auto">
+            <NewsletterSignup variant="inline" showName={false} />
           </div>
         </div>
         </ScrollReveal>

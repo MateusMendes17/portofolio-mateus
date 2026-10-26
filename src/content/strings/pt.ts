@@ -162,6 +162,30 @@ const pt = {
         "Olá Mateus, vi o teu website e gostaria de conversar sobre um projeto!",
       whatsappCta: "Falar no WhatsApp",
     },
+    testimonials: {
+      badge: "O Que Dizem os Clientes",
+      title: "Confiança Construída Projecto a Projecto",
+      items: [
+        {
+          quote: "O Mateus transformou completamente a nossa presença digital. Passámos de um site constrangedor a uma referência no nosso setor. Os clientes comentam frequentemente a qualidade do novo website.",
+          author: "Dr. Ricardo Silva",
+          role: "Sócio-Gerente",
+          company: "Silva & Associados",
+        },
+        {
+          quote: "A loja online superou todas as expectativas. O checkout com MB WAY e Multibanco é impecável e o dashboard poupa-nos horas todas as semanas. Recomendo sem hesitar.",
+          author: "Ana Martins",
+          role: "Fundadora",
+          company: "Green Harvest",
+        },
+        {
+          quote: "Precisávamos de uma landing page para Google Ads que convertesse mesmo. O resultado foi uma redução drástica no custo por lead e uma taxa de conversão muito acima da média do setor.",
+          author: "Dr. João Costa",
+          role: "Diretor Clínico",
+          company: "Clínica Sorrir",
+        },
+      ],
+    },
   },
 
   about: {
@@ -541,6 +565,9 @@ const pt = {
     title: "Contacto.",
     description:
       "Tem uma ideia, precisa de um novo website para a sua empresa ou quer renovar uma plataforma existente? Preencha o formulário ou fale comigo diretamente.",
+    newsletterBadge: "Recurso Gratuito",
+    newsletterTitle: "Quer Receber o Checklist de Conversão?",
+    newsletterDesc: "12 pontos para auditar o seu site hoje. Baixe o PDF grátis e comece a converter mais visitantes em clientes.",
     channelsTitle: "Canais Diretos",
     emailLabel: "Email Direto",
     emailNote: "Resposta garantida no próprio dia",
@@ -1179,6 +1206,30 @@ export const principiosDeEngenharia = {
 
   common: {
     startConversation: "Iniciar Conversa",
+  },
+
+  cookieConsent: {
+    title: "Gerir Cookies",
+    description: "Usamos cookies para melhorar a sua experiência, analisar tráfego e personalizar conteúdo.",
+    alwaysActive: "Sempre ativos",
+    necessary: {
+      title: "Necessários",
+      desc: "Essenciais para o funcionamento do site (segurança, rede, acessibilidade).",
+    },
+    analytics: {
+      title: "Analytics",
+      desc: "Ajuda-nos a entender como os visitantes interagem (Vercel Analytics, Google Analytics).",
+    },
+    marketing: {
+      title: "Marketing",
+      desc: "Usado para anúncios personalizados e medição de campanhas (Meta Pixel, Google Ads).",
+    },
+    acceptAll: "Aceitar Todos",
+    rejectAll: "Apenas Necessários",
+    savePreferences: "Guardar Preferências",
+    footer: "Pode alterar as suas preferências a qualquer momento na nossa ",
+    policyLink: "Política de Privacidade",
+    footer2: ".",
   },
 };
 

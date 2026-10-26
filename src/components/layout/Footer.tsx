@@ -3,13 +3,25 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { SITE_CONFIG, SOCIAL_LINKS, NAV_ITEMS } from "@/lib/constants";
+import { usePathname } from "next/navigation";
+import { SITE_CONFIG, SOCIAL_LINKS, NAV_ITEMS, NAV_LABEL_KEYS } from "@/lib/constants";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
 import { useLanguage } from "@/context/LanguageContext";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
 
 export function Footer() {
-  const currentYear = new Date().getFullYear();
   const { t, isEnglish } = useLanguage();
+  const pathname = usePathname();
+
+  // Ano atual — calculado via lazy initializer para evitar hydration mismatch
+  // e evitar chamada de setState no effect (lint rule react-hooks/set-state-in-effect)
+  const [currentYear] = useState<number>(() => {
+    if (typeof window !== "undefined") {
+      return new Date().getFullYear();
+    }
+    return 2026; // fallback para SSR
+  });
 
   // Hora local de Lisboa, atualizada a cada 30s. Renderiza só depois de montar
   // (inicia a null) para evitar divergência de hidratação.
@@ -31,13 +43,7 @@ export function Footer() {
     href: "/servicos",
   }));
 
-  const navLabels: Record<string, string> = {
-    "/": t.nav.home,
-    "/sobre": t.nav.about,
-    "/servicos": t.nav.services,
-    "/projetos": t.nav.projects,
-    "/contacto": t.nav.contact,
-  };
+  const getNavLabel = (href: string) => t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
 
   return (
     <footer className="border-t border-border/80 bg-surface/90 pt-16 pb-12 mt-24">
@@ -140,7 +146,7 @@ export function Footer() {
                     href={item.href}
                     className="hover:text-accent transition-colors duration-200 inline-block"
                   >
-                    {navLabels[item.href] || item.label}
+                    {getNavLabel(item.href)}
                   </Link>
                 </li>
               ))}
@@ -168,7 +174,7 @@ export function Footer() {
                 {SITE_CONFIG.email}
               </a>
               <a
-                href={SOCIAL_LINKS.whatsapp}
+                href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block hover:text-accent transition-colors duration-200"
@@ -179,7 +185,7 @@ export function Footer() {
 
             <div className="pt-2 flex items-center gap-3">
               <a
-                href={SOCIAL_LINKS.whatsapp}
+                href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-border bg-surface text-text-secondary hover:text-accent hover:border-accent transition-colors duration-200 shadow-sm"
@@ -207,6 +213,11 @@ export function Footer() {
               </a>
             </div>
           </div>
+        </div>
+
+        {/* Newsletter Signup no Footer */}
+        <div className="mt-12 pt-8 border-t border-border/60">
+          <NewsletterSignup variant="inline" showName={false} />
         </div>
 
         {/* Linha Final: Copyright & Detalhes Legais */}

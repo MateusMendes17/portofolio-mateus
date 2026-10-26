@@ -2,13 +2,15 @@
 
 import { motion } from "framer-motion";
 import { WhatsAppIcon } from "../../ui/Icons";
-import { SOCIAL_LINKS } from "@/lib/constants";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import type { ContactFormController } from "./useContactForm";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 
 /** Ecrã de confirmação exibido após submissão bem-sucedida. */
 export function FormSuccess({ form }: { form: ContactFormController }) {
-  const { t } = useLanguage();
+  const { t, isEnglish } = useLanguage();
+  const pathname = usePathname();
   const { formData, selectedProjectTypeTitle, selectedContactPreferenceTitle, reset } = form;
 
   return (
@@ -43,9 +45,7 @@ export function FormSuccess({ form }: { form: ContactFormController }) {
       {/* Atalho WhatsApp */}
       <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3">
         <a
-          href={`${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(
-            t.contact.form.success.whatsappMessage.replace("{project}", selectedProjectTypeTitle)
-          )}`}
+          href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "form-success")}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-xs font-bold transition-all shadow-md hover:shadow-lg"

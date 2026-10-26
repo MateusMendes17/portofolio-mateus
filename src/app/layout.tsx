@@ -10,6 +10,7 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { SITE_CONFIG, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { CookieConsent } from "@/components/ui/CookieConsent";
 import pt from "@/content/strings/pt";
 import "./globals.css";
 
@@ -162,6 +163,8 @@ export default function RootLayout({
               <BackToTop />
               <WhatsAppFloat />
             </SmoothScroll>
+            {/* Cookie Consent Banner (RGPD) — dentro do LanguageProvider para ter acesso a useLanguage */}
+            <CookieConsent />
           </LanguageProvider>
         </ThemeProvider>
         {/* Telemetria de campo (só no ambiente da Vercel; cookieless) */}

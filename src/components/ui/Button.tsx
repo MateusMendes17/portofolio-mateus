@@ -42,6 +42,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // =========================================================================
     // VARIANTE ESPECIAL: "contact"
     // A linha luminosa da borda segue o cursor (não anda sozinha) com a cor da paleta
+    // Suporte a teclado: ao focar via Tab, o spotlight centra-se no botão
     // =========================================================================
     if (variant === "contact") {
       const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -61,15 +62,32 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         }
       };
 
+      const handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
+        // Se o foco veio do teclado (não do mouse), centrar o spotlight
+        if (e.currentTarget.matches(":focus-visible")) {
+          const rect = e.currentTarget.getBoundingClientRect();
+          e.currentTarget.style.setProperty("--mouse-x", `${rect.width / 2}px`);
+          e.currentTarget.style.setProperty("--mouse-y", `${rect.height / 2}px`);
+        }
+      };
+
+      const handleBlur = (e: React.FocusEvent<HTMLButtonElement>) => {
+        // Resetar posição ao sair do foco
+        e.currentTarget.style.setProperty("--mouse-x", `-200px`);
+        e.currentTarget.style.setProperty("--mouse-y", `-200px`);
+      };
+
       return (
         <button
           ref={ref}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           className={cn(
             "group relative inline-flex items-center justify-center rounded-full p-[2px] font-semibold select-none",
             "transition-all duration-300 ease-out active:scale-[0.98] hover:scale-[1.02]",
-            "focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
             className
           )}
           {...props}
@@ -138,7 +156,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "group relative inline-flex items-center justify-center rounded-full font-semibold select-none",
       "transition-all duration-200 ease-out",
       "active:scale-[0.98] active:translate-y-0",
-      "focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg",
       sizeClasses
     );
 

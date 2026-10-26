@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -51,7 +51,7 @@ const STANDARD_ICONS: Record<string, ReactNode> = {
 
 export function ServicosView() {
   const { t } = useLanguage();
-  
+
   // Horizontal Scroll Setup
   const targetRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -61,14 +61,21 @@ export function ServicosView() {
      Assim o último cartão termina alinhado à direita em qualquer ecrã —
      uma percentagem fixa ("-70%") cortava o último cartão em telemóvel. */
   const [distance, setDistance] = useState(0);
+  const [sectionHeight, setSectionHeight] = useState(0);
 
   useEffect(() => {
     const track = trackRef.current;
     const container = track?.parentElement;
     if (!track || !container) return;
 
-    const update = () =>
-      setDistance(Math.max(0, track.scrollWidth - container.clientWidth));
+    const update = () => {
+      const scrollDistance = Math.max(0, track.scrollWidth - container.clientWidth);
+      setDistance(scrollDistance);
+      // Altura da secção = distância de scroll + altura do elemento sticky (65vh ~ 500px min)
+      // Isso garante espaço suficiente para o usuário scrollar toda a distância horizontal
+      const stickyHeight = Math.max(container.clientHeight * 0.65, 500);
+      setSectionHeight(scrollDistance + stickyHeight);
+    };
 
     if (typeof ResizeObserver === "undefined") {
       window.addEventListener("resize", update);
@@ -260,7 +267,11 @@ export function ServicosView() {
       </section>
 
       {/* 4. Processo em 4 Etapas (Horizontal Scroll Invertido) */}
-      <section ref={targetRef} className="relative h-[250vh] w-[100vw] left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] dark dark:light bg-background text-text-primary pt-24 pb-12 border-y border-border transition-colors duration-500">
+      <section
+        ref={targetRef}
+        className="relative w-[100vw] left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] dark dark:light bg-background text-text-primary pt-24 pb-12 border-y border-border transition-colors duration-500"
+        style={{ height: sectionHeight > 0 ? `${sectionHeight}px` : "250vh" }}
+      >
         {/* `h-full` é essencial: dá ao `sticky` um contentor mais alto do que
             ele próprio, sem o qual não existe espaço para "grudar" no ecrã. */}
         <div className="mx-auto h-full max-w-6xl px-4 sm:px-6 lg:px-8">
