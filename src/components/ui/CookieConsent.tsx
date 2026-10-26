@@ -1,6 +1,6 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -15,14 +15,29 @@ declare global {
  * Categorias: necessary, analytics, marketing
  * Guarda preferências em localStorage
  */
+const subscribeNoop = () => () => {};
+
+function getStoredConsent() {
+  if (typeof window === "undefined") return true;
+  return Boolean(localStorage.getItem("cookie-consent"));
+}
+
+function getServerConsent() {
+  return true;
+}
+
 export function CookieConsent() {
   const { t } = useLanguage();
 
-  // Lazy initializers para evitar setState no effect (lint rule react-hooks/set-state-in-effect)
-  const [show, setShow] = useState<boolean>(() => {
-    if (typeof window === "undefined") return false;
-    return !localStorage.getItem("cookie-consent");
-  });
+  // O snapshot do servidor é "já consentido" para o HTML inicial não incluir o
+  // banner. Depois da hidratação, useSyncExternalStore lê o localStorage sem
+  // provocar um mismatch entre servidor e cliente.
+  const hasConsent = useSyncExternalStore(
+    subscribeNoop,
+    getStoredConsent,
+    getServerConsent
+  );
+  const [dismissed, setDismissed] = useState(false);
 
   const [accepted, setAccepted] = useState<{
     necessary: boolean;
@@ -43,14 +58,11 @@ export function CookieConsent() {
     }
   });
 
-  // Effect removido — lazy initializers já definem o estado inicial corretamente
-// Se houver consentimento no localStorage, show inicia como false; caso contrário, true.
-
   const acceptAll = () => {
     const consent = { necessary: true, analytics: true, marketing: true };
     setAccepted(consent);
     localStorage.setItem("cookie-consent", JSON.stringify(consent));
-    setShow(false);
+    setDismissed(true);
     // Disparar evento para analytics
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("consent", "update", {
@@ -64,12 +76,12 @@ export function CookieConsent() {
     const consent = { necessary: true, analytics: false, marketing: false };
     setAccepted(consent);
     localStorage.setItem("cookie-consent", JSON.stringify(consent));
-    setShow(false);
+    setDismissed(true);
   };
 
   const saveCustom = () => {
     localStorage.setItem("cookie-consent", JSON.stringify(accepted));
-    setShow(false);
+    setDismissed(true);
     if (typeof window !== "undefined" && window.gtag) {
       window.gtag("consent", "update", {
         analytics_storage: accepted.analytics ? "granted" : "denied",
@@ -78,7 +90,7 @@ export function CookieConsent() {
     }
   };
 
-  if (!show) return null;
+  if (hasConsent || dismissed) return null;
 
   return (
     <div

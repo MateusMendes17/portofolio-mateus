@@ -3,9 +3,9 @@ import { ProjetosView } from "@/components/views/ProjetosView";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Portfólio & Trabalhos de Desenvolvimento Web",
+  title: "Projetos publicados — Estudos de caso",
   description:
-    "Explore projetos selecionados de websites institucionais, e-commerce, landing pages de alta conversão e aplicações web desenvolvidos à medida.",
+    "Oito sites publicados, construídos de ponta a ponta: lojas, sites institucionais, landing pages e uma aplicação React. Marcas fictícias, decisões reais.",
   path: "/projetos",
 });
 

@@ -15,6 +15,8 @@ import { usePathname } from "next/navigation";
 import { NAV_ITEMS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
+import type { Project } from "@/content/projects";
+import { projectCategoryLabel } from "@/lib/projectCategory";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
@@ -118,16 +120,7 @@ export function CommandPalette() {
   const [search, setSearch] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const [copied, setCopied] = useState(false);
-  const [projects, setProjects] = useState<
-    Array<{
-      slug: string;
-      title: string;
-      titleEn?: string;
-      categoryLabel: string;
-      categoryLabelEn?: string;
-      tags: string[];
-    }>
-  >([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -242,13 +235,10 @@ export function CommandPalette() {
     }));
 
     const projectCommands: Command[] = projects.map((project) => {
-      const title = isEnglish ? (project.titleEn ?? project.title) : project.title;
-      const category = isEnglish
-        ? (project.categoryLabelEn ?? project.categoryLabel)
-        : project.categoryLabel;
+      const category = projectCategoryLabel(project.category, t);
       return {
         id: `project-${project.slug}`,
-        label: title,
+        label: project.name,
         section: "projects",
         keywords: `${category} ${project.tags.join(" ")}`,
         hint: category,

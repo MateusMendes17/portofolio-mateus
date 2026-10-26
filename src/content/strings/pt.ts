@@ -456,68 +456,68 @@ const pt = {
   },
 
   projects: {
-    badge: "Portfólio & Trabalhos Selecionados",
+    badge: "Portfólio publicado",
     title: "Projetos.",
     description:
-      "Uma seleção de websites institucionais, plataformas de e-commerce, landing pages de alta conversão e web apps. Cada projeto combina estética moderna, velocidade máxima e foco nos objetivos do cliente.",
+      "Oito sites publicados, construídos de ponta a ponta como estudos de caso. Marcas fictícias, decisões reais: estrutura, tipografia, interação e código.",
     pills: [
-      "Design 100% Sob Medida",
-      "Performance < 1s",
-      "Google SEO de Raiz",
-      "Totalmente Responsivo",
+      "Sites publicados",
+      "Código próprio",
+      "Acessibilidade em conta",
+      "PT/EN quando faz sentido",
     ],
     highlights: {
-      badge: "Compromisso de Qualidade",
-      title: "Padrões rigorosos em cada entrega",
+      badge: "Critérios",
+      title: "O que se mantém em cada projeto",
       description:
-        "Cada website é desenvolvido de acordo com os mais elevados padrões de velocidade, arquitetura semântica e experiência de utilização.",
+        "Não há um template único. Há um método: perceber o contexto, escolher a stack mínima e tratar a interface como parte do conteúdo.",
       items: [
         {
           id: "design",
-          title: "Design 100% Sob Medida",
+          title: "Identidade antes do template",
           description:
-            "Cada projeto tem uma identidade visual única, sem recurso a templates genéricos ou temas pré-fabricados.",
+            "Cada marca tem uma voz, uma tipografia e uma paleta próprias. O layout nasce do conteúdo, não de um tema comprado.",
         },
         {
           id: "speed",
-          title: "Desempenho & Velocidade",
+          title: "Peso controlado",
           description:
-            "Construídos em Next.js para garantir carregamentos quase instantâneos e excelentes pontuações no Google.",
+            "Páginas leves, imagens comprimidas e JavaScript só onde acrescenta interação. A stack mínima certa para cada projeto, não a mais popular.",
         },
         {
           id: "seo",
-          title: "Google SEO de Raiz",
+          title: "Semântica e foco",
           description:
-            "Arquitetura semântica e microdados estruturados para que os clientes encontrem a sua empresa nas pesquisas.",
+            "Headings com hierarquia, landmarks, foco visível e navegação por teclado. Acessibilidade não é uma camada no fim.",
         },
         {
           id: "mobile",
-          title: "Experiência Mobile-First",
+          title: "Responsivo a sério",
           description:
-            "Navegação intuitiva e fluida garantida em todos os ecrãs, desde smartphones a computadores de secretária.",
+            "A experiência móvel não é uma versão reduzida. Menus, formulários e conteúdo foram pensados para ecrãs pequenos.",
         },
       ],
     },
     process: {
-      badge: "Processo de Criação",
-      title: "Como cada projeto ganha vida",
+      badge: "Processo",
+      title: "Como cada projeto ganha forma",
       description:
-        "Sem processos burocráticos. Trabalho diretamente consigo do primeiro esboço ao lançamento online, garantindo transparência e atenção a cada detalhe.",
+        "Do primeiro esboço ao site publicado, sem intermediários e com decisões documentadas.",
       steps: [
         {
           step: "01",
-          title: "Estratégia & Estrutura",
-          desc: "Mapeamento do público-alvo, arquitetura de informação e definição clara dos objetivos que o website precisa de alcançar.",
+          title: "Contexto & estrutura",
+          desc: "Definir o problema, a informação essencial e a arquitetura antes de desenhar.",
         },
         {
           step: "02",
-          title: "Design & Interatividade",
-          desc: "Criação de uma interface visual moderna, intuitiva e responsiva, com micro-interações que elevam a perceção da marca.",
+          title: "Identidade & interação",
+          desc: "Tipografia, cor, grelha e os gestos que tornam a marca reconhecível.",
         },
         {
           step: "03",
-          title: "Código Limpo & Lançamento",
-          desc: "Desenvolvimento em Next.js com testes em múltiplos dispositivos, otimização de velocidade, SEO estruturado e entrega final.",
+          title: "Código & publicação",
+          desc: "Construir com a stack adequada, testar em teclado e mobile, medir e publicar.",
         },
       ],
     },
@@ -540,24 +540,340 @@ const pt = {
       empty: "Nenhum projeto encontrado nesta categoria.",
       featured: "Destaque",
       viewCaseStudy: "Ver Case Study",
+      index: "Índice",
+      projectCount: "{count} projetos publicados",
+      jumpTo: "Ir para o projeto",
+      coverAlt: "Página inicial de {name}",
+      openSite: "Abrir site",
+      published: "Publicado",
+      allProjects: "Todos",
     },
   },
 
   projectDetail: {
-    clientLabel: "Cliente",
-    previewLabel: "Demonstração de Interface",
-    previewDescription:
-      "Ambiente construído com arquitetura otimizada, design centrado na experiência do utilizador e integrações de topo.",
-    impactLabel: "Impacto Mensurável",
-    challengeTitle: "O Desafio",
-    solutionTitle: "A Solução",
-    featuresBadge: "Arquitetura & Especificações",
-    featuresTitle: "Funcionalidades Implementadas",
-    previous: "Anterior",
-    next: "Seguinte",
-    allProjects: "Todos os Projetos",
-    ctaTitle: "Quer uma solução semelhante para o seu negócio?",
-    ctaDescription: "Podemos conversar em detalhe sobre o seu projeto e desenhar a proposta ideal.",
+    labels: {
+      brief: "Brief",
+      decisions: "Decisões",
+      build: "Construção",
+      accessibility: "Acessibilidade & performance",
+      specs: "Ficha do projeto",
+      type: "Formato",
+      status: "Estado",
+      published: "Publicado",
+      stack: "Stack",
+      site: "Site",
+      code: "Código",
+      privateCode: "Repositório privado",
+      role: "Papel",
+      roleValue: "Design e desenvolvimento",
+      openSite: "Abrir site",
+      viewCode: "Ver código",
+      allProjects: "Todos os projetos",
+      previous: "Anterior",
+      next: "Seguinte",
+      backToProjects: "Voltar aos projetos",
+      disclaimer: "Projeto de portfólio. Marca e dados fictícios.",
+      coverAlt: "Página inicial de {name}",
+      metricsNote:
+        "Sem pontuação Lighthouse publicada. A verificação foi feita no navegador, com teclado, foco visível e movimento reduzido.",
+      nextStep: "Próximo passo",
+      breadcrumb: "Navegação estrutural",
+      pagination: "Navegação entre projetos",
+      newWindow: "abre numa nova janela",
+      ctaTitle: "Quer uma solução semelhante para o seu negócio?",
+      ctaDescription:
+        "Podemos conversar em detalhe sobre o seu projeto e desenhar a proposta ideal.",
+    },
+    studies: {
+      "torra-lusa": {
+        sector: "Café de especialidade",
+        location: "Porto",
+        format: "Loja online multi-página",
+        summary:
+          "Uma loja de café de especialidade que trata a compra como parte do ritual: origem, moagem, frescura e assinatura explicadas sem pressa.",
+        brief: [
+          "O ponto de partida foi uma torrefação fictícia no Porto, com uma ideia simples: vender café sem transformar a experiência numa lista de SKUs. O site tinha de apresentar origens, blends, cápsulas, acessórios e packs, mas também contar como o café é torrado e como chega à chávena.",
+          "O brief pedia uma loja completa — pesquisa, carrinho, checkout e páginas legais — com uma voz editorial que não parecesse uma loja genérica. A marca, os produtos e os dados são fictícios; o exercício foi construir o sistema inteiro.",
+        ],
+        decisions: [
+          {
+            title: "Uma loja com tempo próprio",
+            text: "Papel quente, castanho e caramelo, Fraunces para títulos e DM Sans para texto. A grelha respira e as fotografias de café ocupam o espaço que normalmente seria ocupado por banners de desconto.",
+          },
+          {
+            title: "Escolher antes de comprar",
+            text: "Um pequeno questionário sugere café por método e perfil de sabor; a ficha de produto mostra origem, processo, notas e data de torra. O objetivo era reduzir a dúvida sem esconder informação.",
+          },
+          {
+            title: "Carrinho discreto, checkout claro",
+            text: "A adição rápida abre um carrinho lateral com totais e portes; o checkout separa entrega, pagamento e confirmação. Tudo com estados vazios e mensagens de erro escritas em português corrente.",
+          },
+        ],
+        build: [
+          "Site multi-página em HTML, CSS e JavaScript modular, com header, footer, carrinho e componentes partilhados injetados a partir de módulos ES.",
+          "Catálogo com pesquisa, filtros por categoria e moagem, fichas de produto, assinatura e páginas de FAQ, envios, termos e privacidade.",
+          "Carrinho persistido em `localStorage`, checkout demonstrativo, confirmação de encomenda, newsletter e consentimento de cookies. As imagens foram convertidas para WebP.",
+        ],
+        accessibility: [
+          "A navegação móvel e o carrinho prendem o foco enquanto estão abertos e devolvem-no ao botão que os abriu. Os controlos têm rótulos, `aria-expanded` e estados de erro associados aos campos.",
+          "As animações respeitam `prefers-reduced-motion` e o site mantém uma hierarquia de headings simples. As páginas de produto e checkout foram verificadas com teclado.",
+        ],
+        nextStep:
+          "Ligar o checkout a um serviço de pagamento real e rever os estados de erro com leitores de ecrã.",
+      },
+      "cota-zero": {
+        sector: "Arquitetura",
+        location: "Porto",
+        format: "Portefólio de atelier multi-página",
+        summary:
+          "Um atelier de arquitetura que apresenta seis obras, processo e materiais com a precisão de um desenho técnico — sem transformar o portefólio numa galeria silenciosa.",
+        brief: [
+          "A Cota Zero é uma marca fictícia de arquitetura no Porto, com seis projetos e uma prática centrada em reabilitação e obra nova. O site tinha de mostrar o atelier, o processo, os materiais e as fichas de projeto sem diluir a identidade num template de arquitetura.",
+          "O brief pedia uma linguagem gráfica forte e navegável: um índice de obras, filtros, uma planta interativa e páginas de projeto com dados concretos. O conteúdo e os projetos são inventados para o exercício.",
+        ],
+        decisions: [
+          {
+            title: "Tipografia como planta",
+            text: "Archivo Black para o wordmark, JetBrains Mono para dados e uma paleta de papel, tinta e laranja-sinal. A grelha e as linhas substituem cartões e sombras.",
+          },
+          {
+            title: "Modo planta",
+            text: "O botão «Planta» sobrepõe uma grelha de medição ao site, com medidas e eixos. É um gesto de identidade, mas também uma forma de explicar a lógica do atelier.",
+          },
+          {
+            title: "Índice antes de imagem",
+            text: "As obras aparecem primeiro como uma tabela tipográfica, com ano, tipo e localização; a fotografia entra depois, em páginas próprias. O visitante percebe o conjunto antes de abrir uma obra.",
+          },
+        ],
+        build: [
+          "Dez páginas HTML/CSS/JS com módulos ES para navegação, intro, contadores, filtros, planta e páginas de projeto. As texturas de betão, corten, madeira, pedra, tijolo e vidro são SVG locais.",
+          "Índice de projetos com filtros por obra, ficha de projeto gerada a partir de dados e uma planta sobreponível com gestão de foco e `inert` no conteúdo de fundo.",
+          "Fontes WOFF2 locais, imagens WebP com variantes de tamanho e um sistema de componentes partilhado. O JavaScript só carrega os módulos da página atual.",
+        ],
+        accessibility: [
+          "A planta e o menu móvel usam `inert` para retirar o fundo da ordem de foco, devolvem o foco ao gatilho e respondem a Esc. O movimento é reduzido quando `prefers-reduced-motion` está ativo.",
+          "Os links têm foco visível e a estrutura de headings acompanha a hierarquia do conteúdo. As imagens de projeto têm texto alternativo descritivo.",
+        ],
+        nextStep:
+          "Auditar o contraste das legendas sobre as texturas e documentar os atalhos da planta.",
+      },
+      "mendes-valadares": {
+        sector: "Advocacia",
+        location: "Lisboa",
+        format: "Site institucional multi-página",
+        summary:
+          "Uma sociedade de advogados de Lisboa que explica o trabalho antes de pedir contacto: áreas, equipa, honorários, artigos e perguntas frequentes.",
+        brief: [
+          "Mendes Valadares & Associados é uma sociedade fictícia em Lisboa, fundada em 2008. O site tinha de transmitir rigor e proximidade sem cair no tom distante de muitos sites jurídicos.",
+          "O brief incluía oito áreas de atuação, cinco advogados, artigos, contactos, FAQ e informação sobre honorários. A marca e os dados são fictícios; o exercício foi organizar muita informação sem a esconder atrás de jargão.",
+        ],
+        decisions: [
+          {
+            title: "Azulejo e azul profundo",
+            text: "A identidade parte do azulejo lisboeta e de um azul de escritório, com bronze para detalhes. DM Sans em pesos médios mantém o texto legível e evita a serifada jurídica óbvia.",
+          },
+          {
+            title: "Números que orientam",
+            text: "As secções são numeradas como um processo: áreas, equipa, sobre, artigos, contactos. O estado «Atendimento aberto» é calculado no browser, com hora de Lisboa.",
+          },
+          {
+            title: "Explicar antes do formulário",
+            text: "Cada área tem uma ficha com exemplos de questões, a equipa tem perfis e os artigos respondem a dúvidas concretas. O contacto aparece depois da informação, não antes.",
+          },
+        ],
+        build: [
+          "Onze páginas HTML/CSS/JS com header, footer, áreas, equipa e artigos gerados a partir de dados partilhados.",
+          "Modais nativos para áreas e equipa, acordeões de FAQ, tabs, estado de atendimento, progresso de leitura, mapa carregado após consentimento e formulário de contacto.",
+          "Fontes WOFF2 locais, imagens WebP e um conjunto de componentes de interface reutilizáveis. O JavaScript é modular e não depende de frameworks.",
+        ],
+        accessibility: [
+          "Os diálogos usam `<dialog>` nativo, com foco contido e retorno ao gatilho; o menu móvel e o banner de cookies gerem foco e Esc. Há skip link, foco visível e `prefers-reduced-motion`.",
+          "As imagens de conteúdo têm texto alternativo e as secções mantêm uma hierarquia de headings estável. O formulário de contacto tem labels e mensagens de erro associadas.",
+        ],
+        nextStep:
+          "Rever os textos legais e testar o formulário com um serviço de email real.",
+      },
+      "barbearia-sete-colinas": {
+        sector: "Barbearia",
+        location: "Lisboa",
+        format: "Landing page de página única",
+        summary:
+          "Uma barbearia de bairro em Lisboa com menu de cortes, galeria, equipa e um fluxo de marcação que cabe num scroll.",
+        brief: [
+          "A Barbearia Sete Colinas é uma marca fictícia na Rua da Madalena, em Lisboa. O site tinha de parecer um espaço real: madeira escura, latão, cadeiras de couro e uma equipa com nome.",
+          "O brief era uma página única com serviços e preços, galeria, equipa, testemunhos e marcação. O visitante devia conseguir marcar sem sair da página e sem criar conta.",
+        ],
+        decisions: [
+          {
+            title: "Escuro, mas não pesado",
+            text: "Cinza-carvão, latão e fotografia quente. A tipografia Inter em tamanhos grandes dá presença ao hero sem competir com a imagem.",
+          },
+          {
+            title: "O menu é o argumento",
+            text: "Os serviços aparecem com preço, duração e um botão «Marcar» que pré-seleciona o serviço no formulário. A informação prática fica acima da decoração.",
+          },
+          {
+            title: "Marcação em camadas",
+            text: "O formulário pede nome, telemóvel, barbeiro, serviço, data e hora; valida os campos, mostra um resumo e oferece confirmação por WhatsApp. O estado aberto/fechado é calculado a partir do horário.",
+          },
+        ],
+        build: [
+          "Uma página HTML/CSS/JS sem dependências, com navegação fixa, secções reveladas ao scroll, contadores, galeria com lightbox e carrossel de testemunhos.",
+          "Formulário de marcação com máscara de telemóvel, horários disponíveis por dia, validação no cliente e resumo antes de enviar. O envio é demonstrativo.",
+          "Imagens WebP em várias larguras, fontes WOFF2 locais, manifest e metadados de partilha. O JavaScript está dividido por blocos independentes.",
+        ],
+        accessibility: [
+          "O menu móvel e a lightbox gerem foco e fecham com Esc; os campos têm labels, mensagens de erro e estados `aria-invalid`. As animações e o carrossel param quando `prefers-reduced-motion` está ativo.",
+          "A navegação tem foco visível e a galeria pode ser percorrida sem rato. O formulário mantém os erros junto dos campos em vez de os resumir longe do contexto.",
+        ],
+        nextStep:
+          "Ligar o formulário a um serviço real de marcações e testar a confirmação por WhatsApp em telemóvel.",
+      },
+      lumina: {
+        sector: "Restaurante",
+        location: "Lisboa",
+        format: "Aplicação React multi-rota",
+        summary:
+          "Um restaurante contemporâneo em Lisboa com menu de degustação, nove pratos com página própria, carta de vinhos, galeria e reservas.",
+        brief: [
+          "Lumina é um restaurante fictício de gastronomia contemporânea em Lisboa. O site tinha de vender uma experiência: sala escura, pratos de autor e uma carta que se lê como uma viagem.",
+          "O brief pedia menu, páginas individuais para cada prato, carta de vinhos, galeria, história, reservas e uma versão bilingue PT/EN. A marca, os pratos e as fotografias de demonstração são fictícios.",
+        ],
+        decisions: [
+          {
+            title: "A sala antes do menu",
+            text: "O hero é uma fotografia de sala em contraluz, com título serifado e um único CTA. O menu surge depois, como uma continuação da experiência.",
+          },
+          {
+            title: "Cada prato tem uma página",
+            text: "Os nove pratos têm rota própria, com imagem, descrição e detalhes. A carta de vinhos é uma lista separada, não um PDF.",
+          },
+          {
+            title: "Reserva sem atrito",
+            text: "O formulário de reserva pede data, hora, pessoas e contacto; o seletor de data e os estados de erro evitam submissões incompletas.",
+          },
+        ],
+        build: [
+          "Aplicação React 18 com Vite, React Router e Tailwind CSS. As rotas incluem casa, sobre, galeria, carta de vinhos, nove pratos e páginas legais.",
+          "Dados de pratos e vinhos em módulos próprios; contexto de idioma PT/EN; formulário de reserva com seletor de data e validação; botão de voltar ao topo e estado de abertura.",
+          "Build Vite com assets com hash, imagens em `public/` e CSS compilado. A versão de menu para impressão tem uma folha de estilos dedicada.",
+        ],
+        accessibility: [
+          "A aplicação usa landmarks, headings por secção e labels nos campos da reserva. Os contrastes claros sobre fotografia escura foram verificados no navegador.",
+          "Ainda não existe uma variante dedicada a `prefers-reduced-motion`; as transições são CSS e ficam como próximo passo.",
+        ],
+        nextStep:
+          "Adicionar uma variante de movimento reduzido e consolidar a fonte display com um fallback local.",
+      },
+      dentilusa: {
+        sector: "Clínica dentária",
+        location: "Lisboa",
+        format: "Site institucional multi-página",
+        summary:
+          "Uma clínica dentária em Lisboa que explica tratamentos, preços e o que acontece em cada consulta — com um formulário de marcação longo, mas guiado.",
+        brief: [
+          "DentiLusa é uma clínica fictícia junto ao Marquês de Pombal. O site tinha de reduzir o medo do dentista: explicar antes de tratar, mostrar a equipa e deixar claro o que custa e o que acontece na primeira consulta.",
+          "O brief incluía dez tratamentos, preços, equipa, FAQ, urgências e marcação. A marca, os profissionais e os dados são fictícios.",
+        ],
+        decisions: [
+          {
+            title: "Azul clínico, não frio",
+            text: "Azul profundo, marfim e uma serifada Fraunces para os títulos. A fotografia da clínica é usada como contexto, não como prova de stock.",
+          },
+          {
+            title: "Explicar o medo",
+            text: "Uma secção dedicada responde a quem tem medo: cada passo é explicado, pode pedir pausa e a primeira consulta é só para conhecer. A FAQ responde a dúvidas concretas sobre dor, tempo e preços.",
+          },
+          {
+            title: "Preço e processo à vista",
+            text: "Os tratamentos têm descrições curtas e âncoras; a página inicial mostra preços orientativos, formas de pagamento e urgências. O formulário pede o tipo de consulta e o médico preferido.",
+          },
+        ],
+        build: [
+          "Quatro páginas HTML/CSS/JS com tratamentos, equipa e preços gerados a partir de dados; navegação com scrollspy, estado aberto/fechado e botão de voltar ao topo.",
+          "Formulário de marcação com validação, geração de horas, resumo e rascunho guardado em `localStorage`; FAQ em acordeão, testemunhos em carrossel e consentimento de cookies.",
+          "Fontes Google com fallback local, imagens WebP, metadados e manifest. O JavaScript é vanilla e organizado por módulos de página.",
+        ],
+        accessibility: [
+          "Os campos do formulário têm labels, ajuda contextual, mensagens de erro e `aria-invalid`; o foco é visível e a navegação por teclado percorre tratamentos e FAQ. As animações respeitam `prefers-reduced-motion`.",
+          "A página de tratamentos usa âncoras com headings próprios e a FAQ mantém o estado aberto/fechado anunciado. O formulário longo foi dividido em blocos para não sobrecarregar o ecrã.",
+        ],
+        nextStep:
+          "Testar o formulário com um serviço de marcações real e rever os limites de comprimento das mensagens.",
+      },
+      aqualis: {
+        sector: "Canalizações",
+        location: "Lisboa",
+        format: "Site de serviços com páginas dedicadas",
+        summary:
+          "Uma empresa de canalizações em Lisboa que trata a urgência como produto: telefone visível, preço fechado, chegada em 60 minutos e garantia de 12 meses.",
+        brief: [
+          "AquaLis é uma marca fictícia de canalizações em Lisboa e arredores. O site tinha de converter em mobile, muitas vezes em situação de urgência, sem prometer o que não pode cumprir.",
+          "O brief incluía sete serviços com página própria, zonas, preços orientativos, testemunhos, FAQ, verificação de zona e pedido de orçamento. A marca e os dados são fictícios.",
+        ],
+        decisions: [
+          {
+            title: "Telefone primeiro",
+            text: "O número 24h aparece no topo, no hero e no rodapé; o botão laranja «Ligar agora» é o CTA principal. O laranja é usado como sinal de urgência, não como decoração.",
+          },
+          {
+            title: "Preço antes do formulário",
+            text: "A página mostra preços orientativos, o que está incluído e como o orçamento é calculado. O formulário pede concelho, serviço, urgência, descrição e uma foto opcional.",
+          },
+          {
+            title: "Prova local",
+            text: "Zonas de atuação, testemunhos e um processo em quatro passos respondem às dúvidas de quem procura um canalizador local. O mapa do Google só carrega depois do consentimento.",
+          },
+        ],
+        build: [
+          "Página inicial e sete páginas de serviço em HTML/CSS/JS, com dados de serviços, preços, zonas e testemunhos em módulos partilhados.",
+          "Verificador de zona por código postal, formulário de orçamento com validação e upload de foto, carrossel de testemunhos, FAQ em acordeão e indicador de disponibilidade.",
+          "Fontes WOFF2 locais, imagens otimizadas, preferências de cookies e carregamento condicional do mapa. O JavaScript é vanilla, sem dependências.",
+        ],
+        accessibility: [
+          "O menu móvel, o banner de cookies e os acordeões gerem foco e estados `aria-expanded`; os campos têm labels, ajuda e erros associados. As animações e contadores respeitam `prefers-reduced-motion`.",
+          "O mapa só é carregado depois do consentimento, o que também evita pedidos externos desnecessários. A navegação de serviço mantém foco visível e uma ordem de headings previsível.",
+        ],
+        nextStep:
+          "Rever os preços orientativos com dados reais e testar o upload de fotos num servidor.",
+      },
+      forja: {
+        sector: "Ginásio",
+        location: "Braga",
+        format: "Site multi-página",
+        summary:
+          "Um ginásio em Braga com nove formatos de aula, horário semanal, planos, treinadores e uma aula experimental — tudo com a voz de uma oficina, não de uma app de fitness.",
+        brief: [
+          "FORJA Training Club é um ginásio fictício em Braga, fundado em 2017. O site tinha de mostrar que o treino é acompanhado e que existe um plano para quem nunca treinou ou quer recomeçar.",
+          "O brief incluía horário, aulas, planos, treinadores, instalações, contactos, FAQ e marcação de aula experimental. A marca, os treinadores e os dados são fictícios.",
+        ],
+        decisions: [
+          {
+            title: "Uma oficina, não uma app",
+            text: "Preto grafite, azul profundo e Anton em maiúsculas. A linguagem visual vem de ferramentas, placas e horários de oficina; o azul marca ação e estado.",
+          },
+          {
+            title: "Horário como peça central",
+            text: "A grelha semanal mostra aulas, níveis e treinadores; cada aula tem página própria. O visitante pode filtrar por dia e por formato.",
+          },
+          {
+            title: "Planos sem letras pequenas",
+            text: "Os três planos têm preço, condições e um quiz que ajuda a escolher. A aula experimental é o CTA principal em todas as páginas.",
+          },
+        ],
+        build: [
+          "Site multi-página com módulos ES e carregamento condicional por rota: UI, motion, home, horário, aulas, planos, quiz, treinadores, instalações, trial e FAQ.",
+          "Horário filtrável, páginas de aula, planos, quiz de recomendação, formulário de aula experimental, FAQ e consentimento de cookies. Há uma folha de estilos de impressão para o horário.",
+          "Fontes locais, imagens WebP, componentes partilhados e JavaScript sem dependências. O HTML é estático e o conteúdo é renderizado a partir de dados.",
+        ],
+        accessibility: [
+          "O menu e os diálogos gerem foco e fecham com Esc; há skip link, foco visível e `prefers-reduced-motion`. Os formulários têm labels e os acordeões usam `aria-expanded`.",
+          "A grelha de horário mantém uma ordem de leitura por dia e por aula, e os cartões de plano expõem preço e condições no próprio conteúdo.",
+        ],
+        nextStep:
+          "Testar o horário e o quiz com leitores de ecrã e ligar a marcação a um calendário real.",
+      },
+    },
   },
 
   contact: {

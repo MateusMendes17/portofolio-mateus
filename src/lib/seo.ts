@@ -15,17 +15,36 @@ import pt from "@/content/strings/pt";
    aplica sozinho o template "` | Mateus Mendes`" às páginas filhas.
    ============================================================ */
 
+interface PageSeoImage {
+  /** Caminho público (/og-cover.jpg) ou URL absoluto. */
+  url: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
 interface PageSeo {
   /** Título da página, sem a marca no fim. */
   title: string;
   description: string;
   /** Caminho a partir da raiz, ex.: "/sobre" ("/" para a home). */
   path: string;
+  /** Imagem de partilha; por omissão usa a capa genérica do site. */
+  image?: PageSeoImage;
 }
 
-export function pageMetadata({ title, description, path }: PageSeo): Metadata {
+export function pageMetadata({ title, description, path, image }: PageSeo): Metadata {
   const canonical = path === "/" ? "/" : path.replace(/\/+$/, "");
   const url = `${SITE_URL}${canonical === "/" ? "" : canonical}`;
+  const shareImage = image ?? {
+    url: "/og-cover.jpg",
+    width: 1200,
+    height: 630,
+    alt: pt.meta.ogImageAlt,
+  };
+  const shareImageUrl = shareImage.url.startsWith("http")
+    ? shareImage.url
+    : `${SITE_URL}${shareImage.url}`;
 
   return {
     title,
@@ -42,10 +61,10 @@ export function pageMetadata({ title, description, path }: PageSeo): Metadata {
       description,
       images: [
         {
-          url: "/og-cover.jpg",
-          width: 1200,
-          height: 630,
-          alt: pt.meta.ogImageAlt,
+          url: shareImageUrl,
+          width: shareImage.width,
+          height: shareImage.height,
+          alt: shareImage.alt,
         },
       ],
     },
@@ -53,7 +72,7 @@ export function pageMetadata({ title, description, path }: PageSeo): Metadata {
       card: "summary_large_image",
       title,
       description,
-      images: ["/og-cover.jpg"],
+      images: [shareImageUrl],
     },
   };
 }

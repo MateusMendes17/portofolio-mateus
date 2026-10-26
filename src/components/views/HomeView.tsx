@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { WhatsAppIcon } from "@/components/ui/Icons";
 import { PROJECTS } from "@/content/projects";
 import { useLanguage } from "@/context/LanguageContext";
+import { projectCategoryLabel } from "@/lib/projectCategory";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
 import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { FloatingElements } from "@/components/ui/FloatingElements";
@@ -20,8 +21,8 @@ export function HomeView() {
   const { isEnglish, t } = useLanguage();
   const pathname = usePathname();
 
-  // Top 3 featured projects
-  const featuredProjects = PROJECTS.slice(0, 3);
+  // Three featured published projects
+  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
 
   const renderScreenContent = () => (
     <>
@@ -558,10 +559,11 @@ export function HomeView() {
 
         <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-6" stagger={0.15}>
           {featuredProjects.map((project) => {
-            const title = isEnglish && project.titleEn ? project.titleEn : project.title;
-            const desc = isEnglish && project.shortDescriptionEn ? project.shortDescriptionEn : project.shortDescription;
-            const category = isEnglish && project.categoryLabelEn ? project.categoryLabelEn : project.categoryLabel;
-            const topResult = isEnglish && project.resultsEn && project.resultsEn[0] ? project.resultsEn[0] : project.results[0];
+            const study =
+              t.projectDetail.studies[
+                project.slug as keyof typeof t.projectDetail.studies
+              ];
+            const category = projectCategoryLabel(project.category, t);
 
             return (
               <StaggerItem key={project.slug}><TiltCard3D className="h-full">
@@ -574,26 +576,23 @@ export function HomeView() {
                     <span className="font-mono text-xs font-bold uppercase tracking-wider text-accent px-2.5 py-0.5 rounded-full bg-accent-subtle">
                       {category}
                     </span>
-                    <span className="text-text-muted">{project.year}</span>
+                    <span className="text-text-muted">
+                      {t.projectDetail.labels.published}
+                    </span>
                   </div>
 
                   {/* Título */}
                   <h3 className="font-heading text-lg font-bold text-text-primary group-hover:text-accent transition-colors mb-2">
-                    {title}
+                    {project.name}
                   </h3>
 
                   {/* Descrição */}
-                  <p className="text-xs sm:text-sm text-text-secondary leading-relaxed mb-4">
-                    {desc}
+                  <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+                    {study.summary}
                   </p>
-
-                  {/* Métrica de Impacto */}
-                  {topResult && (
-                    <div className="mb-5 rounded-xl border border-border/60 bg-surface-hover/60 p-2.5 text-xs font-semibold text-text-primary flex items-center gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 shrink-0" />
-                      <span className="truncate">{topResult}</span>
-                    </div>
-                  )}
+                  <p className="mt-3 text-[10px] leading-relaxed text-text-muted">
+                    {t.projectDetail.labels.disclaimer}
+                  </p>
                 </div>
 
                 {/* Rodapé do Card com Tags e Link */}
@@ -613,7 +612,7 @@ export function HomeView() {
                     href={`/projetos/${project.slug}`}
                     className="text-xs font-bold text-accent group-hover:underline inline-flex items-center gap-1"
                   >
-                    <span>Case Study</span>
+                    <span>{t.projects.grid.viewCaseStudy}</span>
                     <span>→</span>
                   </Link>
                 </div>

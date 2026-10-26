@@ -457,68 +457,68 @@ const en: Strings = {
   },
 
   projects: {
-    badge: "Portfolio & Selected Works",
+    badge: "Published portfolio",
     title: "Projects.",
     description:
-      "A curated selection of corporate websites, e-commerce platforms, high-converting landing pages, and web apps. Every project blends modern aesthetics, maximum speed, and measurable business goals.",
+      "Eight published sites, built end to end as case studies. Fictional brands, real decisions: structure, typography, interaction and code.",
     pills: [
-      "100% Bespoke Design",
-      "Performance < 1s",
-      "Native Google SEO",
-      "100% Responsive",
+      "Published sites",
+      "Original code",
+      "Accessibility considered",
+      "PT/EN when it matters",
     ],
     highlights: {
-      badge: "Quality Commitment",
-      title: "Rigorous standards in every delivery",
+      badge: "Criteria",
+      title: "What stays the same across every project",
       description:
-        "Every website is built to the highest benchmarks of speed, semantic structure, and conversion UX.",
+        "There is no single template. There is a method: understand the context, choose the smallest useful stack, and treat interface as part of the content.",
       items: [
         {
           id: "design",
-          title: "100% Bespoke Design",
+          title: "Identity before template",
           description:
-            "Every project features a distinct visual identity, rejecting generic off-the-shelf templates.",
+            "Every brand has its own voice, type and palette. The layout grows from the content, not from a purchased theme.",
         },
         {
           id: "speed",
-          title: "Performance & Speed",
+          title: "Controlled weight",
           description:
-            "Engineered with Next.js to guarantee sub-second load times and top Google Core Web Vitals.",
+            "Light pages, compressed images and JavaScript only where it adds interaction. The smallest stack that fits each project, not the most popular one.",
         },
         {
           id: "seo",
-          title: "Native Google SEO",
+          title: "Semantics and focus",
           description:
-            "Semantic architecture and structured schema metadata ensuring high search engine visibility.",
+            "Headings with hierarchy, landmarks, visible focus and keyboard navigation. Accessibility is not a layer added at the end.",
         },
         {
           id: "mobile",
-          title: "Mobile-First Experience",
+          title: "Responsive for real",
           description:
-            "Effortless and fluid navigation across all viewports, from smartphones to ultrawide monitors.",
+            "The mobile experience is not a reduced version. Menus, forms and content were designed for small screens.",
         },
       ],
     },
     process: {
-      badge: "Creation Process",
-      title: "How each project comes to life",
+      badge: "Process",
+      title: "How each project takes shape",
       description:
-        "No bureaucratic friction. You collaborate directly with me from the first draft to online deployment.",
+        "From the first sketch to the published site, without intermediaries and with documented decisions.",
       steps: [
         {
           step: "01",
-          title: "Strategy & Architecture",
-          desc: "Target audience mapping, information architecture, and defining clear business goals.",
+          title: "Context & structure",
+          desc: "Define the problem, the essential information and the architecture before drawing.",
         },
         {
           step: "02",
-          title: "Design & Interactivity",
-          desc: "Crafting a distinctive, modern UI with polished micro-interactions that elevate brand perception.",
+          title: "Identity & interaction",
+          desc: "Type, colour, grid and the gestures that make the brand recognisable.",
         },
         {
           step: "03",
-          title: "Clean Code & Launch",
-          desc: "Development with Next.js, cross-device testing, SEO markup, speed optimization, and handover.",
+          title: "Code & publish",
+          desc: "Build with the right stack, test with keyboard and mobile, measure and publish.",
         },
       ],
     },
@@ -541,24 +541,340 @@ const en: Strings = {
       empty: "No projects found in this category.",
       featured: "Featured",
       viewCaseStudy: "View Case Study",
+      index: "Index",
+      projectCount: "{count} published projects",
+      jumpTo: "Jump to project",
+      coverAlt: "Homepage of {name}",
+      openSite: "Open site",
+      published: "Published",
+      allProjects: "All",
     },
   },
 
   projectDetail: {
-    clientLabel: "Client",
-    previewLabel: "Interface Preview",
-    previewDescription:
-      "Engineered with modern frontend architecture, focus on conversion UX, and enterprise-grade performance.",
-    impactLabel: "Measurable Impact",
-    challengeTitle: "The Challenge",
-    solutionTitle: "The Solution",
-    featuresBadge: "Architecture & Specifications",
-    featuresTitle: "Key Features Implemented",
-    previous: "Previous",
-    next: "Next",
-    allProjects: "All Projects",
-    ctaTitle: "Looking for a tailored solution for your business?",
-    ctaDescription: "Let's discuss your project in detail and craft the optimal proposal.",
+    labels: {
+      brief: "Brief",
+      decisions: "Decisions",
+      build: "Build",
+      accessibility: "Accessibility & performance",
+      specs: "Project sheet",
+      type: "Format",
+      status: "Status",
+      published: "Published",
+      stack: "Stack",
+      site: "Site",
+      code: "Code",
+      privateCode: "Private repository",
+      role: "Role",
+      roleValue: "Design and development",
+      openSite: "Open site",
+      viewCode: "View code",
+      allProjects: "All projects",
+      previous: "Previous",
+      next: "Next",
+      backToProjects: "Back to projects",
+      disclaimer: "Portfolio project. Fictional brand and data.",
+      coverAlt: "Homepage of {name}",
+      metricsNote:
+        "No Lighthouse score published. Verification was done in the browser, with keyboard, visible focus and reduced motion.",
+      nextStep: "Next step",
+      breadcrumb: "Breadcrumb",
+      pagination: "Project navigation",
+      newWindow: "opens in a new window",
+      ctaTitle: "Looking for a tailored solution for your business?",
+      ctaDescription:
+        "Let's discuss your project in detail and craft the optimal proposal.",
+    },
+    studies: {
+      "torra-lusa": {
+        sector: "Specialty coffee",
+        location: "Porto",
+        format: "Multi-page online store",
+        summary:
+          "A specialty coffee shop that treats buying coffee as part of the ritual: origin, grind, freshness and subscriptions explained without hurry.",
+        brief: [
+          "The starting point was a fictional roastery in Porto with a simple idea: sell coffee without turning the experience into a list of SKUs. The site had to present origins, blends, capsules, equipment and packs, while also explaining how the coffee is roasted and how it reaches the cup.",
+          "The brief asked for a complete shop — search, cart, checkout and legal pages — with an editorial voice that did not feel like a generic store. The brand, products and data are fictional; the exercise was to build the whole system.",
+        ],
+        decisions: [
+          {
+            title: "A shop with its own pace",
+            text: "Warm paper, brown and caramel, Fraunces for headlines and DM Sans for text. The grid breathes and coffee photography takes the space that discount banners usually occupy.",
+          },
+          {
+            title: "Choose before buying",
+            text: "A short quiz suggests coffee by brewing method and flavour profile; product pages show origin, process, tasting notes and roast date. The goal was to reduce doubt without hiding information.",
+          },
+          {
+            title: "Quiet cart, clear checkout",
+            text: "Quick add opens a side cart with totals and shipping; checkout separates delivery, payment and confirmation. Empty states and error messages are written in plain Portuguese.",
+          },
+        ],
+        build: [
+          "A multi-page HTML, CSS and modular JavaScript site, with header, footer, cart and shared components injected from ES modules.",
+          "Catalogue with search, category and grind filters, product pages, subscriptions, FAQ, shipping, terms and privacy pages.",
+          "Cart persisted in `localStorage`, demonstrative checkout, order confirmation, newsletter and cookie consent. Images were converted to WebP.",
+        ],
+        accessibility: [
+          "The mobile menu and cart trap focus while open and return it to the button that opened them. Controls have labels, `aria-expanded` and field-level error states.",
+          "Animations respect `prefers-reduced-motion` and the site keeps a simple heading hierarchy. Product and checkout pages were checked with a keyboard.",
+        ],
+        nextStep:
+          "Connect checkout to a real payment provider and review error states with screen readers.",
+      },
+      "cota-zero": {
+        sector: "Architecture",
+        location: "Porto",
+        format: "Multi-page studio portfolio",
+        summary:
+          "An architecture studio presenting six works, process and materials with the precision of a technical drawing — without turning the portfolio into a silent gallery.",
+        brief: [
+          "Cota Zero is a fictional architecture studio in Porto with six projects and a practice centred on renovation and new build. The site had to show the studio, process, materials and project sheets without diluting its identity into an architecture template.",
+          "The brief asked for a strong, navigable graphic language: a project index, filters, an interactive plan and project pages with concrete data. The content and projects are invented for the exercise.",
+        ],
+        decisions: [
+          {
+            title: "Typography as a plan",
+            text: "Archivo Black for the wordmark, JetBrains Mono for data and a palette of paper, ink and signal orange. Grid lines replace cards and shadows.",
+          },
+          {
+            title: "Plan mode",
+            text: "The “Planta” button overlays a measuring grid with dimensions and axes. It is an identity gesture, but also a way to explain the studio's logic.",
+          },
+          {
+            title: "Index before image",
+            text: "Works appear first as a typographic table with year, type and location; photography arrives later on dedicated pages. The visitor understands the whole before opening a single work.",
+          },
+        ],
+        build: [
+          "Ten HTML/CSS/JS pages with ES modules for navigation, intro, counters, filters, plan overlay and project pages. Concrete, corten, wood, stone, brick and glass textures are local SVGs.",
+          "Project index with filters, project sheets generated from data and an overlay plan with focus management and `inert` on the background content.",
+          "Local WOFF2 fonts, WebP images with size variants and a shared component system. JavaScript loads only the modules needed by the current page.",
+        ],
+        accessibility: [
+          "The plan overlay and mobile menu use `inert` to remove the background from the focus order, return focus to the trigger and respond to Esc. Motion is reduced when `prefers-reduced-motion` is active.",
+          "Links have visible focus and headings follow the content hierarchy. Project images have descriptive alternative text.",
+        ],
+        nextStep:
+          "Audit caption contrast over the textures and document the plan overlay shortcuts.",
+      },
+      "mendes-valadares": {
+        sector: "Law",
+        location: "Lisbon",
+        format: "Multi-page corporate site",
+        summary:
+          "A Lisbon law firm that explains the work before asking for contact: practice areas, team, fees, articles and frequently asked questions.",
+        brief: [
+          "Mendes Valadares & Associados is a fictional Lisbon law firm founded in 2008. The site had to convey rigour and proximity without falling into the distant tone of many legal websites.",
+          "The brief included eight practice areas, five lawyers, articles, contacts, FAQs and information about fees. The brand and data are fictional; the exercise was to organise a lot of information without hiding it behind jargon.",
+        ],
+        decisions: [
+          {
+            title: "Azulejo and deep blue",
+            text: "The identity draws on Lisbon tiles and office blue, with bronze details. DM Sans at medium weights keeps the text readable and avoids the obvious legal serif.",
+          },
+          {
+            title: "Numbers that guide",
+            text: "Sections are numbered like a process: practice areas, team, about, articles, contact. The “Atendimento aberto” status is calculated in the browser using Lisbon time.",
+          },
+          {
+            title: "Explain before the form",
+            text: "Each practice area has a sheet with example questions, the team has profiles and articles answer concrete doubts. Contact comes after the information, not before it.",
+          },
+        ],
+        build: [
+          "Eleven HTML/CSS/JS pages with header, footer, practice areas, team and articles generated from shared data.",
+          "Native modals for practice areas and team, FAQ accordions, tabs, opening status, reading progress, a map loaded after consent and a contact form.",
+          "Local WOFF2 fonts, WebP images and a reusable interface component set. JavaScript is modular and framework-free.",
+        ],
+        accessibility: [
+          "Dialogs use native `<dialog>` with contained focus and return to the trigger; the mobile menu and cookie banner manage focus and Esc. There is a skip link, visible focus and `prefers-reduced-motion`.",
+          "Content images have alternative text and sections keep a stable heading hierarchy. The contact form has labels and associated error messages.",
+        ],
+        nextStep:
+          "Review the legal copy and test the form against a real email service.",
+      },
+      "barbearia-sete-colinas": {
+        sector: "Barbershop",
+        location: "Lisbon",
+        format: "Single-page landing page",
+        summary:
+          "A neighbourhood barbershop in Lisbon with a service menu, gallery, team and a booking flow that fits into one scroll.",
+        brief: [
+          "Barbearia Sete Colinas is a fictional shop on Rua da Madalena in Lisbon. The site had to feel like a real place: dark wood, brass, leather chairs and a team with names.",
+          "The brief was a single page with services and prices, gallery, team, testimonials and booking. Visitors should be able to book without leaving the page or creating an account.",
+        ],
+        decisions: [
+          {
+            title: "Dark, but not heavy",
+            text: "Charcoal, brass and warm photography. Inter at large sizes gives the hero presence without competing with the image.",
+          },
+          {
+            title: "The menu is the argument",
+            text: "Services appear with price, duration and a “Marcar” button that pre-selects the service in the form. Practical information sits above decoration.",
+          },
+          {
+            title: "Layered booking",
+            text: "The form asks for name, phone, barber, service, date and time; it validates fields, shows a summary and offers WhatsApp confirmation. Open/closed status is calculated from the schedule.",
+          },
+        ],
+        build: [
+          "A single HTML/CSS/JS page with no dependencies, fixed navigation, scroll reveals, counters, a lightbox gallery and testimonial carousel.",
+          "Booking form with phone mask, available times by day, client-side validation and a summary before submission. Submission is demonstrative.",
+          "WebP images at multiple widths, local WOFF2 fonts, a manifest and social metadata. JavaScript is split into independent blocks.",
+        ],
+        accessibility: [
+          "The mobile menu and lightbox manage focus and close with Esc; fields have labels, error messages and `aria-invalid` states. Animations and the carousel stop when `prefers-reduced-motion` is active.",
+          "Navigation has visible focus and the gallery can be browsed without a mouse. Form errors stay next to their fields instead of being summarised far from context.",
+        ],
+        nextStep:
+          "Connect the form to a real booking service and test WhatsApp confirmation on a phone.",
+      },
+      lumina: {
+        sector: "Restaurant",
+        location: "Lisbon",
+        format: "Multi-route React application",
+        summary:
+          "A contemporary restaurant in Lisbon with a tasting menu, nine dishes with individual pages, a wine list, gallery and reservations.",
+        brief: [
+          "Lumina is a fictional contemporary restaurant in Lisbon. The site had to sell an experience: a dark dining room, author dishes and a menu that reads like a journey.",
+          "The brief asked for a menu, individual pages for each dish, a wine list, gallery, story, reservations and a bilingual PT/EN version. The brand, dishes and demonstration photography are fictional.",
+        ],
+        decisions: [
+          {
+            title: "The room before the menu",
+            text: "The hero is a backlit photograph of the dining room, with a serif title and a single CTA. The menu arrives afterwards as a continuation of the experience.",
+          },
+          {
+            title: "Every dish has a page",
+            text: "The nine dishes have their own route with image, description and details. The wine list is a separate list, not a PDF.",
+          },
+          {
+            title: "Frictionless reservation",
+            text: "The reservation form asks for date, time, party size and contact; the date picker and error states prevent incomplete submissions.",
+          },
+        ],
+        build: [
+          "A React 18 application with Vite, React Router and Tailwind CSS. Routes include home, about, gallery, wine list, nine dishes and legal pages.",
+          "Dish and wine data in dedicated modules; PT/EN language context; reservation form with date picker and validation; back-to-top button and opening status.",
+          "Vite build with hashed assets, images in `public/` and compiled CSS. The print menu has a dedicated stylesheet.",
+        ],
+        accessibility: [
+          "The application uses landmarks, section headings and labels on reservation fields. Light-on-dark contrast over photography was checked in the browser.",
+          "There is no dedicated `prefers-reduced-motion` variant yet; CSS transitions remain as a next step.",
+        ],
+        nextStep:
+          "Add a reduced-motion variant and consolidate the display font with a local fallback.",
+      },
+      dentilusa: {
+        sector: "Dental clinic",
+        location: "Lisbon",
+        format: "Multi-page corporate site",
+        summary:
+          "A Lisbon dental clinic that explains treatments, prices and what happens at each appointment — with a long booking form that is carefully guided.",
+        brief: [
+          "DentiLusa is a fictional clinic near Marquês de Pombal. The site had to reduce dental anxiety: explain before treating, show the team and make clear what it costs and what happens at the first appointment.",
+          "The brief included ten treatments, prices, team, FAQs, emergencies and booking. The brand, professionals and data are fictional.",
+        ],
+        decisions: [
+          {
+            title: "Clinical blue, not cold",
+            text: "Deep blue, ivory and the Fraunces serif for headings. Clinic photography is used as context, not as stock proof.",
+          },
+          {
+            title: "Explaining fear",
+            text: "A dedicated section answers anxious patients: every step is explained, they can ask for a pause and the first appointment is just to meet. The FAQ covers pain, time and prices.",
+          },
+          {
+            title: "Price and process in view",
+            text: "Treatments have short descriptions and anchors; the homepage shows indicative prices, payment options and emergency care. The form asks for the appointment type and preferred doctor.",
+          },
+        ],
+        build: [
+          "Four HTML/CSS/JS pages with treatments, team and prices generated from data; scrollspy navigation, open/closed status and a back-to-top button.",
+          "Booking form with validation, time generation, summary and draft saved in `localStorage`; FAQ accordion, testimonial carousel and cookie consent.",
+          "Google fonts with a local fallback, WebP images, metadata and a manifest. JavaScript is vanilla and organised by page modules.",
+        ],
+        accessibility: [
+          "Form fields have labels, contextual help, error messages and `aria-invalid`; focus is visible and keyboard navigation covers treatments and FAQ. Animations respect `prefers-reduced-motion`.",
+          "The treatment page uses anchors with their own headings and the FAQ announces open/closed state. The long form is split into blocks to avoid overwhelming the screen.",
+        ],
+        nextStep:
+          "Test the form against a real booking service and review message length limits.",
+      },
+      aqualis: {
+        sector: "Plumbing",
+        location: "Lisbon",
+        format: "Service site with dedicated pages",
+        summary:
+          "A Lisbon plumbing company that treats urgency as the product: visible phone number, fixed price, 60-minute arrival and a 12-month guarantee.",
+        brief: [
+          "AquaLis is a fictional plumbing brand in Lisbon and the surrounding area. The site had to convert on mobile, often in an emergency, without promising what it cannot deliver.",
+          "The brief included seven services with dedicated pages, areas, indicative prices, testimonials, FAQs, a postcode checker and a quote request. The brand and data are fictional.",
+        ],
+        decisions: [
+          {
+            title: "Phone first",
+            text: "The 24h number appears in the top bar, hero and footer; the orange “Ligar agora” button is the primary CTA. Orange signals urgency rather than decoration.",
+          },
+          {
+            title: "Price before the form",
+            text: "The page shows indicative prices, what is included and how the quote is calculated. The form asks for municipality, service, urgency, a description and an optional photo.",
+          },
+          {
+            title: "Local proof",
+            text: "Service areas, testimonials and a four-step process answer the doubts of someone looking for a local plumber. The Google map only loads after consent.",
+          },
+        ],
+        build: [
+          "A homepage and seven service pages in HTML/CSS/JS, with services, prices, areas and testimonials in shared modules.",
+          "Postcode area checker, quote form with validation and photo upload, testimonial carousel, FAQ accordion and availability indicator.",
+          "Local WOFF2 fonts, optimised images, cookie preferences and conditional map loading. JavaScript is vanilla and dependency-free.",
+        ],
+        accessibility: [
+          "The mobile menu, cookie banner and accordions manage focus and `aria-expanded` states; fields have labels, help text and associated errors. Animations and counters respect `prefers-reduced-motion`.",
+          "The map loads only after consent, which also avoids unnecessary third-party requests. Service navigation keeps visible focus and a predictable heading order.",
+        ],
+        nextStep:
+          "Review indicative prices against real data and test photo upload on a server.",
+      },
+      forja: {
+        sector: "Gym",
+        location: "Braga",
+        format: "Multi-page site",
+        summary:
+          "A gym in Braga with nine class formats, a weekly schedule, plans, trainers and a trial class — all with the voice of a workshop, not a fitness app.",
+        brief: [
+          "FORJA Training Club is a fictional gym in Braga founded in 2017. The site had to show that training is supervised and that there is a plan for people who have never trained or are starting again.",
+          "The brief included schedule, classes, plans, trainers, facilities, contact, FAQs and trial class booking. The brand, trainers and data are fictional.",
+        ],
+        decisions: [
+          {
+            title: "A workshop, not an app",
+            text: "Graphite black, deep blue and Anton in uppercase. The visual language comes from tools, signs and workshop schedules; blue marks action and state.",
+          },
+          {
+            title: "Schedule as the centrepiece",
+            text: "The weekly grid shows classes, levels and trainers; each class has its own page. Visitors can filter by day and format.",
+          },
+          {
+            title: "Plans without small print",
+            text: "The three plans show price, conditions and a quiz that helps people choose. The trial class is the primary CTA on every page.",
+          },
+        ],
+        build: [
+          "A multi-page site with ES modules and route-level loading: UI, motion, home, schedule, classes, plans, quiz, trainers, facilities, trial and FAQ.",
+          "Filterable schedule, class pages, plans, recommendation quiz, trial class form, FAQ and cookie consent. A print stylesheet handles the schedule.",
+          "Local fonts, WebP images, shared components and dependency-free JavaScript. HTML is static and content is rendered from data.",
+        ],
+        accessibility: [
+          "The menu and dialogs manage focus and close with Esc; there is a skip link, visible focus and `prefers-reduced-motion`. Forms have labels and accordions use `aria-expanded`.",
+          "The schedule keeps a reading order by day and class, and plan cards expose price and conditions in their own content.",
+        ],
+        nextStep:
+          "Test the schedule and quiz with screen readers and connect booking to a real calendar.",
+      },
+    },
   },
 
   contact: {

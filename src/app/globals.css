@@ -410,18 +410,20 @@ main {
   overflow-x: clip;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.035em;
-  color: var(--ink);
-  text-wrap: balance;
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
 }
 
 p {
@@ -450,6 +452,16 @@ textarea {
 .focus-ring:focus-visible {
   outline: var(--focus-ring-width) solid var(--focus);
   outline-offset: var(--focus-ring-offset);
+}
+
+/* Índices horizontais sem barra visível. */
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
 }
 
 /* Scrollbar discreta, sem pills. */
@@ -516,6 +528,159 @@ textarea {
 .cv-auto {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
+}
+
+/* ============================================================
+   PREVIEW DE PROJETOS
+   A capa é sempre visível. Ao ativar (hover, foco ou cartão
+   centrado em touch), entra a barra de browser e a captura longa
+   percorre a página a velocidade constante. A captura longa só é
+   pedida depois da primeira ativação.
+   ============================================================ */
+
+.project-preview {
+  position: relative;
+  aspect-ratio: var(--preview-aspect-desktop);
+  overflow: hidden;
+  border: var(--border-width) solid var(--preview-border);
+  border-radius: var(--preview-radius);
+  background: var(--surface-2);
+  isolation: isolate;
+  transition:
+    border-color var(--transition-base),
+    box-shadow var(--transition-base);
+}
+
+.project-preview[data-active="true"] {
+  border-color: var(--preview-border-active);
+  box-shadow: var(--shadow-md);
+}
+
+.project-preview__media {
+  position: absolute;
+  inset: 0;
+}
+
+.project-preview__cover,
+.project-preview__long {
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+.project-preview__cover {
+  transition: opacity var(--preview-crossfade) var(--ease-out);
+}
+
+.project-preview__long {
+  opacity: 0;
+  transition: opacity var(--preview-crossfade) var(--ease-out);
+  will-change: object-position;
+}
+
+.project-preview[data-active="true"][data-loaded="true"] .project-preview__cover {
+  opacity: 0;
+}
+
+.project-preview[data-active="true"][data-loaded="true"] .project-preview__long {
+  opacity: 1;
+  animation: project-preview-scroll var(--preview-duration) linear infinite;
+}
+
+@keyframes project-preview-scroll {
+  from {
+    object-position: 50% 0%;
+  }
+  to {
+    object-position: 50% 100%;
+  }
+}
+
+/* Barra de browser: overlay absoluto, por isso não altera a altura do cartão. */
+.project-preview__bar {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: var(--preview-bar-h);
+  padding-inline: 10px;
+  border-bottom: 1px solid var(--preview-border);
+  background: var(--preview-bar-bg);
+  opacity: 0;
+  transform: translateY(-100%);
+  pointer-events: none;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.project-preview[data-active="true"] .project-preview__bar {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-preview__dots {
+  display: inline-flex;
+  flex-shrink: 0;
+  gap: 4px;
+}
+
+.project-preview__dot {
+  width: var(--preview-dot);
+  height: var(--preview-dot);
+  border-radius: 9999px;
+  background: var(--preview-dot-bg);
+}
+
+.project-preview__url {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-preview__state {
+  margin-left: auto;
+  flex-shrink: 0;
+  color: var(--muted);
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@media (max-width: 767px) {
+  .project-preview {
+    aspect-ratio: var(--preview-aspect-mobile);
+    border-radius: var(--preview-radius-mobile);
+  }
+
+  .project-preview__bar {
+    height: var(--preview-bar-h-mobile);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-preview__long {
+    display: none !important;
+    animation: none !important;
+  }
+
+  .project-preview__cover {
+    opacity: 1 !important;
+  }
+
+  .project-preview__bar {
+    transition: none;
+  }
 }
 
 /* ============================================================
