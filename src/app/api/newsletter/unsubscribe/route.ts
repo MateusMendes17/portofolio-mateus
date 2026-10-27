@@ -67,7 +67,9 @@ export async function POST(request: NextRequest) {
   const params = request.nextUrl.searchParams;
   let candidate: unknown = { email: params.get("e") ?? "", token: params.get("t") ?? "" };
   if ((request.headers.get("content-type") ?? "").includes("application/json")) {
-    candidate = await request.json().catch(() => null);
+    // Corpo JSON da página de cancelamento; se vier vazio, valem os parâmetros do link.
+    const fromBody = await request.json().catch(() => null);
+    if (fromBody) candidate = fromBody;
   }
 
   const parsed = bodySchema.safeParse(candidate);
