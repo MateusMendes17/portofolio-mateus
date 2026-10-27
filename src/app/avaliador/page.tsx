@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/constants";
 import { AvaliadorView } from "@/components/views/AvaliadorView";
@@ -41,7 +42,9 @@ export default function AvaliadorPage() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <AvaliadorView />
+      <Suspense>
+        <AvaliadorView />
+      </Suspense>
     </>
   );
 }

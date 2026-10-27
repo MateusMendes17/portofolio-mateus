@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ContactoView } from "@/components/views/ContactoView";
 import { pageMetadata } from "@/lib/seo";
 
@@ -10,5 +11,9 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function ContactoPage() {
-  return <ContactoView />;
+  return (
+    <Suspense>
+      <ContactoView />
+    </Suspense>
+  );
 }

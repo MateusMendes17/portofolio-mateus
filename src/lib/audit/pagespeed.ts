@@ -1,5 +1,6 @@
 const PAGESPEED_API = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
-const TIMEOUT_MS = 20_000;
+// O Lighthouse da Google demora tipicamente 20–40 s; a rota tem maxDuration de 60 s.
+const TIMEOUT_MS = 45_000;
 
 export interface PageSpeedResult {
   scores: {
@@ -19,16 +20,28 @@ export interface PageSpeedResult {
 
 export async function fetchPageSpeed(url: string): Promise<PageSpeedResult | null> {
   const apiKey = process.env.PAGESPEED_API_KEY?.trim();
-  if (!apiKey) return null;
+  if (!apiKey) {
+    console.error("[pagespeed] PAGESPEED_API_KEY não definida (reinicia o servidor após editar .env.local).");
+    return null;
+  }
 
   const endpoint = `${PAGESPEED_API}?url=${encodeURIComponent(url)}&strategy=mobile&category=performance&category=accessibility&category=best-practices&category=seo&key=${encodeURIComponent(apiKey)}`;
 
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
-    const res = await fetch(endpoint, { signal: controller.signal });
-    clearTimeout(timer);
-    if (!res.ok) return null;
+    let res: Response;
+    try {
+      res = await fetch(endpoint, { signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+    if (!res.ok) {
+      // Sem PII: só estado e mensagem da Google (não inclui o URL analisado nem a chave).
+      const err = (await res.json().catch(() => null)) as { error?: { message?: string; status?: string } } | null;
+      console.error("[pagespeed] HTTP", res.status, err?.error?.status ?? "", err?.error?.message ?? "");
+      return null;
+    }
     const data = (await res.json()) as Record<string, unknown>;
 
     const lhr = (data.lighthouseResult ?? {}) as Record<string, unknown>;
@@ -72,7 +85,8 @@ export async function fetchPageSpeed(url: string): Promise<PageSpeedResult | nul
       opportunities: topOpps,
       fetchedAt: new Date().toISOString(),
     };
-  } catch {
+  } catch (err) {
+    console.error("[pagespeed] falha:", err instanceof Error ? err.message : "erro desconhecido");
     return null;
   }
 }

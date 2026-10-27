@@ -39,6 +39,8 @@ Dentro de cada categoria, a pontuação parte de 100 pontos e é subtraída com 
 
 A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 
+**Categoria sem dados**: se o PageSpeed não estiver disponível, a categoria *Desempenho* é mostrada como "Indisponível" e fica fora da média ponderada (os restantes pesos são renormalizados), para não inflacionar a nota com um 100 por omissão.
+
 ---
 
 ## 3. Catálogo de Verificações Implementadas
@@ -47,11 +49,11 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 1. **HTTPS (`security.https.missing`)**: Verifica se o URL final utiliza protocolo `https:`.
 2. **HSTS (`security.hsts.missing`)**: Verifica a presença do cabeçalho `Strict-Transport-Security`.
 3. **X-Content-Type-Options (`security.xcto.missing`)**: Verifica se está configurado com `nosniff`.
-4. **Mixed Content (`security.mixed-content`)**: Deteta scripts, imagens ou folhas de estilo carregadas via `http:` numa página `https:`.
+4. **Mixed Content (`security.mixed-content`)**: Deteta scripts, imagens, iframes ou folhas de estilo carregados via `http:` numa página `https:` (só aplicável a páginas HTTPS).
 
 ### B. SEO Técnico (`src/lib/audit/checks/seo.ts`)
-1. **Title (`seo.title.missing`, `seo.title.short`, `seo.title.long`)**: Existência e comprimento ótimo (ideal entre 20 e 70 caracteres).
-2. **Meta Description (`seo.description.missing`, `seo.description.short`, `seo.description.long`)**: Presença e extensão (ideal entre 50 e 160 caracteres).
+1. **Title (`seo.title.missing`, `seo.title.length`)**: Existência e comprimento ótimo (ideal entre 30 e 60 caracteres).
+2. **Meta Description (`seo.metaDescription.missing`, `seo.metaDescription.length`)**: Presença e extensão (ideal entre 70 e 160 caracteres).
 3. **Cabeçalho H1 (`seo.h1.missing`, `seo.h1.multiple`)**: Garante exatamente um título H1 na página.
 4. **Hierarquia de Títulos (`seo.headings.hierarchy`)**: Deteta saltos incorretos na hierarquia (ex.: H1 para H3 sem H2).
 5. **Canonical (`seo.canonical.missing`)**: Verifica a presença da tag `<link rel="canonical">`.
@@ -71,7 +73,7 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 7. **Horário de Funcionamento (`mobile.hours.missing`)**: Verifica visibilidade de horário comercial.
 
 ### D. Acessibilidade Básica (`src/lib/audit/checks/accessibility.ts`)
-1. **Alt em Imagens (`a11y.img.alt.missing`)**: Deteta imagens sem atributo `alt`.
+1. **Alt em Imagens (`a11y.img.alt.missing`)**: Deteta imagens sem atributo `alt` (`alt=""` é aceite como imagem decorativa).
 2. **Labels em Formulários (`a11y.input.label.missing`)**: Verifica inputs sem `<label>` ou `aria-label` associado.
 3. **Idioma (`a11y.lang.missing`)**: Valida se o leitor de ecrã consegue identificar a língua do documento.
 4. **Skip Link (`a11y.skiplink.missing`)**: Verifica link de salto para o conteúdo principal.
@@ -83,9 +85,9 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 4. **Aviso de Cookies (`content.cookies.notice.missing`)**: Deteta indício de banner ou aviso de cookies.
 
 ### F. Peso da Página (`src/lib/audit/checks/weight.ts`)
-1. **Tamanho do HTML (`weight.html.large`, `weight.html.medium`)**: Penaliza documentos HTML > 300 KB e alerta > 100 KB.
+1. **Tamanho do HTML (`weight.html.large`, `weight.html.medium`)**: Penaliza documentos HTML > 200 KB e alerta > 100 KB.
 2. **Contagem de Scripts (`weight.scripts.many`)**: Alerta se houver mais de 15 ficheiros JS externos.
-3. **Contagem de CSS (`weight.css.many`)**: Alerta se houver mais de 8 folhas de estilo externas.
+3. **Contagem de CSS (`weight.css.many`)**: Alerta se houver mais de 5 folhas de estilo externas.
 4. **Imagens sem Dimensões (`weight.img.noDims`)**: Deteta `<img>` sem `width`/`height` (causadores de Cumulative Layout Shift).
 5. **Lazy Loading (`weight.img.noLazy`)**: Deteta imagens sem `loading="lazy"`.
 
@@ -127,3 +129,12 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 - **Relatório executivo em PDF por email**: Gerar um PDF diagramado e enviá-lo automaticamente para o email do visitante através do Resend.
 - **Histórico e acompanhamento com conta**: Possibilidade de reavaliar o site periodicamente e receber alertas de quebra de desempenho.
 - **Verificação de contraste e visual com Puppeteer/Playwright**: Executar renderização em background (ex.: AWS Lambda / Cloudflare Workers) para testes visuais e contraste real.
+
+---
+
+## 7. Extensões (2026-10-27)
+
+- **Relatório PDF** (`POST /api/audit/report`): gerado a partir da análise em cache (24 h; não volta a analisar). `delivery: "download"` devolve o PDF; `delivery: "email"` exige email e consentimento e envia via Resend (e avisa o dono como lead). Limite: 10 pedidos/hora por IP, honeypot e verificação de `Origin`. Se a cache tiver expirado responde 410.
+- **Comparação**: a interface analisa dois URLs em sequência (2 das 5 análises/hora) e mostra as notas lado a lado.
+- **Medições dos projetos**: `scripts/measure-sites.ts` grava `src/content/site-metrics.ts`; os números mostrados no site vêm sempre daí.
+

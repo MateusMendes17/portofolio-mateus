@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS, NAV_LABEL_KEYS, SITE_CONFIG } from "@/lib/constants";
 import { ThemeToggle } from "./ThemeToggle";
@@ -10,6 +9,7 @@ import { LanguageToggle } from "./LanguageToggle";
 import { MobileNav } from "./MobileNav";
 import { CommandPalette } from "./CommandPalette";
 import { ButtonLink } from "../ui/Button";
+import { BrandLockup } from "../ui/Logo";
 import { useLanguage } from "@/context/LanguageContext";
 import { cn } from "@/lib/utils";
 
@@ -41,24 +41,7 @@ export function Header() {
             className="group -ml-1 flex min-w-0 items-center gap-3 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
             aria-label={t.nav.homeAria}
           >
-            <span className="relative block h-9 w-9 shrink-0 overflow-hidden border border-line-strong bg-surface">
-              <Image
-                src="/logo.jpg"
-                alt=""
-                fill
-                sizes="36px"
-                className="object-cover"
-                priority
-              />
-            </span>
-            <span className="flex min-w-0 flex-col leading-none">
-              <span className="truncate font-heading text-[15px] font-semibold tracking-[-0.02em] text-ink">
-                {SITE_CONFIG.name}
-              </span>
-              <span className="mt-1 hidden font-body text-[10px] uppercase tracking-[0.16em] text-muted sm:block">
-                {t.nav.tagline}
-              </span>
-            </span>
+            <BrandLockup name={SITE_CONFIG.name} />
           </Link>
 
           <nav

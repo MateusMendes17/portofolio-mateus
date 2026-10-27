@@ -83,7 +83,7 @@ const structuredData = {
       url: SITE_URL,
       email: `mailto:${SITE_CONFIG.email}`,
       telephone: SITE_CONFIG.phone,
-      image: `${SITE_URL}/logo.jpg`,
+      image: `${SITE_URL}/logo-pro-icone-claro.png`,
       sameAs: [SOCIAL_LINKS.github, SOCIAL_LINKS.linkedin],
       knowsLanguage: ["pt-PT", "en"],
     },
@@ -102,7 +102,7 @@ const structuredData = {
       name: pt.meta.siteName,
       description: pt.services.description,
       url: SITE_URL,
-      image: `${SITE_URL}/logo.jpg`,
+      image: `${SITE_URL}/logo-pro-icone-claro.png`,
       founder: { "@id": personId },
       areaServed: "Portugal",
       hasOfferCatalog: {

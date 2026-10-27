@@ -3,7 +3,7 @@ import { z } from "zod";
 import { normalizeUrl } from "@/lib/audit/safe-fetch";
 import { buildReport } from "@/lib/audit/report";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import type { AuditResult } from "@/lib/audit/types";
+import { getCachedAudit, setCachedAudit, isAllowedOrigin } from "@/lib/audit/cache";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -12,10 +12,6 @@ const auditSchema = z.object({
   url: z.string().min(1).max(2048),
   honeypot: z.string().optional(),
 });
-
-// Cache em memória (24h por URL normalizado) — por instância, não global.
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
-const cache = new Map<string, { result: AuditResult; expires: number }>();
 
 // Limite diário global (por instância)
 const DAILY_LIMIT = Number(process.env.AUDIT_DAILY_LIMIT ?? 100);
@@ -39,20 +35,8 @@ function checkDailyLimit(): boolean {
   return true;
 }
 
-function isAllowedOrigin(request: NextRequest): boolean {
-  const origin = request.headers.get("origin");
-  if (!origin) return true; // same-origin requests may omit Origin
-  const host = request.headers.get("host");
-  try {
-    const o = new URL(origin);
-    return !!host && o.host === host;
-  } catch {
-    return false;
-  }
-}
-
 export async function POST(request: NextRequest) {
-  if (!isAllowedOrigin(request)) {
+  if (!isAllowedOrigin(request.headers)) {
     return new Response(JSON.stringify({ error: "Origem não permitida." }), {
       status: 403,
       headers: { "Content-Type": "application/json" },
@@ -121,13 +105,13 @@ export async function POST(request: NextRequest) {
   }
 
   // Cache check
-  const cached = cache.get(normalized);
-  if (cached && cached.expires > Date.now()) {
+  const cached = getCachedAudit(normalized);
+  if (cached) {
     const stream = new ReadableStream({
       start(controller) {
         const enc = new TextEncoder();
         controller.enqueue(enc.encode(JSON.stringify({ step: "cache", done: true, message: "Resultado em cache." }) + "\n"));
-        controller.enqueue(enc.encode(JSON.stringify({ result: { ...cached.result, fromCache: true } }) + "\n"));
+        controller.enqueue(enc.encode(JSON.stringify({ result: { ...cached, fromCache: true } }) + "\n"));
         controller.close();
       },
     });
@@ -155,7 +139,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Guardar em cache
-        cache.set(normalized, { result: report, expires: Date.now() + CACHE_TTL_MS });
+        setCachedAudit(normalized, report);
 
         send({ step: "done", done: true, message: "Análise concluída." });
         send({ result: report });

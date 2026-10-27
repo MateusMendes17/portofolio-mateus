@@ -38,6 +38,11 @@ const pt = {
         "Desenvolvimento à medida com código limpo, carregamento rápido e contacto direto.",
       ctaPrimary: "Falar Comigo",
       ctaSecondary: "Ver Projetos",
+      audit: {
+        label: "Avalie o seu site grátis",
+        placeholder: "https://oseusite.pt",
+        cta: "Analisar",
+      },
       stats: {
         projects: "Publicados",
         location: "Localização",
@@ -605,7 +610,7 @@ const pt = {
       disclaimer: "Projeto de portfólio. Marca e dados fictícios.",
       coverAlt: "Página inicial de {name}",
       metricsNote:
-        "Sem pontuação Lighthouse publicada. A verificação foi feita no navegador, com teclado, foco visível e movimento reduzido.",
+        "Para além das medições automáticas, a verificação manual foi feita no navegador, com teclado, foco visível e movimento reduzido.",
       nextStep: "Próximo passo",
       breadcrumb: "Navegação estrutural",
       pagination: "Navegação entre projetos",

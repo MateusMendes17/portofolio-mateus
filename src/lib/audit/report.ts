@@ -95,7 +95,10 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
 
   const categories: CategoryScore[] = [];
   for (const c of Object.keys(CATEGORY_WEIGHTS) as Category[]) {
-    categories.push(computeCategoryScore(c, byCategory.get(c) ?? []));
+    const cs = computeCategoryScore(c, byCategory.get(c) ?? []);
+    // Sem dados do PageSpeed, "desempenho" não deve inflacionar a nota com um 100 por omissão.
+    if (c === "performance" && !performance) cs.available = false;
+    categories.push(cs);
   }
 
   const overallScore = computeOverallScore(categories);
@@ -129,7 +132,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     });
   }
 
-  if (!findingsIds.has("seo.title.missing") && !findingsIds.has("seo.title.short") && !findingsIds.has("seo.title.long")) {
+  if (!findingsIds.has("seo.title.missing") && !findingsIds.has("seo.title.length")) {
     strengths.push({
       id: "strengths.title",
       category: "seo",
@@ -181,7 +184,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     });
   }
 
-  if (!findingsIds.has("mobile.tel.missing") || !findingsIds.has("mobile.mailto.missing") || !findingsIds.has("mobile.whatsapp.missing")) {
+  if (!findingsIds.has("mobile.tel.missing") && !findingsIds.has("mobile.mailto.missing") && !findingsIds.has("mobile.whatsapp.missing")) {
     strengths.push({
       id: "strengths.contact",
       category: "mobile",

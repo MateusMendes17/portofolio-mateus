@@ -39,6 +39,11 @@ const en: Strings = {
         "Bespoke development with clean code, sub-second speeds, and direct communication.",
       ctaPrimary: "Get in Touch",
       ctaSecondary: "View Projects",
+      audit: {
+        label: "Check your website for free",
+        placeholder: "https://yoursite.com",
+        cta: "Analyse",
+      },
       stats: {
         projects: "Published",
         location: "Location",
@@ -606,7 +611,7 @@ const en: Strings = {
       disclaimer: "Portfolio project. Fictional brand and data.",
       coverAlt: "Homepage of {name}",
       metricsNote:
-        "No Lighthouse score published. Verification was done in the browser, with keyboard, visible focus and reduced motion.",
+        "Besides the automated measurements, manual verification was done in the browser, with keyboard, visible focus and reduced motion.",
       nextStep: "Next step",
       breadcrumb: "Breadcrumb",
       pagination: "Project navigation",

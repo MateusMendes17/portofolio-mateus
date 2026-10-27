@@ -248,6 +248,7 @@
   --legacy-accent-text: var(--bg);
 }
 
+
 /* Foco de alto contraste em terminais, rodapés e overlays escuros. */
 .code-surface,
 .dark-surface {
@@ -518,6 +519,68 @@ textarea {
 
 .section-sm {
   padding-block: var(--section-sm);
+}
+
+
+/* Entrada do hero: só opacity/transform, corre no compositor. O atraso vem de --d. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Sem opacity, para não atrasar o LCP das capas. */
+@keyframes rise-y {
+  from {
+    transform: translateY(28px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 700ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+.rise-y {
+  animation: rise-y 800ms var(--ease-out) both;
+  animation-delay: var(--d, 0ms);
+}
+
+/* Faixa de palavras-chave em loop contínuo. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+  will-change: transform;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none !important;
+  }
 }
 
 .hairline {
@@ -1145,4 +1208,19 @@ textarea {
   .tilt-card-3d:hover {
     transform: none;
   }
+}
+
+/* Logótipo por tema: a versão escura só aparece com a classe .dark. */
+.logo-light,
+.logo-dark {
+  display: block;
+}
+
+.logo-dark,
+.dark .logo-light {
+  display: none;
+}
+
+.dark .logo-dark {
+  display: block;
 }

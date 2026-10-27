@@ -85,8 +85,14 @@ export function checkSecurity(ctx: CheckContext): Finding[] {
   }
 
   // Mixed content evidente
+  // (só aplicável a páginas HTTPS; <link rel="canonical"> e afins não carregam recursos)
   const root = parse(ctx.html);
-  const mixed = root.querySelectorAll('img[src^="http:"], script[src^="http:"], link[href^="http:"]');
+  const mixed =
+    u.protocol === "https:"
+      ? root.querySelectorAll(
+          'img[src^="http:"], script[src^="http:"], iframe[src^="http:"], link[rel="stylesheet"][href^="http:"]'
+        )
+      : [];
   if (mixed.length > 0) {
     out.push(
       finding(

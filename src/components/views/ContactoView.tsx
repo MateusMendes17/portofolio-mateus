@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { usePathname } from "next/navigation";
-import { SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
+import { CallBooking } from "@/components/contact/CallBooking";
+import { usePathname, useSearchParams } from "next/navigation";
+import { CAL_EVENTS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
 import { useLanguage } from "@/context/LanguageContext";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -15,6 +17,22 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 export function ContactoView() {
   const { t, isEnglish } = useLanguage();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const hasCal = CAL_EVENTS.length > 0;
+  const durations = CAL_EVENTS.map((e) => e.minutes).join(isEnglish ? " or " : " ou ");
+
+  // Separador ativo: ?aba=chamada abre o calendário (só existe com NEXT_PUBLIC_CAL_URL).
+  type Tab = "mensagem" | "chamada";
+  const [tab, setTab] = useState<Tab>(hasCal && searchParams.get("aba") === "chamada" ? "chamada" : "mensagem");
+
+  function selectTab(next: Tab, scroll = false) {
+    setTab(next);
+    const url = new URL(window.location.href);
+    if (next === "chamada") url.searchParams.set("aba", "chamada");
+    else url.searchParams.delete("aba");
+    window.history.replaceState(null, "", url);
+    if (scroll) document.getElementById("contacto-painel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 
   interface ContactMethod {
     label: string;
@@ -24,6 +42,8 @@ export function ContactoView() {
     bgClass: string;
     href: string | undefined;
     isLink: boolean;
+    /** Em vez de abrir uma ligação, ativa um separador desta página. */
+    onSelect?: () => void;
   }
 
   const contactMethods: ContactMethod[] = [
@@ -50,6 +70,27 @@ export function ContactoView() {
       href: getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "contacto"),
       isLink: true,
     },
+    ...(hasCal
+      ? [
+          {
+            label: isEnglish ? "Book a call" : "Marcar chamada",
+            value: isEnglish ? `${durations} minutes, no commitment` : `${durations} minutos, sem compromisso`,
+            note: isEnglish
+              ? "Pick a time that suits you"
+              : "Escolha o horário que lhe der mais jeito",
+            icon: (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
+                <rect width="18" height="18" x="3" y="4" rx="2" />
+                <path d="M16 2v4M8 2v4M3 10h18" />
+              </svg>
+            ),
+            bgClass: "bg-accent-subtle text-accent border-accent/20",
+            href: CAL_EVENTS[0]?.url,
+            isLink: true,
+            onSelect: () => selectTab("chamada", true),
+          },
+        ]
+      : []),
     {
       label: t.contact.locationLabel,
       value: t.contact.location,
@@ -101,6 +142,26 @@ export function ContactoView() {
         <p className="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed">
           {t.contact.description}
         </p>
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          {hasCal && (
+            <button
+              type="button"
+              onClick={() => selectTab("chamada", true)}
+              className="inline-flex items-center gap-2 border border-ink bg-highlight px-5 py-3 font-body text-label font-semibold text-accent-ink transition-colors hover:bg-highlight-hover"
+            >
+              {isEnglish ? "Book a call" : "Marcar chamada"} →
+            </button>
+          )}
+          <a
+            href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "contacto")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 border border-line-strong px-5 py-3 font-body text-label font-semibold text-ink transition-colors hover:bg-surface-2"
+          >
+            <WhatsAppIcon className="h-4 w-4" />
+            WhatsApp
+          </a>
+        </div>
         </ScrollReveal>
       </div>
 
@@ -143,7 +204,15 @@ export function ContactoView() {
                     <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                       {method.label}
                     </span>
-                    {method.isLink ? (
+                    {method.onSelect ? (
+                        <button
+                          type="button"
+                          onClick={method.onSelect}
+                          className="block max-w-full text-left text-base font-semibold text-text-primary hover:text-accent transition-colors truncate"
+                        >
+                          {method.value} →
+                        </button>
+                      ) : method.isLink ? (
                         <a
                           href={method.href}
                           target="_blank"
@@ -212,7 +281,67 @@ export function ContactoView() {
         {/* Coluna Direita: Formulário Interativo */}
         <div className="lg:col-span-7 min-w-0">
           <ScrollReveal direction="up" distance={30} delay={0.2} scale={0.98}>
-            <ContactForm />
+            <div id="contacto-painel" className="scroll-mt-24">
+              {hasCal && (
+                <div
+                  role="tablist"
+                  aria-label={isEnglish ? "How would you like to get in touch?" : "Como prefere falar comigo?"}
+                  className="mb-4 grid grid-cols-2 border border-line-strong bg-surface"
+                >
+                  {(
+                    [
+                      { id: "mensagem", label: isEnglish ? "Send a message" : "Enviar mensagem" },
+                      { id: "chamada", label: isEnglish ? "Book a call" : "Marcar chamada" },
+                    ] as const
+                  ).map((item) => {
+                    const active = tab === item.id;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        role="tab"
+                        id={`aba-${item.id}`}
+                        aria-selected={active}
+                        aria-controls={`painel-${item.id}`}
+                        onClick={() => selectTab(item.id)}
+                        className={`px-4 py-3 font-body text-label font-semibold transition-colors ${
+                          active ? "bg-highlight text-accent-ink" : "text-ink-2 hover:bg-surface-2"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {tab === "chamada" && hasCal ? (
+                <div
+                  role="tabpanel"
+                  id="painel-chamada"
+                  aria-labelledby="aba-chamada"
+                  className="border border-line bg-surface p-4 sm:p-6"
+                >
+                  <h2 className="font-heading text-h3 font-semibold text-ink">
+                    {isEnglish ? "Pick a day and time" : "Escolha o dia e a hora"}
+                  </h2>
+                  <p className="mt-2 mb-5 max-w-[56ch] font-body text-sm text-ink-2">
+                    {isEnglish
+                      ? "No commitment. We talk about your site or project and what the next step could be. You get the confirmation by email."
+                      : "Sem compromisso. Falamos do seu site ou projeto e do que pode ser o próximo passo. Recebe a confirmação por email."}
+                  </p>
+                  <CallBooking events={CAL_EVENTS} />
+                </div>
+              ) : (
+                <div
+                  role={hasCal ? "tabpanel" : undefined}
+                  id="painel-mensagem"
+                  aria-labelledby={hasCal ? "aba-mensagem" : undefined}
+                >
+                  <ContactForm />
+                </div>
+              )}
+            </div>
           </ScrollReveal>
         </div>
       </div>

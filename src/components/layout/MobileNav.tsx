@@ -2,13 +2,13 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { NAV_ITEMS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import { ButtonLink } from "../ui/Button";
+import { BrandLockup } from "../ui/Logo";
 import { LinkedInIcon, GitHubIcon, WhatsAppIcon } from "../ui/Icons";
 import { useLanguage } from "@/context/LanguageContext";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
@@ -122,18 +122,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               className="flex items-center gap-3"
               aria-label={t.nav.homeAria}
             >
-              <span className="relative block h-9 w-9 overflow-hidden border border-line-strong bg-surface">
-                <Image
-                  src="/logo.jpg"
-                  alt=""
-                  fill
-                  sizes="36px"
-                  className="object-cover"
-                />
-              </span>
-              <span className="font-heading text-[15px] font-semibold tracking-[-0.02em] text-ink">
-                {SITE_CONFIG.name}
-              </span>
+              <BrandLockup name={SITE_CONFIG.name} />
             </Link>
 
             <button

@@ -1,8 +1,13 @@
 "use client";
 
-import { useState, useRef, useId } from "react";
+import { useState, useRef, useId, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
+import { ReportActions } from "@/components/audit/ReportActions";
+import { LossCalculator } from "@/components/audit/LossCalculator";
+import { CompareResults } from "@/components/audit/CompareResults";
+import { streamAudit } from "@/components/audit/streamAudit";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { SITE_CONFIG } from "@/lib/constants";
 import type { AuditResult } from "@/lib/audit/types";
@@ -24,6 +29,9 @@ function resolveKey(keyPath: string | undefined, t: Strings): string | undefined
   return typeof curr === "string" ? curr : undefined;
 }
 
+/** Teto da barra (%) enquanto cada passo do servidor decorre; "done" e "cache" fecham a 100. */
+const STEP_TARGET: Record<string, number> = { fetch: 30, checks: 50, pagespeed: 92, done: 100, cache: 100 };
+
 function getScoreRating(score: number, isEn: boolean) {
   if (score >= 90) return { label: isEn ? "Excellent" : "Excelente", color: "text-emerald-600 dark:text-emerald-400" };
   if (score >= 75) return { label: isEn ? "Good" : "Bom", color: "text-chartreuse-600 dark:text-accent" };
@@ -33,13 +41,33 @@ function getScoreRating(score: number, isEn: boolean) {
 
 export function AvaliadorView() {
   const { t, isEnglish } = useLanguage();
-  const [url, setUrl] = useState("");
+  // Pré-preenchido pelo formulário da home (/avaliador?url=...).
+  const searchParams = useSearchParams();
+  const [url, setUrl] = useState(() => (searchParams.get("url") ?? "").slice(0, 2048));
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<ProgressItem[]>([]);
+  const [percent, setPercent] = useState(0);
+  // Modo comparação (?modo=comparar ou ?vs=...): analisa dois sites em sequência.
+  const [compareMode, setCompareMode] = useState(() => searchParams.get("modo") === "comparar" || searchParams.has("vs"));
+  const [urlB, setUrlB] = useState(() => (searchParams.get("vs") ?? "").slice(0, 2048));
+  const [resultB, setResultB] = useState<AuditResult | null>(null);
+  const [phase, setPhase] = useState(0);
   const [result, setResult] = useState<AuditResult | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const inputRef = useRef<HTMLInputElement>(null);
+
+  // A barra aproxima-se suavemente do teto do passo atual (o PageSpeed demora 20–40 s).
+  const currentStep = progress[progress.length - 1]?.step;
+  useEffect(() => {
+    if (!loading) return;
+    const base = STEP_TARGET[currentStep ?? "fetch"] ?? 30;
+    const target = compareMode ? phase * 50 + base * 0.5 : base;
+    const timer = setInterval(() => {
+      setPercent((prev) => (prev >= target ? prev : Math.min(target, prev + Math.max(0.15, (target - prev) * 0.05))));
+    }, 300);
+    return () => clearInterval(timer);
+  }, [loading, currentStep, compareMode, phase]);
 
   // Form de contacto pós-auditoria (Fase 8)
   const [contactName, setContactName] = useState("");
@@ -52,13 +80,15 @@ export function AvaliadorView() {
   const [contactSuccess, setContactSuccess] = useState(false);
   const [contactError, setContactError] = useState<string | null>(null);
 
+
   const consentId = useId();
   const a = t.audit;
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const cleanUrl = url.trim();
-    if (!cleanUrl) {
+    const cleanUrlB = urlB.trim();
+    if (!cleanUrl || (compareMode && !cleanUrlB)) {
       setError(a.form.empty);
       inputRef.current?.focus();
       return;
@@ -67,79 +97,40 @@ export function AvaliadorView() {
     setLoading(true);
     setError(null);
     setResult(null);
+    setResultB(null);
     setProgress([]);
+    setPercent(0);
+    setPhase(0);
     setContactSuccess(false);
     setContactError(null);
 
+    const onStep = (p: { step: string; message: string; done: boolean }) =>
+      setProgress((prev) => [...prev.filter((x) => x.step !== p.step), p]);
+
+    const fail = (outcome: { error: string | null; status?: number }) => {
+      if (outcome.status === 429) setError(a.errors.rateLimit);
+      else setError(outcome.error ?? a.errors.generic);
+    };
+
     try {
-      const res = await fetch("/api/audit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: cleanUrl }),
+      const first = await streamAudit(cleanUrl, onStep);
+      if (!first.ok) return fail(first);
+
+      if (compareMode) {
+        setPhase(1);
+        setProgress([]);
+        const second = await streamAudit(cleanUrlB, onStep);
+        if (!second.ok) return fail(second);
+        setResultB(second.result);
+      }
+
+      setResult(first.result);
+      // Expande os primeiros 3 itens por defeito
+      const initialExpanded: Record<string, boolean> = {};
+      first.result.improvements.slice(0, 3).forEach((imp) => {
+        initialExpanded[imp.id] = true;
       });
-
-      if (!res.ok && res.status !== 200) {
-        const data = await res.json().catch(() => ({}));
-        if (res.status === 429) {
-          setError(a.errors.rateLimit);
-        } else {
-          setError((data as { error?: string }).error ?? a.errors.generic);
-        }
-        setLoading(false);
-        return;
-      }
-
-      const reader = res.body?.getReader();
-      if (!reader) {
-        setError(a.errors.generic);
-        setLoading(false);
-        return;
-      }
-
-      const decoder = new TextDecoder();
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() ?? "";
-
-        for (const line of lines) {
-          if (!line.trim()) continue;
-          let obj: Record<string, unknown>;
-          try {
-            obj = JSON.parse(line);
-          } catch {
-            continue;
-          }
-
-          if (obj.error) {
-            setError(String(obj.error));
-            continue;
-          }
-
-          if (obj.result) {
-            const auditRes = obj.result as AuditResult;
-            setResult(auditRes);
-            // Expande os primeiros 3 itens por defeito
-            const initialExpanded: Record<string, boolean> = {};
-            auditRes.improvements.slice(0, 3).forEach((imp) => {
-              initialExpanded[imp.id] = true;
-            });
-            setExpanded(initialExpanded);
-            continue;
-          }
-
-          if (obj.step) {
-            setProgress((prev) => [
-              ...prev.filter((p) => p.step !== obj.step),
-              { step: String(obj.step), message: String(obj.message ?? ""), done: Boolean(obj.done) },
-            ]);
-          }
-        }
-      }
+      setExpanded(initialExpanded);
     } catch {
       setError(a.errors.generic);
     } finally {
@@ -297,6 +288,25 @@ export function AvaliadorView() {
                 />
               </div>
             </div>
+            {compareMode && (
+              <div className="flex-1">
+                <label htmlFor="audit-url-b" className="block font-body text-label font-medium text-ink">
+                  {isEnglish ? "Competitor's address" : "Endereço do concorrente"}
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="audit-url-b"
+                    type="url"
+                    value={urlB}
+                    onChange={(e) => setUrlB(e.target.value)}
+                    placeholder={isEnglish ? "https://competitor.com" : "https://concorrente.pt"}
+                    className="w-full border border-line bg-bg px-4 py-3 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] disabled:opacity-60"
+                    disabled={loading}
+                    required
+                  />
+                </div>
+              </div>
+            )}
             <Button
               type="submit"
               size="lg"
@@ -313,6 +323,19 @@ export function AvaliadorView() {
               )}
             </Button>
           </form>
+
+          <label className="mt-4 inline-flex cursor-pointer items-center gap-2 font-body text-sm text-ink">
+            <input
+              type="checkbox"
+              checked={compareMode}
+              onChange={(e) => {
+                setCompareMode(e.target.checked);
+                setResultB(null);
+              }}
+              disabled={loading}
+            />
+            {isEnglish ? "Compare with a competitor's website" : "Comparar com o site de um concorrente"}
+          </label>
 
           {/* Exemplos rápidos para testar */}
           {!result && !loading && (
@@ -350,23 +373,36 @@ export function AvaliadorView() {
       </section>
 
       {/* ── Progresso em Streaming ── */}
-      {loading && progress.length > 0 && (
+      {loading && (
         <section className="container-page mt-8" aria-live="polite" data-hide-print>
           <div className="border border-line bg-surface/60 p-6">
             <p className="font-body text-label font-medium uppercase tracking-wider text-muted">
               {isEnglish ? "Analysis in progress" : "Diagnóstico em curso"}
             </p>
-            <ul className="mt-4 space-y-3">
-              {progress.map((p) => (
+            <div className="mt-4 flex items-center gap-3">
+              <div
+                className="h-2 flex-1 overflow-hidden bg-surface-2"
+                role="progressbar"
+                aria-label={isEnglish ? "Analysis progress" : "Progresso da análise"}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={Math.round(percent)}
+              >
+                <div className="h-full bg-highlight transition-[width] duration-300 ease-out" style={{ width: `${percent}%` }} />
+              </div>
+              <span className="w-12 text-right font-heading text-sm font-semibold tabular-nums text-ink">{Math.round(percent)}%</span>
+            </div>
+            <ul className="mt-5 space-y-3">
+              {progress.map((p, i) => (
                 <li key={p.step} className="flex items-center gap-3 font-body text-sm text-ink">
-                  {p.done ? (
+                  {p.done || i < progress.length - 1 ? (
                     <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-highlight text-accent-ink text-xs font-bold" aria-hidden="true">
                       ✓
                     </span>
                   ) : (
                     <span className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-line-strong border-t-transparent" aria-hidden="true" />
                   )}
-                  <span className={p.done ? "font-normal text-ink-2" : "font-medium text-ink"}>{p.message}</span>
+                  <span className={p.done || i < progress.length - 1 ? "font-normal text-ink-2" : "font-medium text-ink"}>{p.message}</span>
                 </li>
               ))}
             </ul>
@@ -383,6 +419,8 @@ export function AvaliadorView() {
             <p className="text-sm text-gray-600 mt-1">URL: {result.url} • Data: {new Date(result.analyzedAt).toLocaleDateString("pt-PT")}</p>
             <p className="text-lg font-semibold mt-2">Nota Geral: {result.overallScore} / 100</p>
           </div>
+
+          {resultB && <CompareResults a={result} b={resultB} />}
 
           {/* 01. Pontuação Geral e Ações */}
           <div className="border border-line bg-surface p-6 sm:p-8">
@@ -426,6 +464,8 @@ export function AvaliadorView() {
               </div>
             </div>
 
+            <ReportActions url={result.originalUrl} />
+
             {/* 02. Grid de Categorias */}
             <div className="mt-8">
               <h2 className="font-heading text-h3 font-semibold text-ink">{a.report.categories}</h2>
@@ -436,16 +476,16 @@ export function AvaliadorView() {
                     <div key={c.category} className="border border-line bg-bg p-4 flex flex-col justify-between">
                       <div className="flex items-center justify-between">
                         <span className="font-body text-xs font-medium text-ink">{label}</span>
-                        <span className="font-heading text-lg font-semibold text-ink tabular-nums">{c.score}</span>
+                        <span className="font-heading text-lg font-semibold text-ink tabular-nums">{c.available === false ? "—" : c.score}</span>
                       </div>
                       <div className="mt-3 h-2 w-full bg-surface-2 overflow-hidden">
                         <div
                           className="h-full bg-highlight transition-all duration-500"
-                          style={{ width: `${c.score}%` }}
+                          style={{ width: `${c.available === false ? 0 : c.score}%` }}
                         />
                       </div>
                       <span className="mt-2 font-body text-[11px] text-muted">
-                        {c.score >= 80 ? (isEnglish ? "Good" : "Bom") : c.score >= 50 ? (isEnglish ? "Attention" : "Atenção") : (isEnglish ? "Critical" : "Crítico")}
+                        {c.available === false ? (isEnglish ? "Unavailable" : "Indisponível") : c.score >= 80 ? (isEnglish ? "Good" : "Bom") : c.score >= 50 ? (isEnglish ? "Attention" : "Atenção") : (isEnglish ? "Critical" : "Crítico")}
                       </span>
                     </div>
                   );
@@ -770,6 +810,11 @@ export function AvaliadorView() {
           </div>
         </section>
       )}
+
+      {/* ── Simulador: quanto vale converter melhor ── */}
+      <section className="container-page mt-16 lg:mt-20" data-hide-print>
+        <LossCalculator />
+      </section>
     </div>
   );
 }

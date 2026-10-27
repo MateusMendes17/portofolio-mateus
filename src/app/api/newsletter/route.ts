@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { readFile } from "node:fs/promises";
+import path from "node:path";
+import { CONTACT_FROM } from "@/lib/contact-email";
 
 const newsletterSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
@@ -18,7 +21,9 @@ export async function POST(request: NextRequest) {
     const { email, name, locale } = newsletterSchema.parse(body);
 
     const resendApiKey = process.env.RESEND_API_KEY;
-    const fromEmail = process.env.NEWSLETTER_FROM_EMAIL || "newsletter@mateusmendes.pt";
+    // Remetente: NEWSLETTER_FROM_EMAIL (domínio verificado no Resend) ou, por omissão,
+    // o mesmo RESEND_FROM do formulário de contacto — um domínio por verificar é recusado pelo Resend.
+    const newsletterFrom = process.env.NEWSLETTER_FROM_EMAIL?.trim();
     const audienceId = process.env.RESEND_AUDIENCE_ID; // Opcional: para gerir contactos no Resend
 
     if (!resendApiKey) {
@@ -132,6 +137,16 @@ export async function POST(request: NextRequest) {
       </html>
     `;
 
+    // O PDF segue em anexo: o link depende de o site estar publicado e acessível.
+    // Se o ficheiro não estiver disponível no servidor, o email segue só com o link.
+    let attachments: Array<{ filename: string; content: string }> | undefined;
+    try {
+      const pdf = await readFile(path.join(process.cwd(), "public", "lead-magnet", "checklist-conversao.pdf"));
+      attachments = [{ filename: "checklist-conversao.pdf", content: pdf.toString("base64") }];
+    } catch {
+      console.warn("[newsletter] PDF do lead magnet não encontrado — a enviar só o link.");
+    }
+
     const emailResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
@@ -139,12 +154,13 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: `Mateus Mendes <${fromEmail}>`,
+        from: newsletterFrom ? `Mateus Mendes <${newsletterFrom}>` : CONTACT_FROM,
         to: [email],
         subject: locale === "en" 
           ? "Your Free Website Conversion Checklist 📥" 
           : "O Seu Checklist Grátis de Conversão de Sites 📥",
         html: emailHtml,
+        ...(attachments ? { attachments } : {}),
         tags: [
           { name: "category", value: "newsletter_welcome" },
           { name: "locale", value: locale },
@@ -153,8 +169,22 @@ export async function POST(request: NextRequest) {
     });
 
     if (!emailResponse.ok) {
-      const error = await emailResponse.json();
-      console.error("Resend error:", error);
+      const error = (await emailResponse.json().catch(() => ({}))) as { message?: string };
+      console.error("Resend error:", emailResponse.status, error);
+
+      // Conta Resend em modo de teste: só entrega ao email da própria conta.
+      if (emailResponse.status === 403 && /testing emails|verify a domain/i.test(error.message ?? "")) {
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              process.env.NODE_ENV === "development"
+                ? "Modo de teste do Resend: só é possível subscrever com o email da conta Resend. Verifique um domínio em resend.com/domains para enviar a outros emails."
+                : "O envio de emails ainda não está disponível. Tente mais tarde.",
+          },
+          { status: 503 }
+        );
+      }
       throw new Error("Falha ao enviar email de boas-vindas");
     }
 

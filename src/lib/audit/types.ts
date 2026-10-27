@@ -42,6 +42,8 @@ export interface CategoryScore {
   /** Pontos possíveis. */
   possible: number;
   findings: Finding[];
+  /** false quando a fonte de dados não respondeu (ex.: PageSpeed); fica fora da nota geral. */
+  available?: boolean;
 }
 
 export interface AuditResult {

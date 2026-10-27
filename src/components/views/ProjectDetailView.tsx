@@ -7,6 +7,8 @@ import type { Project } from "@/content/projects";
 import type { Strings } from "@/content/strings/pt";
 import { useLanguage } from "@/context/LanguageContext";
 import { projectCategoryLabel } from "@/lib/projectCategory";
+import { SITE_METRICS } from "@/content/site-metrics";
+import { MeasuredMetrics } from "@/components/audit/MeasuredMetrics";
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -195,6 +197,10 @@ export function ProjectDetailView({
                 </p>
               ))}
             </div>
+
+            {SITE_METRICS[project.slug] && (
+              <MeasuredMetrics measurement={SITE_METRICS[project.slug]} className="mt-6" />
+            )}
 
             <div className="mt-6 border-l-2 border-highlight bg-surface px-4 py-3">
               <p className="font-body text-micro leading-relaxed text-muted">

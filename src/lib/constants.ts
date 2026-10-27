@@ -8,7 +8,7 @@ export const SITE_CONFIG = {
   name: "Mateus Mendes",
   url: "https://mateusmendes.pt",
   locale: "pt-PT",
-  email: "mateuslm799@gmail.com",
+  email: "mateusmm.dev@gmail.com",
   phone: "+351 917 810 763",
   whatsapp: "351917810763",
   responseTime: "24 horas",
@@ -51,3 +51,33 @@ export const NAV_LABEL_KEYS: Record<string, "home" | "about" | "services" | "pro
   "/avaliador": "audit",
   "/contacto": "contact",
 };
+
+function parseHttpsUrl(raw: string | undefined): string | null {
+  const value = raw?.trim();
+  if (!value) return null;
+  try {
+    const url = new URL(value);
+    return url.protocol === "https:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Páginas de agendamento do Cal.com (ex.: https://cal.com/o-seu-utilizador/15min).
+ * `NEXT_PUBLIC_CAL_URL` é a chamada de 15 min; `NEXT_PUBLIC_CAL_URL_30` (opcional) a de 30 min.
+ * Sem valor válido, os botões de marcação não aparecem.
+ */
+export const CAL_URL: string | null = parseHttpsUrl(process.env.NEXT_PUBLIC_CAL_URL);
+export const CAL_URL_30: string | null = parseHttpsUrl(process.env.NEXT_PUBLIC_CAL_URL_30);
+
+export interface CalEvent {
+  minutes: number;
+  url: string;
+}
+
+/** Durações disponíveis para marcar (da mais curta para a mais longa). */
+export const CAL_EVENTS: CalEvent[] = [
+  ...(CAL_URL ? [{ minutes: 15, url: CAL_URL }] : []),
+  ...(CAL_URL_30 ? [{ minutes: 30, url: CAL_URL_30 }] : []),
+];

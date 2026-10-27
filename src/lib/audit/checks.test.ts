@@ -22,7 +22,16 @@ describe("Audit Checks", () => {
       expect(ids).toContain("security.https.missing");
       expect(ids).toContain("security.hsts.missing");
       expect(ids).toContain("security.xcto.missing");
-      expect(ids).toContain("security.mixed-content");
+      // mixed content só existe em páginas HTTPS
+      expect(ids).not.toContain("security.mixed-content");
+    });
+
+    it("flags mixed content on HTTPS pages but ignores canonical links", () => {
+      const ctx = { headers: {}, finalUrl: "https://example.com", status: 200 };
+      const bad = checkSecurity({ ...ctx, html: '<img src="http://insecure.com/logo.png">' });
+      expect(bad.map((f) => f.id)).toContain("security.mixed-content");
+      const ok = checkSecurity({ ...ctx, html: '<link rel="canonical" href="http://example.com">' });
+      expect(ok.map((f) => f.id)).not.toContain("security.mixed-content");
     });
 
     it("passes secure page with HSTS and nosniff", () => {
@@ -140,6 +149,11 @@ describe("Audit Checks", () => {
       expect(ids).toContain("a11y.img.alt.missing");
       expect(ids).toContain("a11y.input.label.missing");
       expect(ids).toContain("a11y.lang.missing");
+    });
+
+    it("accepts decorative images with empty alt", () => {
+      const ids = checkAccessibility('<html lang="pt"><body><img src="/a.svg" alt=""></body></html>').map((f) => f.id);
+      expect(ids).not.toContain("a11y.img.alt.missing");
     });
 
     it("passes accessible images and inputs with labels", () => {

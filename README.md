@@ -152,7 +152,7 @@ O site está pensado para a **Vercel**: basta importar o repositório e definir 
 - Site: [mateusmendes.pt](https://mateusmendes.pt)
 - LinkedIn: [mateus-lucas-mendes](https://www.linkedin.com/in/mateus-lucas-mendes-0538b7333/)
 - GitHub: [@MateusMendes17](https://github.com/MateusMendes17)
-- Email: mateuslm799@gmail.com · WhatsApp: [+351 917 810 763](https://wa.me/351917810763)
+- Email: mateusmm.dev@gmail.com · WhatsApp: [+351 917 810 763](https://wa.me/351917810763)
 
 ---
 

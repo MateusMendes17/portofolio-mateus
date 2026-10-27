@@ -56,6 +56,7 @@ export function computeOverallScore(categories: CategoryScore[]): number {
   let weighted = 0;
   let totalWeight = 0;
   for (const c of categories) {
+    if (c.available === false) continue;
     const w = CATEGORY_WEIGHTS[c.category];
     weighted += c.score * w;
     totalWeight += w;

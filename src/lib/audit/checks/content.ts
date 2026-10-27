@@ -21,7 +21,9 @@ export function checkContent(html: string): Finding[] {
 
   // Prova social
   const socialProofRegex = /testemunho|depoimento|review|avaliação|avaliacao|cliente|cases? of success|casos de sucesso/i;
-  if (!socialProofRegex.test(html)) {
+  const visible = parse(html);
+  visible.querySelectorAll("script, style, noscript").forEach((el) => el.remove());
+  if (!socialProofRegex.test(visible.text)) {
     out.push(finding("content.socialProof.missing", "content", "low", "audit.findings.content.socialProof.missing.title", "audit.findings.content.socialProof.missing.what", "audit.findings.content.socialProof.missing.why", "audit.findings.content.socialProof.missing.how"));
   }
 

@@ -12,7 +12,8 @@ export function checkAccessibility(html: string): Finding[] {
 
   // alt em imagens
   const imgs = root.querySelectorAll("img");
-  const missingAlt = imgs.filter((img) => !img.getAttribute("alt"));
+  // alt="" é válido (imagem decorativa); só falta quando o atributo não existe
+  const missingAlt = imgs.filter((img) => !img.hasAttribute("alt"));
   if (missingAlt.length > 0) {
     out.push(finding("a11y.img.alt.missing", "accessibility", "medium", "audit.findings.a11y.img.alt.missing.title", "audit.findings.a11y.img.alt.missing.what", "audit.findings.a11y.img.alt.missing.why", "audit.findings.a11y.img.alt.missing.how", `${missingAlt.length} imagem(ns)`));
   }
