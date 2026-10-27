@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef, useId, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
 import { ReportActions } from "@/components/audit/ReportActions";
@@ -39,17 +38,25 @@ function getScoreRating(score: number, isEn: boolean) {
   return { label: isEn ? "Critical" : "Crítico", color: "text-red-600 dark:text-red-400" };
 }
 
-export function AvaliadorView() {
+/** Valores iniciais vindos do URL (?url=, ?modo=comparar, ?vs=), lidos no servidor para a página sair completa no HTML. */
+export function AvaliadorView({
+  initialUrl = "",
+  initialCompare = false,
+  initialUrlB = "",
+}: {
+  initialUrl?: string;
+  initialCompare?: boolean;
+  initialUrlB?: string;
+}) {
   const { t, isEnglish } = useLanguage();
   // Pré-preenchido pelo formulário da home (/avaliador?url=...).
-  const searchParams = useSearchParams();
-  const [url, setUrl] = useState(() => (searchParams.get("url") ?? "").slice(0, 2048));
+  const [url, setUrl] = useState(initialUrl.slice(0, 2048));
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState<ProgressItem[]>([]);
   const [percent, setPercent] = useState(0);
   // Modo comparação (?modo=comparar ou ?vs=...): analisa dois sites em sequência.
-  const [compareMode, setCompareMode] = useState(() => searchParams.get("modo") === "comparar" || searchParams.has("vs"));
-  const [urlB, setUrlB] = useState(() => (searchParams.get("vs") ?? "").slice(0, 2048));
+  const [compareMode, setCompareMode] = useState(initialCompare);
+  const [urlB, setUrlB] = useState(initialUrlB.slice(0, 2048));
   const [resultB, setResultB] = useState<AuditResult | null>(null);
   const [phase, setPhase] = useState(0);
   const [result, setResult] = useState<AuditResult | null>(null);

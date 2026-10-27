@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { pageMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/constants";
 import { AvaliadorView } from "@/components/views/AvaliadorView";
@@ -11,7 +10,14 @@ export const metadata: Metadata = pageMetadata({
   path: "/avaliador",
 });
 
-export default function AvaliadorPage() {
+type SearchParams = Promise<Record<string, string | string[] | undefined>>;
+
+const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value) ?? "";
+
+// ?url=, ?modo=comparar e ?vs= lêem-se no servidor: a página sai completa no HTML (sem useSearchParams + Suspense).
+export default async function AvaliadorPage({ searchParams }: { searchParams: SearchParams }) {
+  const params = await searchParams;
+  const urlB = first(params.vs);
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
@@ -42,9 +48,11 @@ export default function AvaliadorPage() {
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <Suspense>
-        <AvaliadorView />
-      </Suspense>
+      <AvaliadorView
+        initialUrl={first(params.url)}
+        initialCompare={first(params.modo) === "comparar" || urlB !== ""}
+        initialUrlB={urlB}
+      />
     </>
   );
 }

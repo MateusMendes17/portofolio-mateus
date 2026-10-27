@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Suspense } from "react";
 import { ContactoView } from "@/components/views/ContactoView";
 import { pageMetadata } from "@/lib/seo";
 
@@ -10,10 +9,9 @@ export const metadata: Metadata = pageMetadata({
   path: "/contacto",
 });
 
-export default function ContactoPage() {
-  return (
-    <Suspense>
-      <ContactoView />
-    </Suspense>
-  );
+// Os parâmetros do URL (?aba=chamada) lêem-se no servidor: assim a página sai completa no HTML,
+// sem o `useSearchParams` + Suspense que a deixava vazia até ao JavaScript (e fazia o rodapé saltar).
+export default async function ContactoPage({ searchParams }: { searchParams: Promise<{ aba?: string }> }) {
+  const { aba } = await searchParams;
+  return <ContactoView initialTab={aba === "chamada" ? "chamada" : "mensagem"} />;
 }

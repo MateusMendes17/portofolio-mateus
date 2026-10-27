@@ -4,6 +4,13 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-10-27 — Verificação de produção: build e CLS das páginas Avaliador/Contacto
+
+- `npm run build` passa (31 páginas), testado numa cópia sem `.env.local`.
+- **Bug encontrado na build:** `/avaliador` e `/contacto` saíam **sem conteúdo no HTML** (CSR bailout por `useSearchParams` + Suspense) e tinham CLS 0,80 (o rodapé saltava). Corrigido lendo `searchParams` no servidor (`src/app/avaliador/page.tsx`, `src/app/contacto/page.tsx`); as views recebem `initialUrl/initialCompare/initialUrlB` e `initialTab` por props. Passam a ser páginas dinâmicas (`ƒ`).
+- Lighthouse local (mobile, build de produção): home 83, avaliador 65 → **89**, contacto 65 → **88**; CLS 0; acessibilidade, boas práticas e SEO a 100.
+- Ainda com `useSearchParams`: `/newsletter/obrigado` e `/newsletter/cancelar` (páginas sem SEO, aceitável).
+
 ## 2026-10-27 — Cancelamento da newsletter e otimização de 3 projetos
 
 **Newsletter**

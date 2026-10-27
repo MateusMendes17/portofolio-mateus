@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { CallBooking } from "@/components/contact/CallBooking";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { CAL_EVENTS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
 import { useLanguage } from "@/context/LanguageContext";
@@ -14,16 +14,15 @@ import { TiltCard3D } from "@/components/ui/TiltCard3D";
 import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 
-export function ContactoView() {
+export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensagem" | "chamada" }) {
   const { t, isEnglish } = useLanguage();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const hasCal = CAL_EVENTS.length > 0;
   const durations = CAL_EVENTS.map((e) => e.minutes).join(isEnglish ? " or " : " ou ");
 
   // Separador ativo: ?aba=chamada abre o calendário (só existe com NEXT_PUBLIC_CAL_URL).
   type Tab = "mensagem" | "chamada";
-  const [tab, setTab] = useState<Tab>(hasCal && searchParams.get("aba") === "chamada" ? "chamada" : "mensagem");
+  const [tab, setTab] = useState<Tab>(hasCal && initialTab === "chamada" ? "chamada" : "mensagem");
 
   function selectTab(next: Tab, scroll = false) {
     setTab(next);
