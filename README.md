@@ -2,40 +2,91 @@
 
 # Portfólio Mateus Mendes
 
-**Website institucional de um programador web freelance — design, engenharia e resultados mensuráveis.**
-
-**▶ [mateusmendes.pt](https://mateusmendes.pt)**
+**Website de um programador web freelance: projetos publicados, contacto direto e uma ferramenta própria que avalia o site de qualquer empresa.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-black?logo=next.js&logoColor=white)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Lighthouse](https://img.shields.io/badge/Lighthouse-92%2F100-4A8C1A?logo=lighthouse&logoColor=white)](#performance)
+[![Testes](https://img.shields.io/badge/testes-47%20a%20passar-4A8C1A)](#scripts)
 
-![Página inicial — desktop](docs/desktop-home.jpg)
+![Página inicial](docs/desktop-home.jpg)
 
 </div>
 
 ---
 
+> **Estado:** em desenvolvimento. O domínio previsto é `mateusmendes.pt`, ainda por publicar.
+
 ## Sobre o projeto
 
-Site de cinco páginas que apresenta os serviços, a metodologia e os projetos de um programador web freelance, com formulário de contacto funcional.
+Site em português (com versão em inglês) que apresenta serviços, projetos e forma de trabalhar, e que tenta fazer uma coisa bem: **transformar visitantes em contactos**. Para isso tem duas ferramentas próprias que a maioria dos portfólios não tem:
 
-Feito para três coisas, por esta ordem:
+- o **Avaliador de Sites**, que analisa o site de um visitante e devolve um relatório claro;
+- a **marcação de chamadas** integrada na página de contacto, sem sair do site.
 
-1. **Converter visitantes em contactos** — CTA claro, formulário em três fases com validação em tempo real e envio direto para o email.
-2. **Carregar depressa** — Lighthouse 92/100 em telemóvel, CLS 0, sem bibliotecas de UI pesadas.
-3. **Ser encontrável** — `sitemap.xml`, `robots.txt`, metadados e Open Graph por página, HTML semântico.
+Tudo o que o site afirma é verificável: os resultados mostrados nos projetos são **medidos** pelo próprio Avaliador e pelo Google PageSpeed, com a data da medição. Não há estatísticas nem testemunhos inventados.
 
-## Funcionalidades
+## Avaliador de Sites
 
-- **PT / EN** — alternância de idioma em cliente, sem recarregar a página.
-- **Tema claro/escuro** — respeita a preferência do sistema (`next-themes`).
-- **Animações** — entradas com scroll, tilt 3D nos cartões e um scroll horizontal guiado no processo de trabalho (`framer-motion`), tudo desativado automaticamente para quem usa *reduced motion*.
-- **Formulário de contacto** — três fases, honeypot anti-spam, rate limiting por IP, validação partilhada entre cliente e servidor (Zod) e envio via Resend com `Reply-To` para o visitante.
-- **SEO técnico** — canonical por página, sitemap gerado, robots, Open Graph e Twitter Cards.
-- **Acessibilidade** — skip-link para o conteúdo, foco visível, `prefers-reduced-motion` respeitado em CSS e framer-motion.
+![Avaliador de Sites com o relatório de um site analisado](docs/desktop-avaliador.jpg)
+
+Em `/avaliador`, o visitante cola o endereço de um site e, em cerca de 30 segundos, recebe um relatório em linguagem de dono de negócio.
+
+- **7 categorias com peso na nota (0–100):** segurança, SEO técnico, mobile, desempenho (Google PageSpeed), acessibilidade, conteúdo/conversão e peso da página.
+- **Cada ponto vem de uma verificação real**, com o que é, porque importa e como corrigir. A categoria sem dados (por exemplo sem PageSpeed) aparece como "Indisponível" e fica fora da média.
+- **Relatório em PDF**: descarrega-se ou recebe-se por email, a partir da análise em cache.
+- **Comparação** lado a lado com o site de um concorrente.
+- **Simulador** de quanto vale converter melhor (visitas × conversão × valor, com os números do visitante).
+- **Segurança:** proteção contra SSRF (DNS resolvido e IPs privados bloqueados, redirecionamentos revalidados), timeout, limite de tamanho, CSRF por `Origin`, honeypot e limites de pedidos. Não guarda relatórios nem dados pessoais.
+
+A metodologia, os pesos, o catálogo de verificações e as limitações estão em [`docs/avaliador-metodologia.md`](docs/avaliador-metodologia.md).
+
+## Contacto e marcação de chamadas
+
+![Contacto com marcação de chamada](docs/desktop-contacto.jpg)
+
+- **Dois separadores:** "Enviar mensagem" (formulário em fases) e "Marcar chamada".
+- **Marcação rápida** (15 ou 30 minutos): grelha do mês onde só os dias com horários livres são clicáveis, hora numa caixa de combinação (escreve-se `14:30` ou escolhe-se da lista) e nome + email. Os horários vêm da API pública do [Cal.com](https://cal.com) e a marcação é criada por uma rota do próprio site (`/api/booking`).
+- **Calendário completo** do Cal.com embebido, com as cores do site em claro e escuro, como alternativa.
+- O formulário tem honeypot, limite de pedidos por IP, validação partilhada cliente/servidor (Zod) e envio via Resend com `Reply-To` para o visitante.
+
+## Newsletter e checklist
+
+Quem subscreve recebe por email o **Checklist de Conversão** (PDF de 12 pontos, em `public/lead-magnet/`), gerado por [`scripts/generate-lead-magnet.ts`](scripts/generate-lead-magnet.ts). Os limiares usados vêm da Google (Core Web Vitals), da WCAG e das verificações do Avaliador.
+
+## Projetos com medições reais
+
+Os oito projetos publicados são **demonstrações com marcas fictícias**, e o site di-lo. Cada página de projeto mostra a nota do Avaliador e o Lighthouse mobile medidos em 27/10/2026:
+
+| Projeto | Nota do Avaliador | Lighthouse (mobile) | LCP |
+| --- | :---: | :---: | :---: |
+| Aqualis | 98 | 96 | 2,1 s |
+| Cota Zero | 95 | 99 | 2,0 s |
+| Torra Lusa | 95 | 76 | 4,1 s |
+| Mendes Valadares | 93 | 100 | 1,7 s |
+| Dentilusa | 93 | 82 | 3,5 s |
+| Barbearia Sete Colinas | 92 | 100 | 1,7 s |
+| Forja | 91 | 80 | 3,8 s |
+| Lumina | 88 | 90 | 3,1 s |
+
+Os números vivem em `src/content/site-metrics.ts`, **gerado** por [`scripts/measure-sites.ts`](scripts/measure-sites.ts) (nunca escritos à mão).
+
+## Outras funcionalidades
+
+- **PT / EN** com alternância sem recarregar a página.
+- **Tema claro/escuro**, a seguir a preferência do sistema.
+- **Animações** com `framer-motion`, desativadas para quem usa *reduced motion*.
+- **SEO técnico:** canonical, `sitemap.xml`, `robots.txt`, Open Graph e Twitter Cards por página.
+- **Acessibilidade:** skip-link, foco visível, separadores e caixa de combinação com ARIA.
+- **Aviso de cookies** e página de política de privacidade.
+
+## Screenshots
+
+| | |
+| :---: | :---: |
+| ![Projetos](docs/desktop-projetos.jpg) | ![Sobre](docs/desktop-sobre.jpg) |
+| ![Serviços](docs/desktop-servicos.jpg) | ![Telemóvel](docs/mobile-home.jpg) |
 
 ## Stack
 
@@ -44,9 +95,14 @@ Feito para três coisas, por esta ordem:
 | Framework | Next.js 16 (App Router, Turbopack) |
 | Linguagem | TypeScript (modo estrito) |
 | UI | React 19 + Tailwind CSS v4 |
-| Animações | framer-motion 13 |
+| Animações | framer-motion |
 | Validação | Zod 4 (partilhado entre cliente e servidor) |
+| Análise de HTML | node-html-parser |
+| PDF | pdf-lib |
 | Email | Resend |
+| Marcações | Cal.com (`@calcom/embed-react` + API pública) |
+| Desempenho | Google PageSpeed Insights API |
+| Testes | Vitest |
 | Tema | next-themes |
 
 ## Correr localmente
@@ -57,99 +113,89 @@ Requisitos: [Node.js](https://nodejs.org) ≥ 20.9 e npm.
 git clone https://github.com/MateusMendes17/portofolio-mateus.git
 cd portofolio-mateus
 npm install
+cp .env.local.example .env.local
 npm run dev
 ```
 
-Abre <http://localhost:3000>.
+Abre <http://localhost:3000>. O site arranca sem variáveis; cada funcionalidade que precisa de um serviço externo só fica ativa quando a variável correspondente está definida.
 
 ### Variáveis de ambiente
 
-Copia o exemplo e preenche (o site funciona sem elas, mas o formulário só envia emails com a chave do Resend):
+As variáveis `NEXT_PUBLIC_*` são lidas no arranque e na build, por isso reinicia o servidor depois de as alterar.
 
-```bash
-cp .env.local.example .env.local
-```
+| Variável | Para quê |
+| --- | --- |
+| `RESEND_API_KEY` | Envio de emails (contacto, newsletter, relatório PDF). Sem ela, o formulário responde `500` em produção, de propósito, para nunca fingir sucesso. |
+| `RESEND_FROM` | Remetente. Por omissão `onboarding@resend.dev`, que só entrega ao email da conta Resend. Em produção, usa um domínio verificado. |
+| `CONTACT_EMAIL` | Quem recebe os pedidos de contacto e os avisos de novos contactos. |
+| `PAGESPEED_API_KEY` | Chave da API do Google PageSpeed (`AIza…`). Sem ela, o desempenho aparece "Indisponível" no Avaliador. |
+| `NEXT_PUBLIC_CAL_URL` | Ligação do evento de 15 min no Cal.com. Sem ela, não aparece o separador "Marcar chamada". |
+| `NEXT_PUBLIC_CAL_URL_30` | Opcional: evento de 30 min (mostra o seletor 15/30 min). |
+| `NEXT_PUBLIC_SITE_URL` | URL base do site (sitemap, metadados, links nos emails). |
+| `NEWSLETTER_FROM_EMAIL` | Opcional: remetente da newsletter, num domínio verificado. |
+| `RESEND_AUDIENCE_ID` | Opcional: audiência do Resend onde guardar os subscritores. |
+| `AUDIT_DAILY_LIMIT` | Opcional: limite diário de análises do Avaliador (por omissão 100). |
 
-| Variável | Obrigatória | Descrição |
-| --- | --- | --- |
-| `RESEND_API_KEY` | Sim (em produção) | Chave da API do Resend. Sem ela, o formulário responde `500` em produção — de propósito, para nunca fingir sucesso. |
-| `CONTACT_EMAIL` | Não | Email que recebe os contactos. Por omissão, o email público do site. |
-| `RESEND_FROM` | Sim (em produção) | Remetente com domínio verificado no Resend. Por omissão `onboarding@resend.dev`, que só serve para contas de teste. |
-| `NEXT_PUBLIC_SITE_URL` | Não | URL base do site, usada no sitemap e nos metadados. |
+Nunca faças commit do `.env.local`: já está no `.gitignore`.
 
 ## Scripts
 
 | Comando | O que faz |
 | --- | --- |
-| `npm run dev` | Servidor de desenvolvimento (Turbopack) |
-| `npm run build` | Build de produção |
-| `npm run start` | Serve a build de produção |
+| `npm run dev` | Servidor de desenvolvimento |
+| `npm run build` / `npm run start` | Build de produção / servir a build |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Testes (Vitest) |
+| `npx tsx --env-file=.env.local scripts/measure-sites.ts` | Mede os projetos (Avaliador + PageSpeed) e atualiza `src/content/site-metrics.ts` |
+| `npx tsx scripts/generate-lead-magnet.ts` | Regera o PDF do checklist |
 
 ## Estrutura
 
 ```
 src/
-├── app/                  # Rotas (App Router) + API
-│   ├── api/contact/      # Endpoint do formulário
-│   ├── sobre/            # /sobre, /servicos, /projetos, /contacto, /privacidade
-│   ├── robots.ts         # robots.txt
-│   └── sitemap.ts        # sitemap.xml
+├── app/                      # Rotas (App Router) + API
+│   ├── api/audit/            # Análise do Avaliador (stream) e /report (PDF)
+│   ├── api/booking/          # Horários livres e criação de marcações (Cal.com)
+│   ├── api/contact/          # Formulário de contacto
+│   ├── api/newsletter/       # Subscrição + checklist em anexo
+│   └── avaliador/, contacto/, projetos/, sobre/, servicos/, privacidade/
 ├── components/
-│   ├── forms/            # Formulário de contacto (multi-fase)
-│   ├── interactive/      # Componentes com estado próprio (quiz, terminal…)
-│   ├── layout/           # Header, Footer, navegação, temas
-│   ├── projects/         # Cartões e detalhe de projetos
-│   ├── ui/               # Bloco de construção (Button, ScrollReveal…)
-│   └── views/            # Composição de cada página
-├── content/strings/      # pt.ts e en.ts (i18n)
-├── context/              # LanguageContext
-└── lib/                  # Constantes, validação, rate limit, email, SEO
+│   ├── audit/                # Comparação, relatório PDF, simulador, medições
+│   ├── contact/              # Marcação: grelha do mês, hora, calendário Cal.com
+│   ├── forms/ layout/ projects/ ui/ views/ interactive/
+├── content/                  # Textos (pt/en), projetos e medições
+├── context/                  # LanguageContext
+└── lib/
+    ├── audit/                # Verificações, pontuação, SSRF-safe fetch, PDF, cache
+    └── …                     # Constantes, validação, rate limit, email, SEO
+scripts/                      # measure-sites.ts, generate-lead-magnet.ts
+docs/                         # Metodologia do Avaliador e auditorias
 ```
 
-## Formulário de contacto
+## Endpoints
 
-O endpoint `POST /api/contact` passa por estas camadas, por esta ordem:
+| Método e rota | O que faz |
+| --- | --- |
+| `POST /api/audit` | Analisa um site e devolve o progresso e o resultado em stream (NDJSON) |
+| `POST /api/audit/report` | Gera o PDF da análise (download ou email, com consentimento) |
+| `GET /api/booking/slots` | Horários livres dos próximos 21 dias |
+| `POST /api/booking` | Cria uma marcação no Cal.com |
+| `POST /api/contact` | Envia um pedido de contacto |
+| `POST /api/newsletter` | Subscreve e envia o checklist |
 
-1. **Content-Type** — só `application/json` (`415` caso contrário).
-2. **CSRF** — compara `Origin` com `Host` (`403` para origens externas).
-3. **Rate limit** — janela deslizante por IP, com `Retry-After` no `429`.
-4. **Honeypot** — campo oculto; preenchido, devolve sucesso simulado sem enviar nada.
-5. **Validação Zod** — erros por campo devolvidos para a UI (`400`).
-6. **Envio** — email via Resend, com `Reply-To` do visitante e timeout de 10 s.
-
-Os logs do servidor não contêm dados pessoais — apenas tipo de projeto, número de funcionalidades e comprimento da mensagem.
-
-## Performance
-
-Medições Lighthouse em telemóvel (simulação de throttling, build de produção):
-
-| Rota | Performance | LCP | TBT | CLS |
-| --- | --- | --- | --- | --- |
-| `/` | **92** | 3,4 s | 10 ms | 0 |
-| `/sobre` | **91** | 3,5 s | 40 ms | 0 |
-| `/servicos` | **91** | 3,5 s | 20 ms | 0 |
-
-Técnicas usadas: `content-visibility` nas secções abaixo da dobra, componentes interativos carregados em chunk próprio, imagens com `next/image` e prioridade na LCP, e ausência total de bibliotecas de UI genéricas.
-
-## Screenshots
-
-| | |
-| :---: | :---: |
-| ![Página inicial](docs/desktop-home-detalhe.jpg) | ![Sobre](docs/desktop-sobre-detalhe.jpg) |
-| ![Serviços](docs/desktop-servicos-detalhe.jpg) | ![Projetos](docs/desktop-projetos-detalhe.jpg) |
-| ![Contacto](docs/desktop-contacto-detalhe.jpg) | ![Telemóvel](docs/mobile-home.jpg) |
+Todas as rotas que escrevem validam o `Origin`, usam limites de pedidos por IP e **não registam dados pessoais nos logs**.
 
 ## Deploy
 
-O site está pensado para a **Vercel**: basta importar o repositório e definir as variáveis de ambiente acima. Qualquer outro host Node ≥ 20.9 também funciona (`npm run build && npm run start`).
+Pensado para a **Vercel**: importa o repositório, define as variáveis de ambiente acima (incluindo as `NEXT_PUBLIC_CAL_URL*`) e publica. Qualquer host Node ≥ 20.9 também serve (`npm run build && npm run start`).
+
+> A cache e os limites de pedidos do Avaliador e das marcações vivem em memória, por instância. Chegam para começar; com muito tráfego, passa-os para um armazenamento partilhado (por exemplo Upstash).
 
 ## Autor
 
 **Mateus Mendes** — programador web freelance em Portugal
 
-- Site: [mateusmendes.pt](https://mateusmendes.pt)
 - LinkedIn: [mateus-lucas-mendes](https://www.linkedin.com/in/mateus-lucas-mendes-0538b7333/)
 - GitHub: [@MateusMendes17](https://github.com/MateusMendes17)
 - Email: mateusmm.dev@gmail.com · WhatsApp: [+351 917 810 763](https://wa.me/351917810763)
@@ -159,10 +205,10 @@ O site está pensado para a **Vercel**: basta importar o repositório e definir 
 <details>
 <summary><b>English summary</b></summary>
 
-Personal portfolio and business website for a freelance web developer based in Portugal. Built with **Next.js 16 (App Router)**, **React 19**, **TypeScript** and **Tailwind CSS v4**, with animated UI (framer-motion), a bilingual PT/EN toggle, light/dark themes and a three-step contact form that emails via Resend (CSRF check, honeypot, per-IP rate limiting, shared Zod validation).
+Portfolio and business site for a freelance web developer in Portugal, built with **Next.js 16**, **React 19**, **TypeScript** and **Tailwind CSS v4**, with a PT/EN toggle and light/dark themes.
 
-**Performance:** Lighthouse 91–92/100 on mobile with CLS 0.
+It includes a **Website Evaluator** (`/avaliador`) that analyses a public home page across 7 weighted categories (security, SEO, mobile, performance via Google PageSpeed, accessibility, content, page weight), exports a **PDF report**, compares two sites side by side and includes a conversion simulator; and a **call booking** flow on the contact page (month grid + time combobox, powered by the Cal.com API, with the full Cal.com calendar as a fallback). The project pages show real, dated Lighthouse and Evaluator measurements instead of invented claims.
 
-Run locally with `npm install && npm run dev` (Node ≥ 20.9). See `.env.local.example` for the environment variables needed by the contact form.
+Run locally with `npm install && cp .env.local.example .env.local && npm run dev` (Node ≥ 20.9). Each feature that needs an external service is enabled only when its environment variable is set (see the table above).
 
 </details>

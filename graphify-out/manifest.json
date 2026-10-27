@@ -708,9 +708,9 @@
     "semantic_hash": ""
   },
   "Portofolio-Vault/Changelog.md": {
-    "mtime": 1793101562.3109837,
-    "seen": 1793101579.5238774,
-    "ast_hash": "b9f317419ebd6955e7e9f544f59039c5",
+    "mtime": 1793102467.0869975,
+    "seen": 1793102487.8529193,
+    "ast_hash": "93a2cbf5ca32f86c5345042da7255151",
     "semantic_hash": ""
   },
   "Portofolio-Vault/Pendentes.md": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793097050.9186475,
-    "seen": 1793098224.3143382,
-    "ast_hash": "50dcfbdae1e5651e42e7b2d4666f8ae2",
+    "mtime": 1793102455.4555256,
+    "seen": 1793102487.8529222,
+    "ast_hash": "c41d4aeb272cd843da261a0befeafeb1",
     "semantic_hash": ""
   },
   "docs/auditoria-fase-0-1.md": {
@@ -755,22 +755,10 @@
     "ast_hash": "06030620abb2b09532315cc61a38f1f9",
     "semantic_hash": ""
   },
-  "Portofolio-Vault/docs/desktop-contacto-detalhe.jpg": {
-    "mtime": 1791581437.9552476,
-    "seen": 1793096748.1302264,
-    "ast_hash": "4b932f23ad4f62e5e912fdb033dcd095",
-    "semantic_hash": ""
-  },
   "Portofolio-Vault/docs/desktop-contacto.jpg": {
     "mtime": 1791581436.9718733,
     "seen": 1793096748.1302311,
     "ast_hash": "cfd342f6721ac29a10e272ba7f6ce465",
-    "semantic_hash": ""
-  },
-  "Portofolio-Vault/docs/desktop-home-detalhe.jpg": {
-    "mtime": 1791581418.0790286,
-    "seen": 1793096748.130236,
-    "ast_hash": "2ac9fce84af4ea2d12d93cad2c429d54",
     "semantic_hash": ""
   },
   "Portofolio-Vault/docs/desktop-home.jpg": {
@@ -779,34 +767,16 @@
     "ast_hash": "f187250d30ae19fec335af626cc3346a",
     "semantic_hash": ""
   },
-  "Portofolio-Vault/docs/desktop-projetos-detalhe.jpg": {
-    "mtime": 1791581433.0166218,
-    "seen": 1793096748.1302454,
-    "ast_hash": "2ea4fc0d7d11ead777c443212676ab38",
-    "semantic_hash": ""
-  },
   "Portofolio-Vault/docs/desktop-projetos.jpg": {
     "mtime": 1791581432.0351238,
     "seen": 1793096748.13025,
     "ast_hash": "83292605de8192e66266887c2d80f603",
     "semantic_hash": ""
   },
-  "Portofolio-Vault/docs/desktop-servicos-detalhe.jpg": {
-    "mtime": 1791581428.0215564,
-    "seen": 1793096748.1302547,
-    "ast_hash": "6aa200b07c2f3fdec35b41fad8e24288",
-    "semantic_hash": ""
-  },
   "Portofolio-Vault/docs/desktop-servicos.jpg": {
     "mtime": 1791581427.0188255,
     "seen": 1793096748.1302595,
     "ast_hash": "0bd9da9372fc6ded4133f75fc3834d1e",
-    "semantic_hash": ""
-  },
-  "Portofolio-Vault/docs/desktop-sobre-detalhe.jpg": {
-    "mtime": 1791581423.0451946,
-    "seen": 1793096748.130264,
-    "ast_hash": "a571157d8ce414a9cdd74adba9654ceb",
     "semantic_hash": ""
   },
   "Portofolio-Vault/docs/desktop-sobre.jpg": {
@@ -821,70 +791,40 @@
     "ast_hash": "47ac422fc291db337e13bf65c71a05ec",
     "semantic_hash": ""
   },
-  "docs/desktop-contacto-detalhe.jpg": {
-    "mtime": 1791581437.9552476,
-    "seen": 1793096748.1302779,
-    "ast_hash": "4b932f23ad4f62e5e912fdb033dcd095",
-    "semantic_hash": ""
-  },
   "docs/desktop-contacto.jpg": {
-    "mtime": 1791581436.9718733,
-    "seen": 1793096748.1302824,
-    "ast_hash": "cfd342f6721ac29a10e272ba7f6ce465",
-    "semantic_hash": ""
-  },
-  "docs/desktop-home-detalhe.jpg": {
-    "mtime": 1791581418.0790286,
-    "seen": 1793096748.1302874,
-    "ast_hash": "2ac9fce84af4ea2d12d93cad2c429d54",
+    "mtime": 1793102411.3658473,
+    "seen": 1793102487.8529313,
+    "ast_hash": "ec910ef55857bbfd8b87d7a31ed7b51a",
     "semantic_hash": ""
   },
   "docs/desktop-home.jpg": {
-    "mtime": 1791581417.0879493,
-    "seen": 1793096748.1302922,
-    "ast_hash": "f187250d30ae19fec335af626cc3346a",
-    "semantic_hash": ""
-  },
-  "docs/desktop-projetos-detalhe.jpg": {
-    "mtime": 1791581433.0166218,
-    "seen": 1793096748.1302974,
-    "ast_hash": "2ea4fc0d7d11ead777c443212676ab38",
+    "mtime": 1793102411.3630147,
+    "seen": 1793102487.852933,
+    "ast_hash": "16d297e0a222dfb2462d13b14ce023a9",
     "semantic_hash": ""
   },
   "docs/desktop-projetos.jpg": {
-    "mtime": 1791581432.0351238,
-    "seen": 1793096748.1303022,
-    "ast_hash": "83292605de8192e66266887c2d80f603",
-    "semantic_hash": ""
-  },
-  "docs/desktop-servicos-detalhe.jpg": {
-    "mtime": 1791581428.0215564,
-    "seen": 1793096748.130307,
-    "ast_hash": "6aa200b07c2f3fdec35b41fad8e24288",
+    "mtime": 1793102411.3678422,
+    "seen": 1793102487.8529346,
+    "ast_hash": "74bf3feb87fb03a5cde592b39e5d4fe8",
     "semantic_hash": ""
   },
   "docs/desktop-servicos.jpg": {
-    "mtime": 1791581427.0188255,
-    "seen": 1793096748.130312,
-    "ast_hash": "0bd9da9372fc6ded4133f75fc3834d1e",
-    "semantic_hash": ""
-  },
-  "docs/desktop-sobre-detalhe.jpg": {
-    "mtime": 1791581423.0451946,
-    "seen": 1793096748.1303165,
-    "ast_hash": "a571157d8ce414a9cdd74adba9654ceb",
+    "mtime": 1793102411.3709602,
+    "seen": 1793102487.8529363,
+    "ast_hash": "0e5243ea4ab8d8a079626f30a1e9fe23",
     "semantic_hash": ""
   },
   "docs/desktop-sobre.jpg": {
-    "mtime": 1791581422.0699835,
-    "seen": 1793096748.1303215,
-    "ast_hash": "011438a31823afa50b40df049b683ed8",
+    "mtime": 1793102411.3741984,
+    "seen": 1793102487.8529377,
+    "ast_hash": "0e92f4d8061685f6852d68abe04eae31",
     "semantic_hash": ""
   },
   "docs/mobile-home.jpg": {
-    "mtime": 1791581440.2410214,
-    "seen": 1793096748.1303263,
-    "ast_hash": "47ac422fc291db337e13bf65c71a05ec",
+    "mtime": 1793102411.3762002,
+    "seen": 1793102487.8529394,
+    "ast_hash": "9679a0fda3b36bb5c490611420f6a52b",
     "semantic_hash": ""
   },
   "public/file.svg": {
@@ -1098,9 +1038,9 @@
     "semantic_hash": ""
   },
   "src/components/contact/QuickBooking.tsx": {
-    "mtime": 1793101546.1400852,
-    "seen": 1793101579.522966,
-    "ast_hash": "6ab6dfe6df48466bc51f9cf2c275c683",
+    "mtime": 1793102380.5604353,
+    "seen": 1793102487.8527708,
+    "ast_hash": "d6cf4b8b3b774724689928cba35e1f88",
     "semantic_hash": ""
   },
   "src/components/contact/TimeCombobox.tsx": {
@@ -1116,9 +1056,15 @@
     "semantic_hash": ""
   },
   "src/components/contact/MonthGrid.tsx": {
-    "mtime": 1793101520.999309,
-    "seen": 1793101579.5229535,
-    "ast_hash": "9f71b9af098c5bd5dd227d4487986ad8",
+    "mtime": 1793102380.559429,
+    "seen": 1793102487.852768,
+    "ast_hash": "4bea7640a32afc3929617b45bb0e620e",
+    "semantic_hash": ""
+  },
+  "docs/desktop-avaliador.jpg": {
+    "mtime": 1793102411.3645525,
+    "seen": 1793102487.8529294,
+    "ast_hash": "989a708f2a6a58ad75851fb2fbe25f78",
     "semantic_hash": ""
   },
   "package-lock.json": {

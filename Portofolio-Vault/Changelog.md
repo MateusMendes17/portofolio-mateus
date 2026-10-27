@@ -4,6 +4,12 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-10-27 — README e screenshots novos
+
+- `README.md` reescrito: descreve o Avaliador (PDF, comparação, simulador), a marcação de chamadas (Cal.com), a newsletter, as medições reais dos projetos, variáveis de ambiente, endpoints e estrutura atuais. Removidos o badge e a tabela de Lighthouse antigos (não eram verificáveis).
+- Prints novos em `docs/` (home, avaliador com relatório, contacto com calendário, projetos, sobre, serviços, telemóvel), tirados com Playwright + Edge ao site local. Apagados os `*-detalhe.jpg` antigos.
+- Corrigido "Outubro De 2026" → "Outubro de 2026" na grelha da marcação.
+
 ## 2026-10-27 — Marcação rápida (hora numa caixa de combinação)
 
 - O separador "Marcar chamada" passou a ter **marcação rápida** por omissão: escolher o dia numa **grelha mensal compacta** (`MonthGrid.tsx`; só os dias com horários livres são selecionáveis), escrever ou escolher a hora (`TimeCombobox.tsx`, ARIA combobox: "14", "1430" ou "14:30"), nome + email. Botão "Primeiro horário livre". O calendário completo do Cal.com continua disponível ("Usar o calendário completo").

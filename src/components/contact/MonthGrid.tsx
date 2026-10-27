@@ -47,9 +47,11 @@ export function MonthGrid({
     setView({ y: Math.floor(next / 12), m: next % 12 });
   };
 
-  const monthLabel = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(
+  // Só a primeira letra em maiúscula ("Outubro de 2026"); a classe CSS "capitalize" poria "De" também.
+  const rawMonth = new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(
     new Date(Date.UTC(view.y, view.m, 1))
   );
+  const monthLabel = rawMonth.charAt(0).toUpperCase() + rawMonth.slice(1);
 
   // 2024-01-01 foi uma segunda-feira: serve de base para os nomes dos dias da semana.
   const weekdays = useMemo(() => {
@@ -79,7 +81,7 @@ export function MonthGrid({
             <path d="m15 18-6-6 6-6" />
           </svg>
         </button>
-        <p className="font-body text-sm font-semibold capitalize text-ink" aria-live="polite">
+        <p className="font-body text-sm font-semibold text-ink" aria-live="polite">
           {monthLabel}
         </p>
         <button type="button" onClick={() => go(1)} disabled={viewIndex >= maxIndex} aria-label="›" className={navButton}>

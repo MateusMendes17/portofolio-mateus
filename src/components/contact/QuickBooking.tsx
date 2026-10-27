@@ -109,7 +109,8 @@ export function QuickBooking({ minutes, onUseFullCalendar }: { minutes: number; 
         if (res.status === 409) setSlot(null);
         return;
       }
-      setDone(longFmt.format(new Date(slot)));
+      const text = longFmt.format(new Date(slot));
+      setDone(text.charAt(0).toUpperCase() + text.slice(1));
     } catch {
       setError(isEnglish ? "Something went wrong. Please try again." : "Algo correu mal. Tente novamente.");
     } finally {
@@ -123,7 +124,7 @@ export function QuickBooking({ minutes, onUseFullCalendar }: { minutes: number; 
         <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
           {isEnglish ? "Call booked" : "Chamada marcada"}
         </p>
-        <p className="mt-2 font-heading text-h3 font-semibold capitalize text-ink">{done}</p>
+        <p className="mt-2 font-heading text-h3 font-semibold text-ink">{done}</p>
         <p className="mt-3 max-w-[52ch] font-body text-sm text-ink-2">
           {isEnglish
             ? `Duration: ${minutes} minutes (${timeZone}). A confirmation with the call details is on its way to your email.`
