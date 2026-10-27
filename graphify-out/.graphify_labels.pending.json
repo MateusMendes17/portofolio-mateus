@@ -1,6 +1,6 @@
 {
-  "0": "LanguageContext.tsx",
-  "1": "audit/route.ts",
+  "0": "booking/route.ts",
+  "1": "unsubscribe/route.ts",
   "2": "audit/types.ts",
   "3": "useLanguage",
   "4": "ProjectCatalog.tsx",
@@ -8,7 +8,7 @@
   "6": "Changelog",
   "7": "CallBooking.tsx",
   "8": "constants.ts",
-  "9": "next",
+  "9": "contact-email.ts",
   "10": "safe-fetch.ts",
   "11": "compilerOptions",
   "12": "package.json",
@@ -17,13 +17,18 @@
   "15": "AvaliadorView.tsx",
   "16": "projects.ts",
   "17": "NewsletterUnsubscribe.tsx",
+  "18": "audit/route.ts",
   "19": "HomeView.tsx",
+  "20": "report/route.ts",
   "21": "ProjectDetailView.tsx",
   "22": "pdf.ts",
+  "23": "newsletter/route.ts",
   "24": "Portofolio Vault (Obsidian)",
   "25": "projects.archive.ts",
   "26": "AGENTS.md",
-  "27": "lib/seo.ts",
+  "27": "next",
   "28": "postcss.config.mjs",
-  "29": "Bem-vindo.md"
+  "29": "Bem-vindo.md",
+  "30": "pt.ts",
+  "31": "vercel.json"
 }

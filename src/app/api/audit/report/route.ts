@@ -1,15 +1,17 @@
 import { NextRequest } from "next/server";
 import { z } from "zod";
-import { normalizeUrl } from "@/lib/audit/safe-fetch";
-import { getCachedAudit, isAllowedOrigin } from "@/lib/audit/cache";
+import { isAllowedOrigin } from "@/lib/audit/cache";
 import { buildAuditPdf } from "@/lib/audit/pdf";
 import { sendAuditReportEmail } from "@/lib/audit/report-email";
+import { verifyResult } from "@/lib/audit/signature";
+import type { AuditResult } from "@/lib/audit/types";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 
 const schema = z.object({
-  url: z.string().min(1).max(2048),
+  // A análise devolvida por /api/audit, com a assinatura do servidor (validada abaixo).
+  result: z.object({ signature: z.string().max(128) }).passthrough(),
   locale: z.enum(["pt", "en"]).default("pt"),
   delivery: z.enum(["download", "email"]),
   email: z.string().email().max(254).optional(),
@@ -26,7 +28,8 @@ function json(body: unknown, status: number, headers: Record<string, string> = {
 
 /**
  * POST /api/audit/report
- * Gera o PDF a partir da análise em cache (não volta a analisar o site).
+ * Gera o PDF a partir da análise assinada pelo servidor (não depende de cache em memória,
+ * que na Vercel é por instância).
  * - delivery "download": devolve o PDF.
  * - delivery "email": envia o PDF ao visitante (requer email e consentimento).
  */
@@ -56,12 +59,9 @@ export async function POST(request: NextRequest) {
     });
   }
 
-  const normalized = normalizeUrl(data.url);
-  if (!normalized) return json({ error: "URL inválido." }, 400);
-
-  const result = getCachedAudit(normalized);
-  if (!result) {
-    return json({ error: "A análise expirou. Volte a analisar o site para gerar o relatório." }, 410);
+  const result = data.result as unknown as AuditResult;
+  if (!verifyResult(result)) {
+    return json({ error: "Análise inválida ou expirada. Volte a analisar o site para gerar o relatório." }, 400);
   }
 
   if (data.delivery === "email" && (!data.email || data.consent !== true)) {

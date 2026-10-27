@@ -4,6 +4,13 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-10-27 — Publicação na Vercel e correção do PDF em produção
+
+- Projeto `portofolio-mateus` na Vercel, ligado ao GitHub (produção = ramo `main`). URL: https://portofolio-mateus.vercel.app. Região das funções: `cdg1` (`vercel.json`). Variáveis configuradas em production + preview (as chaves como segredos). `NEXT_PUBLIC_SITE_URL` = URL da Vercel até haver domínio próprio (é inlined na build: mudar e **fazer redeploy** quando ligar `mateusmendes.pt`).
+- **Bug só visível em produção:** o PDF dava 410 porque a cache da análise é em memória e na Vercel cada instância tem a sua. Agora `/api/audit` assina o resultado (HMAC, `src/lib/audit/signature.ts`) e `/api/audit/report` gera o PDF a partir do resultado assinado enviado pelo browser. Testes novos (54 no total).
+- Continuam em memória por instância (aceitável para já): cache da análise, limites de pedidos (contacto, marcação, newsletter, avaliador). Se houver abuso, passar para Upstash/Redis.
+- `.vercelignore` exclui o vault e o graphify do deploy.
+
 ## 2026-10-27 — Verificação de produção: build e CLS das páginas Avaliador/Contacto
 
 - `npm run build` passa (31 páginas), testado numa cópia sem `.env.local`.

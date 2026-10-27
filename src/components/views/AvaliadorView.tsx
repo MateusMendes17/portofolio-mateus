@@ -471,7 +471,7 @@ export function AvaliadorView({
               </div>
             </div>
 
-            <ReportActions url={result.originalUrl} />
+            <ReportActions result={result} />
 
             {/* 02. Grid de Categorias */}
             <div className="mt-8">

@@ -8,7 +8,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Testes](https://img.shields.io/badge/testes-51%20a%20passar-4A8C1A)](#scripts)
+[![Testes](https://img.shields.io/badge/testes-54%20a%20passar-4A8C1A)](#scripts)
 
 ![Página inicial](docs/desktop-home.jpg)
 
@@ -179,7 +179,7 @@ docs/                         # Metodologia do Avaliador e auditorias
 | Método e rota | O que faz |
 | --- | --- |
 | `POST /api/audit` | Analisa um site e devolve o progresso e o resultado em stream (NDJSON) |
-| `POST /api/audit/report` | Gera o PDF da análise (download ou email, com consentimento) |
+| `POST /api/audit/report` | Gera o PDF a partir da análise assinada pelo servidor (download ou email, com consentimento) |
 | `GET /api/booking/slots` | Horários livres dos próximos 21 dias |
 | `POST /api/booking` | Cria uma marcação no Cal.com |
 | `POST /api/contact` | Envia um pedido de contacto |
@@ -190,7 +190,7 @@ Todas as rotas que escrevem validam o `Origin`, usam limites de pedidos por IP e
 
 ## Deploy
 
-Pensado para a **Vercel**: importa o repositório, define as variáveis de ambiente acima (incluindo as `NEXT_PUBLIC_CAL_URL*`) e publica. Qualquer host Node ≥ 20.9 também serve (`npm run build && npm run start`).
+Pensado para a **Vercel**: importa o repositório, define as variáveis de ambiente acima (incluindo as `NEXT_PUBLIC_CAL_URL*`) e publica. O `vercel.json` fixa a região das funções em Paris (`cdg1`), perto de Portugal. Qualquer host Node ≥ 20.9 também serve (`npm run build && npm run start`).
 
 > A cache e os limites de pedidos do Avaliador e das marcações vivem em memória, por instância. Chegam para começar; com muito tráfego, passa-os para um armazenamento partilhado (por exemplo Upstash).
 

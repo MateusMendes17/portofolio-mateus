@@ -66,6 +66,8 @@ export interface AuditResult {
   performance: PerformanceData | null;
   /** Se a análise veio da cache. */
   fromCache: boolean;
+  /** Assinatura do servidor (ver signature.ts); necessária para gerar o PDF. */
+  signature?: string;
 }
 
 export interface PerformanceData {

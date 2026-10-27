@@ -4,6 +4,7 @@ import { normalizeUrl } from "@/lib/audit/safe-fetch";
 import { buildReport } from "@/lib/audit/report";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { getCachedAudit, setCachedAudit, isAllowedOrigin } from "@/lib/audit/cache";
+import { signResult } from "@/lib/audit/signature";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -139,6 +140,8 @@ export async function POST(request: NextRequest) {
         }
 
         // Guardar em cache
+        const signature = signResult(report);
+        if (signature) report.signature = signature;
         setCachedAudit(normalized, report);
 
         send({ step: "done", done: true, message: "Análise concluída." });

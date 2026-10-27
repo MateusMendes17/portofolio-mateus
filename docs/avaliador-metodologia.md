@@ -134,7 +134,7 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 
 ## 7. Extensões (2026-10-27)
 
-- **Relatório PDF** (`POST /api/audit/report`): gerado a partir da análise em cache (24 h; não volta a analisar). `delivery: "download"` devolve o PDF; `delivery: "email"` exige email e consentimento e envia via Resend (e avisa o dono como lead). Limite: 10 pedidos/hora por IP, honeypot e verificação de `Origin`. Se a cache tiver expirado responde 410.
+- **Relatório PDF** (`POST /api/audit/report`): gerado a partir da **análise assinada pelo servidor** (HMAC, `src/lib/audit/signature.ts`), que o browser devolve no pedido; não depende de cache em memória (na Vercel é por instância). Resultado adulterado ou sem assinatura → 400. `delivery: "download"` devolve o PDF; `delivery: "email"` exige email e consentimento e envia via Resend (e avisa o dono como lead). Limite: 10 pedidos/hora por IP, honeypot e verificação de `Origin`.
 - **Comparação**: a interface analisa dois URLs em sequência (2 das 5 análises/hora) e mostra as notas lado a lado.
 - **Medições dos projetos**: `scripts/measure-sites.ts` grava `src/content/site-metrics.ts`; os números mostrados no site vêm sempre daí.
 

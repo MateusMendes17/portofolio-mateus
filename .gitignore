@@ -47,3 +47,6 @@ Portofolio-Vault/.obsidian/workspace*.json
 # vault: "docs" é uma ligação para ../docs (duplicaria os ficheiros); cache do graphify
 Portofolio-Vault/docs
 graphify-out/cache/
+
+.vercel
+.env*

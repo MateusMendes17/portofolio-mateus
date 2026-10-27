@@ -36,9 +36,9 @@
     "semantic_hash": ""
   },
   "src/app/api/audit/report/route.ts": {
-    "mtime": 1793096065.1105714,
-    "seen": 1793096748.129532,
-    "ast_hash": "696cacfd6a5047e04154839243b954de",
+    "mtime": 1793114955.9922976,
+    "seen": 1793115028.374219,
+    "ast_hash": "e7f238e3c88bc43d41eae0d0272e121b",
     "semantic_hash": ""
   },
   "src/app/api/audit/route.test.ts": {
@@ -48,9 +48,9 @@
     "semantic_hash": ""
   },
   "src/app/api/audit/route.ts": {
-    "mtime": 1793095973.9483235,
-    "seen": 1793096748.1295428,
-    "ast_hash": "9ff633919111fe6535a1df3e0171df95",
+    "mtime": 1793114938.7872498,
+    "seen": 1793115028.3742254,
+    "ast_hash": "e0d45eebdd23a7ff60fb2485dab41dad",
     "semantic_hash": ""
   },
   "src/app/api/contact/route.ts": {
@@ -168,9 +168,9 @@
     "semantic_hash": ""
   },
   "src/components/audit/ReportActions.tsx": {
-    "mtime": 1793096107.5238252,
-    "seen": 1793096748.1296473,
-    "ast_hash": "9835c0732bd8270aa607cfc0887bbe05",
+    "mtime": 1793114956.4060514,
+    "seen": 1793115028.3742905,
+    "ast_hash": "175546dce0e49fd5b8decf396cdb7674",
     "semantic_hash": ""
   },
   "src/components/audit/streamAudit.ts": {
@@ -414,9 +414,9 @@
     "semantic_hash": ""
   },
   "src/components/views/AvaliadorView.tsx": {
-    "mtime": 1793104046.7756965,
-    "seen": 1793104190.6193998,
-    "ast_hash": "50fe1754b2a96ef17698fcc516909aed",
+    "mtime": 1793114956.4060514,
+    "seen": 1793115028.3744051,
+    "ast_hash": "8d17c2ad88bc6938eab103b661ff3147",
     "semantic_hash": ""
   },
   "src/components/views/ContactoView.tsx": {
@@ -612,9 +612,9 @@
     "semantic_hash": ""
   },
   "src/lib/audit/types.ts": {
-    "mtime": 1793093452.593903,
-    "seen": 1793096748.130103,
-    "ast_hash": "829a289c6728cb73386628c55cf54892",
+    "mtime": 1793114938.7860646,
+    "seen": 1793115028.374491,
+    "ast_hash": "b68c5ed309640a95c00dd8b998a38330",
     "semantic_hash": ""
   },
   "src/lib/constants.ts": {
@@ -708,9 +708,9 @@
     "semantic_hash": ""
   },
   "Portofolio-Vault/Changelog.md": {
-    "mtime": 1793104172.6202207,
-    "seen": 1793104190.6194844,
-    "ast_hash": "b3658c6350fe60f867f3c964f3eef3b0",
+    "mtime": 1793115021.1662865,
+    "seen": 1793115028.374539,
+    "ast_hash": "d615e56a51e8fd38c3cabc849c625388",
     "semantic_hash": ""
   },
   "Portofolio-Vault/Pendentes.md": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793103505.2021604,
-    "seen": 1793103527.246007,
-    "ast_hash": "bf341963454132c80a897911af11d5f7",
+    "mtime": 1793115021.1995344,
+    "seen": 1793115028.3745434,
+    "ast_hash": "9a1812a0b05c98f19232b88e23170612",
     "semantic_hash": ""
   },
   "docs/auditoria-fase-0-1.md": {
@@ -744,9 +744,9 @@
     "semantic_hash": ""
   },
   "docs/avaliador-metodologia.md": {
-    "mtime": 1793096672.1354685,
-    "seen": 1793096748.130217,
-    "ast_hash": "d7af14608cde888567123ef8c27fa5b4",
+    "mtime": 1793115021.1662865,
+    "seen": 1793115028.374548,
+    "ast_hash": "46763a70197f0a77351e2a7f2a5cef1f",
     "semantic_hash": ""
   },
   "public/lead-magnet/checklist-conversao.pdf": {
@@ -1095,6 +1095,24 @@
     "mtime": 1793102909.4008815,
     "seen": 1793103527.245963,
     "ast_hash": "139a2b3b9919718540aac874fb7e09e0",
+    "semantic_hash": ""
+  },
+  "src/lib/audit/signature.test.ts": {
+    "mtime": 1793114956.4402254,
+    "seen": 1793115028.3744829,
+    "ast_hash": "571a49532b21d4aa8ffb6a33ad2bc197",
+    "semantic_hash": ""
+  },
+  "src/lib/audit/signature.ts": {
+    "mtime": 1793114938.2968059,
+    "seen": 1793115028.3744857,
+    "ast_hash": "38e4d6c7cd05ffcb1ac57a0407729d86",
+    "semantic_hash": ""
+  },
+  "vercel.json": {
+    "mtime": 1793114824.6147983,
+    "seen": 1793115028.374527,
+    "ast_hash": "017aa4ee57fd803478e24fb3774ac11b",
     "semantic_hash": ""
   },
   "package-lock.json": {

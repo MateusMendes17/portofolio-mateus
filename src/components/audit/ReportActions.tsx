@@ -2,11 +2,12 @@
 
 import { useState, type FormEvent } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import type { AuditResult } from "@/lib/audit/types";
 
 type Status = "idle" | "loading" | "sent" | "error";
 
 /** Relatório em PDF: descarregar de imediato ou receber por email (com consentimento). */
-export function ReportActions({ url }: { url: string }) {
+export function ReportActions({ result }: { result: AuditResult }) {
   const { isEnglish } = useLanguage();
   const locale = isEnglish ? "en" : "pt";
   const [showEmail, setShowEmail] = useState(false);
@@ -20,7 +21,7 @@ export function ReportActions({ url }: { url: string }) {
     return fetch("/api/audit/report", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url, locale, ...payload }),
+      body: JSON.stringify({ result, locale, ...payload }),
     });
   }
 
