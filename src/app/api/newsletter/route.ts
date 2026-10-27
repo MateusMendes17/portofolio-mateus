@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
-import { CONTACT_FROM } from "@/lib/contact-email";
+import { CONTACT_FROM, CONTACT_RECIPIENT } from "@/lib/contact-email";
+import { isAllowedOrigin } from "@/lib/audit/cache";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
+import { unsubscribeOneClickUrl, unsubscribePageUrl } from "@/lib/newsletter-token";
 
 const newsletterSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
@@ -17,6 +20,17 @@ const newsletterSchema = z.object({
  */
 export async function POST(request: NextRequest) {
   try {
+    if (!isAllowedOrigin(request.headers)) {
+      return NextResponse.json({ success: false, message: "Origem não permitida." }, { status: 403 });
+    }
+    const rl = checkRateLimit(`newsletter:${getClientIp(request)}`, 10, 60 * 60 * 1000);
+    if (!rl.allowed) {
+      return NextResponse.json(
+        { success: false, message: `Demasiados pedidos. Tente novamente em ${rl.retryAfterSeconds}s.` },
+        { status: 429, headers: { "Retry-After": String(rl.retryAfterSeconds) } }
+      );
+    }
+
     const body = await request.json();
     const { email, name, locale } = newsletterSchema.parse(body);
 
@@ -63,6 +77,11 @@ export async function POST(request: NextRequest) {
     // 2. Enviar email de boas-vindas com link do lead magnet
     const leadMagnetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://mateusmendes.pt"}/lead-magnet/checklist-conversao.pdf`;
     
+    // Ligação de cancelamento assinada (ver src/lib/newsletter-token.ts); sem segredo, cai para um mailto.
+    const unsubscribeHref =
+      unsubscribePageUrl(email) ?? `mailto:${CONTACT_RECIPIENT}?subject=Cancelar%20newsletter`;
+    const oneClickUrl = unsubscribeOneClickUrl(email);
+
     const emailHtml = locale === "en" ? `
       <!DOCTYPE html>
       <html>
@@ -93,7 +112,7 @@ export async function POST(request: NextRequest) {
           <p style="font-size: 14px; color: #6A5A4B;">
             You'll receive 1-2 emails/month with case studies, technical tips, and occasional availability updates. 
             <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://mateusmendes.pt"}/privacidade" style="color: #9E6747;">Privacy Policy</a> | 
-            <a href="#" style="color: #9E6747;">Unsubscribe</a>
+            <a href="${unsubscribeHref}" style="color: #9E6747;">Unsubscribe</a>
           </p>
           
           <p style="margin-top: 24px;">— Mateus Mendes<br/>Web Developer, Portugal</p>
@@ -129,7 +148,7 @@ export async function POST(request: NextRequest) {
           <p style="font-size: 14px; color: #6A5A4B;">
             Vai receber 1-2 emails/mês com case studies, dicas técnicas e atualizações ocasionais de disponibilidade. 
             <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://mateusmendes.pt"}/privacidade" style="color: #9E6747;">Política de Privacidade</a> | 
-            <a href="#" style="color: #9E6747;">Cancelar subscrição</a>
+            <a href="${unsubscribeHref}" style="color: #9E6747;">Cancelar subscrição</a>
           </p>
           
           <p style="margin-top: 24px;">— Mateus Mendes<br/>Programador Web, Portugal</p>
@@ -161,6 +180,15 @@ export async function POST(request: NextRequest) {
           : "O Seu Checklist Grátis de Conversão de Sites 📥",
         html: emailHtml,
         ...(attachments ? { attachments } : {}),
+        // Cancelamento com um clique no próprio cliente de email (Gmail, Apple Mail).
+        ...(oneClickUrl
+          ? {
+              headers: {
+                "List-Unsubscribe": `<${oneClickUrl}>, <mailto:${CONTACT_RECIPIENT}?subject=Cancelar%20newsletter>`,
+                "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+              },
+            }
+          : {}),
         tags: [
           { name: "category", value: "newsletter_welcome" },
           { name: "locale", value: locale },

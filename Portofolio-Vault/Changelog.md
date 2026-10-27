@@ -4,6 +4,21 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-10-27 — Cancelamento da newsletter e otimização de 3 projetos
+
+**Newsletter**
+- Ligação de cancelamento **assinada** (HMAC, `src/lib/newsletter-token.ts`) no email de boas-vindas, página `/newsletter/cancelar` (noindex, só age ao clicar) e `POST /api/newsletter/unsubscribe`. O pedido tenta marcar o contacto como cancelado na audiência do Resend e **avisa o dono por email** (funciona com chaves só de envio).
+- Cabeçalhos `List-Unsubscribe` / `List-Unsubscribe-Post` (cancelamento com um clique no Gmail/Apple Mail).
+- A rota `/api/newsletter` passou a validar `Origin` e a limitar pedidos (10/hora por IP).
+- Testes: `src/lib/newsletter-token.test.ts` (51 testes no total).
+- Nota: o site **não guarda lista de subscritores** (só se `RESEND_AUDIENCE_ID` estiver definido e a chave o permitir); para campanhas futuras usar Resend Broadcasts.
+
+**Projetos lentos** (repos separados, ramo `perf/carregamento` em cada um, por fazer merge)
+- Forja: fontes saíram do `@import` do CSS e a imagem principal ficou responsiva (410 KB → 35 KB). Local: 67 → 92.
+- Dentilusa: fundo da hero self-hosted em WebP (800/1400 px) + fontes sem bloquear. Local: 84 → 98.
+- Torra Lusa: reserva do espaço do cabeçalho injetado por JS (CLS ~0,17 → ~0,05) + fontes sem bloquear.
+- Depois do merge e deploy: `npx tsx --env-file=.env.local scripts/measure-sites.ts forja dentilusa torra-lusa` para atualizar `site-metrics.ts`.
+
 ## 2026-10-27 — README e screenshots novos
 
 - `README.md` reescrito: descreve o Avaliador (PDF, comparação, simulador), a marcação de chamadas (Cal.com), a newsletter, as medições reais dos projetos, variáveis de ambiente, endpoints e estrutura atuais. Removidos o badge e a tabela de Lighthouse antigos (não eram verificáveis).

@@ -8,7 +8,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
-[![Testes](https://img.shields.io/badge/testes-47%20a%20passar-4A8C1A)](#scripts)
+[![Testes](https://img.shields.io/badge/testes-51%20a%20passar-4A8C1A)](#scripts)
 
 ![Página inicial](docs/desktop-home.jpg)
 
@@ -133,6 +133,7 @@ As variáveis `NEXT_PUBLIC_*` são lidas no arranque e na build, por isso reinic
 | `NEXT_PUBLIC_CAL_URL_30` | Opcional: evento de 30 min (mostra o seletor 15/30 min). |
 | `NEXT_PUBLIC_SITE_URL` | URL base do site (sitemap, metadados, links nos emails). |
 | `NEWSLETTER_FROM_EMAIL` | Opcional: remetente da newsletter, num domínio verificado. |
+| `NEWSLETTER_SECRET` | Opcional: segredo que assina as ligações de cancelamento (por omissão usa a `RESEND_API_KEY`). |
 | `RESEND_AUDIENCE_ID` | Opcional: audiência do Resend onde guardar os subscritores. |
 | `AUDIT_DAILY_LIMIT` | Opcional: limite diário de análises do Avaliador (por omissão 100). |
 
@@ -182,7 +183,8 @@ docs/                         # Metodologia do Avaliador e auditorias
 | `GET /api/booking/slots` | Horários livres dos próximos 21 dias |
 | `POST /api/booking` | Cria uma marcação no Cal.com |
 | `POST /api/contact` | Envia um pedido de contacto |
-| `POST /api/newsletter` | Subscreve e envia o checklist |
+| `POST /api/newsletter` | Subscreve e envia o checklist (com ligação de cancelamento assinada) |
+| `POST /api/newsletter/unsubscribe` | Cancela a subscrição (ligação assinada ou cabeçalho `List-Unsubscribe` de um clique) |
 
 Todas as rotas que escrevem validam o `Origin`, usam limites de pedidos por IP e **não registam dados pessoais nos logs**.
 

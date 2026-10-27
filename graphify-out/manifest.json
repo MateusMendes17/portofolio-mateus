@@ -60,9 +60,9 @@
     "semantic_hash": ""
   },
   "src/app/api/newsletter/route.ts": {
-    "mtime": 1793098211.2908063,
-    "seen": 1793098224.314144,
-    "ast_hash": "97945f61b17555468a0083a0998dac81",
+    "mtime": 1793102932.1237087,
+    "seen": 1793103527.2456198,
+    "ast_hash": "2b8f9ad39924a67939088855dcdf5086",
     "semantic_hash": ""
   },
   "src/app/avaliador/page.tsx": {
@@ -708,15 +708,15 @@
     "semantic_hash": ""
   },
   "Portofolio-Vault/Changelog.md": {
-    "mtime": 1793102467.0869975,
-    "seen": 1793102487.8529193,
-    "ast_hash": "93a2cbf5ca32f86c5345042da7255151",
+    "mtime": 1793103505.2041562,
+    "seen": 1793103527.2460017,
+    "ast_hash": "2b8dde2140aa82714577f4a2cfed2a82",
     "semantic_hash": ""
   },
   "Portofolio-Vault/Pendentes.md": {
-    "mtime": 1793100747.3856764,
-    "seen": 1793100763.8072522,
-    "ast_hash": "5e6fdf8aeab4093ee052eeaf8566dad5",
+    "mtime": 1793103505.2041562,
+    "seen": 1793103527.2460043,
+    "ast_hash": "a8e66126f3ad62306aa036ece406d381",
     "semantic_hash": ""
   },
   "Portofolio-Vault/docs/auditoria-fase-0-1.md": {
@@ -732,9 +732,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1793102455.4555256,
-    "seen": 1793102487.8529222,
-    "ast_hash": "c41d4aeb272cd843da261a0befeafeb1",
+    "mtime": 1793103505.2021604,
+    "seen": 1793103527.246007,
+    "ast_hash": "bf341963454132c80a897911af11d5f7",
     "semantic_hash": ""
   },
   "docs/auditoria-fase-0-1.md": {
@@ -1065,6 +1065,36 @@
     "mtime": 1793102411.3645525,
     "seen": 1793102487.8529294,
     "ast_hash": "989a708f2a6a58ad75851fb2fbe25f78",
+    "semantic_hash": ""
+  },
+  "src/app/api/newsletter/unsubscribe/route.ts": {
+    "mtime": 1793102910.356362,
+    "seen": 1793103527.245624,
+    "ast_hash": "60dc861bf0aff80fef7241ea16f4cb68",
+    "semantic_hash": ""
+  },
+  "src/app/newsletter/cancelar/page.tsx": {
+    "mtime": 1793102913.6287649,
+    "seen": 1793103527.2456384,
+    "ast_hash": "8545b901bba5709e624f3bd90e13815a",
+    "semantic_hash": ""
+  },
+  "src/components/ui/NewsletterUnsubscribe.tsx": {
+    "mtime": 1793102912.7685902,
+    "seen": 1793103527.2457962,
+    "ast_hash": "0a9af5db1fde9f338946bffdd9708db7",
+    "semantic_hash": ""
+  },
+  "src/lib/newsletter-token.test.ts": {
+    "mtime": 1793102952.6330013,
+    "seen": 1793103527.2459602,
+    "ast_hash": "88c0646d147d082dcc1d017908d40e0f",
+    "semantic_hash": ""
+  },
+  "src/lib/newsletter-token.ts": {
+    "mtime": 1793102909.4008815,
+    "seen": 1793103527.245963,
+    "ast_hash": "139a2b3b9919718540aac874fb7e09e0",
     "semantic_hash": ""
   },
   "package-lock.json": {
