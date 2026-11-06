@@ -13,7 +13,7 @@ import { CAL_URL, SITE_CONFIG, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
 import { SITE_METRICS } from "@/content/site-metrics";
 import { MeasuredMetrics } from "@/components/audit/MeasuredMetrics";
 import { cn } from "@/lib/utils";
-import { KineticName } from "@/components/home/KineticName";
+import { HeroName } from "@/components/home/HeroName";
 import "@/components/home/home.css";
 
 /** Categorias e pesos reais do Avaliador (ver docs/avaliador-metodologia.md). */
@@ -296,14 +296,10 @@ export function HomeView() {
           </motion.div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, ease: EASE, delay: 0.2 }}
-          className="pb-[2vw]"
-        >
-          <KineticName />
-        </motion.div>
+        {/* A entrada das letras é feita em CSS dentro do HeroName. */}
+        <div className="pb-[2vw]">
+          <HeroName />
+        </div>
       </section>
 
       {/* ============ FAIXAS ============ */}

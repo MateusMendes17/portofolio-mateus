@@ -1,7 +1,7 @@
 /* ============================================================
    HOME — direção "Nome cinético"
    Estilos que o Tailwind não cobre: fundo topográfico por tema,
-   letras variáveis, faixas em movimento, hovers e o marcador.
+   nome com lente raio-X, faixas em movimento, hovers e o marcador.
    Usa apenas os tokens de globals.css, por isso claro/escuro
    funcionam com a classe .dark do next-themes.
    ============================================================ */
@@ -19,81 +19,150 @@
   to { transform: scale(1) translate(1%, -1%); }
 }
 
-/* ---------- Nome cinético ---------- */
-.home-name-row {
+/* ---------- Nome com lente "raio-X" ----------
+   Camada de base: o nome sólido, com entrada das letras de baixo.
+   Lente: o mesmo texto em contorno sobre grelha técnica, recortado
+   por um círculo (clip-path) que o JS move. Nada no texto é animado
+   depois da entrada, por isso o movimento fica fluido. */
+.hero-name {
+  position: relative;
+  font-family: var(--font-kinetic), var(--font-heading), sans-serif;
+  font-weight: 800;
+  /* Cabe na largura e na altura do primeiro ecrã. */
+  font-size: min(18.5vw, 30svh);
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  user-select: none;
+  cursor: crosshair;
+  --hn-pad: 0.18em;
+  --hn-bg: var(--code-bg);
+  --hn-stroke: var(--accent);
+  --hn-guide: rgb(215 255 63 / 0.4);
+  --hn-grid: rgb(241 239 230 / 0.07);
+  --hn-label: var(--code-muted);
+  --hn-ring: var(--ink);
+}
+.dark .hero-name {
+  --hn-bg: var(--accent);
+  --hn-stroke: var(--accent-ink);
+  --hn-guide: rgb(11 11 12 / 0.4);
+  --hn-grid: rgb(11 11 12 / 0.08);
+  --hn-label: #3a3a36;
+  --hn-ring: var(--accent);
+}
+.hero-name-row {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  font-family: var(--font-kinetic), var(--font-heading), sans-serif;
-  /* Cabe na largura e na altura do primeiro ecrã. */
-  font-size: min(19.5vw, 30svh);
-  line-height: 0.8;
-  letter-spacing: -0.04em;
-  user-select: none;
 }
-/* Cada letra é uma célula de tamanho fixo: a cópia invisível (peso e
-   largura máximos) reserva o espaço e o glifo visível muda por cima.
-   Assim a onda só repinta a letra, sem recalcular a linha inteira,
-   e a letra debaixo do rato não "foge" do cursor.
 
-   A onda e o hover são misturados por --kn-mix (0 = onda, 1 = hover):
-   a onda nunca é interrompida e a mistura tem transição, por isso as
-   letras não saltam ao entrar ou sair com o rato. */
-@property --kn-w { syntax: "<number>"; inherits: false; initial-value: 800; }
-@property --kn-d { syntax: "<number>"; inherits: false; initial-value: 100; }
-@property --kn-hw { syntax: "<number>"; inherits: false; initial-value: 800; }
-@property --kn-hd { syntax: "<number>"; inherits: false; initial-value: 100; }
-@property --kn-mix { syntax: "<number>"; inherits: false; initial-value: 0; }
-.home-letter {
-  display: grid;
-  contain: layout style;
-  transition: transform 0.6s var(--ease-out);
+/* Entrada: cada letra sobe por baixo de uma linha de corte. */
+.hero-name-base .hero-name-row { clip-path: inset(-30% -10% 0 -10%); }
+.hero-name-letter {
+  display: inline-block;
+  animation: hn-rise 1.1s cubic-bezier(0.2, 0.9, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 60ms + 200ms);
 }
-.home-letter > span { grid-area: 1 / 1; }
-.home-letter-ghost {
-  visibility: hidden;
-  font-variation-settings: "wght" 800, "wdth" 100, "opsz" 96;
-}
-.home-letter-glyph {
-  justify-self: center;
-  --kn-mix: 1;
-  font-variation-settings:
-    "wght" calc(var(--kn-w) * (1 - var(--kn-mix)) + var(--kn-hw) * var(--kn-mix)),
-    "wdth" calc(var(--kn-d) * (1 - var(--kn-mix)) + var(--kn-hd) * var(--kn-mix)),
-    "opsz" 96;
-  animation: home-wave 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
-  transition:
-    --kn-mix 0.8s var(--ease-out),
-    --kn-hw 0.6s var(--ease-out),
-    --kn-hd 0.6s var(--ease-out);
-}
-.home-letter[data-state="wave"] .home-letter-glyph { --kn-mix: 0; }
-.home-letter[data-state="h0"] { transform: translateY(-3%); }
-.home-letter[data-state="h0"] .home-letter-glyph { --kn-hw: 200; --kn-hd: 75; }
-.home-letter[data-state="h1"] .home-letter-glyph { --kn-hw: 420; --kn-hd: 82; }
-.home-letter[data-state="h2"] .home-letter-glyph { --kn-hw: 640; --kn-hd: 92; }
-@keyframes home-wave {
-  0%, 100% { --kn-w: 800; --kn-d: 100; }
-  50% { --kn-w: 250; --kn-d: 75; }
+@keyframes hn-rise {
+  from { transform: translateY(112%) rotate(7deg); }
 }
 
 /* Faixa chartreuse por trás da segunda linha. O texto usa sempre
    --accent-ink (o chartreuse nunca leva texto claro). */
-.home-mark {
+.hero-name-band {
   position: relative;
   z-index: 0;
   color: var(--accent-ink);
 }
-.home-mark::before {
+.hero-name-band::before {
   content: "";
   position: absolute;
   inset: 14% calc(var(--gutter) * -1) -6%;
   background: var(--accent);
   z-index: -1;
   transform-origin: left;
-  animation: home-swipe 1.3s var(--ease-out) both 0.5s;
+  animation: home-swipe 1.3s var(--ease-out) both 0.7s;
 }
 @keyframes home-swipe { from { transform: scaleX(0); } }
+
+/* Palco: um pouco maior do que o texto, alinhado com ele pelo padding. */
+.hero-name-stage {
+  position: absolute;
+  inset: calc(var(--hn-pad) * -1) calc(var(--gutter) * -1);
+  pointer-events: none;
+}
+.hero-name-lens {
+  position: absolute;
+  inset: 0;
+  padding: var(--hn-pad) var(--gutter);
+  color: transparent;
+  background-color: var(--hn-bg);
+  background-image:
+    linear-gradient(var(--hn-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hn-grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  clip-path: circle(var(--r, 0px) at var(--x, 50%) var(--y, 50%));
+}
+.hero-name-lens-inner .hero-name-row > span {
+  -webkit-text-stroke: 2px var(--hn-stroke);
+  outline: 1px dashed var(--hn-guide);
+  outline-offset: -1px;
+}
+/* Linhas-guia: altura das maiúsculas e linha de base. */
+.hero-name-row--guides { position: relative; }
+.hero-name-row--guides::before,
+.hero-name-row--guides::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--gutter) * -1);
+  right: calc(var(--gutter) * -1);
+  border-top: 1px solid var(--hn-guide);
+}
+.hero-name-row--guides::before { top: 6%; }
+.hero-name-row--guides::after { bottom: 6%; }
+.hero-name-spec {
+  position: absolute;
+  font-family: var(--font-mono, ui-monospace), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--hn-label);
+  white-space: nowrap;
+}
+.hero-name-spec--tl { top: 12px; left: var(--gutter); }
+.hero-name-spec--tr { top: 12px; right: var(--gutter); }
+.hero-name-spec--bl { bottom: 12px; left: var(--gutter); }
+.hero-name-spec--br { bottom: 12px; right: var(--gutter); }
+
+/* Anel que contorna a lente (só transform e opacity). */
+.hero-name-ring {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1.5px solid var(--hn-ring);
+  border-radius: 50%;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+  will-change: transform;
+}
+.hero-name-ring-label {
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  transform: translate(-50%, -50%);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 1.5px solid var(--accent-ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
 
 /* Marcador em texto corrido */
 .home-hl {
@@ -243,14 +312,12 @@
 /* ---------- Movimento reduzido ---------- */
 @media (prefers-reduced-motion: reduce) {
   .home-hero-bg,
-  .home-letter-glyph,
-  .home-mark::before,
+  .hero-name-letter,
+  .hero-name-band::before,
   .home-dot::after,
   .home-badge-ring,
   .home-band,
   .home-scan { animation: none !important; }
-  .home-letter,
-  .home-letter-glyph,
   .home-prow-name,
   .home-prow-preview,
   .home-svc,
@@ -286,3 +353,6 @@
   .nav-cta:hover,
   .nav-cta:hover .nav-cta-arrow { transform: none; }
 }
+
+.hero-name-base,
+.hero-name-lens-inner { display: block; }

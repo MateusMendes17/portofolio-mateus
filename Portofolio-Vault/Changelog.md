@@ -4,6 +4,13 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-06 — Nome do topo: lente "raio-X" (substitui o nome cinético)
+
+- `KineticName.tsx` removido; novo `src/components/home/HeroName.tsx`. O nome fica sólido (Bricolage Grotesque 800, sem eixos animados) e por cima passa uma lente circular que mostra o "esqueleto" das letras: contornos chartreuse, grelha técnica, linhas-guia (altura das maiúsculas e base), caixas dos glifos e as medidas tipográficas reais. Ideia: design por fora, rigor técnico por dentro.
+- Entrada: as letras sobem por baixo de uma linha de corte, em cascata; a faixa chartreuse de "MENDES" entra a seguir. Depois de ~1,7 s a lente aparece e passeia sozinha (também em telemóvel); com rato segue o cursor com atraso suave, desaparece ao sair e volta a passear 2,6 s depois.
+- Desempenho: só se animam o `clip-path` da lente e o `transform` do anel; o loop pára quando o topo sai do ecrã ou o separador fica escondido. Respeita `prefers-reduced-motion` (sem passeio nem entrada).
+- Tema escuro: lente chartreuse com contornos escuros.
+
 ## 2026-11-06 — Nome cinético mais suave
 
 - A onda do "MATEUS MENDES" estava travada: animar os eixos da fonte mudava a largura das letras e obrigava a recalcular a linha inteira a cada fotograma (e a letra debaixo do rato fugia do cursor).

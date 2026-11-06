@@ -426,9 +426,9 @@
     "semantic_hash": ""
   },
   "src/components/views/HomeView.tsx": {
-    "mtime": 1793988213.9974403,
-    "seen": 1793988342.276247,
-    "ast_hash": "09be842ea3666f2d91532883fe4e2b78",
+    "mtime": 1793989913.517352,
+    "seen": 1793989949.860184,
+    "ast_hash": "65cdc8a6e0def790200fbdb14ea95dfd",
     "semantic_hash": ""
   },
   "src/components/views/PrivacidadeView.tsx": {
@@ -708,9 +708,9 @@
     "semantic_hash": ""
   },
   "Portofolio-Vault/Changelog.md": {
-    "mtime": 1793988321.030169,
-    "seen": 1793988342.2766802,
-    "ast_hash": "30c70a4cb781c0d10536ae31ba34c2a6",
+    "mtime": 1793989937.293043,
+    "seen": 1793989949.8605435,
+    "ast_hash": "6d9ddf4c37eda88d89860e318df602b3",
     "semantic_hash": ""
   },
   "Portofolio-Vault/Pendentes.md": {
@@ -1115,12 +1115,6 @@
     "ast_hash": "0b92cd49d5feda28dc4c4364c751a896",
     "semantic_hash": ""
   },
-  "src/components/home/KineticName.tsx": {
-    "mtime": 1793988870.9573727,
-    "seen": 1793988904.488641,
-    "ast_hash": "c57adfccb24856ebc92a7bfd009b3fba",
-    "semantic_hash": ""
-  },
   "src/components/ui/FaqAccordion.tsx": {
     "mtime": 1793984818.8904727,
     "seen": 1793985199.3379385,
@@ -1137,6 +1131,12 @@
     "mtime": 1793984380.3354526,
     "seen": 1793985199.338066,
     "ast_hash": "6e6c5cdcc7b1e8c1e6437308a77f3ad5",
+    "semantic_hash": ""
+  },
+  "src/components/home/HeroName.tsx": {
+    "mtime": 1793989862.8872006,
+    "seen": 1793989949.859919,
+    "ast_hash": "2636984d13ace8ec41c59a32f5c0a4e7",
     "semantic_hash": ""
   },
   "package-lock.json": {
