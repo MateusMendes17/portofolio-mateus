@@ -1116,9 +1116,9 @@
     "semantic_hash": ""
   },
   "src/components/home/KineticName.tsx": {
-    "mtime": 1793984380.2760463,
-    "seen": 1793985199.3379061,
-    "ast_hash": "dccac8a269d67e921f55a644b74310e7",
+    "mtime": 1793988870.9573727,
+    "seen": 1793988904.488641,
+    "ast_hash": "c57adfccb24856ebc92a7bfd009b3fba",
     "semantic_hash": ""
   },
   "src/components/ui/FaqAccordion.tsx": {

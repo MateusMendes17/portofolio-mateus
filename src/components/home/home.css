@@ -31,8 +31,13 @@
   letter-spacing: -0.04em;
   user-select: none;
 }
-/* A onda e o hover são misturados por --kn-mix (0 = onda, 1 = hover).
-   A onda nunca é interrompida e a mistura tem transição, por isso as
+/* Cada letra é uma célula de tamanho fixo: a cópia invisível (peso e
+   largura máximos) reserva o espaço e o glifo visível muda por cima.
+   Assim a onda só repinta a letra, sem recalcular a linha inteira,
+   e a letra debaixo do rato não "foge" do cursor.
+
+   A onda e o hover são misturados por --kn-mix (0 = onda, 1 = hover):
+   a onda nunca é interrompida e a mistura tem transição, por isso as
    letras não saltam ao entrar ou sair com o rato. */
 @property --kn-w { syntax: "<number>"; inherits: false; initial-value: 800; }
 @property --kn-d { syntax: "<number>"; inherits: false; initial-value: 100; }
@@ -40,27 +45,36 @@
 @property --kn-hd { syntax: "<number>"; inherits: false; initial-value: 100; }
 @property --kn-mix { syntax: "<number>"; inherits: false; initial-value: 0; }
 .home-letter {
-  display: block;
+  display: grid;
+  contain: layout style;
+  transition: transform 0.6s var(--ease-out);
+}
+.home-letter > span { grid-area: 1 / 1; }
+.home-letter-ghost {
+  visibility: hidden;
+  font-variation-settings: "wght" 800, "wdth" 100, "opsz" 96;
+}
+.home-letter-glyph {
+  justify-self: center;
   --kn-mix: 1;
   font-variation-settings:
     "wght" calc(var(--kn-w) * (1 - var(--kn-mix)) + var(--kn-hw) * var(--kn-mix)),
     "wdth" calc(var(--kn-d) * (1 - var(--kn-mix)) + var(--kn-hd) * var(--kn-mix)),
     "opsz" 96;
-  animation: home-wave 4.2s ease-in-out infinite;
+  animation: home-wave 4.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
   transition:
-    --kn-mix 0.7s var(--ease-out),
-    --kn-hw 0.55s var(--ease-out),
-    --kn-hd 0.55s var(--ease-out),
-    transform 0.55s var(--ease-out);
-  will-change: font-variation-settings;
+    --kn-mix 0.8s var(--ease-out),
+    --kn-hw 0.6s var(--ease-out),
+    --kn-hd 0.6s var(--ease-out);
 }
-.home-letter[data-state="wave"] { --kn-mix: 0; }
-.home-letter[data-state="h0"] { --kn-hw: 200; --kn-hd: 75; transform: translateY(-3%); }
-.home-letter[data-state="h1"] { --kn-hw: 420; --kn-hd: 82; }
-.home-letter[data-state="h2"] { --kn-hw: 640; --kn-hd: 92; }
+.home-letter[data-state="wave"] .home-letter-glyph { --kn-mix: 0; }
+.home-letter[data-state="h0"] { transform: translateY(-3%); }
+.home-letter[data-state="h0"] .home-letter-glyph { --kn-hw: 200; --kn-hd: 75; }
+.home-letter[data-state="h1"] .home-letter-glyph { --kn-hw: 420; --kn-hd: 82; }
+.home-letter[data-state="h2"] .home-letter-glyph { --kn-hw: 640; --kn-hd: 92; }
 @keyframes home-wave {
   0%, 100% { --kn-w: 800; --kn-d: 100; }
-  45% { --kn-w: 250; --kn-d: 75; }
+  50% { --kn-w: 250; --kn-d: 75; }
 }
 
 /* Faixa chartreuse por trás da segunda linha. O texto usa sempre
@@ -229,13 +243,14 @@
 /* ---------- Movimento reduzido ---------- */
 @media (prefers-reduced-motion: reduce) {
   .home-hero-bg,
-  .home-letter,
+  .home-letter-glyph,
   .home-mark::before,
   .home-dot::after,
   .home-badge-ring,
   .home-band,
   .home-scan { animation: none !important; }
   .home-letter,
+  .home-letter-glyph,
   .home-prow-name,
   .home-prow-preview,
   .home-svc,

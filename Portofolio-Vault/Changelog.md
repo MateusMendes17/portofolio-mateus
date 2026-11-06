@@ -4,6 +4,11 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-06 — Nome cinético mais suave
+
+- A onda do "MATEUS MENDES" estava travada: animar os eixos da fonte mudava a largura das letras e obrigava a recalcular a linha inteira a cada fotograma (e a letra debaixo do rato fugia do cursor).
+- Cada letra é agora uma célula de tamanho fixo (`KineticName.tsx`): uma cópia invisível no peso/largura máximos reserva o espaço e o glifo visível muda por cima, com `contain: layout style`. Onda um pouco mais lenta (4,8 s) e com easing simétrico.
+
 ## 2026-11-06 — Navbar no tema novo e correção de animações
 
 **Navbar** (`Header.tsx`, `MobileNav.tsx`, `Logo.tsx`, `ThemeToggle.tsx`, `LanguageToggle.tsx`, `CommandPalette.tsx`)

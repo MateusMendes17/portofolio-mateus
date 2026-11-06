@@ -57,12 +57,16 @@ export function KineticName({ className }: { className?: string }) {
                   key={index}
                   className="home-letter"
                   data-state={stateFor(index)}
-                  style={{ animationDelay: `${(index * 0.12).toFixed(2)}s` }}
                   onPointerEnter={(event) => {
                     if (event.pointerType === "mouse") setHover(index);
                   }}
                 >
-                  {char}
+                  {/* Cópia invisível no peso/largura máximos: reserva o espaço da
+                      letra, para a linha não se recalcular a cada fotograma. */}
+                  <span className="home-letter-ghost">{char}</span>
+                  <span className="home-letter-glyph" style={{ animationDelay: `${(index * 0.12).toFixed(2)}s` }}>
+                    {char}
+                  </span>
                 </span>
               );
             })}
