@@ -2,20 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { PROJECTS } from "@/content/projects";
 import { useLanguage } from "@/context/LanguageContext";
 import { projectCategoryLabel } from "@/lib/projectCategory";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { CAL_URL, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
+import { CAL_URL, SITE_CONFIG, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
 import { SITE_METRICS } from "@/content/site-metrics";
 import { MeasuredMetrics } from "@/components/audit/MeasuredMetrics";
-import { ButtonLink } from "@/components/ui/Button";
-import { CtaPanel } from "@/components/ui/CtaPanel";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { cn } from "@/lib/utils";
+import { KineticName } from "@/components/home/KineticName";
+import "@/components/home/home.css";
 
 /** Categorias e pesos reais do Avaliador (ver docs/avaliador-metodologia.md). */
 const AUDIT_CATEGORIES = [
@@ -30,11 +29,187 @@ const AUDIT_CATEGORIES = [
 
 const SERVICE_ANCHORS = ["websites", "lojas-online", "web-apps"] as const;
 
+const STACK = ["Next.js", "TypeScript", "Tailwind CSS", "Stripe", "Framer Motion", "Node.js"];
+
+/** Copy nova desta home. O resto vem de src/content/strings. */
+const COPY = {
+  pt: {
+    available: "Disponível para novos projetos",
+    lisbon: "Lisboa",
+    reply: "Resposta em 24h",
+    leadA: "Programador web freelance. Crio websites, lojas online e apps ",
+    leadB: "que fazem o seu negócio crescer.",
+    badge: "PEDIR ORÇAMENTO • RESPOSTA EM 24H • ",
+    badgeLabel: "Pedir orçamento",
+    bandServices: ["Websites", "Lojas online", "Apps web", "MB WAY", "Multibanco", "SEO"],
+    projectsTitle: "Projetos",
+    projectsNote: "Projetos-conceito com marcas fictícias e código real, aberto no GitHub.",
+    projectsAll: "Ver todos os projetos",
+    servicesTitleA: "O que ",
+    servicesTitleB: "faço",
+    servicesMore: "Saber mais",
+    whyTitleA: "Sem agência.",
+    whyTitleB: "Sem surpresas.",
+    why: [
+      ["Contacto direto", "Fala com quem escreve o código"],
+      ["Propriedade total", "Domínio, código e dados são seus"],
+      ["Faturação legal", "Tudo faturado e transparente"],
+    ],
+    auditEyebrow: "Ferramenta gratuita",
+    auditTitle: "O seu site está a perder clientes?",
+    auditLabel: "Endereço do site",
+    auditPlaceholder: "www.o-seu-site.pt",
+    auditButton: "Avaliar",
+    auditWeight: "peso",
+    processTitle: "Processo",
+    faqTitle: "FAQ",
+    contactEyebrow: "Respondo em menos de 24 horas",
+    contactA: "Vamos",
+    contactB: "falar? ↗",
+    contactForm: "Formulário de contacto",
+    bookCall: "Marcar chamada",
+    auditCompare: "Comparar com um concorrente",
+    auditNote: "Apenas a página inicial · relatórios não são guardados · relatório em PDF disponível",
+    proofTitleA: "Não confie na minha palavra. ",
+    proofTitleB: "Confirme.",
+    proofNote:
+      "Estou a começar, por isso ainda não tenho avaliações de clientes para mostrar. Mostro o que pode confirmar: código que pode ler, números que pode medir e uma ferramenta que pode testar.",
+    proof: [
+      ["Código aberto", "A maioria dos projetos publicados tem o repositório no GitHub. Pode ler como foram construídos.", "Ver GitHub"],
+      ["Números medidos", "Cada página de projeto mostra resultados do Lighthouse e do Avaliador, com a data da medição.", "Ver projetos"],
+      ["Uma ferramenta para me testar", "Corra o Avaliador neste mesmo site, ou no do seu concorrente, e julgue o trabalho pelo resultado.", "Avaliar este site"],
+    ],
+    measuredTitle: "Este site, medido",
+  },
+  en: {
+    available: "Available for new projects",
+    lisbon: "Lisbon",
+    reply: "Reply within 24h",
+    leadA: "Freelance web developer. I build websites, online stores and apps ",
+    leadB: "that grow your business.",
+    badge: "GET A QUOTE • REPLY WITHIN 24H • ",
+    badgeLabel: "Get a quote",
+    bandServices: ["Websites", "Online stores", "Web apps", "MB WAY", "Multibanco", "SEO"],
+    projectsTitle: "Projects",
+    projectsNote: "Concept projects with fictional brands and real code, open on GitHub.",
+    projectsAll: "See all projects",
+    servicesTitleA: "What I ",
+    servicesTitleB: "do",
+    servicesMore: "Learn more",
+    whyTitleA: "No agency.",
+    whyTitleB: "No surprises.",
+    why: [
+      ["Direct contact", "Talk to the person writing the code"],
+      ["Full ownership", "Domain, code and data are yours"],
+      ["Proper invoicing", "Everything invoiced and transparent"],
+    ],
+    auditEyebrow: "Free tool",
+    auditTitle: "Is your website losing customers?",
+    auditLabel: "Website address",
+    auditPlaceholder: "www.your-site.com",
+    auditButton: "Audit",
+    auditWeight: "weight",
+    processTitle: "Process",
+    faqTitle: "FAQ",
+    contactEyebrow: "I reply in under 24 hours",
+    contactA: "Let's",
+    contactB: "talk? ↗",
+    contactForm: "Contact form",
+    bookCall: "Book a call",
+    auditCompare: "Compare with a competitor",
+    auditNote: "Home page only · reports are not stored · PDF report available",
+    proofTitleA: "Don't take my word for it. ",
+    proofTitleB: "Check it.",
+    proofNote:
+      "I am starting out, so I have no client reviews to show yet. What I can show is code you can read, numbers you can measure and a tool you can test.",
+    proof: [
+      ["Open code", "Most published projects have their repository on GitHub. You can read how they are built.", "See GitHub"],
+      ["Measured numbers", "Each project page shows Lighthouse and Evaluator results, with the measurement date.", "See projects"],
+      ["A tool to test me", "Run the Evaluator on this very site, or on your competitor's, and judge the work by the result.", "Evaluate this site"],
+    ],
+    measuredTitle: "This site, measured",
+  },
+} as const;
+
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/** Entrada ao fazer scroll. Respeita o reducedMotion do MotionConfig. */
+function Reveal({ children, className, delay = 0 }: { children: ReactNode; className?: string; delay?: number }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.9, ease: EASE, delay }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function useLisbonTime(locale: string) {
+  const [time, setTime] = useState("");
+  useEffect(() => {
+    const update = () =>
+      setTime(
+        new Date().toLocaleTimeString(locale, {
+          timeZone: "Europe/Lisbon",
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+      );
+    update();
+    const id = window.setInterval(update, 15_000);
+    return () => window.clearInterval(id);
+  }, [locale]);
+  return time;
+}
+
+function Band({ items, reverse, className }: { items: readonly string[]; reverse?: boolean; className: string }) {
+  const sequence = (hidden: boolean) => (
+    <span aria-hidden={hidden || undefined} className="flex gap-10 pr-10">
+      {items.map((item) => (
+        <span key={item} className="flex gap-10">
+          <span>{item}</span>
+          <span aria-hidden="true">✳</span>
+        </span>
+      ))}
+    </span>
+  );
+  return (
+    <div className={cn("absolute -inset-x-[5%] overflow-hidden py-5", className)}>
+      <div
+        className="home-band font-heading text-[clamp(2rem,3.4vw,2.75rem)] font-semibold whitespace-nowrap"
+        data-reverse={reverse || undefined}
+      >
+        {sequence(false)}
+        {sequence(true)}
+      </div>
+    </div>
+  );
+}
+
 export function HomeView() {
   const { isEnglish, t } = useLanguage();
+  const c = isEnglish ? COPY.en : COPY.pt;
   const pathname = usePathname();
   const router = useRouter();
+  const time = useLisbonTime(isEnglish ? "en-GB" : "pt-PT");
   const [auditUrl, setAuditUrl] = useState("");
+  const [openFaq, setOpenFaq] = useState<number>(0);
+
+  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
+  const services = SERVICE_ANCHORS.map((anchor, index) => ({
+    ...t.home.servicesPreview.items[index],
+    anchor,
+  }));
+  const whatsappUrl = getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "home");
+  const proofLinks = [
+    { href: SOCIAL_LINKS.github, external: true },
+    { href: "/projetos", external: false },
+    { href: `/avaliador?url=${encodeURIComponent(SITE_URL)}`, external: false },
+  ];
 
   function handleAudit(event: FormEvent) {
     event.preventDefault();
@@ -42,567 +217,457 @@ export function HomeView() {
     router.push(value ? `/avaliador?url=${encodeURIComponent(value)}` : "/avaliador");
   }
 
-
-  const featuredProjects = PROJECTS.filter((project) => project.featured).slice(0, 3);
-
-  const metrics = [
-    t.home.metrics.speed,
-    t.home.metrics.code,
-    t.home.metrics.direct,
-    t.home.metrics.seo,
+  // Cartões de serviço: superfície, chartreuse e invertido (bg-ink inverte sozinho no tema escuro).
+  const serviceStyles = [
+    { card: "bg-surface text-ink border border-line", stroke: "var(--ink)", text: "text-muted" },
+    { card: "bg-highlight text-accent-ink", stroke: "var(--accent-ink)", text: "text-accent-ink/75" },
+    { card: "bg-ink text-bg", stroke: "var(--bg)", text: "text-bg/70" },
   ];
 
-  const services = SERVICE_ANCHORS.map((anchor, index) => {
-    const item = t.home.servicesPreview.items[index];
-    return { ...item, anchor };
-  });
-
-  const keywords = Array.from(new Set(services.flatMap((service) => service.tags)));
-
-  const whatsappUrl = getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "home");
-
   return (
-    <div className="pb-20 lg:pb-24">
-      {/* 01 — Intro compacta + projetos logo no primeiro ecrã. */}
-      <section className="border-b border-line">
-        <div className="container-page pb-14 pt-12 lg:pb-20 lg:pt-16">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-16">
-            <div>
-              <p className="rise flex items-center gap-2.5 font-body text-label uppercase tracking-[0.12em] text-muted">
-                <span className="relative flex h-2 w-2" aria-hidden="true">
-                  <span className="absolute inline-flex h-full w-full animate-ping bg-highlight opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 bg-highlight ring-1 ring-ink/30" />
-                </span>
-                {t.home.hero.availability}
-              </p>
-              <h1 style={{ "--d": "90ms" } as React.CSSProperties} className="rise mt-4 max-w-[32ch] font-heading text-h3 font-semibold text-ink">
-                {t.home.hero.titleBefore}{" "}
-                <span className="text-muted">{t.home.hero.titleAccent}</span>
-              </h1>
-              <p style={{ "--d": "180ms" } as React.CSSProperties} className="rise mt-3 max-w-[58ch] font-body text-body text-ink-2">
-                {t.home.hero.subtitle}
-              </p>
+    <div className="overflow-x-clip bg-bg text-ink">
+      {/* ============ HERO ============ */}
+      <section
+        id="topo"
+        className="relative isolate flex min-h-[calc(100svh-var(--header-h))] flex-col overflow-hidden px-[var(--gutter)]"
+      >
+        <div aria-hidden="true" className="home-hero-bg pointer-events-none absolute inset-0 -z-10" />
 
-              <form
-                onSubmit={handleAudit}
-                style={{ "--d": "230ms" } as React.CSSProperties}
-                className="rise mt-6 max-w-[34rem]"
-              >
-                <label
-                  htmlFor="home-audit-url"
-                  className="font-body text-micro uppercase tracking-[0.12em] text-muted"
-                >
-                  {t.home.hero.audit.label}
-                </label>
-                <div className="mt-2 flex border border-line-strong bg-surface focus-within:border-ink">
-                  <input
-                    id="home-audit-url"
-                    type="text"
-                    inputMode="url"
-                    autoComplete="url"
-                    value={auditUrl}
-                    onChange={(event) => setAuditUrl(event.target.value)}
-                    placeholder={t.home.hero.audit.placeholder}
-                    className="min-w-0 flex-1 bg-transparent px-4 py-3 font-body text-sm text-ink outline-none placeholder:text-muted"
-                  />
-                  <button
-                    type="submit"
-                    className="shrink-0 border-l border-line-strong bg-highlight px-5 font-body text-label font-semibold text-accent-ink transition-colors hover:bg-highlight-hover"
-                  >
-                    {t.home.hero.audit.cta} →
-                  </button>
-                </div>
-              </form>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE }}
+          className="flex flex-wrap items-center justify-between gap-4 border-b border-ink py-4 font-mono text-sm"
+        >
+          <span className="inline-flex items-center gap-3">
+            <span className="home-dot" aria-hidden="true" />
+            {c.available}
+          </span>
+          <span className="hidden gap-6 text-muted sm:flex">
+            <span>
+              {c.lisbon} {time}
+            </span>
+            <span>{c.reply}</span>
+          </span>
+        </motion.div>
 
-            <div style={{ "--d": "270ms" } as React.CSSProperties} className="rise flex flex-wrap items-center gap-3">
-              <ButtonLink href="/contacto" withArrow>
-                {t.home.hero.ctaPrimary}
-              </ButtonLink>
-              <ButtonLink href="/projetos" variant="secondary">
-                {t.home.hero.ctaSecondary}
-              </ButtonLink>
+        <div className="flex flex-1 flex-wrap items-center justify-between gap-8 py-8">
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}
+            className="m-0 max-w-[720px] font-heading text-[clamp(1.5rem,2.3vw,2.375rem)] leading-[1.15] font-semibold tracking-[-0.03em]"
+          >
+            {c.leadA}
+            <span className="home-hl">{c.leadB}</span>
             {CAL_URL && (
               <Link
                 href="/contacto?aba=chamada"
-                className="font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+                className="mt-5 block w-fit font-body text-base font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
               >
-                {isEnglish ? "Book a call" : "Marcar chamada"} →
+                {c.bookCall} →
               </Link>
             )}
-            </div>
-          </div>
+          </motion.p>
 
-          <dl style={{ "--d": "360ms" } as React.CSSProperties} className="rise mt-8 flex flex-wrap gap-x-8 gap-y-2 border-t border-line pt-4 font-body text-micro text-muted">
-            <div className="flex gap-2">
-              <dt className="uppercase tracking-[0.12em]">{t.home.hero.stats.location}</dt>
-              <dd className="text-ink">{t.footer.location}</dd>
-            </div>
-            <div className="flex gap-2">
-              <dt className="uppercase tracking-[0.12em]">{t.home.hero.stats.response}</dt>
-              <dd className="text-ink">{t.footer.responseTimeValue}</dd>
-            </div>
-          </dl>
-
-          <div style={{ "--d": "440ms" } as React.CSSProperties} className="rise mt-12 flex items-baseline justify-between gap-4">
-            <h2 className="font-body text-label uppercase tracking-[0.13em] text-muted">
-              {t.home.featuredProjects.badge}
-            </h2>
+          <motion.div
+            className="ml-auto"
+            initial={{ opacity: 0, scale: 0.6, rotate: -40 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.3 }}
+          >
             <Link
-              href="/projetos"
-              className="font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
+              href="/contacto"
+              aria-label={c.badgeLabel}
+              className="home-badge relative grid size-[120px] shrink-0 sm:size-[170px] place-items-center rounded-full border-[1.5px] border-accent-ink bg-highlight text-accent-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
             >
-              {t.home.featuredProjects.viewAll} →
-            </Link>
-          </div>
-
-          <div className="mt-5 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredProjects.map((project, index) => (
-              <Link
-                key={project.slug}
-                href={`/projetos/${project.slug}`}
-                style={{ "--d": `${520 + index * 110}ms` } as React.CSSProperties}
-                className="rise-y group block transition-transform duration-300 motion-safe:hover:-translate-y-1"
-              >
-                <div className="relative aspect-[16/10] overflow-hidden border border-line-strong bg-surface-2">
-                  <Image
-                    src={project.cover.src}
-                    alt={t.projectDetail.labels.coverAlt.replace("{name}", project.name)}
-                    fill
-                    priority={index === 0}
-                    sizes="(min-width: 1024px) 32vw, (min-width: 640px) 48vw, 100vw"
-                    className="object-cover object-top transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
-                  />
-                </div>
-                <div className="mt-3 flex items-baseline justify-between gap-3">
-                  <h3 className="font-heading text-lg font-semibold tracking-[-0.02em] text-ink">
-                    {project.name}
-                  </h3>
-                  <span className="shrink-0 font-body text-micro text-muted">
-                    {projectCategoryLabel(project.category, t)}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          <p className="mt-8 font-body text-[11px] leading-relaxed text-muted">
-            {t.projectDetail.labels.disclaimer}
-          </p>
-        </div>
-      </section>
-
-      {/* 01.5 — Avaliador de Sites: a ferramenta que me distingue, logo a seguir ao topo. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-12 lg:mt-16" aria-labelledby="home-audit-title">
-        <div className="border border-line-strong bg-surface p-6 sm:p-10">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:gap-14">
-            <div>
-              <span className="font-body text-label uppercase tracking-[0.14em] text-muted">
-                {isEnglish ? "Free tool · no sign-up" : "Ferramenta gratuita · sem registo"}
+              <svg className="home-badge-ring absolute inset-0 h-full w-full" viewBox="0 0 170 170" aria-hidden="true">
+                <defs>
+                  <path id="home-badge-circle" d="M85,85 m-62,0 a62,62 0 1,1 124,0 a62,62 0 1,1 -124,0" />
+                </defs>
+                <text fill="currentColor" className="font-mono text-[13px] tracking-[3.2px]">
+                  <textPath href="#home-badge-circle">{c.badge}</textPath>
+                </text>
+              </svg>
+              <span className="home-badge-arrow text-[30px] leading-none sm:text-[40px]" aria-hidden="true">
+                →
               </span>
-              <h2 id="home-audit-title" className="mt-2 font-heading text-h2 font-semibold text-ink">
-                {isEnglish ? "Is your current website losing clients?" : "O seu website atual está a perder clientes?"}
-              </h2>
-              <p className="mt-3 max-w-[52ch] font-body text-body text-ink-2">
-                {isEnglish
-                  ? "Paste your address and get, in about 30 seconds, a plain-language report: what is fine, what to fix first and why it matters for your business. Every point comes from a real check, with no invented scores."
-                  : "Cole o endereço e receba, em cerca de 30 segundos, um relatório em linguagem simples: o que está bem, o que corrigir primeiro e porque importa para o seu negócio. Cada ponto vem de uma verificação real, sem notas inventadas."}
-              </p>
-              <div className="mt-6 flex flex-wrap items-center gap-3">
-                <ButtonLink href="/avaliador" size="lg" withArrow>
-                  {isEnglish ? "Evaluate my website" : "Avaliar o meu site"}
-                </ButtonLink>
-                <ButtonLink href="/avaliador?modo=comparar" variant="secondary" size="lg">
-                  {isEnglish ? "Compare with a competitor" : "Comparar com um concorrente"}
-                </ButtonLink>
-              </div>
-              <p className="mt-4 font-body text-micro text-muted">
-                {isEnglish
-                  ? "Home page only · reports are not stored · PDF report available"
-                  : "Apenas a página inicial · relatórios não são guardados · relatório em PDF disponível"}
-              </p>
-            </div>
-
-            <div>
-              <p className="font-body text-micro uppercase tracking-[0.12em] text-muted">
-                {isEnglish ? "What is measured (weight in the score)" : "O que é medido (peso na nota)"}
-              </p>
-              <ul className="mt-3 divide-y divide-line border border-line bg-bg">
-                {AUDIT_CATEGORIES.map((c) => (
-                  <li key={c.pt} className="flex items-center justify-between gap-4 px-4 py-2.5 font-body text-sm">
-                    <span className="text-ink">{isEnglish ? c.en : c.pt}</span>
-                    <span className="flex items-center gap-3">
-                      <span className="hidden h-1.5 w-24 bg-surface-2 sm:block" aria-hidden="true">
-                        <span className="block h-full bg-highlight" style={{ width: `${(c.weight / 18) * 100}%` }} />
-                      </span>
-                      <span className="w-9 text-right tabular-nums text-muted">{c.weight}%</span>
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+            </Link>
+          </motion.div>
         </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.1, ease: EASE, delay: 0.2 }}
+          className="pb-[2vw]"
+        >
+          <KineticName />
+        </motion.div>
       </section>
-      </ScrollReveal>
 
-      {/* Faixa de tecnologias em loop (CSS puro, só transform). */}
-      <div className="marquee border-b border-line py-4" aria-hidden="true">
-        <div className="marquee__track">
-          {[0, 1].map((copy) => (
-            <ul key={copy} className="flex shrink-0 items-center">
-              {keywords.map((word) => (
-                <li
-                  key={word}
-                  className="flex items-center gap-6 pr-6 font-heading text-lg tracking-[-0.02em] text-muted"
-                >
-                  {word}
-                  <span className="h-1.5 w-1.5 bg-highlight ring-1 ring-ink/30" />
-                </li>
-              ))}
-            </ul>
-          ))}
-        </div>
-      </div>
-
-      {/* 02 — Princípios de trabalho, sem widgets de pontuações não medidas. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-12 lg:mt-16">
-        <h2 className="mb-4 font-body text-label uppercase tracking-[0.13em] text-muted">
-          {t.home.metrics.sectionHeading}
-        </h2>
-        <div className="grid border-t border-line sm:grid-cols-2 lg:grid-cols-4">
-          {metrics.map((metric, index) => (
-            <article
-              key={metric.title}
-              className="border-b border-line py-7 sm:odd:border-r sm:odd:pr-6 sm:even:pl-6 lg:border-b-0 lg:border-r lg:px-6 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0 transition-all duration-300 hover:-translate-y-1 hover:bg-surface/40"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-body text-micro tabular-nums text-muted">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                <span className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
-                  {metric.unit}
-                </span>
-              </div>
-
-              <h3 className="mt-8 max-w-[16ch] font-heading text-[1.4rem] tracking-[-0.03em] text-ink">
-                {metric.title}
-              </h3>
-              <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">
-                {metric.description}
-              </p>
-            </article>
-          ))}
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* 03 — Serviços. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-24 lg:mt-32">
-        <SectionHeading
-          index="03"
-          eyebrow={t.home.servicesPreview.badge}
-          title={t.home.servicesPreview.title}
-          description={t.home.servicesPreview.description}
-          action={{
-            href: "/servicos",
-            label: t.home.servicesPreview.viewAll,
-          }}
+      {/* ============ FAIXAS ============ */}
+      <section aria-label="Stack" className="relative mt-5 h-[260px] overflow-hidden">
+        <Band items={STACK} className="top-12 -rotate-3 bg-ink text-bg" />
+        <Band
+          items={c.bandServices}
+          reverse
+          className="top-[132px] rotate-2 border-y-[1.5px] border-accent-ink bg-highlight text-accent-ink"
         />
+      </section>
 
-        <div className="mt-10 grid border-t border-line lg:grid-cols-3">
-          {services.map((service, index) => (
-            <article
-              key={service.anchor}
-              className="border-b border-line py-8 lg:border-b-0 lg:border-r lg:px-7 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-body text-micro tabular-nums text-muted">
+      {/* ============ PROJETOS ============ */}
+      <section id="projetos" className="px-[var(--gutter)] py-[var(--section)]">
+        <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
+          <h2 className="m-0 font-heading text-[clamp(3.5rem,8vw,8rem)] leading-[0.9] font-semibold tracking-[-0.05em]">
+            {c.projectsTitle}
+            <sup className="ml-2 align-top font-mono text-lg tracking-normal text-muted">
+              ({String(featuredProjects.length).padStart(2, "0")})
+            </sup>
+          </h2>
+          <p className="m-0 max-w-[360px] text-muted">{c.projectsNote}</p>
+        </Reveal>
+
+        <div className="border-t-[1.5px] border-ink">
+          {featuredProjects.map((project, index) => (
+            <Reveal key={project.slug}>
+              <Link
+                href={`/projetos/${project.slug}`}
+                className="home-prow relative flex flex-wrap items-center gap-6 border-b-[1.5px] border-ink px-[2vw] py-9 text-ink no-underline outline-none"
+              >
+                <span className="home-prow-meta w-[60px] font-mono text-sm text-muted">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <span className="font-body text-[10px] uppercase tracking-[0.12em] text-muted">
-                  {service.badge}
+                <span className="home-prow-name flex-[1_1_360px] font-heading text-[clamp(2.5rem,5.6vw,5.5rem)] leading-none font-semibold tracking-[-0.04em]">
+                  {project.name}
                 </span>
-              </div>
-
-              <p className="mt-8 font-body text-[10px] uppercase tracking-[0.12em] text-muted">
-                {service.subtitle}
-              </p>
-              <h3 className="mt-2 font-heading text-h3 text-ink">
-                <Link
-                  href={`/servicos#${service.anchor}`}
-                  className="underline decoration-transparent underline-offset-4 transition-colors hover:decoration-line-strong"
-                >
-                  {service.title}
-                </Link>
-              </h3>
-              <p className="mt-3 font-body text-sm leading-relaxed text-ink-2">
-                {service.description}
-              </p>
-
-              <ul className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
-                {service.tags.map((tag) => (
-                  <li
-                    key={tag}
-                    className="flex items-center gap-2 font-body text-micro text-muted"
-                  >
-                    <span
-                      className="h-1 w-1 bg-line-strong"
-                      aria-hidden="true"
-                    />
-                    {tag}
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href="/contacto"
-                className="group mt-6 inline-flex items-center gap-2 font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
-              >
-                {service.action}
-                <span
-                  aria-hidden="true"
-                  className="transition-transform duration-200 group-hover:translate-x-1"
-                >
+                <span className="home-prow-meta flex-[0_1_260px] font-mono text-sm text-muted">
+                  {projectCategoryLabel(project.category, t)}
+                </span>
+                <span className="home-prow-arrow text-4xl" aria-hidden="true">
                   →
                 </span>
-              </Link>
-            </article>
-          ))}
-        </div>
-      </section>
-      </ScrollReveal>
-
-      {/* 04 — Diferenciais de trabalho. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-24 lg:mt-32">
-        <SectionHeading
-          index="04"
-          eyebrow={t.home.aboutPreview.badge}
-          title={t.home.aboutPreview.title}
-          description={t.home.aboutPreview.description}
-        />
-
-        <div className="mt-10 grid border-t border-line sm:grid-cols-3">
-          {t.home.aboutPreview.pillars.map((pillar) => (
-            <article
-              key={pillar.num}
-              className="border-b border-line py-7 sm:border-b-0 sm:border-r sm:pr-7 sm:last:border-r-0 sm:last:pr-0 sm:[&:not(:first-child)]:pl-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/30"
-            >
-              <span className="font-body text-micro tabular-nums text-muted">
-                {pillar.num}
-              </span>
-              <h3 className="mt-6 max-w-[18ch] font-heading text-[1.4rem] tracking-[-0.03em] text-ink">
-                {pillar.title}
-              </h3>
-              <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">
-                {pillar.desc}
-              </p>
-            </article>
-          ))}
-        </div>
-
-        <p className="mt-6 font-body text-sm text-muted">
-          {t.home.aboutPreview.footerNote}{" "}
-          <Link
-            href="/sobre"
-            className="font-medium text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-ink"
-          >
-            {t.home.aboutPreview.footerLink}
-          </Link>
-        </p>
-      </section>
-      </ScrollReveal>
-
-      {/* 05 — Assistente interativo. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-24 lg:mt-32">
-        <div className="grid gap-8 border-y border-line py-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-14">
-          <div>
-            <p className="flex items-center gap-3 font-body text-label uppercase tracking-[0.13em] text-muted">
-              <span className="tabular-nums text-ink">05</span>
-              <span className="h-px w-7 bg-line-strong" aria-hidden="true" />
-              {t.home.quizTeaser.badge}
-            </p>
-            <h2 className="mt-4 max-w-[26ch] font-heading text-h2 text-ink">
-              {t.home.quizTeaser.title}
-            </h2>
-            <p className="mt-4 max-w-[56ch] font-body text-body text-ink-2">
-              {t.home.quizTeaser.description}
-            </p>
-          </div>
-
-          <ButtonLink href="/sobre" size="lg" withArrow className="justify-self-start lg:justify-self-end">
-            {t.home.quizTeaser.cta}
-          </ButtonLink>
-        </div>
-      </section>
-      </ScrollReveal>
-
-
-      {/* Processo de trabalho em 4 passos. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-24 lg:mt-32">
-        <SectionHeading
-          index="06"
-          eyebrow={t.services.process.badge}
-          title={t.services.process.title}
-        />
-        <div className="relative mt-10">
-          <motion.span
-            aria-hidden="true"
-            className="absolute inset-x-0 top-0 block h-px origin-left bg-ink"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, amount: 0.6 }}
-            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
-          />
-          <ol className="grid sm:grid-cols-2 lg:grid-cols-4">
-            {t.services.process.steps.map((step) => (
-              <li
-                key={step.step}
-                className="border-b border-line py-7 sm:pr-6 lg:border-b-0 lg:[&:not(:first-child)]:pl-6"
-              >
-                <span className="font-body text-micro tabular-nums text-muted">
-                  {step.step}
+                <span className="home-prow-preview" aria-hidden="true">
+                  <Image
+                    src={project.cover.src}
+                    alt=""
+                    width={project.cover.width}
+                    height={project.cover.height}
+                    sizes="320px"
+                    className="h-full w-full object-cover"
+                  />
                 </span>
-                <h3 className="mt-5 font-heading text-[1.25rem] tracking-[-0.03em] text-ink">
-                  {step.title}
-                </h3>
-                <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">
-                  {step.desc}
-                </p>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+        <p className="mt-6 font-body text-[11px] leading-relaxed text-muted">{t.projectDetail.labels.disclaimer}</p>
+        <Reveal className="mt-10">
+          <Link
+            href="/projetos"
+            className="inline-flex min-h-[52px] items-center gap-3 rounded-full border-[1.5px] border-ink px-7 font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg"
+          >
+            {c.projectsAll} <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+      </section>
+
+      {/* ============ SERVIÇOS ============ */}
+      <section id="servicos" className="px-[var(--gutter)] pb-[var(--section)]">
+        <Reveal>
+          <h2 className="m-0 mb-14 font-heading text-[clamp(3.5rem,8vw,8rem)] leading-[0.9] font-semibold tracking-[-0.05em]">
+            {c.servicesTitleA}
+            <span className="home-stroke">{c.servicesTitleB}</span>
+          </h2>
+        </Reveal>
+        <div className="flex flex-wrap gap-5">
+          {services.map((service, index) => {
+            const style = serviceStyles[index];
+            return (
+              <Reveal key={service.anchor} delay={index * 0.08} className="min-w-0 flex-[1_1_320px]">
+                <Link
+                  href={`/servicos#${service.anchor}`}
+                  className={cn(
+                    "home-svc flex min-h-[420px] flex-col gap-5 rounded-[28px] p-9 no-underline",
+                    style.card
+                  )}
+                >
+                  <span
+                    className="font-heading text-[120px] leading-[0.8] font-semibold text-transparent"
+                    style={{ WebkitTextStroke: `2px ${style.stroke}` }}
+                    aria-hidden="true"
+                  >
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="m-0 mt-auto font-heading text-[2rem] leading-[1.05] font-semibold text-inherit">
+                    {service.title}
+                  </h3>
+                  <p className={cn("m-0", style.text)}>{service.description}</p>
+                  <span className="font-semibold">
+                    {c.servicesMore} <span aria-hidden="true">→</span>
+                  </span>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ============ PORQUÊ + AVALIADOR ============ */}
+      <section className="flex flex-wrap gap-5 px-[var(--gutter)] pb-[var(--section)]">
+        <Reveal className="flex min-w-0 flex-[1_1_460px] flex-col gap-7 rounded-[28px] border-[1.5px] border-ink p-10">
+          <h2 className="m-0 font-heading text-[clamp(2.5rem,4.4vw,4rem)] leading-[0.95] font-semibold tracking-[-0.04em]">
+            {c.whyTitleA}
+            <br />
+            <span className="home-hl">{c.whyTitleB}</span>
+          </h2>
+          <dl className="m-0 flex flex-col">
+            {c.why.map(([title, desc], i) => (
+              <div
+                key={title}
+                className={cn(
+                  "flex justify-between gap-5 border-t border-line py-[18px]",
+                  i === c.why.length - 1 && "border-b"
+                )}
+              >
+                <dt className="text-lg font-semibold">{title}</dt>
+                <dd className="m-0 text-right text-muted">{desc}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+
+        <Reveal className="code-surface relative flex min-w-0 flex-[1_1_460px] flex-col gap-5 overflow-hidden rounded-[28px] border border-[var(--code-line)] bg-[var(--code-bg)] p-10 text-[var(--code-ink)]">
+          <div className="home-scan" aria-hidden="true" />
+          <span className="font-mono text-sm text-[var(--code-accent)]">{c.auditEyebrow}</span>
+          <h2 className="m-0 font-heading text-[clamp(2.25rem,3.6vw,3.25rem)] leading-none font-semibold tracking-[-0.04em] text-inherit">
+            {c.auditTitle}
+          </h2>
+          <form onSubmit={handleAudit} className="flex flex-wrap gap-2.5">
+            <label htmlFor="home-audit-url" className="sr-only">
+              {c.auditLabel}
+            </label>
+            <input
+              id="home-audit-url"
+              type="text"
+              inputMode="url"
+              value={auditUrl}
+              onChange={(event) => setAuditUrl(event.target.value)}
+              placeholder={c.auditPlaceholder}
+              className="min-h-14 min-w-0 flex-[1_1_220px] rounded-full border border-[var(--code-line)] bg-[var(--code-surface)] px-5 text-[var(--code-ink)] placeholder:text-[var(--code-muted)] focus:border-[var(--code-accent)] focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="min-h-14 cursor-pointer rounded-full bg-highlight px-7 font-semibold text-accent-ink transition-transform hover:scale-105"
+            >
+              {c.auditButton}
+            </button>
+          </form>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+            <Link
+              href="/avaliador?modo=comparar"
+              className="font-medium text-[var(--code-ink)] underline decoration-[var(--code-line)] underline-offset-4 hover:decoration-[var(--code-accent)]"
+            >
+              {c.auditCompare} →
+            </Link>
+            <span className="font-mono text-xs text-[var(--code-muted)]">{c.auditNote}</span>
+          </div>
+          <ul className="m-0 mt-2 flex list-none flex-col gap-3.5 p-0">
+            {AUDIT_CATEGORIES.map((category, i) => (
+              <li key={category.pt}>
+                <div className="mb-1.5 flex justify-between text-sm">
+                  <span>{isEnglish ? category.en : category.pt}</span>
+                  <span className="font-mono text-[var(--code-muted)]">
+                    {c.auditWeight} {category.weight}%
+                  </span>
+                </div>
+                <div className="h-1.5 overflow-hidden rounded-full bg-[var(--code-line)]">
+                  <motion.div
+                    className="h-full rounded-full bg-highlight"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${(category.weight / 18) * 100}%` }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, ease: EASE, delay: 0.1 * i }}
+                  />
+                </div>
               </li>
             ))}
-          </ol>
-        </div>
+          </ul>
+        </Reveal>
       </section>
-      </ScrollReveal>
 
-      {/* Provas verificáveis: sem clientes ainda, só o que qualquer visitante pode confirmar. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-24 lg:mt-32">
-        <SectionHeading
-          eyebrow={isEnglish ? "Verifiable proof" : "Provas verificáveis"}
-          title={isEnglish ? "Don't take my word for it. Check it yourself." : "Não confie na minha palavra. Confirme."}
-          description={
-            isEnglish
-              ? "I am starting out, so I have no client reviews to show yet. What I can show is code you can read, numbers you can measure and a tool you can test."
-              : "Estou a começar, por isso ainda não tenho avaliações de clientes para mostrar. Mostro o que pode confirmar: código que pode ler, números que pode medir e uma ferramenta que pode testar."
-          }
-        />
-        <div className="mt-8 grid gap-px border border-line bg-line md:grid-cols-3">
-          {[
-            {
-              title: isEnglish ? "Open code" : "Código aberto",
-              text: isEnglish
-                ? "Most published projects have their repository on GitHub. You can read how they are built."
-                : "A maioria dos projetos publicados tem o repositório no GitHub. Pode ler como foram construídos.",
-              href: SOCIAL_LINKS.github,
-              cta: isEnglish ? "See GitHub" : "Ver GitHub",
-              external: true,
-            },
-            {
-              title: isEnglish ? "Measured numbers" : "Números medidos",
-              text: isEnglish
-                ? "Each project page shows Lighthouse and Evaluator results, with the measurement date."
-                : "Cada página de projeto mostra resultados do Lighthouse e do Avaliador, com a data da medição.",
-              href: "/projetos",
-              cta: isEnglish ? "See projects" : "Ver projetos",
-              external: false,
-            },
-            {
-              title: isEnglish ? "A tool to test me" : "Uma ferramenta para me testar",
-              text: isEnglish
-                ? "Run the Evaluator on this very site, or on your competitor's, and judge the work by the result."
-                : "Corra o Avaliador neste mesmo site, ou no do seu concorrente, e julgue o trabalho pelo resultado.",
-              href: `/avaliador?url=${encodeURIComponent(SITE_URL)}`,
-              cta: isEnglish ? "Evaluate this site" : "Avaliar este site",
-              external: false,
-            },
-          ].map((item) => (
-            <div key={item.title} className="flex flex-col justify-between bg-bg p-6">
-              <div>
-                <h3 className="font-heading text-lg font-semibold text-ink">{item.title}</h3>
-                <p className="mt-2 font-body text-sm leading-relaxed text-ink-2">{item.text}</p>
-              </div>
-              {item.external ? (
-                <a
-                  href={item.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-5 self-start font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink"
-                >
-                  {item.cta} ↗
-                </a>
-              ) : (
-                <Link
-                  href={item.href}
-                  className="mt-5 self-start font-body text-label font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink"
-                >
-                  {item.cta} →
-                </Link>
-              )}
-            </div>
+      {/* ============ PROCESSO ============ */}
+      <section id="processo" className="px-[var(--gutter)] pb-[var(--section)]">
+        <Reveal>
+          <h2 className="m-0 mb-14 font-heading text-[clamp(3.5rem,8vw,8rem)] leading-[0.9] font-semibold tracking-[-0.05em]">
+            {c.processTitle}
+          </h2>
+        </Reveal>
+        <ol className="m-0 flex list-none flex-wrap border-t-[1.5px] border-ink p-0">
+          {t.services.process.steps.map((step, i) => (
+            <li key={step.step} className="min-w-0 flex-[1_1_260px]">
+              <Reveal delay={i * 0.08} className="py-8 pr-7">
+                <span className="inline-block bg-highlight px-2 py-0.5 font-mono text-sm text-accent-ink">
+                  {step.step}
+                </span>
+                <h3 className="m-0 mt-4 font-heading text-[1.75rem] leading-[1.05] font-semibold">{step.title}</h3>
+                <p className="m-0 mt-3 text-muted">{step.desc}</p>
+              </Reveal>
+            </li>
           ))}
-        </div>
+        </ol>
+      </section>
 
+      {/* ============ PROVAS VERIFICÁVEIS ============ */}
+      <section id="provas" className="px-[var(--gutter)] pb-[var(--section)]">
+        <Reveal className="mb-12 flex flex-wrap items-end justify-between gap-6">
+          <h2 className="m-0 max-w-[14ch] font-heading text-[clamp(2.5rem,5.5vw,5.5rem)] leading-[0.95] font-semibold tracking-[-0.045em]">
+            {c.proofTitleA}
+            <span className="home-hl">{c.proofTitleB}</span>
+          </h2>
+          <p className="m-0 max-w-[420px] text-muted">{c.proofNote}</p>
+        </Reveal>
+        <div className="flex flex-wrap gap-5">
+          {c.proof.map(([title, text, cta], i) => {
+            const link = proofLinks[i];
+            const linkClass =
+              "mt-auto inline-flex min-h-[48px] w-fit items-center gap-2 rounded-full border-[1.5px] border-ink px-6 font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg";
+            return (
+              <Reveal
+                key={title}
+                delay={i * 0.08}
+                className="home-svc flex min-h-[280px] min-w-0 flex-[1_1_300px] flex-col gap-4 rounded-[28px] border-[1.5px] border-ink bg-surface p-8"
+              >
+                <span className="font-mono text-sm text-muted">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="m-0 font-heading text-[1.75rem] leading-[1.05] font-semibold">{title}</h3>
+                <p className="m-0 text-muted">{text}</p>
+                {link.external ? (
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" className={linkClass}>
+                    {cta} <span aria-hidden="true">↗</span>
+                  </a>
+                ) : (
+                  <Link href={link.href} className={linkClass}>
+                    {cta} <span aria-hidden="true">→</span>
+                  </Link>
+                )}
+              </Reveal>
+            );
+          })}
+        </div>
         {SITE_METRICS.site && (
-          <MeasuredMetrics
-            measurement={SITE_METRICS.site}
-            title={isEnglish ? "This site, measured" : "Este site, medido"}
-            className="mt-6"
-          />
+          <Reveal className="mt-5">
+            <MeasuredMetrics measurement={SITE_METRICS.site} title={c.measuredTitle} />
+          </Reveal>
         )}
       </section>
-      </ScrollReveal>
 
-      {/* Perguntas frequentes — <details> nativo, sem JS. */}
-      <ScrollReveal direction="up" distance={40}>
-      <section className="container-page mt-24 lg:mt-32">
-        <SectionHeading
-          index="07"
-          eyebrow={t.services.faq.badge}
-          title={t.services.faq.title}
-        />
-        <div className="mt-10 border-t border-line">
-          {t.services.faq.items.map((item) => (
-            <details key={item.q} className="group border-b border-line py-5">
-              <summary className="flex cursor-pointer list-none items-center justify-between gap-6 font-heading text-lg tracking-[-0.02em] text-ink [&::-webkit-details-marker]:hidden">
-                {item.q}
-                <span
-                  aria-hidden="true"
-                  className="shrink-0 font-body text-xl text-muted transition-transform duration-200 group-open:rotate-45"
+      {/* ============ ASSISTENTE (QUIZ) ============ */}
+      <section className="px-[var(--gutter)] pb-[var(--section)]">
+        <Reveal className="flex flex-wrap items-center justify-between gap-8 rounded-[28px] bg-highlight p-10 text-accent-ink">
+          <div className="min-w-0 flex-[1_1_420px]">
+            <span className="font-mono text-sm">{t.home.quizTeaser.badge}</span>
+            <h2 className="m-0 mt-3 max-w-[22ch] font-heading text-[clamp(2rem,3.6vw,3.25rem)] leading-none font-semibold tracking-[-0.04em] text-inherit">
+              {t.home.quizTeaser.title}
+            </h2>
+            <p className="m-0 mt-4 max-w-[56ch] text-accent-ink/75">{t.home.quizTeaser.description}</p>
+          </div>
+          <Link
+            href="/sobre"
+            className="inline-flex min-h-[56px] items-center gap-3 rounded-full bg-accent-ink px-8 font-semibold text-highlight no-underline transition-transform hover:scale-105"
+          >
+            {t.home.quizTeaser.cta} <span aria-hidden="true">→</span>
+          </Link>
+        </Reveal>
+      </section>
+
+      {/* ============ FAQ ============ */}
+      <section id="faq" className="flex flex-wrap gap-12 px-[var(--gutter)] pb-[var(--section)]">
+        <Reveal className="flex-[1_1_300px]">
+          <h2 className="m-0 font-heading text-[clamp(3rem,6vw,6rem)] leading-[0.9] font-semibold tracking-[-0.05em]">
+            {c.faqTitle}
+          </h2>
+        </Reveal>
+        <div className="min-w-0 flex-[2_1_560px] border-t-[1.5px] border-ink">
+          {t.services.faq.items.map((item, i) => {
+            const open = openFaq === i;
+            const panelId = `home-faq-${i}`;
+            return (
+              <div key={item.q} className="border-b-[1.5px] border-ink">
+                <button
+                  type="button"
+                  aria-expanded={open}
+                  aria-controls={panelId}
+                  onClick={() => setOpenFaq(open ? -1 : i)}
+                  className="flex min-h-[76px] w-full cursor-pointer items-center justify-between gap-6 bg-transparent py-5 text-left font-heading text-2xl tracking-[-0.02em] text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
                 >
-                  +
-                </span>
-              </summary>
-              <p className="mt-3 max-w-[70ch] font-body text-sm leading-relaxed text-ink-2">
-                {item.a}
-              </p>
-            </details>
-          ))}
+                  <span>{item.q}</span>
+                  <span
+                    className="home-plus grid size-11 shrink-0 place-items-center rounded-full border-[1.5px] border-ink font-body text-2xl"
+                    aria-hidden="true"
+                  >
+                    +
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {open && (
+                    <motion.div
+                      id={panelId}
+                      key="panel"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.45, ease: EASE }}
+                      className="overflow-hidden"
+                    >
+                      <p className="m-0 pr-16 pb-7 text-[1.0625rem] text-muted">{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
         </div>
       </section>
-      </ScrollReveal>
 
-      {/* 08 — Conversão final. */}
-      <ScrollReveal direction="up" distance={40}>
-      <div className="mt-24 lg:mt-32">
-        <CtaPanel
-          eyebrow={t.home.ctaSection.badge}
-          title={t.home.ctaSection.title}
-          description={t.home.ctaSection.description}
-          primaryHref="/contacto"
-          primaryLabel={t.common.startConversation}
-          secondaryHref={whatsappUrl}
-          secondaryLabel={t.home.ctaSection.whatsappCta}
-        />
-      </div>
-      </ScrollReveal>
+      {/* ============ CONTACTO ============ */}
+      <section id="contacto" className="home-contact rounded-t-[40px] px-[var(--gutter)] pt-[var(--section)] pb-16">
+        <Reveal>
+          <span className="home-contact-muted inline-flex items-center gap-3 font-mono text-sm">
+            <span className="home-dot" aria-hidden="true" />
+            {c.contactEyebrow}
+          </span>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            className="home-contact-cta mt-7 block font-heading text-[15vw] leading-[0.85] font-semibold tracking-[-0.06em] text-inherit no-underline"
+          >
+            {c.contactA}
+            <br />
+            <span className="home-contact-accent">{c.contactB}</span>
+          </a>
+        </Reveal>
+        <Reveal className="mt-14 flex flex-wrap gap-3.5" delay={0.1}>
+          <a
+            href={`mailto:${SITE_CONFIG.email}`}
+            className="inline-flex min-h-[52px] items-center rounded-full home-contact-primary px-7 font-semibold no-underline transition-transform hover:scale-105"
+          >
+            {SITE_CONFIG.email}
+          </a>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="home-contact-line inline-flex min-h-[52px] items-center rounded-full border-[1.5px] px-7 font-semibold text-inherit no-underline transition-transform hover:scale-105"
+          >
+            WhatsApp {SITE_CONFIG.phone}
+          </a>
+          <Link
+            href="/contacto"
+            className="home-contact-line inline-flex min-h-[52px] items-center rounded-full border-[1.5px] px-7 font-semibold text-inherit no-underline transition-transform hover:scale-105"
+          >
+            {c.contactForm} <span aria-hidden="true" className="ml-2">→</span>
+          </Link>
+        </Reveal>
+      </section>
     </div>
   );
 }

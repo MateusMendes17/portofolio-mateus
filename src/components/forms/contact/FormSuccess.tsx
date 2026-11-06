@@ -48,7 +48,7 @@ export function FormSuccess({ form }: { form: ContactFormController }) {
           href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "form-success")}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-xs font-bold transition-all shadow-md hover:shadow-lg"
+          className="inline-flex items-center gap-2 rounded-[20px] bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-xs font-bold transition-all shadow-md hover:shadow-lg"
         >
           <WhatsAppIcon className="w-4 h-4" />
           <span>{t.contact.form.success.whatsappCta}</span>

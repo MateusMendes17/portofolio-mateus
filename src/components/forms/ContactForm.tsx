@@ -18,7 +18,7 @@ export function ContactForm() {
   const form = useContactForm();
 
   return (
-    <div className="rounded-3xl border border-border/80 bg-surface/90 backdrop-blur-xl p-6 sm:p-10 shadow-xl relative overflow-hidden">
+    <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-10 relative overflow-hidden">
       {/* Barra de Progresso por Fases */}
       <div className="mb-8">
         <div className="flex items-center justify-between text-xs font-semibold text-text-secondary mb-3">
@@ -78,7 +78,7 @@ export function ContactForm() {
 
           {/* Mensagem de Erro de Servidor */}
           {form.submitStatus === "error" && (
-            <div className="mb-6 rounded-2xl border border-destructive/30 bg-destructive/10 p-4 text-destructive text-xs flex items-center gap-3">
+            <div className="mb-6 rounded-[20px] border border-destructive/30 bg-destructive/10 p-4 text-destructive text-xs flex items-center gap-3">
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-destructive text-white font-bold text-xs">
                 !
               </span>

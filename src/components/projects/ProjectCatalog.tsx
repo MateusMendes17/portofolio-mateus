@@ -123,10 +123,10 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
                 type="button"
                 onClick={() => setActiveCategory(cat)}
                 className={cn(
-                  "border px-3 py-1.5 font-body text-micro font-medium transition-colors",
+                  "min-h-[40px] cursor-pointer rounded-full border-[1.5px] px-4 font-body text-sm font-semibold transition-colors",
                   activeCategory === cat
-                    ? "border-ink bg-ink text-bg"
-                    : "border-line text-muted hover:border-line-strong hover:text-ink"
+                    ? "border-accent-ink bg-highlight text-accent-ink"
+                    : "border-ink text-ink hover:bg-ink hover:text-bg"
                 )}
               >
                 {label}
@@ -145,11 +145,11 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
         {/* Desktop index rail */}
         <nav className="hidden lg:block" aria-label={t.projects.grid.index}>
           <div className="sticky top-[calc(var(--header-h)+2rem)]">
-            <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
+            <p className="font-mono text-sm text-muted">
               {t.projects.grid.index}
             </p>
 
-            <ol className="mt-5 space-y-0 border-t border-line">
+            <ol className="mt-5 space-y-0 border-t-[1.5px] border-ink">
               {filteredProjects.map((project, index) => {
                 const isActive = railSlug === project.slug;
                 return (
@@ -164,8 +164,8 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
                     >
                       <span
                         className={cn(
-                          "mt-1 h-px w-4 shrink-0 transition-colors",
-                          isActive ? "bg-highlight" : "bg-line group-hover:bg-ink"
+                          "mt-1 h-2 w-2 shrink-0 rounded-full transition-colors",
+                          isActive ? "bg-highlight ring-1 ring-ink" : "bg-line group-hover:bg-ink"
                         )}
                         aria-hidden="true"
                       />
@@ -193,7 +193,7 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
         <div className="min-w-0">
           {/* Mobile horizontal index */}
           <nav aria-label={t.projects.grid.index} className="lg:hidden">
-            <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
+            <p className="font-mono text-sm text-muted">
               {t.projects.grid.index}
             </p>
             <div className="-mx-[var(--gutter)] mt-4 overflow-x-auto px-[var(--gutter)] pb-2 scrollbar-none">
@@ -202,9 +202,9 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
                   <li key={project.slug}>
                     <a
                       href={`#${project.slug}`}
-                      className="flex w-[148px] items-center gap-3 border border-line bg-surface p-2 transition-colors hover:border-line-strong focus-visible:border-ink"
+                      className="flex w-[160px] items-center gap-3 rounded-full border-[1.5px] border-ink bg-surface p-1.5 pr-3 transition-colors hover:bg-highlight focus-visible:border-ink"
                     >
-                      <span className="relative aspect-[4/3] w-11 shrink-0 overflow-hidden border border-line bg-surface-2">
+                      <span className="relative aspect-square w-10 shrink-0 overflow-hidden rounded-full bg-surface-2">
                         <Image
                           src={project.cover.src}
                           alt=""
@@ -276,7 +276,7 @@ function ProjectEntry({
     <article
       id={project.slug}
       ref={setRef}
-      className="scroll-mt-28 border-t border-line py-10 first:border-t-0 first:pt-0 lg:py-14 lg:first:pt-0"
+      className="scroll-mt-28 border-t-[1.5px] border-ink py-10 first:border-t-0 first:pt-0 lg:py-14 lg:first:pt-0"
     >
       <Link
         href={`/projetos/${project.slug}`}
@@ -294,13 +294,13 @@ function ProjectEntry({
       >
         <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start md:gap-8">
           <div>
-            <p className="flex items-center gap-2 font-body text-label uppercase tracking-[0.1em] text-muted">
-              <span className="font-mono text-ink">{String(index + 1).padStart(2, "0")}</span>
+            <p className="flex items-center gap-2 font-mono text-sm text-muted">
+              <span className="bg-highlight px-2 py-0.5 text-accent-ink">{String(index + 1).padStart(2, "0")}</span>
               <span aria-hidden="true">/</span>
               <span>{category}</span>
             </p>
 
-            <h2 className="mt-3 font-heading text-h2 text-ink transition-colors group-hover:text-ink">
+            <h2 className="mt-4 font-heading text-[clamp(2.5rem,5.6vw,5.5rem)] leading-none font-semibold tracking-[-0.04em] text-ink transition-transform duration-500 ease-[var(--ease-out)] motion-safe:group-hover:translate-x-3">
               {project.name}
             </h2>
 
@@ -333,7 +333,7 @@ function ProjectEntry({
             {project.tags.map((tag) => (
               <li
                 key={tag}
-                className="border border-line px-2.5 py-1 font-body text-micro text-muted"
+                className="rounded-full border border-line px-3 py-1 font-body text-micro text-muted"
               >
                 {tag}
               </li>

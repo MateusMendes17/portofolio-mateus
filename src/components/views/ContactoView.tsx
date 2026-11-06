@@ -8,9 +8,7 @@ import { CAL_EVENTS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { WhatsAppIcon, LinkedInIcon, GitHubIcon } from "@/components/ui/Icons";
 import { useLanguage } from "@/context/LanguageContext";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { FloatingElements } from "@/components/ui/FloatingElements";
-import { TextReveal3D } from "@/components/ui/TextAnimations";
-import { TiltCard3D } from "@/components/ui/TiltCard3D";
+import { PageIntro } from "@/components/ui/PageIntro";
 import { NewsletterSignup } from "@/components/ui/NewsletterSignup";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 
@@ -56,7 +54,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
           <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
         </svg>
       ),
-      bgClass: "bg-accent-subtle text-accent border-accent/20",
+      bgClass: "bg-highlight text-accent-ink border-accent-ink",
       href: `mailto:${SITE_CONFIG.email}`,
       isLink: true,
     },
@@ -83,7 +81,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
                 <path d="M16 2v4M8 2v4M3 10h18" />
               </svg>
             ),
-            bgClass: "bg-accent-subtle text-accent border-accent/20",
+            bgClass: "bg-highlight text-accent-ink border-accent-ink",
             href: CAL_EVENTS[0]?.url,
             isLink: true,
             onSelect: () => selectTab("chamada", true),
@@ -100,7 +98,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
           <circle cx="12" cy="10" r="3" />
         </svg>
       ),
-      bgClass: "bg-surface-hover text-text-primary border-border",
+      bgClass: "bg-surface-2 text-ink border-line",
       href: undefined,
       isLink: false,
     },
@@ -125,63 +123,53 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 relative">
-      <FloatingElements count={4} variant="minimal" />
-
+    <div className="pb-20 lg:pb-28">
       {/* Cabeçalho da Página */}
-      <div className="mb-16 max-w-3xl relative z-10">
-        <ScrollReveal direction="up" distance={30}>
-        <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary mb-3 shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-          {t.contact.badge}
-        </span>
-        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary">
-          <TextReveal3D>{t.contact.title}</TextReveal3D>
-        </h1>
-        <p className="mt-4 text-base sm:text-lg text-text-secondary leading-relaxed">
-          {t.contact.description}
-        </p>
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          {hasCal && (
-            <button
-              type="button"
-              onClick={() => selectTab("chamada", true)}
-              className="inline-flex items-center gap-2 border border-ink bg-highlight px-5 py-3 font-body text-label font-semibold text-accent-ink transition-colors hover:bg-highlight-hover"
+      <PageIntro
+        eyebrow={t.contact.badge}
+        title={t.contact.title}
+        description={t.contact.description}
+        aside={
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            {hasCal && (
+              <button
+                type="button"
+                onClick={() => selectTab("chamada", true)}
+                className="inline-flex min-h-[52px] cursor-pointer items-center gap-2 rounded-full border-[1.5px] border-accent-ink bg-highlight px-7 font-semibold text-accent-ink transition-transform hover:scale-105"
+              >
+                {isEnglish ? "Book a call" : "Marcar chamada"} →
+              </button>
+            )}
+            <a
+              href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "contacto")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[52px] items-center gap-2 rounded-full border-[1.5px] border-ink px-7 font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg"
             >
-              {isEnglish ? "Book a call" : "Marcar chamada"} →
-            </button>
-          )}
-          <a
-            href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "contacto")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 border border-line-strong px-5 py-3 font-body text-label font-semibold text-ink transition-colors hover:bg-surface-2"
-          >
-            <WhatsAppIcon className="h-4 w-4" />
-            WhatsApp
-          </a>
-        </div>
-        </ScrollReveal>
-      </div>
+              <WhatsAppIcon className="h-4 w-4" />
+              WhatsApp
+            </a>
+          </div>
+        }
+      />
 
+      <div className="container-page">
       {/* NEWSLETTER / LEAD MAGNET — Secção de Destaque (Full Width) */}
       <ScrollReveal direction="up" distance={30} delay={0.1}>
-      <div className="mb-16 relative rounded-3xl overflow-hidden bg-gradient-to-br from-accent/10 via-surface to-accent-subtle/10 border border-accent/20 p-8 sm:p-10">
-        <div className="absolute -top-20 -right-20 w-48 h-48 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-20 -left-20 w-36 h-36 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 max-w-2xl mx-auto text-center">
-          <span className="inline-flex items-center gap-2 rounded-full bg-accent/20 text-accent px-3 py-1 text-xs font-semibold uppercase tracking-wider mb-4">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent animate-pulse" />
+      <div className="mb-16 rounded-[28px] bg-highlight p-8 text-accent-ink sm:p-12">
+        <div className="mx-auto max-w-2xl text-center">
+          <span className="mb-4 inline-flex items-center gap-2 rounded-full border-[1.5px] border-accent-ink px-3 py-1 font-mono text-xs">
             {t.contact.newsletterBadge || "Recurso Gratuito"}
           </span>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mb-3">
+          <h2 className="m-0 mb-3 font-heading text-[clamp(2rem,3.6vw,3.25rem)] leading-none font-semibold tracking-[-0.04em] text-inherit">
             {t.contact.newsletterTitle || "Quer Receber o Checklist de Conversão?"}
           </h2>
-          <p className="text-sm sm:text-base text-text-secondary mb-6 max-w-lg mx-auto leading-relaxed">
+          <p className="mx-auto mb-6 max-w-lg text-sm leading-relaxed text-accent-ink/75 sm:text-base">
             {t.contact.newsletterDesc || "12 pontos para auditar o seu site hoje. Baixe o PDF grátis e comece a converter mais visitantes em clientes."}
           </p>
-          <NewsletterSignup variant="inline" showName={true} />
+          <div className="light">
+            <NewsletterSignup variant="inline" showName={true} />
+          </div>
         </div>
       </div>
       </ScrollReveal>
@@ -191,63 +179,53 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
         {/* Coluna Esquerda: Canais de Contacto */}
         <div className="lg:col-span-5 flex flex-col gap-6">
           {/* Canais de Contacto — 3 cards com mesma altura visual */}
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-5">
             {contactMethods.map((method) => (
-              <TiltCard3D key={method.label} className="h-[220px]">
-              <div className="rounded-2xl border border-border/80 bg-surface/80 backdrop-blur-xl p-6 shadow-sm hover:shadow-lg hover:border-accent/40 transition-all duration-300 h-full shimmer-scan flex flex-col justify-center">
-                <div className="flex items-start gap-4">
-                  <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${method.bgClass}`}>
-                    {method.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
-                      {method.label}
-                    </span>
-                    {method.onSelect ? (
-                        <button
-                          type="button"
-                          onClick={method.onSelect}
-                          className="block max-w-full text-left text-base font-semibold text-text-primary hover:text-accent transition-colors truncate"
-                        >
-                          {method.value} →
-                        </button>
-                      ) : method.isLink ? (
-                        <a
-                          href={method.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="block text-base font-semibold text-text-primary hover:text-accent transition-colors truncate"
-                        >
-                          {method.value}
-                        </a>
-                      ) : (
-                        <span className="block text-base font-semibold text-text-primary truncate">
-                          {method.value}
-                        </span>
-                      )}
-                    <span className="block text-xs text-text-muted mt-2 leading-relaxed">
-                      {method.note}
-                    </span>
-                  </div>
+              <div
+                key={method.label}
+                className="theme-card flex items-start gap-4 border-[1.5px] border-ink bg-surface p-6"
+              >
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full border ${method.bgClass}`}>
+                  {method.icon}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <span className="mb-1 block font-mono text-xs text-muted">{method.label}</span>
+                  {method.onSelect ? (
+                    <button
+                      type="button"
+                      onClick={method.onSelect}
+                      className="block max-w-full cursor-pointer truncate text-left font-heading text-xl font-semibold text-ink underline decoration-transparent underline-offset-4 transition-colors hover:decoration-ink"
+                    >
+                      {method.value} →
+                    </button>
+                  ) : method.isLink ? (
+                    <a
+                      href={method.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block truncate font-heading text-xl font-semibold text-ink underline decoration-transparent underline-offset-4 transition-colors hover:decoration-ink"
+                    >
+                      {method.value}
+                    </a>
+                  ) : (
+                    <span className="block truncate font-heading text-xl font-semibold text-ink">{method.value}</span>
+                  )}
+                  <span className="mt-2 block text-sm leading-relaxed text-muted">{method.note}</span>
                 </div>
               </div>
-              </TiltCard3D>
             ))}
 
           {/* Redes Profissionais */}
-          <TiltCard3D>
-          <div className="rounded-2xl border border-border/80 bg-surface/80 backdrop-blur-xl p-5 shadow-sm hover:shadow-lg hover:border-accent/40 transition-all duration-300 shimmer-scan">
-            <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-3">
-              {t.contact.networksLabel}
-            </span>
-            <div className="flex flex-wrap items-center gap-3">
+          <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6">
+            <span className="mb-3 block font-mono text-xs text-muted">{t.contact.networksLabel}</span>
+            <div className="flex flex-wrap items-center gap-2">
               {socialLinks.map((social) => (
                 <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-xs font-semibold text-text-secondary hover:text-accent hover:border-accent transition-all shadow-sm"
+                  className="flex min-h-[44px] items-center gap-2 rounded-full border-[1.5px] border-ink px-4 text-sm font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg"
                   aria-label={social.label}
                 >
                   {social.icon}
@@ -256,24 +234,19 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
               ))}
             </div>
           </div>
-          </TiltCard3D>
 
           {/* FAQ Rápida */}
-          <TiltCard3D>
-          <div className="rounded-2xl border border-border/80 bg-surface/80 backdrop-blur-xl p-5 shadow-sm hover:shadow-lg hover:border-accent/40 transition-all duration-300 shimmer-scan">
-            <h3 className="font-heading text-base font-bold text-text-primary mb-4">
-              {t.contact.faqTitle}
-            </h3>
-            <div className="space-y-3 text-xs leading-relaxed text-text-secondary">
+          <div className="code-surface rounded-[28px] bg-[var(--code-bg)] p-6 text-[var(--code-ink)]">
+            <h3 className="m-0 mb-4 font-heading text-xl font-semibold text-inherit">{t.contact.faqTitle}</h3>
+            <div className="space-y-3 text-sm leading-relaxed text-[var(--code-muted)]">
               {t.contact.faq.map((item, i) => (
-                <div key={i} className={i > 0 ? "pt-3 border-t border-border/60" : undefined}>
-                  <p className="font-bold text-text-primary">{item.q}</p>
+                <div key={i} className={i > 0 ? "border-t border-[var(--code-line)] pt-3" : undefined}>
+                  <p className="font-semibold text-[var(--code-ink)]">{item.q}</p>
                   <p className="mt-1">{item.a}</p>
                 </div>
               ))}
             </div>
           </div>
-          </TiltCard3D>
         </div>
         </div>
 
@@ -285,7 +258,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
                 <div
                   role="tablist"
                   aria-label={isEnglish ? "How would you like to get in touch?" : "Como prefere falar comigo?"}
-                  className="mb-4 grid grid-cols-2 border border-line-strong bg-surface"
+                  className="mb-4 grid grid-cols-2 gap-1 rounded-full border-[1.5px] border-ink bg-surface p-1"
                 >
                   {(
                     [
@@ -303,7 +276,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
                         aria-selected={active}
                         aria-controls={`painel-${item.id}`}
                         onClick={() => selectTab(item.id)}
-                        className={`px-4 py-3 font-body text-label font-semibold transition-colors ${
+                        className={`cursor-pointer rounded-full px-4 py-3 font-body text-label font-semibold transition-colors ${
                           active ? "bg-highlight text-accent-ink" : "text-ink-2 hover:bg-surface-2"
                         }`}
                       >
@@ -319,7 +292,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
                   role="tabpanel"
                   id="painel-chamada"
                   aria-labelledby="aba-chamada"
-                  className="border border-line bg-surface p-4 sm:p-6"
+                  className="rounded-[28px] border-[1.5px] border-ink bg-surface p-5 sm:p-8"
                 >
                   <h2 className="font-heading text-h3 font-semibold text-ink">
                     {isEnglish ? "Pick a day and time" : "Escolha o dia e a hora"}
@@ -343,6 +316,7 @@ export function ContactoView({ initialTab = "mensagem" }: { initialTab?: "mensag
             </div>
           </ScrollReveal>
         </div>
+      </div>
       </div>
     </div>
   );

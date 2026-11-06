@@ -58,7 +58,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
                       selectContactPreference(cp.id);
                     }
                   }}
-                  className={`rounded-2xl border p-4 text-left transition-all duration-200 cursor-pointer h-full flex flex-col justify-between ${
+                  className={`rounded-[20px] border p-4 text-left transition-all duration-200 cursor-pointer h-full flex flex-col justify-between ${
                     isSelected
                       ? "border-accent bg-accent-subtle/50 shadow-sm ring-1 ring-accent"
                       : "border-border/80 bg-surface/60 hover:border-accent/40 hover:bg-surface-hover/50"
@@ -105,7 +105,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
                       value={formData.otherContactPreference || ""}
                       onChange={handleInputChange}
                       placeholder={t.contact.form.step2.otherPlaceholder}
-                      className={`w-full rounded-xl border bg-surface px-4 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent ${
+                      className={`w-full rounded-[14px] border bg-surface px-4 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent ${
                         stepErrors.otherContactPreference ? "border-destructive ring-1 ring-destructive" : "border-border"
                       }`}
                     />
@@ -142,7 +142,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
                 key={tag}
                 type="button"
                 onClick={() => toggleFeature(tag)}
-                className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
+                className={`flex items-center gap-1.5 rounded-[14px] border px-3 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isSelected
                     ? "border-accent bg-accent text-white shadow-sm"
                     : "border-border/80 bg-surface/70 text-text-primary hover:border-accent/50 hover:bg-surface-hover"

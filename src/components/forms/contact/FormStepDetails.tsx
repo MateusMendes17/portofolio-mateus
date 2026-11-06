@@ -38,7 +38,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
       </div>
 
       {/* Resumo Dinâmico das Fases Anteriores */}
-      <div className="rounded-2xl border border-accent/20 bg-accent-subtle/30 p-4 text-xs space-y-1.5">
+      <div className="rounded-[20px] border border-accent/20 bg-accent-subtle/30 p-4 text-xs space-y-1.5">
         <div className="flex items-center justify-between">
           <span className="font-bold text-text-primary uppercase tracking-wider text-xs">
             {t.contact.form.step3.summaryTitle}
@@ -93,7 +93,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
             onChange={handleInputChange}
             placeholder={t.contact.form.step3.namePlaceholder}
             disabled={isSubmitting}
-            className={`w-full rounded-2xl border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
+            className={`w-full rounded-[20px] border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
               stepErrors.name ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
             }`}
           />
@@ -112,7 +112,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
             onChange={handleInputChange}
             placeholder={t.contact.form.step3.emailPlaceholder}
             disabled={isSubmitting}
-            className={`w-full rounded-2xl border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
+            className={`w-full rounded-[20px] border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
               stepErrors.email ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
             }`}
           />
@@ -142,7 +142,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
           onChange={handleInputChange}
           placeholder={t.contact.form.step3.phonePlaceholder}
           disabled={isSubmitting}
-          className={`w-full rounded-2xl border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
+          className={`w-full rounded-[20px] border bg-surface/70 px-4 py-3 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent ${
             stepErrors.phone ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
           }`}
         />
@@ -163,7 +163,7 @@ export function FormStepDetails({ form }: { form: ContactFormController }) {
           onChange={handleInputChange}
           placeholder={t.contact.form.step3.messagePlaceholder}
           disabled={isSubmitting}
-          className={`w-full rounded-2xl border bg-surface/70 p-4 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent resize-y ${
+          className={`w-full rounded-[20px] border bg-surface/70 p-4 text-sm text-text-primary placeholder:text-text-muted transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-accent resize-y ${
             stepErrors.message ? "border-destructive ring-1 ring-destructive" : "border-border/80 hover:border-accent/40"
           }`}
         />

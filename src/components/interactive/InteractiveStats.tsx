@@ -19,7 +19,7 @@ export function InteractiveStats() {
             key={stat.id}
             whileHover={{ y: -4 }}
             onClick={() => setActiveStat(isActive ? null : stat.id)}
-            className={`rounded-2xl border p-6 transition-all duration-300 cursor-pointer backdrop-blur-xl relative overflow-hidden ${
+            className={`rounded-[20px] border p-6 transition-all duration-300 cursor-pointer relative overflow-hidden ${
               isActive
                 ? "border-accent bg-accent-subtle/50 shadow-md ring-1 ring-accent"
                 : "border-border/80 bg-surface/80 hover:border-accent/40 hover:bg-surface"

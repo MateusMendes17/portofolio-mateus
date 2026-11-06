@@ -16,36 +16,36 @@ export default function NotFound() {
   const { t } = useLanguage();
 
   return (
-    <div className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center px-4 py-16 text-center sm:px-6">
+    <div className="relative isolate flex min-h-[75vh] flex-col justify-center overflow-hidden px-[var(--gutter)] py-16">
+      <div aria-hidden="true" className="theme-intro-bg pointer-events-none absolute inset-0 -z-10" />
+
       <p
         aria-hidden="true"
-        className="font-heading text-7xl font-bold tracking-tight text-accent sm:text-8xl"
+        className="m-0 font-heading text-[clamp(8rem,28vw,22rem)] leading-[0.8] font-semibold tracking-[-0.06em] text-transparent"
+        style={{ WebkitTextStroke: "2px var(--ink)" }}
       >
         404
       </p>
 
-      <h1 className="mt-4 font-heading text-3xl font-bold tracking-tight text-text-primary sm:text-4xl">
-        {t.notFound.headline}
+      <h1 className="m-0 mt-8 max-w-[18ch] font-heading text-[clamp(2.5rem,5vw,4.5rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-ink">
+        <span className="home-hl">{t.notFound.headline}</span>
       </h1>
 
-      <p className="mt-4 text-sm leading-relaxed text-text-secondary sm:text-base">
+      <p className="mt-6 max-w-[56ch] text-base leading-relaxed text-muted sm:text-lg">
         {t.notFound.description}
       </p>
 
-      <nav
-        aria-label={t.notFound.navLabel}
-        className="mt-8 flex flex-wrap items-center justify-center gap-3"
-      >
+      <nav aria-label={t.notFound.navLabel} className="mt-10 flex flex-wrap items-center gap-3">
         <Link
           href="/"
-          className="inline-flex h-11 items-center justify-center rounded-full bg-accent px-6 text-sm font-semibold text-accent-text shadow-[0_4px_14px_-2px_rgba(158,103,71,0.35)] transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-[1.5px] border-accent-ink bg-highlight px-7 font-semibold text-accent-ink no-underline transition-transform hover:scale-105"
         >
-          {t.notFound.backHome}
+          {t.notFound.backHome} <span aria-hidden="true" className="ml-2">→</span>
         </Link>
 
         <Link
           href="/contacto"
-          className="inline-flex h-11 items-center justify-center rounded-full border border-border bg-surface px-6 text-sm font-semibold text-text-primary transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/60 hover:bg-surface-hover focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2"
+          className="inline-flex min-h-[52px] items-center justify-center rounded-full border-[1.5px] border-ink px-7 font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg"
         >
           {t.notFound.contact}
         </Link>

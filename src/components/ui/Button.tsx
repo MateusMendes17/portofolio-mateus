@@ -14,29 +14,30 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 }
 
 const BASE_CLASSES = cn(
-  "group relative inline-flex select-none items-center justify-center rounded-md font-semibold",
-  "transition-[background-color,border-color,color,transform] duration-[var(--duration-160)] ease-[var(--ease-out)]",
+  "group relative inline-flex select-none items-center justify-center rounded-full font-semibold",
+  "transition-[background-color,border-color,color,transform] duration-[var(--duration-240)] ease-[var(--ease-out)]",
   "active:translate-y-px disabled:pointer-events-none disabled:opacity-50",
   "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--focus)]"
 );
 
 const SIZE_CLASSES: Record<ButtonSize, string> = {
-  sm: "h-9 gap-2 px-4 text-xs",
-  md: "h-11 gap-2.5 px-6 text-sm",
-  lg: "h-13 gap-3 px-8 text-base",
+  sm: "h-10 gap-2 px-5 text-xs",
+  md: "h-12 gap-2.5 px-7 text-sm",
+  lg: "h-14 gap-3 px-8 text-base",
 };
 
+/* Mesma linguagem da home: pílulas com hairline de 1.5px. */
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
   primary:
-    "border border-[var(--accent-button-border)] bg-highlight text-accent-ink hover:bg-highlight-hover",
+    "border-[1.5px] border-accent-ink bg-highlight text-accent-ink hover:scale-[1.04]",
   contact:
-    "border border-[var(--accent-button-border)] bg-highlight text-accent-ink hover:bg-highlight-hover",
+    "border-[1.5px] border-accent-ink bg-highlight text-accent-ink hover:scale-[1.04]",
   secondary:
-    "border border-line bg-surface text-ink hover:border-line-strong hover:bg-surface-hover",
+    "border-[1.5px] border-ink bg-transparent text-ink hover:bg-ink hover:text-bg",
   outline:
-    "border border-line-strong bg-transparent text-ink hover:bg-surface-2",
+    "border-[1.5px] border-ink bg-transparent text-ink hover:bg-ink hover:text-bg",
   ghost:
-    "border border-transparent bg-transparent text-ink-2 hover:bg-surface-2 hover:text-ink",
+    "border-[1.5px] border-transparent bg-transparent text-ink-2 hover:bg-surface-2 hover:text-ink",
 };
 
 function ArrowIcon() {

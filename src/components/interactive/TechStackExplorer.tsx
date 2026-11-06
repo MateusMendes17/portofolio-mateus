@@ -41,7 +41,7 @@ export function TechStackExplorer() {
       : techItems.filter((item) => item.category === activeTab);
 
   return (
-    <div className="rounded-3xl border border-border/80 bg-surface/80 backdrop-blur-xl p-6 sm:p-10 shadow-sm">
+    <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-10">
       {/* Cabeçalho */}
       <div className="space-y-4 mb-8">
         <div>
@@ -58,7 +58,7 @@ export function TechStackExplorer() {
 
         {/* Filtros de Categoria Alinhados em Linha Única */}
         <div className="pt-1">
-          <div className="inline-flex items-center gap-1.5 p-1 rounded-2xl bg-surface-hover/70 border border-border/60 max-w-full overflow-x-auto scrollbar-none">
+          <div className="inline-flex items-center gap-1.5 p-1 rounded-[20px] bg-surface-hover/70 border border-border/60 max-w-full overflow-x-auto scrollbar-none">
             {([
               { id: "all", label: t.stackExplorer.filters.all },
               { id: "frontend", label: "Frontend" },
@@ -70,7 +70,7 @@ export function TechStackExplorer() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveTab(cat.id)}
-                className={`rounded-xl px-3.5 sm:px-4 py-2 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`rounded-[14px] px-3.5 sm:px-4 py-2 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   activeTab === cat.id
                     ? "bg-accent text-white shadow-sm"
                     : "text-text-secondary hover:text-text-primary hover:bg-surface/60"
@@ -94,7 +94,7 @@ export function TechStackExplorer() {
                 key={tech.id}
                 type="button"
                 onClick={() => setSelectedTech(tech)}
-                className={`flex flex-col text-left p-4 rounded-2xl border transition-all duration-200 cursor-pointer ${
+                className={`flex flex-col text-left p-4 rounded-[20px] border transition-all duration-200 cursor-pointer ${
                   isSelected
                     ? "border-accent bg-accent-subtle/50 shadow-md ring-1 ring-accent"
                     : "border-border/70 bg-surface/70 hover:border-accent/40 hover:bg-surface-hover"
@@ -125,7 +125,7 @@ export function TechStackExplorer() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="rounded-2xl border border-accent/30 bg-surface p-6 sm:p-7 shadow-lg relative overflow-hidden"
+              className="rounded-[20px] border border-accent/30 bg-surface p-6 sm:p-7 shadow-lg relative overflow-hidden"
             >
               {/* Badge de Categoria */}
               <div className="flex items-center justify-between mb-4">
@@ -145,7 +145,7 @@ export function TechStackExplorer() {
               </p>
 
               <div className="mt-5 space-y-4 text-xs sm:text-sm">
-                <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
+                <div className="p-3.5 rounded-[14px] bg-surface-hover/60 border border-border/60">
                   <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                     {t.stackExplorer.labels.businessBenefit}
                   </span>
@@ -155,7 +155,7 @@ export function TechStackExplorer() {
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
-                  <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
+                  <div className="p-3.5 rounded-[14px] bg-surface-hover/60 border border-border/60">
                     <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                       {currentSelected.metricLabel}
                     </span>
@@ -164,7 +164,7 @@ export function TechStackExplorer() {
                     </span>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-surface-hover/60 border border-border/60">
+                  <div className="p-3.5 rounded-[14px] bg-surface-hover/60 border border-border/60">
                     <span className="block text-xs font-bold uppercase tracking-wider text-text-muted mb-1">
                       {t.stackExplorer.labels.appliedIn}
                     </span>

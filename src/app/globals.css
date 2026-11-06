@@ -144,13 +144,13 @@
   /* Preview de projetos */
   --preview-aspect-desktop: 16 / 10;
   --preview-aspect-mobile: 4 / 3;
-  --preview-radius: 8px;
-  --preview-radius-mobile: 6px;
+  --preview-radius: 24px;
+  --preview-radius-mobile: 16px;
   --preview-bar-h: 28px;
   --preview-bar-h-mobile: 24px;
   --preview-dot: 6px;
   --preview-dot-mobile: 5px;
-  --preview-border: var(--line-strong);
+  --preview-border: var(--ink);
   --preview-border-active: var(--ink);
   --preview-bar-bg: var(--surface-2);
   --preview-dot-bg: var(--line-strong);

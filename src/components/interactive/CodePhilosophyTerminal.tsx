@@ -27,7 +27,7 @@ export function CodePhilosophyTerminal() {
   };
 
   return (
-    <div className="rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-6 sm:p-10 shadow-sm">
+    <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-10">
       <div className="max-w-2xl mb-8">
         <span className="text-xs uppercase tracking-wider font-bold text-accent">
           {t.terminal.badge}
@@ -41,15 +41,15 @@ export function CodePhilosophyTerminal() {
       </div>
 
       {/* Janela de Terminal / IDE */}
-      <div className="rounded-2xl border border-border/90 bg-[#161311] text-[#E6D5C3] shadow-2xl overflow-hidden font-mono text-xs sm:text-sm">
+      <div className="rounded-[20px] border border-border/90 bg-[var(--code-bg)] text-[var(--code-ink)] shadow-2xl overflow-hidden font-mono text-xs sm:text-sm">
         {/* Barra Superior da Janela */}
-        <div className="flex items-center justify-between px-4 py-3 bg-[#1C1816] border-b border-white/10 select-none">
+        <div className="flex items-center justify-between px-4 py-3 bg-[var(--code-surface)] border-b border-white/10 select-none">
           {/* Bolinhas estilo macOS */}
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-[#E05252]/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-[#E5A93B]/80 inline-block" />
             <span className="h-3 w-3 rounded-full bg-[#52BA69]/80 inline-block" />
-            <span className="ml-2 text-xs text-[#A8988B] hidden sm:inline">
+            <span className="ml-2 text-xs text-[var(--code-muted)] hidden sm:inline">
               mateus@workstation: ~/portfolio/{t.terminal.path}
             </span>
           </div>
@@ -58,7 +58,7 @@ export function CodePhilosophyTerminal() {
           <button
             type="button"
             onClick={handleCopy}
-            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-[#A8988B] hover:text-white hover:bg-white/10 transition-colors"
+            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-xs text-[var(--code-muted)] hover:text-white hover:bg-white/10 transition-colors"
           >
             <span>
               {copied ? t.terminal.copied : t.terminal.copy}
@@ -67,7 +67,7 @@ export function CodePhilosophyTerminal() {
         </div>
 
         {/* Separadores de Ficheiro (Tabs) */}
-        <div className="flex items-center overflow-x-auto bg-[#181412] border-b border-white/10 px-2 pt-2 scrollbar-none select-none">
+        <div className="flex items-center overflow-x-auto bg-[var(--code-surface)] border-b border-white/10 px-2 pt-2 scrollbar-none select-none">
           {files.map((file) => {
             const isActive = activeFile.id === file.id;
             return (
@@ -77,11 +77,11 @@ export function CodePhilosophyTerminal() {
                 onClick={() => setActiveFileId(file.id)}
                 className={`flex items-center gap-2 px-4 py-2 text-xs rounded-t-xl transition-all border-t border-x ${
                   isActive
-                    ? "bg-[#161311] text-[#E6D5C3] border-white/10 font-bold"
-                    : "bg-transparent text-[#8D7D72] border-transparent hover:text-[#C98E6C]"
+                    ? "bg-[var(--code-bg)] text-[var(--code-ink)] border-white/10 font-bold"
+                    : "bg-transparent text-[var(--code-muted)] border-transparent hover:text-[var(--code-accent)]"
                 }`}
               >
-                <span className="text-accent text-xs">
+                <span className="text-[var(--code-accent)] text-xs">
                   {file.name.endsWith(".ts") ? "TS" : file.name.endsWith(".json") ? "{}" : "#"}
                 </span>
                 <span>{file.name}</span>
@@ -99,7 +99,7 @@ export function CodePhilosophyTerminal() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
-              className="leading-relaxed text-[#D6C4B2] selection:bg-[#C98E6C]/30"
+              className="leading-relaxed text-[var(--code-ink)] selection:bg-[var(--code-accent)]/30"
             >
               <code>{activeFile.content}</code>
             </motion.pre>
@@ -107,7 +107,7 @@ export function CodePhilosophyTerminal() {
         </div>
 
         {/* Rodapé do Terminal */}
-        <div className="px-4 py-2 bg-[#1C1816] border-t border-white/10 text-xs text-[#8D7D72] flex items-center justify-between">
+        <div className="px-4 py-2 bg-[var(--code-surface)] border-t border-white/10 text-xs text-[var(--code-muted)] flex items-center justify-between">
           <span>UTF-8 • {activeFile.language}</span>
           <span className="flex items-center gap-1.5 text-emerald-400">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />

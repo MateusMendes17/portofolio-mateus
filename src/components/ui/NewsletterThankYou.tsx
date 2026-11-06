@@ -62,7 +62,7 @@ export function NewsletterThankYou() {
         <a
           href="/lead-magnet/checklist-conversao.pdf"
           download="checklist-conversao.pdf"
-          className="inline-flex items-center gap-2 rounded-2xl bg-accent hover:bg-accent-hover text-surface px-8 py-4 text-base font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+          className="inline-flex items-center gap-2 rounded-[20px] bg-accent hover:bg-accent-hover text-surface px-8 py-4 text-base font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -82,14 +82,14 @@ export function NewsletterThankYou() {
         href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "form-success")}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-sm font-bold transition-all shadow-md hover:shadow-lg mb-10"
+        className="inline-flex items-center gap-2 rounded-[20px] bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-sm font-bold transition-all shadow-md hover:shadow-lg mb-10"
       >
         <WhatsAppIcon className="w-4 h-4" />
         <span>{isEnglish ? "Talk on WhatsApp" : "Falar no WhatsApp"}</span>
       </a>
 
       {/* What's Next Section */}
-      <div className="rounded-2xl border border-border/70 bg-surface/80 backdrop-blur-xl p-6 sm:p-8 text-left">
+      <div className="rounded-[20px] border border-border/70 bg-surface/80 p-6 sm:p-8 text-left">
         <h2 className="font-heading text-lg font-bold text-text-primary mb-6 flex items-center gap-2">
           <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
@@ -122,15 +122,15 @@ export function NewsletterThankYou() {
           {isEnglish ? "Recent Work" : "Trabalhos Recentes"}
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-          <div className="rounded-xl border border-border/60 bg-surface p-4 hover:border-accent/40 transition-colors">
+          <div className="rounded-[14px] border border-border/60 bg-surface p-4 hover:border-accent/40 transition-colors">
             <p className="text-xs font-bold uppercase tracking-wider text-accent mb-1">Law Firm</p>
             <p className="text-sm text-text-secondary">Silva & Associados — 98/100 PageSpeed</p>
           </div>
-          <div className="rounded-xl border border-border/60 bg-surface p-4 hover:border-accent/40 transition-colors">
+          <div className="rounded-[14px] border border-border/60 bg-surface p-4 hover:border-accent/40 transition-colors">
             <p className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1">E-Commerce</p>
             <p className="text-sm text-text-secondary">Green Harvest — MB WAY + Multibanco</p>
           </div>
-          <div className="rounded-xl border border-border/60 bg-surface p-4 hover:border-accent/40 transition-colors">
+          <div className="rounded-[14px] border border-border/60 bg-surface p-4 hover:border-accent/40 transition-colors">
             <p className="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-sky-400 mb-1">Landing Page</p>
             <p className="text-sm text-text-secondary">Clínica Sorrir — CPL reduced 60%</p>
           </div>

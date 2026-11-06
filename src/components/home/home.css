@@ -1,0 +1,234 @@
+/* ============================================================
+   HOME — direção "Nome cinético"
+   Estilos que o Tailwind não cobre: fundo topográfico por tema,
+   letras variáveis, faixas em movimento, hovers e o marcador.
+   Usa apenas os tokens de globals.css, por isso claro/escuro
+   funcionam com a classe .dark do next-themes.
+   ============================================================ */
+
+/* ---------- Fundo topográfico ---------- */
+.home-hero-bg {
+  background: url("/hero/topo-light.webp") center top / cover no-repeat;
+  animation: home-drift 30s ease-in-out infinite alternate;
+}
+.dark .home-hero-bg {
+  background-image: url("/hero/topo-dark.webp");
+}
+@keyframes home-drift {
+  from { transform: scale(1.08) translate(-1%, 1%); }
+  to { transform: scale(1) translate(1%, -1%); }
+}
+
+/* ---------- Nome cinético ---------- */
+.home-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-family: var(--font-kinetic), var(--font-heading), sans-serif;
+  /* Cabe na largura e na altura do primeiro ecrã. */
+  font-size: min(19.5vw, 30svh);
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  user-select: none;
+}
+.home-letter {
+  display: block;
+  font-variation-settings: "wght" 800, "wdth" 100, "opsz" 96;
+  transition:
+    font-variation-settings 0.55s var(--ease-out),
+    transform 0.55s var(--ease-out);
+}
+.home-letter[data-state="wave"] { animation: home-wave 4.2s ease-in-out infinite; }
+.home-letter[data-state="h0"] { font-variation-settings: "wght" 200, "wdth" 75, "opsz" 96; transform: translateY(-3%); }
+.home-letter[data-state="h1"] { font-variation-settings: "wght" 420, "wdth" 82, "opsz" 96; }
+.home-letter[data-state="h2"] { font-variation-settings: "wght" 640, "wdth" 92, "opsz" 96; }
+@keyframes home-wave {
+  0%, 100% { font-variation-settings: "wght" 800, "wdth" 100, "opsz" 96; }
+  45% { font-variation-settings: "wght" 250, "wdth" 75, "opsz" 96; }
+}
+
+/* Faixa chartreuse por trás da segunda linha. O texto usa sempre
+   --accent-ink (o chartreuse nunca leva texto claro). */
+.home-mark {
+  position: relative;
+  z-index: 0;
+  color: var(--accent-ink);
+}
+.home-mark::before {
+  content: "";
+  position: absolute;
+  inset: 14% calc(var(--gutter) * -1) -6%;
+  background: var(--accent);
+  z-index: -1;
+  transform-origin: left;
+  animation: home-swipe 1.3s var(--ease-out) both 0.5s;
+}
+@keyframes home-swipe { from { transform: scaleX(0); } }
+
+/* Marcador em texto corrido */
+.home-hl {
+  background: var(--accent);
+  color: var(--accent-ink);
+  padding: 0 0.12em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Contorno de texto */
+.home-stroke {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+}
+
+/* ---------- Ponto "disponível" ---------- */
+.home-dot {
+  position: relative;
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--success);
+}
+.home-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--success);
+  animation: home-ping 1.8s ease-out infinite;
+}
+@keyframes home-ping { to { transform: scale(3); opacity: 0; } }
+
+/* ---------- Selo redondo ---------- */
+.home-badge { transition: transform 0.5s var(--ease-out); }
+.home-badge:hover { transform: scale(1.08); }
+.home-badge-ring { animation: home-spin 14s linear infinite; }
+.home-badge-arrow { transition: transform 0.5s var(--ease-out); }
+.home-badge:hover .home-badge-arrow { transform: rotate(-45deg); }
+@keyframes home-spin { to { transform: rotate(360deg); } }
+
+/* ---------- Faixas ---------- */
+.home-band {
+  display: flex;
+  width: max-content;
+  animation: home-marquee 26s linear infinite;
+}
+.home-band[data-reverse] { animation-direction: reverse; }
+@keyframes home-marquee { to { transform: translateX(-50%); } }
+
+/* ---------- Linhas de projeto ---------- */
+.home-prow { transition: background-color 0.4s var(--ease-out), color 0.4s; }
+.home-prow:hover,
+.home-prow:focus-visible { background: var(--accent); color: var(--accent-ink); }
+.home-prow:hover .home-prow-meta,
+.home-prow:focus-visible .home-prow-meta { color: var(--accent-ink); }
+.home-prow-name { transition: transform 0.6s var(--ease-out); }
+.home-prow:hover .home-prow-name { transform: translateX(28px); }
+.home-prow-arrow { transition: transform 0.5s var(--ease-out); }
+.home-prow:hover .home-prow-arrow { transform: rotate(-45deg); }
+.home-prow-preview {
+  position: absolute;
+  right: 12%;
+  top: 50%;
+  width: 320px;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--r-frame);
+  border: 1px solid var(--accent-ink);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-50%) rotate(8deg) scale(0.6);
+  transition: opacity 0.35s, transform 0.6s var(--ease-out);
+  pointer-events: none;
+  box-shadow: var(--shadow-xl);
+  z-index: 2;
+}
+.home-prow:hover .home-prow-preview { opacity: 1; transform: translateY(-50%) rotate(-5deg) scale(1); }
+
+/* ---------- Cartões de serviço ---------- */
+.home-svc { transition: transform 0.5s var(--ease-out), box-shadow 0.5s; }
+.home-svc:hover { transform: translateY(-10px) rotate(-1deg); box-shadow: var(--shadow-xl); }
+
+/* ---------- Avaliador ---------- */
+.home-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 22px 4px var(--accent);
+  animation: home-scan 3.2s ease-in-out infinite;
+}
+@keyframes home-scan { 0%, 100% { top: 0; } 50% { top: calc(100% - 2px); } }
+
+/* ---------- FAQ ---------- */
+.home-plus { transition: transform 0.45s var(--ease-out), background-color 0.3s, color 0.3s; }
+[aria-expanded="true"] .home-plus,
+.theme-faq[open] .home-plus {
+  transform: rotate(45deg);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent-ink);
+}
+
+/* ---------- Contacto final ----------
+   Claro: bloco escuro com "falar?" a chartreuse.
+   Escuro: bloco chartreuse com texto escuro (inversão). */
+.home-contact { background: var(--code-bg); color: var(--code-ink); }
+.home-contact-muted { color: var(--code-muted); }
+.home-contact-accent { color: var(--accent); }
+.home-contact-line { border-color: rgb(241 239 230 / 0.25); }
+.dark .home-contact { background: var(--accent); color: var(--accent-ink); --focus: var(--accent-ink); }
+.dark .home-contact-muted { color: #3a3a36; }
+.dark .home-contact-accent { color: var(--accent-ink); text-decoration: underline; text-decoration-thickness: 0.06em; text-underline-offset: 0.08em; }
+.dark .home-contact-line { border-color: rgb(11 11 12 / 0.25); }
+.home-contact-primary { background: var(--accent); color: var(--accent-ink); }
+.dark .home-contact-primary { background: var(--accent-ink); color: var(--accent); }
+.home-contact-cta { transition: letter-spacing 0.9s var(--ease-out); }
+.home-contact-cta:hover { letter-spacing: -0.01em; }
+
+/* ---------- Páginas interiores ----------
+   O mesmo tema aplicado ao resto do site: cabeçalho com fundo
+   topográfico, cartões arredondados com hover e lista com hover
+   chartreuse. */
+.theme-intro-bg {
+  background: url("/hero/topo-light.webp") center top / cover no-repeat;
+  opacity: 0.55;
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+.dark .theme-intro-bg {
+  background-image: url("/hero/topo-dark.webp");
+  opacity: 0.7;
+}
+.theme-card {
+  border-radius: 28px;
+  transition: transform 0.5s var(--ease-out), box-shadow 0.5s, border-color 0.3s;
+}
+.theme-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); }
+.theme-row { transition: background-color 0.4s var(--ease-out), color 0.4s; }
+.theme-row:hover { background: var(--accent); color: var(--accent-ink); }
+.theme-row:hover .text-muted,
+.theme-row:hover .text-ink,
+.theme-row:hover .text-ink-2 { color: var(--accent-ink); }
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-bg,
+  .home-letter,
+  .home-mark::before,
+  .home-dot::after,
+  .home-badge-ring,
+  .home-band,
+  .home-scan { animation: none !important; }
+  .home-letter,
+  .home-prow-name,
+  .home-prow-preview,
+  .home-svc,
+  .theme-card,
+  .home-badge { transition: none !important; }
+  .home-svc:hover,
+  .theme-card:hover { transform: none; }
+}
+
+@media (max-width: 720px) {
+  .home-prow-preview { display: none; }
+}

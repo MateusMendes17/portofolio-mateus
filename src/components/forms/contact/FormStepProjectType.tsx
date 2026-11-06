@@ -49,14 +49,14 @@ export function FormStepProjectType({ form }: { form: ContactFormController }) {
                     selectProjectType(pt.id);
                   }
                 }}
-                className={`group relative flex items-start gap-4 rounded-2xl border p-4 text-left transition-all duration-200 cursor-pointer ${
+                className={`group relative flex items-start gap-4 rounded-[20px] border p-4 text-left transition-all duration-200 cursor-pointer ${
                   isSelected
                     ? "border-accent bg-accent-subtle/50 shadow-md ring-1 ring-accent"
                     : "border-border/80 bg-surface/60 hover:border-accent/40 hover:bg-surface-hover/50"
                 }`}
               >
                 <div
-                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border transition-colors ${
+                  className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[20px] border transition-colors ${
                     isSelected
                       ? "bg-accent text-white border-accent"
                       : "bg-surface text-text-primary border-border group-hover:text-accent group-hover:border-accent/40"
@@ -115,7 +115,7 @@ export function FormStepProjectType({ form }: { form: ContactFormController }) {
                     value={formData.otherProjectType || ""}
                     onChange={handleInputChange}
                     placeholder={t.contact.form.step1.otherPlaceholder}
-                    className={`w-full rounded-xl border bg-surface px-4 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent ${
+                    className={`w-full rounded-[14px] border bg-surface px-4 py-2.5 text-xs sm:text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-accent ${
                       stepErrors.otherProjectType ? "border-destructive ring-1 ring-destructive" : "border-border"
                     }`}
                   />

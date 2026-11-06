@@ -257,16 +257,19 @@ export function AvaliadorView({
       `}</style>
 
       {/* ── Hero ── */}
-      <section className="container-page pt-8 lg:pt-14" data-hide-print>
+      <section className="relative isolate overflow-hidden px-[var(--gutter)]" data-hide-print>
+        <div aria-hidden="true" className="theme-intro-bg pointer-events-none absolute inset-0 -z-10" />
         <ScrollReveal direction="up" distance={30}>
-          <div className="flex items-center gap-3">
-            <span className="font-body text-label uppercase tracking-[0.12em] text-muted">{a.hero.badge}</span>
-            <span className="h-px w-6 bg-line-strong" aria-hidden="true" />
-            <span className="font-body text-micro uppercase tracking-wider text-muted">Next.js 16 • PageSpeed</span>
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-ink py-4 font-mono text-sm">
+            <span className="inline-flex items-center gap-3 text-ink">
+              <span className="home-dot" aria-hidden="true" />
+              {a.hero.badge}
+            </span>
+            <span className="text-muted">Next.js 16 • PageSpeed</span>
           </div>
-          <h1 className="mt-4 max-w-[20ch] font-heading text-display font-semibold text-ink">{a.hero.title}</h1>
-          <p className="mt-5 max-w-[62ch] font-body text-lead text-ink-2">{a.hero.subtitle}</p>
-          <div className="mt-4 flex items-center gap-2 font-body text-micro text-muted">
+          <h1 className="m-0 mt-10 max-w-[16ch] font-heading text-[clamp(3rem,7.5vw,7.5rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-ink">{a.hero.title}</h1>
+          <p className="mt-8 max-w-[60ch] font-heading text-[clamp(1.25rem,1.8vw,1.75rem)] leading-[1.3] tracking-[-0.02em] text-ink-2">{a.hero.subtitle}</p>
+          <div className="mt-5 flex items-center gap-2 font-mono text-xs text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-highlight ring-1 ring-ink/20" aria-hidden="true" />
             <span>{a.hero.privacyNote}</span>
           </div>
@@ -274,8 +277,9 @@ export function AvaliadorView({
       </section>
 
       {/* ── Formulário de Análise ── */}
-      <section className="container-page mt-8 lg:mt-10" data-hide-print>
-        <div className="border border-line bg-surface p-5 sm:p-7 shadow-xs">
+      <section className="container-page mt-10 lg:mt-12" data-hide-print>
+        <div className="dark relative overflow-hidden rounded-[28px] border border-line bg-surface p-6 text-ink sm:p-9">
+          <div className="home-scan pointer-events-none" aria-hidden="true" />
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row sm:items-end">
             <div className="flex-1">
               <label htmlFor="audit-url" className="block font-body text-label font-medium text-ink">
@@ -289,7 +293,7 @@ export function AvaliadorView({
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder={a.form.urlPlaceholder}
-                  className="w-full border border-line bg-bg px-4 py-3 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] disabled:opacity-60"
+                  className="w-full rounded-full border border-line bg-bg px-5 py-3.5 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] disabled:opacity-60"
                   disabled={loading}
                   required
                 />
@@ -307,7 +311,7 @@ export function AvaliadorView({
                     value={urlB}
                     onChange={(e) => setUrlB(e.target.value)}
                     placeholder={isEnglish ? "https://competitor.com" : "https://concorrente.pt"}
-                    className="w-full border border-line bg-bg px-4 py-3 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] disabled:opacity-60"
+                    className="w-full rounded-full border border-line bg-bg px-5 py-3.5 font-body text-sm text-ink placeholder:text-muted transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] disabled:opacity-60"
                     disabled={loading}
                     required
                   />
@@ -382,7 +386,7 @@ export function AvaliadorView({
       {/* ── Progresso em Streaming ── */}
       {loading && (
         <section className="container-page mt-8" aria-live="polite" data-hide-print>
-          <div className="border border-line bg-surface/60 p-6">
+          <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-8">
             <p className="font-body text-label font-medium uppercase tracking-wider text-muted">
               {isEnglish ? "Analysis in progress" : "Diagnóstico em curso"}
             </p>
@@ -430,7 +434,7 @@ export function AvaliadorView({
           {resultB && <CompareResults a={result} b={resultB} />}
 
           {/* 01. Pontuação Geral e Ações */}
-          <div className="border border-line bg-surface p-6 sm:p-8">
+          <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between border-b border-line pb-6">
               <div>
                 <p className="font-body text-label uppercase tracking-[0.14em] text-muted">{a.report.overallScore}</p>
@@ -480,12 +484,12 @@ export function AvaliadorView({
                 {result.categories.map((c) => {
                   const label = a.categories[c.category as keyof typeof a.categories] ?? c.category;
                   return (
-                    <div key={c.category} className="border border-line bg-bg p-4 flex flex-col justify-between">
+                    <div key={c.category} className="rounded-[20px] border border-line bg-bg p-4 flex flex-col justify-between">
                       <div className="flex items-center justify-between">
                         <span className="font-body text-xs font-medium text-ink">{label}</span>
                         <span className="font-heading text-lg font-semibold text-ink tabular-nums">{c.available === false ? "—" : c.score}</span>
                       </div>
-                      <div className="mt-3 h-2 w-full bg-surface-2 overflow-hidden">
+                      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-surface-2">
                         <div
                           className="h-full bg-highlight transition-all duration-500"
                           style={{ width: `${c.available === false ? 0 : c.score}%` }}
@@ -502,7 +506,7 @@ export function AvaliadorView({
           </div>
 
           {/* 03. O que já está bom (Strengths) */}
-          <div className="border border-line bg-surface p-6 sm:p-8 print-break-inside-avoid">
+          <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-8 print-break-inside-avoid">
             <div className="flex items-center gap-3">
               <span className="flex h-6 w-6 items-center justify-center rounded-full bg-highlight text-accent-ink font-bold text-xs">
                 ✓
@@ -518,7 +522,7 @@ export function AvaliadorView({
                   const title = resolveKey(f.titleKey, t) ?? f.id;
                   const what = resolveKey(f.whatKey, t) ?? "";
                   return (
-                    <li key={f.id} className="border border-line/70 bg-bg/60 p-3.5">
+                    <li key={f.id} className="rounded-[16px] border border-line/70 bg-bg/60 p-3.5">
                       <p className="font-body text-sm font-semibold text-ink flex items-start gap-2">
                         <span className="text-emerald-600 font-bold">✓</span>
                         {title}
@@ -532,7 +536,7 @@ export function AvaliadorView({
           </div>
 
           {/* 04. O que melhorar (Improvements) */}
-          <div className="border border-line bg-surface p-6 sm:p-8 print-break-inside-avoid">
+          <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-8 print-break-inside-avoid">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <div>
                 <h2 className="font-heading text-h3 font-semibold text-ink">{a.report.improvementsTitle}</h2>
@@ -566,7 +570,7 @@ export function AvaliadorView({
                       : "text-muted bg-surface-2 border-line";
 
                   return (
-                    <li key={f.id} className="border border-line bg-bg transition-colors">
+                    <li key={f.id} className="overflow-hidden rounded-[20px] border border-line bg-bg transition-colors">
                       <button
                         type="button"
                         onClick={() => toggleExpand(f.id)}
@@ -625,7 +629,7 @@ export function AvaliadorView({
           </div>
 
           {/* 05. Limitações desta análise */}
-          <div className="border border-line bg-surface/40 p-6 sm:p-7 print-break-inside-avoid">
+          <div className="rounded-[28px] border-[1.5px] border-line bg-surface/40 p-6 sm:p-7 print-break-inside-avoid">
             <h2 className="font-heading text-h3 font-semibold text-ink">{a.report.limitationsTitle}</h2>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
               {result.limitations.map((l, i) => {
@@ -641,17 +645,17 @@ export function AvaliadorView({
           </div>
 
           {/* ── Fase 8: Bloco de Contacto e Conversão ── */}
-          <div className="border-2 border-line-strong bg-surface p-6 sm:p-10 shadow-md print-break-inside-avoid" data-hide-print>
+          <div className="rounded-[40px] bg-highlight p-6 text-accent-ink sm:p-10 print-break-inside-avoid light" data-hide-print>
             <div className="max-w-2xl">
               <span className="font-body text-label uppercase tracking-[0.14em] text-muted">
                 {isEnglish ? "Next step" : "Próximo passo"}
               </span>
-              <h2 className="mt-2 font-heading text-display font-semibold text-ink">{a.cta.title}</h2>
+              <h2 className="mt-3 font-heading text-[clamp(2.5rem,5.5vw,5rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-ink">{a.cta.title}</h2>
               <p className="mt-3 font-body text-lead text-ink-2">{a.cta.subtitle}</p>
             </div>
 
             {/* Resumo visual do pedido */}
-            <div className="mt-6 border border-line bg-bg p-4 flex flex-wrap items-center justify-between gap-4">
+            <div className="mt-6 rounded-[20px] border-[1.5px] border-accent-ink bg-bg p-4 flex flex-wrap items-center justify-between gap-4">
               <div>
                 <span className="font-body text-micro uppercase tracking-wider text-muted">Website</span>
                 <p className="font-mono text-sm font-semibold text-ink truncate max-w-[28ch] sm:max-w-none">{result.url}</p>

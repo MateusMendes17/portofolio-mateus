@@ -14,6 +14,8 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import pt from "@/content/strings/pt";
 import "./globals.css";
+/* Tema "Nome cinético": classes partilhadas (marcador, ponto, fundo topográfico, painel final). */
+import "@/components/home/home.css";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",

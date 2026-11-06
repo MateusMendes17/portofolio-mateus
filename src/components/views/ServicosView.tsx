@@ -1,14 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Button } from "@/components/ui/Button";
-import { useLanguage } from "@/context/LanguageContext";
+import type { ReactNode } from "react";
+import { ButtonLink } from "@/components/ui/Button";
+import { CtaPanel } from "@/components/ui/CtaPanel";
+import { FaqAccordion } from "@/components/ui/FaqAccordion";
+import { PageIntro } from "@/components/ui/PageIntro";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/ui/ScrollReveal";
-import { TiltCard3D } from "@/components/ui/TiltCard3D";
-import { FloatingElements } from "@/components/ui/FloatingElements";
-import { TextReveal3D } from "@/components/ui/TextAnimations";
+import { useLanguage } from "@/context/LanguageContext";
 
 /* Ícones das garantias por id — os textos vivem em t.services.standards.items */
 const STANDARD_ICONS: Record<string, ReactNode> = {
@@ -52,317 +51,196 @@ const STANDARD_ICONS: Record<string, ReactNode> = {
 export function ServicosView() {
   const { t } = useLanguage();
 
-  // Horizontal Scroll Setup
-  const targetRef = useRef<HTMLDivElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: targetRef });
-
-  /* Distância exata a percorrer: largura do track menos a área visível.
-     Assim o último cartão termina alinhado à direita em qualquer ecrã —
-     uma percentagem fixa ("-70%") cortava o último cartão em telemóvel. */
-  const [distance, setDistance] = useState(0);
-  const [sectionHeight, setSectionHeight] = useState(0);
-
-  useEffect(() => {
-    const track = trackRef.current;
-    const container = track?.parentElement;
-    if (!track || !container) return;
-
-    const update = () => {
-      const scrollDistance = Math.max(0, track.scrollWidth - container.clientWidth);
-      setDistance(scrollDistance);
-      // Altura da secção = distância de scroll + altura do elemento sticky (65vh ~ 500px min)
-      // Isso garante espaço suficiente para o usuário scrollar toda a distância horizontal
-      const stickyHeight = Math.max(container.clientHeight * 0.65, 500);
-      setSectionHeight(scrollDistance + stickyHeight);
-    };
-
-    if (typeof ResizeObserver === "undefined") {
-      window.addEventListener("resize", update);
-      return () => window.removeEventListener("resize", update);
-    }
-
-    // O ResizeObserver entrega a primeira medição de forma assíncrona,
-    // logo não é preciso chamar `update()` aqui dentro.
-    const observer = new ResizeObserver(update);
-    observer.observe(track);
-    observer.observe(container);
-    return () => observer.disconnect();
-  }, []);
-
-  const x = useTransform(scrollYProgress, (progress) => -progress * distance);
-
   const servicesList = t.services.items;
   const standards = t.services.standards.items;
   const steps = t.services.process.steps;
   const faqs = t.services.faq.items;
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 lg:px-8 space-y-24">
-      {/* Floating 3D Geometric Elements for Page Background */}
-      <FloatingElements count={3} variant="minimal" />
+    <div className="pb-20 lg:pb-28">
+      {/* 1. Cabeçalho */}
+      <PageIntro
+        eyebrow={t.services.badge}
+        title={t.services.title}
+        description={t.services.description}
+        aside={
+          <div className="mt-8 flex flex-wrap gap-2">
+            {servicesList.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className="inline-flex min-h-[40px] items-center rounded-full border-[1.5px] border-ink px-4 text-sm font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg"
+              >
+                {item.title.split(" — ")[0].split(" & ")[0]} ↓
+              </a>
+            ))}
+          </div>
+        }
+      />
 
-      {/* 1. Cabeçalho de Alto Impacto */}
-      <section className="max-w-3xl relative z-10">
-        <ScrollReveal direction="up" distance={40}>
-        <span className="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-xs font-semibold text-text-secondary mb-3 shadow-sm">
-          <span className="h-2 w-2 rounded-full bg-accent animate-pulse" />
-          {t.services.badge}
-        </span>
-        <h1 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-text-primary">
-          <TextReveal3D>{t.services.title}</TextReveal3D>
-        </h1>
-        <p className="mt-6 text-lg sm:text-xl text-text-secondary leading-relaxed">
-          {t.services.description}
-        </p>
-
-        {/* Atalhos Rápidos */}
-        <div className="mt-8 flex flex-wrap gap-2 pt-2">
-          {servicesList.map((item) => (
-            <a
-              key={item.id}
-              href={`#${item.id}`}
-              className="rounded-full border border-border bg-surface/70 px-3.5 py-1.5 text-xs font-semibold text-text-secondary hover:text-text-primary hover:border-accent transition-all"
+      {/* 2. Lista dos serviços */}
+      <section className="flex flex-col gap-5 px-[var(--gutter)]">
+        {servicesList.map((service, index) => (
+          <ScrollReveal key={service.id} direction="up" distance={40}>
+            <article
+              id={service.id}
+              className="scroll-mt-24 rounded-[28px] border-[1.5px] border-ink bg-surface p-7 sm:p-10 lg:p-12"
             >
-              {item.title.split(" — ")[0].split(" & ")[0]} ↓
-            </a>
-          ))}
-        </div>
-        </ScrollReveal>
-      </section>
+              <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+                <div className="flex flex-col gap-5 lg:max-w-xl">
+                  <div className="flex items-center gap-4">
+                    <span
+                      className="font-heading text-[72px] leading-[0.8] font-semibold text-transparent"
+                      style={{ WebkitTextStroke: "2px var(--ink)" }}
+                      aria-hidden="true"
+                    >
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="bg-highlight px-2 py-0.5 font-mono text-sm text-accent-ink">
+                      {service.badge}
+                    </span>
+                  </div>
 
-      {/* 2. Lista dos 5 Serviços */}
-      <section className="space-y-12 sm:space-y-20 relative z-10">
-        {servicesList.map((service) => (
-          <ScrollReveal key={service.id} direction="up" distance={40} scale={0.98}>
-          <div
-            id={service.id}
-            className="rounded-3xl border border-border/80 bg-surface/85 backdrop-blur-xl p-8 sm:p-12 shadow-sm transition-all duration-300 hover:border-accent/40 hover:shadow-lg"
-          >
-            <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-10">
-              {/* Lado Esquerdo */}
-              <div className="lg:max-w-lg space-y-5">
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-xs font-bold text-accent px-3 py-1 rounded-full bg-accent-subtle">
-                    {service.badge}
-                  </span>
-                </div>
+                  <h2 className="m-0 font-heading text-[clamp(2rem,3.6vw,3.25rem)] leading-none font-semibold tracking-[-0.04em] text-ink">
+                    {service.title}
+                  </h2>
 
-                <h2 className="font-heading text-2xl sm:text-3xl font-bold tracking-tight text-text-primary">
-                  {service.title}
-                </h2>
+                  <p className="m-0 font-heading text-xl leading-snug font-semibold text-ink">{service.tagline}</p>
 
-                <p className="text-base font-semibold text-text-primary">
-                  {service.tagline}
-                </p>
+                  <p className="m-0 text-muted">{service.description}</p>
 
-                <p className="text-sm sm:text-base leading-relaxed text-text-secondary">
-                  {service.description}
-                </p>
+                  <div className="rounded-[20px] bg-highlight p-5 text-accent-ink">
+                    <p className="m-0 mb-1 font-mono text-xs uppercase tracking-[0.08em]">
+                      {t.services.labels.businessImpact}
+                    </p>
+                    <p className="m-0 text-sm font-medium leading-relaxed">{service.businessImpact}</p>
+                  </div>
 
-                <div className="rounded-xl border border-accent/20 bg-accent-subtle/50 p-4">
-                  <p className="text-xs font-bold uppercase tracking-wider text-accent mb-1">
-                    {t.services.labels.businessImpact}
-                  </p>
-                  <p className="text-xs sm:text-sm text-text-secondary leading-relaxed font-medium">
-                    {service.businessImpact}
-                  </p>
-                </div>
-
-                <div className="pt-2 text-xs text-text-muted">
-                  <p>
-                    <strong className="text-text-primary font-semibold">
-                      {t.services.labels.recommendedFor}
-                    </strong>{" "}
+                  <p className="m-0 text-sm text-muted">
+                    <strong className="font-semibold text-ink">{t.services.labels.recommendedFor}</strong>{" "}
                     {service.idealFor}
                   </p>
-                </div>
 
-                <div className="pt-3">
-                  <Link href="/contacto">
-                    <Button variant="primary" size="md" withArrow>
+                  <div>
+                    <ButtonLink href="/contacto" withArrow>
                       {t.services.labels.discussService}
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Lado Direito: Entregáveis */}
-              <div className="lg:flex-1 rounded-2xl border border-border/70 bg-surface-hover/50 p-6 sm:p-8 space-y-4">
-                <div className="flex items-center justify-between border-b border-border/60 pb-3">
-                  <span className="font-heading text-xs uppercase tracking-wider font-bold text-text-primary">
-                    {t.services.labels.deliverables}
-                  </span>
-                  <span className="text-xs text-text-muted">
-                    {t.services.labels.includedStandard}
-                  </span>
+                    </ButtonLink>
+                  </div>
                 </div>
 
-                <ul className="space-y-3 pt-2">
-                  {service.includes.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-text-secondary">
-                      <div className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent mt-0.5">
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24">
-                          <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                      </div>
-                      <span className="leading-relaxed font-medium">{item}</span>
-                    </li>
-                  ))}
-                </ul>
+                {/* Entregáveis */}
+                <div className="code-surface flex flex-col gap-4 rounded-[24px] bg-[var(--code-bg)] p-6 text-[var(--code-ink)] sm:p-8 lg:flex-1">
+                  <div className="flex items-center justify-between gap-4 border-b border-[var(--code-line)] pb-3">
+                    <span className="font-mono text-sm text-[var(--code-accent)]">
+                      {t.services.labels.deliverables}
+                    </span>
+                    <span className="text-xs text-[var(--code-muted)]">{t.services.labels.includedStandard}</span>
+                  </div>
 
-                <div className="pt-4 border-t border-border/60">
-                  <span className="text-xs font-bold uppercase tracking-wider text-text-muted block mb-2">
-                    {t.services.labels.techStack}
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {service.techStack.map((tech) => (
-                      <span
-                        key={tech}
-                        className="rounded-lg bg-surface border border-border px-2.5 py-1 text-xs font-medium text-text-secondary"
-                      >
-                        {tech}
-                      </span>
+                  <ul className="m-0 flex list-none flex-col gap-3 p-0">
+                    {service.includes.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm">
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-highlight text-accent-ink">
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        </span>
+                        <span className="leading-relaxed">{item}</span>
+                      </li>
                     ))}
+                  </ul>
+
+                  <div className="border-t border-[var(--code-line)] pt-4">
+                    <span className="mb-2 block font-mono text-xs text-[var(--code-muted)]">
+                      {t.services.labels.techStack}
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {service.techStack.map((tech) => (
+                        <span
+                          key={tech}
+                          className="rounded-full border border-[var(--code-line)] px-3 py-1 text-xs font-medium"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
+            </article>
           </ScrollReveal>
         ))}
       </section>
 
-      {/* 3. Padrões de Excelência */}
-      <section className="space-y-8 relative z-10">
+      {/* 3. Garantias */}
+      <section className="px-[var(--gutter)] pt-[var(--section)]">
         <ScrollReveal direction="up" distance={30}>
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-            {t.services.standards.badge}
-          </span>
-          <h2 className="mt-1 font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-            <TextReveal3D>{t.services.standards.title}</TextReveal3D>
-          </h2>
-          <p className="mt-2 text-sm text-text-secondary leading-relaxed">
-            {t.services.standards.description}
-          </p>
-        </div>
+          <SectionHeading
+            eyebrow={t.services.standards.badge}
+            title={t.services.standards.title}
+            description={t.services.standards.description}
+          />
         </ScrollReveal>
 
-        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" stagger={0.12}>
-          {standards.map((std, i) => (
-            <StaggerItem key={i}><TiltCard3D>
-            <div
-              className="rounded-2xl border border-border/70 bg-surface/70 p-6 space-y-3 transition-all hover:border-accent/40 h-full shimmer-scan"
-            >
-              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-surface-hover border border-border text-text-primary">
-                {STANDARD_ICONS[std.id]}
+        <StaggerContainer className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3" stagger={0.1}>
+          {standards.map((std) => (
+            <StaggerItem key={std.id}>
+              <div className="theme-card flex h-full flex-col gap-4 border-[1.5px] border-ink bg-surface p-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-highlight text-accent-ink">
+                  {STANDARD_ICONS[std.id]}
+                </div>
+                <h3 className="m-0 font-heading text-2xl leading-tight font-semibold text-ink">{std.title}</h3>
+                <p className="m-0 text-muted">{std.description}</p>
               </div>
-              <h3 className="font-heading text-base font-bold text-text-primary">{std.title}</h3>
-              <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">{std.description}</p>
-            </div>
-            </TiltCard3D></StaggerItem>
-          ))}
-        </StaggerContainer>
-      </section>
-
-      {/* 4. Processo em 4 Etapas (Horizontal Scroll Invertido) */}
-      <section
-        ref={targetRef}
-        className="relative w-[100vw] left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] dark dark:light bg-background text-text-primary pt-24 pb-12 border-y border-border transition-colors duration-500"
-        style={{ height: sectionHeight > 0 ? `${sectionHeight}px` : "250vh" }}
-      >
-        {/* `h-full` é essencial: dá ao `sticky` um contentor mais alto do que
-            ele próprio, sem o qual não existe espaço para "grudar" no ecrã. */}
-        <div className="mx-auto h-full max-w-6xl px-4 sm:px-6 lg:px-8">
-          <div className="sticky top-24 h-[65vh] min-h-[500px] flex flex-col justify-center overflow-hidden">
-            
-            {/* Cabeçalho Fixo */}
-            <ScrollReveal direction="up" distance={30} className="max-w-2xl mb-12 shrink-0">
-              <span className="text-xs font-semibold uppercase tracking-wider text-accent">
-                {t.services.process.badge}
-              </span>
-              <h2 className="mt-2 font-heading text-3xl sm:text-4xl font-bold">
-                <TextReveal3D>{t.services.process.title}</TextReveal3D>
-              </h2>
-            </ScrollReveal>
-
-            {/* Área de Movimento Horizontal */}
-            <div className="relative flex-1 flex items-center overflow-hidden">
-              <motion.div ref={trackRef} style={{ x }} className="flex gap-6 w-max pr-4">
-                {steps.map((st) => (
-                  <div 
-                    key={st.step} 
-                    className="w-[75vw] sm:w-[45vw] lg:w-[30vw] shrink-0 rounded-2xl border border-border bg-surface p-6 sm:p-8 hover:border-accent transition-colors shadow-sm"
-                  >
-                    <span className="text-4xl sm:text-5xl font-bold font-heading text-accent/40 block mb-6">{st.step}</span>
-                    <h3 className="text-xl sm:text-2xl font-bold mb-3">{st.title}</h3>
-                    <p className="text-sm sm:text-base text-text-secondary leading-relaxed">{st.desc}</p>
-                  </div>
-                ))}
-              </motion.div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* 5. FAQ */}
-      <section className="space-y-6 relative z-10">
-        <ScrollReveal direction="up" distance={30}>
-        <div className="max-w-2xl">
-          <span className="text-xs font-semibold text-accent uppercase tracking-wider">
-            {t.services.faq.badge}
-          </span>
-          <h2 className="mt-1 font-heading text-2xl sm:text-3xl font-bold text-text-primary">
-            <TextReveal3D>{t.services.faq.title}</TextReveal3D>
-          </h2>
-        </div>
-        </ScrollReveal>
-
-        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2" stagger={0.12}>
-          {faqs.map((faq, i) => (
-            <StaggerItem key={i}>
-            <div className="rounded-2xl border border-border/60 bg-surface p-6 space-y-2 hover:border-accent/30 transition-colors h-full">
-              <h3 className="font-heading text-base font-bold text-text-primary">{faq.q}</h3>
-              <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">{faq.a}</p>
-            </div>
             </StaggerItem>
           ))}
         </StaggerContainer>
       </section>
 
-      {/* 6. Call to Action */}
-      <section className="mx-auto">
-        <ScrollReveal direction="up" distance={50} scale={0.95}>
-        <div className="relative rounded-3xl sm:rounded-[2.5rem] border border-accent/40 bg-surface/90 backdrop-blur-xl p-8 sm:p-14 text-center shadow-xl space-y-6 overflow-hidden">
-          {/* Floating 3D elements in CTA */}
-          <FloatingElements count={4} variant="minimal" />
-          
-          <div className="relative z-10">
-            <h2 className="font-heading text-3xl sm:text-4xl font-bold text-text-primary">
-              {t.services.cta.title}
-            </h2>
-            <p className="text-base text-text-secondary max-w-xl mx-auto mt-5">
-              {t.services.cta.description}
-            </p>
-            
-            <div className="pt-2 mt-8 flex flex-wrap justify-center gap-4">
-              <Link href="/contacto">
-                <Button variant="primary" size="lg" withArrow className="font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-                  {t.common.startConversation}
-                </Button>
-              </Link>
-              <Link href="/avaliador">
-                <Button variant="secondary" size="lg" className="font-semibold">
-                  {t.nav.audit}
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+      {/* 4. Processo */}
+      <section className="px-[var(--gutter)] pt-[var(--section)]">
+        <ScrollReveal direction="up" distance={30}>
+          <SectionHeading eyebrow={t.services.process.badge} title={t.services.process.title} />
         </ScrollReveal>
+        <ol className="m-0 mt-12 flex list-none flex-wrap border-t-[1.5px] border-ink p-0">
+          {steps.map((step) => (
+            <li key={step.step} className="min-w-0 flex-[1_1_260px] py-8 pr-7">
+              <span className="inline-block bg-highlight px-2 py-0.5 font-mono text-sm text-accent-ink">
+                {step.step}
+              </span>
+              <h3 className="m-0 mt-4 font-heading text-[1.75rem] leading-[1.05] font-semibold text-ink">
+                {step.title}
+              </h3>
+              <p className="m-0 mt-3 text-muted">{step.desc}</p>
+            </li>
+          ))}
+        </ol>
       </section>
+
+      {/* 5. FAQ */}
+      <section className="flex flex-wrap gap-12 px-[var(--gutter)] pt-[var(--section)]">
+        <div className="flex-[1_1_300px]">
+          <p className="m-0 font-mono text-sm text-muted">{t.services.faq.badge}</p>
+          <h2 className="m-0 mt-5 font-heading text-[clamp(2.5rem,5vw,5rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-ink">
+            {t.services.faq.title}
+          </h2>
+        </div>
+        <div className="min-w-0 flex-[2_1_560px]">
+          <FaqAccordion items={faqs} />
+        </div>
+      </section>
+
+      {/* 6. CTA */}
+      <div className="pt-[var(--section)]">
+        <CtaPanel
+          title={t.services.cta.title}
+          description={t.services.cta.description}
+          primaryHref="/contacto"
+          primaryLabel={t.common.startConversation}
+          secondaryHref="/avaliador"
+          secondaryLabel={t.nav.audit}
+        />
+      </div>
     </div>
   );
 }

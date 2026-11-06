@@ -4,6 +4,21 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-06 — Nova homepage "Nome cinético" e tema aplicado a todo o site
+
+Só design: textos, rotas, formulários, Avaliador, SEO e dados ficam iguais.
+
+**Home** (vinda da pasta `nova-homepage-mateus`, já apagada)
+- `src/components/views/HomeView.tsx` substituído; novos `src/components/home/KineticName.tsx` (nome gigante, Bricolage Grotesque com eixos de peso/largura) e `src/components/home/home.css`; fundos `public/hero/topo-light.webp` e `topo-dark.webp`.
+- Conteúdo da home antiga que a versão nova deixava cair foi recuperado com o visual novo: link "Marcar chamada" (com Cal), "Comparar com um concorrente", nota do Avaliador, aviso de projetos-conceito, secção "Provas verificáveis" (+ métricas medidas quando existirem), teaser do quiz e a origem `home` no link do WhatsApp.
+
+**Tema partilhado**
+- `home.css` passa a ser importado no `layout.tsx` (classes `home-hl`, `home-dot`, `home-contact*` e novas `theme-intro-bg`, `theme-card`, `theme-row`, `theme-faq`).
+- Componentes redesenhados: `PageIntro` (barra de estado + fundo topográfico + título gigante), `SectionHeading` (título grande, índice chartreuse), `Button` (pílulas com hairline 1.5px), `CtaPanel` (bloco final escuro / chartreuse no tema escuro; `eyebrow` opcional). Novo `FaqAccordion` (`<details>` nativo, respostas sempre no HTML).
+- Páginas atualizadas: Projetos (+ `ProjectCatalog`), detalhe de projeto, Serviços (o scroll horizontal do processo passou a lista como na home), Sobre, Contacto, Avaliador, Privacidade, 404, e os componentes interativos/formulários (cantos arredondados, paleta antiga castanha do terminal trocada pelos tokens `--code-*`).
+- Verificado: `tsc`, `eslint` e 54 testes a passar; todas as rotas respondem 200 (404 na rota inexistente).
+- Por fazer: revisão visual no browser (claro/escuro e mobile). `FloatingElements`, `TextReveal3D` e `TiltCard3D` deixaram de ser usados nestas páginas (ficheiros mantidos).
+
 ## 2026-10-27 — Publicação na Vercel e correção do PDF em produção
 
 - Projeto `portofolio-mateus` na Vercel, ligado ao GitHub (produção = ramo `main`). URL: https://portofolio-mateus.vercel.app. Região das funções: `cdg1` (`vercel.json`). Variáveis configuradas em production + preview (as chaves como segredos). `NEXT_PUBLIC_SITE_URL` = URL da Vercel até haver domínio próprio (é inlined na build: mudar e **fazer redeploy** quando ligar `mateusmendes.pt`).

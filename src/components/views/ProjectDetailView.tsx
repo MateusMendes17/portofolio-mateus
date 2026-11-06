@@ -9,6 +9,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { projectCategoryLabel } from "@/lib/projectCategory";
 import { SITE_METRICS } from "@/content/site-metrics";
 import { MeasuredMetrics } from "@/components/audit/MeasuredMetrics";
+import { CtaPanel } from "@/components/ui/CtaPanel";
 
 interface ProjectDetailViewProps {
   project: Project;
@@ -39,10 +40,11 @@ export function ProjectDetailView({
 
   return (
     <article className="pb-24">
-      <header className="container-page pt-28 lg:pt-36">
+      <header className="container-page relative isolate pt-16 lg:pt-24">
+        <div aria-hidden="true" className="theme-intro-bg pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px]" />
         <nav
           aria-label={labels.breadcrumb}
-          className="flex flex-wrap items-center gap-2 font-body text-micro text-muted"
+          className="flex flex-wrap items-center gap-2 border-b border-ink py-4 font-mono text-sm text-muted"
         >
           <Link
             href="/projetos"
@@ -58,7 +60,7 @@ export function ProjectDetailView({
 
         <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.42fr)] lg:items-end lg:gap-16">
           <div>
-            <p className="flex flex-wrap items-center gap-2 font-body text-label uppercase tracking-[0.12em] text-muted">
+            <p className="flex flex-wrap items-center gap-2 font-mono text-sm text-muted">
               <span>{category}</span>
               <span aria-hidden="true">·</span>
               <span>{study.location}</span>
@@ -66,15 +68,15 @@ export function ProjectDetailView({
               <span>{study.format}</span>
             </p>
 
-            <h1 className="mt-4 font-heading text-display font-semibold text-ink">
+            <h1 className="mt-5 font-heading text-[clamp(3.5rem,9vw,9rem)] leading-[0.88] font-semibold tracking-[-0.05em] text-ink">
               {project.name}
             </h1>
 
-            <p className="mt-5 max-w-[62ch] font-body text-lead text-ink-2">
+            <p className="mt-6 max-w-[60ch] font-heading text-[clamp(1.25rem,1.8vw,1.75rem)] leading-[1.3] tracking-[-0.02em] text-ink-2">
               {study.summary}
             </p>
 
-            <p className="mt-6 inline-flex border border-line bg-surface px-3 py-2 font-body text-micro text-muted">
+            <p className="mt-6 inline-flex rounded-full border-[1.5px] border-ink bg-surface px-4 py-2 font-mono text-xs text-muted">
               {labels.disclaimer}
             </p>
           </div>
@@ -84,7 +86,7 @@ export function ProjectDetailView({
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-11 items-center justify-center border border-[var(--accent-button-border)] bg-highlight px-5 font-body text-sm font-semibold text-accent-ink transition-colors duration-[var(--duration-160)] hover:bg-highlight-hover"
+              className="inline-flex min-h-[52px] items-center justify-center rounded-full border-[1.5px] border-accent-ink bg-highlight px-7 font-body text-sm font-semibold text-accent-ink transition-transform hover:scale-105"
             >
               {labels.openSite}
               <span className="ml-2" aria-hidden="true">
@@ -98,21 +100,21 @@ export function ProjectDetailView({
                 href={project.repoUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex h-11 items-center justify-center border border-line-strong px-5 font-body text-sm font-semibold text-ink transition-colors duration-[var(--duration-160)] hover:bg-surface-2"
+                className="inline-flex min-h-[52px] items-center justify-center rounded-full border-[1.5px] border-ink px-7 font-body text-sm font-semibold text-ink transition-colors hover:bg-ink hover:text-bg"
               >
                 {labels.viewCode}
                 <span className="sr-only"> ({labels.newWindow})</span>
               </a>
             ) : (
-              <span className="inline-flex h-11 items-center border border-line px-5 font-body text-sm text-muted">
+              <span className="inline-flex min-h-[52px] items-center rounded-full border-[1.5px] border-line px-7 font-body text-sm text-muted">
                 {labels.privateCode}
               </span>
             )}
           </div>
         </div>
 
-        <figure className="mt-10 overflow-hidden border border-line-strong bg-surface-2">
-          <div className="flex h-8 items-center gap-2 border-b border-line bg-surface-2 px-3">
+        <figure className="mt-12 overflow-hidden rounded-[28px] border-[1.5px] border-ink bg-surface-2 shadow-[var(--shadow-xl)]">
+          <div className="flex h-10 items-center gap-2 border-b-[1.5px] border-ink bg-surface-2 px-4">
             <span className="inline-flex gap-1" aria-hidden="true">
               <span className="h-1.5 w-1.5 rounded-full bg-line-strong" />
               <span className="h-1.5 w-1.5 rounded-full bg-line-strong" />
@@ -202,7 +204,7 @@ export function ProjectDetailView({
               <MeasuredMetrics measurement={SITE_METRICS[project.slug]} className="mt-6" />
             )}
 
-            <div className="mt-6 border-l-2 border-highlight bg-surface px-4 py-3">
+            <div className="mt-6 rounded-[20px] bg-highlight px-5 py-4 text-accent-ink [&_p]:text-accent-ink">
               <p className="font-body text-micro leading-relaxed text-muted">
                 {labels.metricsNote}
               </p>
@@ -220,29 +222,29 @@ export function ProjectDetailView({
 
           <nav
             aria-label={labels.pagination}
-            className="mt-12 grid gap-px border border-line bg-line sm:grid-cols-2"
+            className="mt-12 grid gap-3 sm:grid-cols-2"
           >
             {prevProject ? (
               <Link
                 href={`/projetos/${prevProject.slug}`}
-                className="group flex min-h-24 flex-col justify-between bg-bg p-4 transition-colors hover:bg-surface"
+                className="theme-row group flex min-h-28 flex-col justify-between rounded-[24px] border-[1.5px] border-ink p-5 no-underline"
               >
                 <span className="font-body text-micro uppercase tracking-[0.1em] text-muted">
                   ← {labels.previous}
                 </span>
-                <span className="mt-3 font-heading text-lg text-ink">
+                <span className="mt-3 font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
                   {prevProject.name}
                 </span>
               </Link>
             ) : (
               <Link
                 href="/projetos"
-                className="group flex min-h-24 flex-col justify-between bg-bg p-4 transition-colors hover:bg-surface"
+                className="theme-row group flex min-h-28 flex-col justify-between rounded-[24px] border-[1.5px] border-ink p-5 no-underline"
               >
                 <span className="font-body text-micro uppercase tracking-[0.1em] text-muted">
                   ← {labels.backToProjects}
                 </span>
-                <span className="mt-3 font-heading text-lg text-ink">
+                <span className="mt-3 font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
                   {t.projects.title}
                 </span>
               </Link>
@@ -251,24 +253,24 @@ export function ProjectDetailView({
             {nextProject ? (
               <Link
                 href={`/projetos/${nextProject.slug}`}
-                className="group flex min-h-24 flex-col items-end justify-between bg-bg p-4 text-right transition-colors hover:bg-surface"
+                className="theme-row group flex min-h-28 flex-col items-end justify-between rounded-[24px] border-[1.5px] border-ink p-5 text-right no-underline"
               >
                 <span className="font-body text-micro uppercase tracking-[0.1em] text-muted">
                   {labels.next} →
                 </span>
-                <span className="mt-3 font-heading text-lg text-ink">
+                <span className="mt-3 font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
                   {nextProject.name}
                 </span>
               </Link>
             ) : (
               <Link
                 href="/contacto"
-                className="group flex min-h-24 flex-col items-end justify-between bg-bg p-4 text-right transition-colors hover:bg-surface"
+                className="theme-row group flex min-h-28 flex-col items-end justify-between rounded-[24px] border-[1.5px] border-ink p-5 text-right no-underline"
               >
                 <span className="font-body text-micro uppercase tracking-[0.1em] text-muted">
                   {t.projects.cta.badge} →
                 </span>
-                <span className="mt-3 font-heading text-lg text-ink">
+                <span className="mt-3 font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
                   {t.nav.cta}
                 </span>
               </Link>
@@ -289,7 +291,7 @@ export function ProjectDetailView({
       </div>
 
       <div className="container-page mt-8 lg:hidden">
-        <details className="group border border-line bg-surface">
+        <details className="group rounded-[24px] border-[1.5px] border-ink bg-surface">
           <summary className="flex cursor-pointer list-none items-center justify-between px-4 py-3 font-body text-label uppercase tracking-[0.1em] text-ink [&::-webkit-details-marker]:hidden">
             {labels.specs}
             <span
@@ -311,32 +313,15 @@ export function ProjectDetailView({
         </details>
       </div>
 
-      <section className="container-page mt-20">
-        <div className="code-surface bg-ink px-6 py-10 text-bg sm:px-10 lg:px-14">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-            <div>
-              <p className="font-body text-label uppercase tracking-[0.12em] text-bg/60">
-                {t.projects.cta.badge}
-              </p>
-              <h2 className="mt-3 max-w-[24ch] font-heading text-h3 text-bg">
-                {labels.ctaTitle}
-              </h2>
-              <p className="mt-4 max-w-[54ch] font-body text-sm leading-relaxed text-bg/70">
-                {labels.ctaDescription}
-              </p>
-            </div>
-            <Link
-              href="/contacto"
-              className="inline-flex h-11 items-center justify-center border border-[var(--accent-button-border)] bg-highlight px-6 font-body text-sm font-semibold text-accent-ink transition-colors duration-[var(--duration-160)] hover:bg-highlight-hover"
-            >
-              {t.nav.cta}
-              <span className="ml-2" aria-hidden="true">
-                →
-              </span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      <div className="mt-20">
+        <CtaPanel
+          eyebrow={t.projects.cta.badge}
+          title={labels.ctaTitle}
+          description={labels.ctaDescription}
+          primaryHref="/contacto"
+          primaryLabel={t.nav.cta}
+        />
+      </div>
     </article>
   );
 }
@@ -375,16 +360,16 @@ function CaseSection({ id, index, title, children }: CaseSectionProps) {
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="border-t border-line py-9 first:border-t-0 first:pt-0"
+      className="border-t-[1.5px] border-ink py-10 first:border-t-0 first:pt-0"
     >
       <div className="grid gap-5 md:grid-cols-[132px_minmax(0,1fr)] md:gap-8">
         <div>
-          <span className="font-mono text-[10px] tracking-[0.12em] text-muted">
+          <span className="inline-block bg-highlight px-2 py-0.5 font-mono text-sm text-accent-ink">
             {index}
           </span>
           <h2
             id={`${id}-title`}
-            className="mt-2 font-body text-label uppercase tracking-[0.1em] text-ink"
+            className="mt-3 font-heading text-2xl leading-tight font-semibold tracking-[-0.03em] text-ink"
           >
             {title}
           </h2>
