@@ -431,7 +431,7 @@ export function CommandPalette() {
         aria-keyshortcuts="Control+K Meta+K"
         aria-haspopup="dialog"
         aria-expanded={isOpen}
-        className="inline-flex h-9 w-9 cursor-pointer items-center justify-center border border-line bg-surface text-muted transition-colors duration-200 hover:border-line-strong hover:text-ink xl:w-auto xl:justify-start xl:gap-2 xl:px-2.5"
+        className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[1.5px] border-ink bg-surface text-ink transition-colors duration-200 hover:bg-highlight hover:text-accent-ink xl:w-auto xl:justify-start xl:gap-2 xl:px-3.5"
       >
         <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
@@ -440,7 +440,7 @@ export function CommandPalette() {
         {/* Label + atalho (a partir de xl o header tem folga para a versão completa) */}
         <span className="hidden font-body text-micro xl:inline">{t.command.open}</span>
         {mod && (
-          <kbd className="hidden border border-line bg-surface px-1.5 py-0.5 font-mono text-[10px] text-muted xl:inline">
+          <kbd className="hidden rounded-full border border-current/30 px-1.5 py-0.5 font-mono text-[10px] xl:inline">
             {mod === "⌘" ? "⌘K" : "Ctrl K"}
           </kbd>
         )}
@@ -467,7 +467,7 @@ export function CommandPalette() {
               role="dialog"
               aria-modal="true"
               aria-label={t.command.openAria}
-              className="w-full max-w-xl overflow-hidden border border-line-strong bg-surface shadow-lg"
+              className="w-full max-w-xl overflow-hidden rounded-[28px] border-[1.5px] border-ink bg-surface shadow-[var(--shadow-xl)]"
             >
               {/* Input */}
               <div className="flex items-center gap-3 border-b border-line px-4">
@@ -542,10 +542,10 @@ export function CommandPalette() {
                           onMouseEnter={() => setActiveIndex(index)}
                           onClick={cmd.run}
                           className={cn(
-                            "flex w-full cursor-pointer items-center gap-3 border-l-2 px-3 py-2.5 text-left font-body text-sm transition-colors",
+                            "flex w-full cursor-pointer items-center gap-3 rounded-full px-4 py-2.5 text-left font-body text-sm transition-colors",
                             isActive
-                              ? "border-highlight bg-surface-2 text-ink"
-                              : "border-transparent text-ink-2 hover:bg-surface-hover"
+                              ? "bg-highlight text-accent-ink [&_span]:text-accent-ink"
+                              : "text-ink-2 hover:bg-surface-2"
                           )}
                         >
                           <span className={cn("shrink-0", isActive ? "text-ink" : "text-muted")}>

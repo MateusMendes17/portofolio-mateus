@@ -4,6 +4,21 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-06 — Navbar no tema novo e correção de animações
+
+**Navbar** (`Header.tsx`, `MobileNav.tsx`, `Logo.tsx`, `ThemeToggle.tsx`, `LanguageToggle.tsx`, `CommandPalette.tsx`)
+- Hairline de tinta 1.5px; links numa cápsula (hover chartreuse, página ativa invertida); CTA chartreuse com seta que roda; botões redondos para pesquisa, tema e menu; seletor PT/EN em pílula chartreuse.
+- Marca: nome em Space Grotesk e "Web Developer" em mono com o ponto "disponível".
+- Menu móvel: itens gigantes que entram em cascata, hover chartreuse, botão de fechar chartreuse que roda.
+- Paleta de comandos com cantos de 28px e item ativo chartreuse.
+
+**Animações corrigidas**
+- Nome cinético: as letras saltavam ao entrar/sair com o rato (a onda era cortada). A onda corre sempre e o hover mistura-se com ela por `@property --kn-mix` com transição.
+- Botões: o `hover:scale` não tinha transição (Tailwind v4 usa a propriedade `scale`, que faltava na lista).
+- Cartões "Provas verificáveis": o hover CSS lutava com o transform da animação de entrada; o hover passou para um elemento interior.
+- FAQ (`<details>`): a resposta entra com deslize curto.
+- `PageIntro`: entrada escalonada (classe `rise`), como na home.
+
 ## 2026-11-06 — Nova homepage "Nome cinético" e tema aplicado a todo o site
 
 Só design: textos, rotas, formulários, Avaliador, SEO e dados ficam iguais.

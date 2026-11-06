@@ -533,11 +533,9 @@ export function HomeView() {
             const linkClass =
               "mt-auto inline-flex min-h-[48px] w-fit items-center gap-2 rounded-full border-[1.5px] border-ink px-6 font-semibold text-ink no-underline transition-colors hover:bg-ink hover:text-bg";
             return (
-              <Reveal
-                key={title}
-                delay={i * 0.08}
-                className="home-svc flex min-h-[280px] min-w-0 flex-[1_1_300px] flex-col gap-4 rounded-[28px] border-[1.5px] border-ink bg-surface p-8"
-              >
+              <Reveal key={title} delay={i * 0.08} className="flex min-w-0 flex-[1_1_300px]">
+                {/* O hover fica num elemento interior: o Reveal já anima o transform. */}
+                <div className="home-svc flex min-h-[280px] w-full flex-col gap-4 rounded-[28px] border-[1.5px] border-ink bg-surface p-8">
                 <span className="font-mono text-sm text-muted">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="m-0 font-heading text-[1.75rem] leading-[1.05] font-semibold">{title}</h3>
                 <p className="m-0 text-muted">{text}</p>
@@ -550,6 +548,7 @@ export function HomeView() {
                     {cta} <span aria-hidden="true">→</span>
                   </Link>
                 )}
+                </div>
               </Reveal>
             );
           })}

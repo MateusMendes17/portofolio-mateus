@@ -17,7 +17,7 @@ export function ThemeToggle({ className }: { className?: string }) {
   if (!mounted) {
     return (
       <div
-        className={cn("h-9 w-9 border border-line bg-surface", className)}
+        className={cn("h-10 w-10 rounded-full border-[1.5px] border-ink bg-surface", className)}
         aria-hidden="true"
       />
     );
@@ -33,8 +33,8 @@ export function ThemeToggle({ className }: { className?: string }) {
       type="button"
       onClick={() => setTheme(isDark ? "light" : "dark")}
       className={cn(
-        "flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center border border-line bg-surface text-ink",
-        "transition-colors duration-200 hover:border-line-strong",
+        "theme-toggle flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-[1.5px] border-ink bg-surface text-ink",
+        "transition-colors duration-200 hover:bg-highlight hover:text-accent-ink",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
         className
       )}

@@ -115,7 +115,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
           transition={{ duration, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-50 flex flex-col bg-bg md:hidden"
         >
-          <div className="flex h-16 shrink-0 items-center justify-between border-b border-line px-[var(--gutter)]">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b-[1.5px] border-ink px-[var(--gutter)]">
             <Link
               href="/"
               onClick={onClose}
@@ -129,7 +129,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
               ref={closeButtonRef}
               type="button"
               onClick={onClose}
-              className="flex h-10 w-10 items-center justify-center border border-line bg-surface text-ink transition-colors duration-200 hover:border-line-strong"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border-[1.5px] border-ink bg-highlight text-accent-ink transition-transform duration-300 hover:rotate-90"
               aria-label={t.nav.closeMenu}
             >
               <svg
@@ -159,22 +159,27 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                 (item.href !== "/" && pathname.startsWith(`${item.href}/`));
 
               return (
-                <Link
+                <motion.div
                   key={item.href}
+                  initial={{ opacity: 0, y: reduceMotion ? 0 : 24 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: reduceMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1], delay: reduceMotion ? 0 : 0.05 + index * 0.05 }}
+                >
+                <Link
                   href={item.href}
                   onClick={onClose}
                   aria-current={active ? "page" : undefined}
-                  className="group flex items-baseline justify-between gap-4 border-b border-line py-4"
+                  className="theme-row group -mx-3 flex items-center justify-between gap-4 rounded-[20px] border-b-[1.5px] border-ink px-3 py-4 no-underline"
                 >
                   <span className="flex items-baseline gap-4">
-                    <span className="font-body text-micro tabular-nums text-muted">
+                    <span className="font-mono text-sm tabular-nums text-muted">
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <span
                       className={
                         active
-                          ? "font-heading text-[clamp(1.75rem,7vw,2.5rem)] font-semibold tracking-[-0.04em] text-ink"
-                          : "font-heading text-[clamp(1.75rem,7vw,2.5rem)] font-semibold tracking-[-0.04em] text-ink-2 transition-colors group-hover:text-ink"
+                          ? "font-heading text-[clamp(2.25rem,10vw,3.5rem)] leading-none font-semibold tracking-[-0.05em] text-ink"
+                          : "font-heading text-[clamp(2.25rem,10vw,3.5rem)] leading-none font-semibold tracking-[-0.05em] text-ink-2"
                       }
                     >
                       {navLabels[item.href] || item.label}
@@ -184,24 +189,27 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                     aria-hidden="true"
                     className={
                       active
-                        ? "mb-1 h-2 w-2 shrink-0 bg-highlight ring-1 ring-ink/20"
-                        : "mb-1 h-2 w-2 shrink-0 border border-line-strong"
+                        ? "h-3 w-3 shrink-0 rounded-full bg-highlight ring-[1.5px] ring-ink"
+                        : "text-2xl leading-none text-ink transition-transform duration-300 group-hover:-rotate-45"
                     }
-                  />
+                  >
+                    {active ? null : "→"}
+                  </span>
                 </Link>
+                </motion.div>
               );
             })}
 
             <div className="mt-8 space-y-4">
               <div className="flex items-center justify-between border-b border-line pb-4">
-                <span className="font-body text-label uppercase tracking-[0.12em] text-muted">
+                <span className="font-mono text-sm text-muted">
                   {t.mobileNav.language}
                 </span>
                 <LanguageToggle />
               </div>
 
               <div className="flex items-center justify-between border-b border-line pb-4">
-                <span className="font-body text-label uppercase tracking-[0.12em] text-muted">
+                <span className="font-mono text-sm text-muted">
                   {t.mobileNav.theme}
                 </span>
                 <ThemeToggle />
@@ -209,7 +217,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
             </div>
           </nav>
 
-          <div className="shrink-0 space-y-5 border-t border-line px-[var(--gutter)] pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-5">
+          <div className="shrink-0 space-y-5 border-t-[1.5px] border-ink px-[var(--gutter)] pb-[calc(1.25rem+env(safe-area-inset-bottom))] pt-5">
             <ButtonLink
               href="/contacto"
               onClick={onClose}

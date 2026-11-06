@@ -15,7 +15,7 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 
 const BASE_CLASSES = cn(
   "group relative inline-flex select-none items-center justify-center rounded-full font-semibold",
-  "transition-[background-color,border-color,color,transform] duration-[var(--duration-240)] ease-[var(--ease-out)]",
+  "transition-[background-color,border-color,color,transform,scale,translate] duration-[var(--duration-240)] ease-[var(--ease-out)]",
   "active:translate-y-px disabled:pointer-events-none disabled:opacity-50",
   "focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--focus)]"
 );

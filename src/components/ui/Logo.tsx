@@ -72,13 +72,14 @@ export function BrandLockup({
   return (
     <span className={cn("flex min-w-0 items-center gap-3", className)}>
       <Logo variant="icon" className="h-10 w-10 shrink-0" />
-      <span className="h-8 w-px shrink-0 bg-line-strong/60" aria-hidden="true" />
+      <span className="h-8 w-[1.5px] shrink-0 bg-ink" aria-hidden="true" />
       <span className="flex min-w-0 flex-col leading-none">
-        <span className="truncate font-body text-[13px] font-semibold uppercase tracking-[0.14em] text-ink">
+        <span className="truncate font-heading text-[17px] font-semibold tracking-[-0.03em] text-ink">
           {name}
         </span>
         {showRole && (
-          <span className="mt-1.5 hidden font-body text-[9px] uppercase tracking-[0.34em] text-muted sm:block">
+          <span className="mt-1.5 hidden items-center gap-1.5 font-mono text-[10px] tracking-[0.04em] text-muted sm:flex">
+            <span className="home-dot !h-1.5 !w-1.5" aria-hidden="true" />
             Web Developer
           </span>
         )}
