@@ -205,6 +205,7 @@ const pt = {
     hero: {
       badge: "Quem Está Por Trás do Código",
       title: "Sobre Mim.",
+      photoCaption: "Olá, sou o Mateus 👋",
       introBefore: "Sou o ",
       introAfter:
         ", programador web freelance baseado em Portugal. Combino rigor de engenharia com estética moderna para criar websites, lojas online e ferramentas digitais que geram autoridade e resultados comerciais mensuráveis.",

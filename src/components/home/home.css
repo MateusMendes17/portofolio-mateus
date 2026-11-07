@@ -42,12 +42,14 @@
   --hn-label: var(--code-muted);
   --hn-ring: var(--ink);
 }
+/* Escuro: lente cinzenta com contornos chartreuse, visível tanto sobre o
+   fundo preto como sobre a faixa chartreuse do "MENDES". */
 .dark .hero-name {
-  --hn-bg: var(--accent);
-  --hn-stroke: var(--accent-ink);
-  --hn-guide: rgb(11 11 12 / 0.4);
-  --hn-grid: rgb(11 11 12 / 0.08);
-  --hn-label: #3a3a36;
+  --hn-bg: #1c1c1f;
+  --hn-stroke: var(--accent);
+  --hn-guide: rgb(215 255 63 / 0.35);
+  --hn-grid: rgb(241 239 230 / 0.07);
+  --hn-label: var(--code-muted);
   --hn-ring: var(--accent);
 }
 .hero-name-row {
@@ -165,7 +167,12 @@
 }
 
 /* Marcador em texto corrido */
+/* Fica por baixo do texto da linha anterior (z-index -1 dentro de um
+   contexto isolado), para o fundo não tapar títulos em duas linhas. */
+:where(*:has(> .home-hl)) { isolation: isolate; }
 .home-hl {
+  position: relative;
+  z-index: -1;
   background: var(--accent);
   color: var(--accent-ink);
   padding: 0 0.12em;
@@ -356,3 +363,80 @@
 
 .hero-name-base,
 .hero-name-lens-inner { display: block; }
+
+/* ---------- Transição entre páginas ---------- */
+/* Só depois da primeira navegação (classe posta pelo RouteCurtain), para
+   não atrasar o primeiro carregamento (LCP). */
+.has-navigated .page-enter { animation: page-enter 0.6s var(--ease-out) both 0.12s; }
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.route-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  background: var(--accent);
+  pointer-events: none;
+  transform: translateY(100%);
+  animation: route-curtain 0.75s cubic-bezier(0.7, 0, 0.2, 1) both;
+}
+@keyframes route-curtain {
+  0% { transform: translateY(100%); }
+  45% { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+/* ---------- Cursor (desktop com rato) ---------- */
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 80;
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s, background-color 0.3s, border-color 0.3s;
+  will-change: transform;
+}
+.cursor-ring[data-active="true"] {
+  background: rgb(215 255 63 / 0.35);
+  border-color: var(--accent-ink);
+}
+.dark .cursor-ring[data-active="true"] { background: rgb(215 255 63 / 0.25); border-color: var(--accent); }
+[data-magnetic] { transition: translate 0.35s var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  .has-navigated .page-enter { animation: none; }
+  .route-curtain,
+  .cursor-ring { display: none; }
+  [data-magnetic] { translate: none !important; }
+}
+
+/* ---------- Rodapé ----------
+   Claro: bloco escuro que continua o "Vamos falar?" da home.
+   Escuro: superfície ligeiramente mais clara com hairline, para se
+   distinguir do fundo quase preto. */
+.theme-footer {
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-top: 1px solid var(--code-line);
+}
+.dark .theme-footer { background: var(--surface); border-top-color: var(--line-strong); }
+.theme-footer-name {
+  font-size: clamp(3.5rem, 13.5vw, 15rem);
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--code-line);
+  transition: -webkit-text-stroke-color 0.6s var(--ease-out);
+}
+.theme-footer:hover .theme-footer-name { -webkit-text-stroke-color: var(--accent); }
+
+/* Variante compacta (palavras curtas, ex.: "404"): letras juntas. */
+.hero-name--compact .hero-name-row { justify-content: flex-start; }
+.hero-name--compact { font-size: min(42vw, 34svh); }
+@media (max-width: 640px) {
+  .hero-name--compact .hero-name-spec { display: none; }
+}

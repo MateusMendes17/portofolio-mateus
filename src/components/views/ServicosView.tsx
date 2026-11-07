@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ButtonLink } from "@/components/ui/Button";
+import { ServiceArticle } from "@/components/services/ServiceArticle";
 import { CtaPanel } from "@/components/ui/CtaPanel";
 import { FaqAccordion } from "@/components/ui/FaqAccordion";
 import { PageIntro } from "@/components/ui/PageIntro";
@@ -78,96 +78,11 @@ export function ServicosView() {
         }
       />
 
-      {/* 2. Lista dos serviços */}
+      {/* 2. Lista dos serviços (entregáveis em acordeão; cada um tem página própria) */}
       <section className="flex flex-col gap-5 px-[var(--gutter)]">
         {servicesList.map((service, index) => (
           <ScrollReveal key={service.id} direction="up" distance={40}>
-            <article
-              id={service.id}
-              className="scroll-mt-24 rounded-[28px] border-[1.5px] border-ink bg-surface p-7 sm:p-10 lg:p-12"
-            >
-              <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-                <div className="flex flex-col gap-5 lg:max-w-xl">
-                  <div className="flex items-center gap-4">
-                    <span
-                      className="font-heading text-[72px] leading-[0.8] font-semibold text-transparent"
-                      style={{ WebkitTextStroke: "2px var(--ink)" }}
-                      aria-hidden="true"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span className="bg-highlight px-2 py-0.5 font-mono text-sm text-accent-ink">
-                      {service.badge}
-                    </span>
-                  </div>
-
-                  <h2 className="m-0 font-heading text-[clamp(2rem,3.6vw,3.25rem)] leading-none font-semibold tracking-[-0.04em] text-ink">
-                    {service.title}
-                  </h2>
-
-                  <p className="m-0 font-heading text-xl leading-snug font-semibold text-ink">{service.tagline}</p>
-
-                  <p className="m-0 text-muted">{service.description}</p>
-
-                  <div className="rounded-[20px] bg-highlight p-5 text-accent-ink">
-                    <p className="m-0 mb-1 font-mono text-xs uppercase tracking-[0.08em]">
-                      {t.services.labels.businessImpact}
-                    </p>
-                    <p className="m-0 text-sm font-medium leading-relaxed">{service.businessImpact}</p>
-                  </div>
-
-                  <p className="m-0 text-sm text-muted">
-                    <strong className="font-semibold text-ink">{t.services.labels.recommendedFor}</strong>{" "}
-                    {service.idealFor}
-                  </p>
-
-                  <div>
-                    <ButtonLink href="/contacto" withArrow>
-                      {t.services.labels.discussService}
-                    </ButtonLink>
-                  </div>
-                </div>
-
-                {/* Entregáveis */}
-                <div className="code-surface flex flex-col gap-4 rounded-[24px] bg-[var(--code-bg)] p-6 text-[var(--code-ink)] sm:p-8 lg:flex-1">
-                  <div className="flex items-center justify-between gap-4 border-b border-[var(--code-line)] pb-3">
-                    <span className="font-mono text-sm text-[var(--code-accent)]">
-                      {t.services.labels.deliverables}
-                    </span>
-                    <span className="text-xs text-[var(--code-muted)]">{t.services.labels.includedStandard}</span>
-                  </div>
-
-                  <ul className="m-0 flex list-none flex-col gap-3 p-0">
-                    {service.includes.map((item, idx) => (
-                      <li key={idx} className="flex items-start gap-3 text-sm">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-highlight text-accent-ink">
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth={2.5} viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="m5 13 4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
-                          </svg>
-                        </span>
-                        <span className="leading-relaxed">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="border-t border-[var(--code-line)] pt-4">
-                    <span className="mb-2 block font-mono text-xs text-[var(--code-muted)]">
-                      {t.services.labels.techStack}
-                    </span>
-                    <div className="flex flex-wrap gap-1.5">
-                      {service.techStack.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full border border-[var(--code-line)] px-3 py-1 text-xs font-medium"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
+            <ServiceArticle service={service} index={index} collapsible />
           </ScrollReveal>
         ))}
       </section>

@@ -3,8 +3,9 @@ import http from "node:http";
 import https from "node:https";
 import net from "node:net";
 import { URL } from "node:url";
+import { SITE_URL } from "@/lib/constants";
 
-export const USER_AGENT = "AvaliadorMateus/1.0 (+https://mateusmendes.pt)";
+export const USER_AGENT = `AvaliadorMateus/1.0 (+${SITE_URL})`;
 
 export const MAX_BYTES = 2 * 1024 * 1024; // 2 MB
 export const TIMEOUT_MS = 8_000;

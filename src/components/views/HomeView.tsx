@@ -50,6 +50,8 @@ const COPY = {
     servicesMore: "Saber mais",
     whyTitleA: "Sem agência.",
     whyTitleB: "Sem surpresas.",
+    avatarAlt: "Fotografia de Mateus Mendes",
+    avatarNote: "É comigo que fala, do primeiro contacto à entrega",
     why: [
       ["Contacto direto", "Fala com quem escreve o código"],
       ["Propriedade total", "Domínio, código e dados são seus"],
@@ -98,6 +100,8 @@ const COPY = {
     servicesMore: "Learn more",
     whyTitleA: "No agency.",
     whyTitleB: "No surprises.",
+    avatarAlt: "Photograph of Mateus Mendes",
+    avatarNote: "You talk to me, from first contact to launch",
     why: [
       ["Direct contact", "Talk to the person writing the code"],
       ["Full ownership", "Domain, code and data are yours"],
@@ -272,6 +276,7 @@ export function HomeView() {
 
           <motion.div
             className="ml-auto"
+            data-magnetic
             initial={{ opacity: 0, scale: 0.6, rotate: -40 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 1, ease: EASE, delay: 0.3 }}
@@ -382,7 +387,7 @@ export function HomeView() {
             return (
               <Reveal key={service.anchor} delay={index * 0.08} className="min-w-0 flex-[1_1_320px]">
                 <Link
-                  href={`/servicos#${service.anchor}`}
+                  href={`/servicos/${service.anchor}`}
                   className={cn(
                     "home-svc flex min-h-[420px] flex-col gap-5 rounded-[28px] p-9 no-underline",
                     style.card
@@ -417,6 +422,23 @@ export function HomeView() {
             <br />
             <span className="home-hl">{c.whyTitleB}</span>
           </h2>
+          {/* Quem atende é quem programa: a cara por trás do código. */}
+          <Link href="/sobre" className="group mt-auto flex items-center gap-4 no-underline">
+            <Image
+              src="/sobre/mateus-avatar.webp"
+              alt={c.avatarAlt}
+              width={480}
+              height={480}
+              sizes="72px"
+              className="size-[72px] shrink-0 rounded-full border-[1.5px] border-ink object-cover"
+            />
+            <span>
+              <span className="block font-heading text-xl font-semibold text-ink">Mateus Mendes</span>
+              <span className="block text-sm text-muted">
+                {c.avatarNote} <span className="inline-block transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
+              </span>
+            </span>
+          </Link>
           <dl className="m-0 flex flex-col">
             {c.why.map(([title, desc], i) => (
               <div
@@ -567,7 +589,7 @@ export function HomeView() {
             <p className="m-0 mt-4 max-w-[56ch] text-accent-ink/75">{t.home.quizTeaser.description}</p>
           </div>
           <Link
-            href="/sobre"
+            href="/sobre#assistente"
             className="inline-flex min-h-[56px] items-center gap-3 rounded-full bg-accent-ink px-8 font-semibold text-highlight no-underline transition-transform hover:scale-105"
           >
             {t.home.quizTeaser.cta} <span aria-hidden="true">→</span>
@@ -643,6 +665,7 @@ export function HomeView() {
         <Reveal className="mt-14 flex flex-wrap gap-3.5" delay={0.1}>
           <a
             href={`mailto:${SITE_CONFIG.email}`}
+            data-magnetic
             className="inline-flex min-h-[52px] items-center rounded-full home-contact-primary px-7 font-semibold no-underline transition-transform hover:scale-105"
           >
             {SITE_CONFIG.email}

@@ -76,7 +76,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
                       </div>
                       <div
                         className={`h-4 w-4 rounded-full border flex items-center justify-center ${
-                          isSelected ? "bg-accent border-accent text-white" : "border-border"
+                          isSelected ? "bg-highlight border-accent-ink text-accent-ink" : "border-border"
                         }`}
                       >
                         {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-white" />}
@@ -144,7 +144,7 @@ export function FormStepPreference({ form }: { form: ContactFormController }) {
                 onClick={() => toggleFeature(tag)}
                 className={`flex items-center gap-1.5 rounded-[14px] border px-3 py-2 text-xs font-semibold transition-all duration-200 cursor-pointer ${
                   isSelected
-                    ? "border-accent bg-accent text-white shadow-sm"
+                    ? "border-accent-ink bg-highlight text-accent-ink shadow-sm"
                     : "border-border/80 bg-surface/70 text-text-primary hover:border-accent/50 hover:bg-surface-hover"
                 }`}
               >

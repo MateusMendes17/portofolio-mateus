@@ -10,10 +10,10 @@ export const metadata: Metadata = {
 
 export default function NewsletterCancelarPage() {
   return (
-    <main className="flex min-h-[60vh] flex-col">
+    <div className="flex min-h-[60vh] flex-col">
       <Suspense>
         <NewsletterUnsubscribe />
       </Suspense>
-    </main>
+    </div>
   );
 }

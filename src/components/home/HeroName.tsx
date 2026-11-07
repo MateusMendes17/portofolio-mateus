@@ -13,7 +13,13 @@ const display = Bricolage_Grotesque({
   variable: "--font-kinetic",
 });
 
-const ROWS = ["MATEUS", "MENDES"] as const;
+const DEFAULT_ROWS = ["MATEUS", "MENDES"] as const;
+const DEFAULT_SPECS = [
+  "Bricolage Grotesque · 800",
+  "font-size: min(18.5vw, 30svh)",
+  "letter-spacing: −0.04em",
+  "line-height: 0.82",
+] as const;
 
 /** Atraso até a lente aparecer sozinha (depois da entrada das letras). */
 const LENS_DELAY = 1700;
@@ -27,9 +33,31 @@ const LENS_DELAY = 1700;
  * Só se animam a posição e o raio da lente (clip-path) e o anel
  * (transform), por isso o texto nunca é recalculado.
  */
-export function HeroName({ className }: { className?: string }) {
+export function HeroName({
+  className,
+  rows: words = DEFAULT_ROWS,
+  label = "Mateus Mendes",
+  bandRow = 1,
+  specs = DEFAULT_SPECS,
+  as: Tag = "h1",
+  compact = false,
+}: {
+  className?: string;
+  /** Linhas de texto em maiúsculas (por omissão, o nome). */
+  rows?: readonly string[];
+  /** Texto para leitores de ecrã. */
+  label?: string;
+  /** Linha com a faixa chartreuse por trás (null = nenhuma). */
+  bandRow?: number | null;
+  /** Medidas mostradas nos cantos da lente. */
+  specs?: readonly string[];
+  /** Elemento: h1 no topo da home; div quando já há outro título (ex.: 404). */
+  as?: "h1" | "div";
+  /** Letras juntas em vez de espalhadas pela largura (para palavras curtas). */
+  compact?: boolean;
+}) {
   const { isEnglish } = useLanguage();
-  const rootRef = useRef<HTMLHeadingElement>(null);
+  const rootRef = useRef<HTMLHeadingElement & HTMLDivElement>(null);
   const lensRef = useRef<HTMLSpanElement>(null);
   const ringRef = useRef<HTMLSpanElement>(null);
 
@@ -185,8 +213,8 @@ export function HeroName({ className }: { className?: string }) {
   }, []);
 
   const rows = (animate: boolean) =>
-    ROWS.map((word, row) => {
-      const start = row * ROWS[0].length;
+    words.map((word, row) => {
+      const start = words.slice(0, row).reduce((sum, w) => sum + w.length, 0);
       const letters = (
         <span className={cn("hero-name-row", !animate && "hero-name-row--guides")}>
           {word.split("").map((char, i) => (
@@ -201,15 +229,15 @@ export function HeroName({ className }: { className?: string }) {
         </span>
       );
       return (
-        <span key={word} className={cn("block", row === 1 && animate && "hero-name-band")}>
+        <span key={word} className={cn("block", row === bandRow && animate && "hero-name-band")}>
           {letters}
         </span>
       );
     });
 
   return (
-    <h1 ref={rootRef} className={cn(display.variable, "hero-name m-0 font-normal", className)}>
-      <span className="sr-only">Mateus Mendes</span>
+    <Tag ref={rootRef} className={cn(display.variable, "hero-name m-0 font-normal", compact && "hero-name--compact", className)}>
+      <span className="sr-only">{label}</span>
 
       <span aria-hidden="true" className="hero-name-base">
         {rows(true)}
@@ -219,15 +247,18 @@ export function HeroName({ className }: { className?: string }) {
       <span aria-hidden="true" className="hero-name-stage">
         <span ref={lensRef} className="hero-name-lens">
           <span className="hero-name-lens-inner">{rows(false)}</span>
-          <span className="hero-name-spec hero-name-spec--tl">Bricolage Grotesque · 800</span>
-          <span className="hero-name-spec hero-name-spec--tr">font-size: min(18.5vw, 30svh)</span>
-          <span className="hero-name-spec hero-name-spec--bl">letter-spacing: −0.04em</span>
-          <span className="hero-name-spec hero-name-spec--br">line-height: 0.82</span>
+          {(["tl", "tr", "bl", "br"] as const).map((corner, i) =>
+            specs[i] ? (
+              <span key={corner} className={`hero-name-spec hero-name-spec--${corner}`}>
+                {specs[i]}
+              </span>
+            ) : null
+          )}
         </span>
         <span ref={ringRef} className="hero-name-ring">
           <span className="hero-name-ring-label">{isEnglish ? "x-ray" : "raio-x"}</span>
         </span>
       </span>
-    </h1>
+    </Tag>
   );
 }

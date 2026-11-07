@@ -3,7 +3,6 @@ import { Space_Grotesk, Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SmoothScroll } from "@/components/layout/SmoothScroll";
 import { SkipLink } from "@/components/layout/SkipLink";
 import { BackToTop } from "@/components/ui/BackToTop";
 import { WhatsAppFloat } from "@/components/ui/WhatsAppFloat";
@@ -11,7 +10,8 @@ import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { SITE_CONFIG, SITE_URL, SOCIAL_LINKS } from "@/lib/constants";
 import { LanguageProvider } from "@/context/LanguageContext";
-import { CookieConsent } from "@/components/ui/CookieConsent";
+import { CursorFX } from "@/components/ui/CursorFX";
+import { RouteCurtain } from "@/components/ui/RouteCurtain";
 import pt from "@/content/strings/pt";
 import "./globals.css";
 /* Tema "Nome cinético": classes partilhadas (marcador, ponto, fundo topográfico, painel final). */
@@ -85,7 +85,7 @@ const structuredData = {
       url: SITE_URL,
       email: `mailto:${SITE_CONFIG.email}`,
       telephone: SITE_CONFIG.phone,
-      image: `${SITE_URL}/logo-pro-icone-claro.png`,
+      image: `${SITE_URL}/sobre/mateus-retrato.webp`,
       sameAs: [SOCIAL_LINKS.github, SOCIAL_LINKS.linkedin],
       knowsLanguage: ["pt-PT", "en"],
     },
@@ -154,18 +154,20 @@ export default function RootLayout({
         />
         <ThemeProvider>
           <LanguageProvider>
-            <SmoothScroll>
-              <SkipLink />
-              <Header />
-              <main id="main-content" className="flex-1">
-                {children}
-              </main>
-              <Footer />
-              <BackToTop />
-              <WhatsAppFloat />
-            </SmoothScroll>
-            {/* Cookie Consent Banner (RGPD) — dentro do LanguageProvider para ter acesso a useLanguage */}
-            <CookieConsent />
+            <SkipLink />
+            <Header />
+            <main id="main-content" className="flex-1">
+              {children}
+            </main>
+            <Footer />
+            <BackToTop />
+            <WhatsAppFloat />
+            {/* Efeitos só de desktop/rato: cursor e botões magnéticos. */}
+            <CursorFX />
+            {/* Cortina chartreuse ao mudar de página. */}
+            <RouteCurtain />
+            {/* Sem banner de cookies: o site não usa cookies de rastreamento
+                (o Vercel Analytics é anónimo e sem cookies). Ver /privacidade. */}
           </LanguageProvider>
         </ThemeProvider>
         {/* Telemetria de campo (só no ambiente da Vercel; cookieless) */}

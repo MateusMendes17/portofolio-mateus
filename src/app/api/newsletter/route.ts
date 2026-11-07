@@ -6,6 +6,7 @@ import { CONTACT_FROM, CONTACT_RECIPIENT } from "@/lib/contact-email";
 import { isAllowedOrigin } from "@/lib/audit/cache";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { unsubscribeOneClickUrl, unsubscribePageUrl } from "@/lib/newsletter-token";
+import { SITE_URL } from "@/lib/constants";
 
 const newsletterSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
@@ -75,7 +76,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Enviar email de boas-vindas com link do lead magnet
-    const leadMagnetUrl = `${process.env.NEXT_PUBLIC_SITE_URL || "https://mateusmendes.pt"}/lead-magnet/checklist-conversao.pdf`;
+    const leadMagnetUrl = `${SITE_URL}/lead-magnet/checklist-conversao.pdf`;
     
     // Ligação de cancelamento assinada (ver src/lib/newsletter-token.ts); sem segredo, cai para um mailto.
     const unsubscribeHref =
@@ -87,7 +88,7 @@ export async function POST(request: NextRequest) {
       <html>
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #362C24; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 32px;">
-            <h1 style="color: #9E6747; font-size: 28px; margin: 0;">Welcome to the Newsletter! 🎉</h1>
+            <h1 style="color: #0b0b0c; font-size: 28px; margin: 0;">Welcome to the Newsletter! 🎉</h1>
           </div>
           
           <p>Hi ${name || "there"},</p>
@@ -95,7 +96,7 @@ export async function POST(request: NextRequest) {
           <p>Thanks for subscribing! Here's your free resource:</p>
           
           <div style="text-align: center; margin: 32px 0;">
-            <a href="${leadMagnetUrl}" style="display: inline-block; background: #9E6747; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 16px;">
+            <a href="${leadMagnetUrl}" style="display: inline-block; background: #d7ff3f; color: #0b0b0c; border: 1.5px solid #0b0b0c; padding: 16px 32px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 16px;">
               📥 Download: 12-Point Website Conversion Checklist
             </a>
           </div>
@@ -111,8 +112,8 @@ export async function POST(request: NextRequest) {
           
           <p style="font-size: 14px; color: #6A5A4B;">
             You'll receive 1-2 emails/month with case studies, technical tips, and occasional availability updates. 
-            <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://mateusmendes.pt"}/privacidade" style="color: #9E6747;">Privacy Policy</a> | 
-            <a href="${unsubscribeHref}" style="color: #9E6747;">Unsubscribe</a>
+            <a href="${SITE_URL}/privacidade" style="color: #0b0b0c; text-decoration: underline;">Privacy Policy</a> | 
+            <a href="${unsubscribeHref}" style="color: #0b0b0c; text-decoration: underline;">Unsubscribe</a>
           </p>
           
           <p style="margin-top: 24px;">— Mateus Mendes<br/>Web Developer, Portugal</p>
@@ -123,7 +124,7 @@ export async function POST(request: NextRequest) {
       <html>
         <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #362C24; max-width: 600px; margin: 0 auto; padding: 20px;">
           <div style="text-align: center; margin-bottom: 32px;">
-            <h1 style="color: #9E6747; font-size: 28px; margin: 0;">Bem-vindo à Newsletter! 🎉</h1>
+            <h1 style="color: #0b0b0c; font-size: 28px; margin: 0;">Bem-vindo à Newsletter! 🎉</h1>
           </div>
           
           <p>Olá ${name || "tudo bem"},</p>
@@ -131,7 +132,7 @@ export async function POST(request: NextRequest) {
           <p>Obrigado por subscrever! Aqui está o seu recurso gratuito:</p>
           
           <div style="text-align: center; margin: 32px 0;">
-            <a href="${leadMagnetUrl}" style="display: inline-block; background: #9E6747; color: white; padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 16px;">
+            <a href="${leadMagnetUrl}" style="display: inline-block; background: #d7ff3f; color: #0b0b0c; border: 1.5px solid #0b0b0c; padding: 16px 32px; border-radius: 999px; text-decoration: none; font-weight: 600; font-size: 16px;">
               📥 Baixar: Checklist de Conversão — 12 Pontos
             </a>
           </div>
@@ -147,8 +148,8 @@ export async function POST(request: NextRequest) {
           
           <p style="font-size: 14px; color: #6A5A4B;">
             Vai receber 1-2 emails/mês com case studies, dicas técnicas e atualizações ocasionais de disponibilidade. 
-            <a href="${process.env.NEXT_PUBLIC_SITE_URL || "https://mateusmendes.pt"}/privacidade" style="color: #9E6747;">Política de Privacidade</a> | 
-            <a href="${unsubscribeHref}" style="color: #9E6747;">Cancelar subscrição</a>
+            <a href="${SITE_URL}/privacidade" style="color: #0b0b0c; text-decoration: underline;">Política de Privacidade</a> | 
+            <a href="${unsubscribeHref}" style="color: #0b0b0c; text-decoration: underline;">Cancelar subscrição</a>
           </p>
           
           <p style="margin-top: 24px;">— Mateus Mendes<br/>Programador Web, Portugal</p>

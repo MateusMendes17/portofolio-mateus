@@ -58,7 +58,7 @@ export function FormStepProjectType({ form }: { form: ContactFormController }) {
                 <div
                   className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[20px] border transition-colors ${
                     isSelected
-                      ? "bg-accent text-white border-accent"
+                      ? "bg-highlight text-accent-ink border-accent-ink"
                       : "bg-surface text-text-primary border-border group-hover:text-accent group-hover:border-accent/40"
                   }`}
                 >
@@ -83,7 +83,7 @@ export function FormStepProjectType({ form }: { form: ContactFormController }) {
                   <div
                     className={`flex h-5 w-5 items-center justify-center rounded-full border transition-all ${
                       isSelected
-                        ? "bg-accent border-accent text-white"
+                        ? "bg-highlight border-accent-ink text-accent-ink"
                         : "border-border/80 bg-surface"
                     }`}
                   >

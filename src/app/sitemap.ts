@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_URL } from "@/lib/constants";
 import { PROJECTS } from "@/content/projects";
+import pt from "@/content/strings/pt";
 
 /* ============================================================
    sitemap.xml — lista todas as rotas indexáveis do site.
@@ -60,6 +61,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.3,
     },
+    ...pt.services.items.map((service) => ({
+      url: `${SITE_URL}/servicos/${service.id}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     ...PROJECTS.map((project) => ({
       url: `${SITE_URL}/projetos/${project.slug}`,
       lastModified,

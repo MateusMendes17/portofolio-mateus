@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/Button";
@@ -14,17 +13,6 @@ export function NewsletterThankYou() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
   const pathname = "/newsletter/obrigado";
-
-  // Track conversion if needed
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "generate_lead", {
-        event_category: "newsletter",
-        event_label: "checklist_conversao",
-        value: 1,
-      });
-    }
-  }, []);
 
   return (
     <motion.div
@@ -62,7 +50,7 @@ export function NewsletterThankYou() {
         <a
           href="/lead-magnet/checklist-conversao.pdf"
           download="checklist-conversao.pdf"
-          className="inline-flex items-center gap-2 rounded-[20px] bg-accent hover:bg-accent-hover text-surface px-8 py-4 text-base font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
+          className="inline-flex items-center gap-2 rounded-full border-[1.5px] border-accent-ink bg-highlight text-accent-ink hover:scale-105 px-8 py-4 text-base font-bold transition-all shadow-lg hover:shadow-xl active:scale-[0.98]"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -82,7 +70,7 @@ export function NewsletterThankYou() {
         href={getWhatsAppUrl(pathname, isEnglish ? "en" : "pt", "form-success")}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 rounded-[20px] bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-sm font-bold transition-all shadow-md hover:shadow-lg mb-10"
+        className="inline-flex items-center gap-2 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white px-6 py-3 text-sm font-bold transition-all shadow-md hover:shadow-lg mb-10"
       >
         <WhatsAppIcon className="w-4 h-4" />
         <span>{isEnglish ? "Talk on WhatsApp" : "Falar no WhatsApp"}</span>

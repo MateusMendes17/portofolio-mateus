@@ -44,7 +44,7 @@ export function Header() {
             className="group -ml-1 flex min-w-0 items-center gap-3 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--focus)]"
             aria-label={t.nav.homeAria}
           >
-            <BrandLockup name={SITE_CONFIG.name} />
+            <BrandLockup name={SITE_CONFIG.name} compactOnTablet />
           </Link>
 
           <nav
@@ -81,6 +81,7 @@ export function Header() {
 
             <Link
               href="/contacto"
+              data-magnetic
               className="nav-cta ml-1 inline-flex h-10 items-center gap-2 rounded-full border-[1.5px] border-accent-ink bg-highlight px-5 text-sm font-semibold text-accent-ink no-underline max-lg:hidden focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-[var(--focus)]"
             >
               {t.nav.cta}

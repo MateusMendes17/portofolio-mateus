@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import type { SiteMeasurement } from "@/content/site-metrics";
+import { CountUp } from "@/components/ui/CountUp";
 
 function scoreTone(score: number | null): string {
   if (score === null) return "text-muted";
@@ -44,7 +45,7 @@ export function MeasuredMetrics({
   ];
 
   return (
-    <div className={`border border-line bg-surface p-5 sm:p-6 ${className}`}>
+    <div className={`rounded-[28px] border-[1.5px] border-ink bg-surface p-5 sm:p-7 ${className}`}>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="font-body text-label uppercase tracking-[0.12em] text-muted">
           {title ?? (isEnglish ? "Measured results" : "Resultados medidos")}
@@ -54,9 +55,9 @@ export function MeasuredMetrics({
         </p>
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-px border border-line bg-line sm:grid-cols-5">
+      <div className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-[20px] border border-line bg-line sm:grid-cols-5">
         <div className="bg-bg p-4">
-          <p className="font-heading text-3xl font-semibold tabular-nums text-ink">{measurement.overall}</p>
+          <p className="font-heading text-3xl font-semibold tabular-nums text-ink"><CountUp value={measurement.overall} /></p>
           <p className="mt-1 font-body text-micro text-muted">
             {isEnglish ? "Evaluator score" : "Nota do Avaliador"}
           </p>
@@ -64,7 +65,7 @@ export function MeasuredMetrics({
         {scores.map((s) => (
           <div key={s.label} className="bg-bg p-4">
             <p className={`font-heading text-3xl font-semibold tabular-nums ${scoreTone(s.value)}`}>
-              {s.value ?? "—"}
+              {s.value === null ? "—" : <CountUp value={s.value} />}
             </p>
             <p className="mt-1 font-body text-micro text-muted">{s.label}</p>
           </div>

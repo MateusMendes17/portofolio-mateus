@@ -38,14 +38,14 @@ export function CtaPanel({
           </p>
         )}
 
-        <h2 className="m-0max-w-[16ch] font-heading text-[clamp(2.75rem,6.5vw,6.5rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-inherit">
+        <h2 className="m-0 max-w-[16ch] font-heading text-[clamp(2.75rem,6.5vw,6.5rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-inherit">
           {title}
         </h2>
 
         <p className="home-contact-muted m-0 mt-6 max-w-[56ch] font-body text-body">{description}</p>
 
         <div className="mt-10 flex flex-wrap gap-3.5">
-          <Link href={primaryHref} className={`home-contact-primary ${pill}`}>
+          <Link href={primaryHref} data-magnetic className={`home-contact-primary ${pill}`}>
             {primaryLabel} <span aria-hidden="true">→</span>
           </Link>
 

@@ -65,27 +65,6 @@ export function ProjetosView() {
         </ol>
       </section>
 
-      {/* Critérios */}
-      <section className="px-[var(--gutter)] pt-[var(--section)]">
-        <SectionHeading
-          eyebrow={t.projects.highlights.badge}
-          title={t.projects.highlights.title}
-          description={t.projects.highlights.description}
-        />
-        <ul className="m-0 mt-12 grid list-none gap-5 p-0 sm:grid-cols-2">
-          {t.projects.highlights.items.map((item, index) => (
-            <li
-              key={item.id}
-              className="theme-card flex flex-col gap-3 border-[1.5px] border-ink bg-surface p-8"
-            >
-              <span className="font-mono text-sm text-muted">{String(index + 1).padStart(2, "0")}</span>
-              <h3 className="m-0 font-heading text-2xl leading-tight font-semibold text-ink">{item.title}</h3>
-              <p className="m-0 text-muted">{item.description}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
       {/* CTA */}
       <div className="pt-[var(--section)] pb-20 lg:pb-28">
         <CtaPanel

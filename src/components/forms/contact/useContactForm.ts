@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { type ContactFormData } from "@/lib/validations";
 import { PROJECT_TYPE_ICONS, PREFERENCE_ICONS, type ProjectOption, type PreferenceOption } from "./icons";
@@ -31,6 +31,25 @@ const EMPTY_FORM: ContactFormData = {
   honeypot: "",
 };
 
+/** Rascunho guardado no browser, para não perder o que foi escrito. */
+const DRAFT_KEY = "contact-draft";
+type Draft = Omit<ContactFormData, "consent" | "honeypot">;
+
+function readDraft(): Partial<Draft> | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    return raw ? (JSON.parse(raw) as Partial<Draft>) : null;
+  } catch {
+    return null;
+  }
+}
+
+function clearDraft() {
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch {}
+}
+
 /**
  * Controlador do formulário de contacto em 3 fases.
  * Concentra estado, validação por fase e submissão — a UI fica nas
@@ -45,6 +64,33 @@ export function useContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [serverMessage, setServerMessage] = useState("");
+  const [draftRestored, setDraftRestored] = useState(false);
+  const restoredRef = useRef(false);
+
+  // Repõe o rascunho depois de montar (no servidor não há localStorage).
+  useEffect(() => {
+    const draft = readDraft();
+    restoredRef.current = true;
+    if (!draft) return;
+    const hasContent = Object.values(draft).some((v) => (Array.isArray(v) ? v.length > 0 : Boolean(v)));
+    if (!hasContent) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFormData((prev) => ({ ...prev, ...draft, consent: false, honeypot: "" }));
+    setDraftRestored(true);
+  }, []);
+
+  // Guarda o rascunho enquanto a pessoa escreve (com um pequeno atraso).
+  useEffect(() => {
+    if (!restoredRef.current) return;
+    const id = window.setTimeout(() => {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { consent, honeypot, ...draft } = formData;
+        localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+      } catch {}
+    }, 400);
+    return () => window.clearTimeout(id);
+  }, [formData]);
 
   const projectTypes: ProjectOption[] = t.contact.form.projectTypes.map((item) => ({
     ...item,
@@ -165,6 +211,7 @@ export function useContactForm() {
 
       if (response.ok && result.success) {
         setSubmitStatus("success");
+        clearDraft();
         setServerMessage(result.message || t.contact.form.errors.submitSuccessFallback);
       } else {
         setSubmitStatus("error");
@@ -183,6 +230,8 @@ export function useContactForm() {
     setServerMessage("");
     setCurrentStep(1);
     setFormData(EMPTY_FORM);
+    clearDraft();
+    setDraftRestored(false);
   };
 
   const selectedProjectTypeTitle =
@@ -195,7 +244,16 @@ export function useContactForm() {
       ? t.contact.form.otherPrefix + formData.otherContactPreference
       : contactPreferences.find((c) => c.id === formData.contactPreference)?.title || formData.contactPreference;
 
+  const discardDraft = () => {
+    clearDraft();
+    setFormData(EMPTY_FORM);
+    setDraftRestored(false);
+    setCurrentStep(1);
+  };
+
   return {
+    draftRestored,
+    discardDraft,
     currentStep,
     goToStep,
     formData,

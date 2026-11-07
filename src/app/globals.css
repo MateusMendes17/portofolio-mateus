@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* As variantes `dark:` seguem a classe .dark do next-themes (o botão de tema),
+   não o tema do sistema. Blocos com .light dentro do escuro ficam claros. */
+@custom-variant dark (&:where(.dark, .dark *):not(:where(.light, .light *)));
+
 /* ============================================================
    DESIGN TOKENS — Portfólio Mateus Mendes
    Direção aprovada: Sinal / Oficina (híbrido B, carácter calmo)
@@ -390,6 +394,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
   background-color: var(--bg);
 }
 
@@ -502,10 +507,10 @@ textarea {
 }
 
 /* Utilitários de layout da nova direção. */
+/* Toda a largura com a mesma margem lateral da home e do cabeçalho das
+   páginas, para as margens esquerdas baterem certo em ecrãs largos. */
 .container-page {
   width: 100%;
-  max-width: var(--container);
-  margin-inline: auto;
   padding-inline: var(--gutter);
 }
 

@@ -14,15 +14,24 @@ import { FormSuccess } from "./contact/FormSuccess";
  * componentes FormStep* / FormSuccess — aqui fica só a orquestração.
  */
 export function ContactForm() {
-  const { t } = useLanguage();
+  const { t, isEnglish } = useLanguage();
   const form = useContactForm();
 
   return (
     <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-10 relative overflow-hidden">
+      {form.draftRestored && form.submitStatus !== "success" && (
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-full bg-highlight px-5 py-2.5 text-sm text-accent-ink" role="status">
+          <span>{isEnglish ? "We restored what you had written." : "Recuperámos o que tinha escrito."}</span>
+          <button type="button" onClick={form.discardDraft} className="cursor-pointer font-semibold underline underline-offset-4">
+            {isEnglish ? "Start over" : "Começar de novo"}
+          </button>
+        </div>
+      )}
+
       {/* Barra de Progresso por Fases */}
       <div className="mb-8">
         <div className="flex items-center justify-between text-xs font-semibold text-text-secondary mb-3">
-          <span className="uppercase tracking-wider text-xs font-bold text-accent">
+          <span className="font-mono text-sm text-ink">
             {t.contact.form.steps.phase.replace("{current}", String(form.currentStep))}
           </span>
           <span className="text-text-muted">
@@ -45,6 +54,12 @@ export function ContactForm() {
                   if (step < form.currentStep) form.goToStep(step as 1 | 2 | 3);
                 }}
                 disabled={step > form.currentStep}
+                aria-label={
+                  isEnglish
+                    ? `Step ${step} of 3${isCurrent ? " (current)" : isCompleted ? " (done, go back)" : ""}`
+                    : `Passo ${step} de 3${isCurrent ? " (atual)" : isCompleted ? " (concluído, voltar)" : ""}`
+                }
+                aria-current={isCurrent ? "step" : undefined}
                 className={`h-2 rounded-full transition-all duration-300 ${
                   isCompleted
                     ? "bg-accent cursor-pointer hover:opacity-80"

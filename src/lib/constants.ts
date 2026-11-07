@@ -6,7 +6,9 @@ import type { NavItem } from "./types";
 
 export const SITE_CONFIG = {
   name: "Mateus Mendes",
-  url: "https://mateusmendes.pt",
+  // Sem domínio próprio por agora: o site vive na Vercel. Quando houver
+  // domínio, mudar aqui e em NEXT_PUBLIC_SITE_URL (Vercel e .env.local).
+  url: "https://portofolio-mateus.vercel.app",
   locale: "pt-PT",
   email: "mateusmm.dev@gmail.com",
   phone: "+351 917 810 763",

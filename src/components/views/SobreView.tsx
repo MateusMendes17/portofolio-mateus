@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useLanguage } from "@/context/LanguageContext";
 import { CtaPanel } from "@/components/ui/CtaPanel";
@@ -53,6 +54,25 @@ export function SobreView() {
             {t.about.hero.introAfter}
           </>
         }
+        media={
+          <figure className="relative m-0 mx-auto mt-10 max-w-[420px] lg:mx-0 lg:mt-14 lg:ml-auto">
+            <div className="theme-card overflow-hidden border-[1.5px] border-ink bg-surface-2 shadow-[var(--shadow-xl)] lg:rotate-2">
+              <Image
+                src="/sobre/mateus-retrato.webp"
+                alt={t.about.photoAlt}
+                width={960}
+                height={1200}
+                priority
+                sizes="(min-width: 1024px) 420px, 90vw"
+                className="h-auto w-full"
+              />
+            </div>
+            {/* Autocolante como o selo da home. */}
+            <figcaption className="absolute -bottom-5 -left-4 rotate-[-6deg] rounded-full border-[1.5px] border-accent-ink bg-highlight px-4 py-2 font-mono text-sm font-semibold text-accent-ink shadow-[var(--shadow-lg)]">
+              {t.about.hero.photoCaption}
+            </figcaption>
+          </figure>
+        }
       />
 
       <div className="container-page flex flex-col gap-[var(--section)]">
@@ -62,8 +82,8 @@ export function SobreView() {
           <InteractiveStats />
         </section>
 
-        {/* 3. Assistente (quiz) */}
-        <section>
+        {/* 3. Assistente (quiz) — destino de "Iniciar Assistente" na home. */}
+        <section id="assistente">
           <ProjectQuiz />
         </section>
       </div>
@@ -78,7 +98,7 @@ export function SobreView() {
           />
         </ScrollReveal>
 
-        <StaggerContainer className="mt-12 grid grid-cols-1 gap-5 md:auto-rows-[280px] md:grid-cols-3" stagger={0.1}>
+        <StaggerContainer className="mt-12 grid grid-cols-1 gap-5 md:auto-rows-[minmax(260px,auto)] md:grid-cols-3" stagger={0.1}>
           {pillars.map((pillar, index) => (
             <StaggerItem key={pillar.number} className={cn("min-h-0", PILLAR_STYLES[index]?.cell)}>
               <div

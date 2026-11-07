@@ -71,7 +71,7 @@ export function WhatsAppFloat() {
       tabIndex={show ? 0 : -1}
       className={cn(
         "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] left-4 z-40 flex h-12 w-12 items-center justify-center md:hidden",
-        "border border-ink bg-ink text-bg shadow-sm",
+        "rounded-full border-[1.5px] border-accent-ink bg-highlight text-accent-ink shadow-[var(--shadow-lg)]",
         "transition-[opacity,transform] duration-200 ease-[var(--ease-out)]",
         "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
         show

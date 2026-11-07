@@ -52,6 +52,8 @@ export default async function AvaliadorPage({ searchParams }: { searchParams: Se
         initialUrl={first(params.url)}
         initialCompare={first(params.modo) === "comparar" || urlB !== ""}
         initialUrlB={urlB}
+        // ?analisar=1 (links partilhados): corre a análise logo ao abrir.
+        initialAuto={first(params.analisar) === "1"}
       />
     </>
   );

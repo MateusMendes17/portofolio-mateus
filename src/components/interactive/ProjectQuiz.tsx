@@ -140,13 +140,13 @@ export function ProjectQuiz() {
     <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-10 relative overflow-hidden">
       {/* Cabeçalho */}
       <div className="max-w-2xl mb-8">
-        <span className="text-xs uppercase tracking-wider font-bold text-accent">
+        <span className="font-mono text-sm text-muted">
           {t.quiz.badge}
         </span>
-        <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
+        <h2 className="mt-3 font-heading text-[clamp(2.25rem,4.5vw,4rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-ink">
           {t.quiz.title}
         </h2>
-        <p className="mt-1.5 text-xs sm:text-sm text-text-secondary">
+        <p className="mt-4 text-base text-muted">
           {t.quiz.description}
         </p>
       </div>
@@ -181,7 +181,7 @@ export function ProjectQuiz() {
             transition={{ duration: 0.2 }}
             className="space-y-4"
           >
-            <h3 className="font-heading text-base sm:text-lg font-bold text-text-primary">
+            <h3 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
               {t.quiz.questions.goal}
             </h3>
 
@@ -191,16 +191,16 @@ export function ProjectQuiz() {
                   key={opt.id}
                   type="button"
                   onClick={() => selectAnswer("goal", opt.id as QuizAnswer["goal"], 2)}
-                  className="flex items-start gap-4 p-4 rounded-[20px] border border-border/80 bg-surface/70 text-left hover:border-accent hover:bg-surface-hover/80 transition-all duration-200 group"
+                  className="flex items-start gap-4 p-4 rounded-[20px] border border-border/80 bg-surface/70 text-left hover:border-ink hover:bg-highlight transition-all duration-200 group"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-surface border border-border text-text-secondary group-hover:text-accent group-hover:border-accent/40 transition-colors">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[14px] bg-surface border border-border text-text-secondary group-hover:border-accent-ink group-hover:text-accent-ink transition-colors">
                     {GOAL_ICONS[opt.id]}
                   </div>
                   <div>
-                    <h3 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                    <h3 className="font-heading text-lg font-semibold text-ink transition-colors group-hover:text-accent-ink">
                       {opt.title}
                     </h3>
-                    <p className="text-xs text-text-secondary mt-1">{opt.desc}</p>
+                    <p className="mt-1 text-sm text-muted group-hover:text-accent-ink/75">{opt.desc}</p>
                   </div>
                 </button>
               ))}
@@ -221,7 +221,7 @@ export function ProjectQuiz() {
             className="space-y-4"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-heading text-base sm:text-lg font-bold text-text-primary">
+              <h3 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
                 {t.quiz.questions.stage}
               </h3>
               <button
@@ -239,15 +239,15 @@ export function ProjectQuiz() {
                   key={opt.id}
                   type="button"
                   onClick={() => selectAnswer("stage", opt.id as QuizAnswer["stage"], 3)}
-                  className="flex flex-col p-4 rounded-[20px] border border-border/80 bg-surface/70 text-left hover:border-accent hover:bg-surface-hover/80 transition-all duration-200 group"
+                  className="flex flex-col p-4 rounded-[20px] border border-border/80 bg-surface/70 text-left hover:border-ink hover:bg-highlight transition-all duration-200 group"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-surface border border-border text-text-secondary group-hover:text-accent group-hover:border-accent/40 transition-colors mb-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-surface border border-border text-text-secondary group-hover:border-accent-ink group-hover:text-accent-ink transition-colors mb-3">
                     {STAGE_ICONS[opt.id]}
                   </div>
-                  <h3 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                  <h3 className="font-heading text-lg font-semibold text-ink transition-colors group-hover:text-accent-ink">
                     {opt.title}
                   </h3>
-                  <p className="text-xs text-text-secondary mt-1">{opt.desc}</p>
+                  <p className="mt-1 text-sm text-muted group-hover:text-accent-ink/75">{opt.desc}</p>
                 </button>
               ))}
             </div>
@@ -267,7 +267,7 @@ export function ProjectQuiz() {
             className="space-y-4"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-heading text-base sm:text-lg font-bold text-text-primary">
+              <h3 className="font-heading text-2xl font-semibold tracking-[-0.03em] text-ink">
                 {t.quiz.questions.priority}
               </h3>
               <button
@@ -285,15 +285,15 @@ export function ProjectQuiz() {
                   key={opt.id}
                   type="button"
                   onClick={() => selectAnswer("priority", opt.id as QuizAnswer["priority"], 4)}
-                  className="flex flex-col p-4 rounded-[20px] border border-border/80 bg-surface/70 text-left hover:border-accent hover:bg-surface-hover/80 transition-all duration-200 group"
+                  className="flex flex-col p-4 rounded-[20px] border border-border/80 bg-surface/70 text-left hover:border-ink hover:bg-highlight transition-all duration-200 group"
                 >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-surface border border-border text-text-secondary group-hover:text-accent group-hover:border-accent/40 transition-colors mb-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-[14px] bg-surface border border-border text-text-secondary group-hover:border-accent-ink group-hover:text-accent-ink transition-colors mb-3">
                     {PRIORITY_ICONS[opt.id]}
                   </div>
-                  <h3 className="font-heading text-sm font-bold text-text-primary group-hover:text-accent transition-colors">
+                  <h3 className="font-heading text-lg font-semibold text-ink transition-colors group-hover:text-accent-ink">
                     {opt.title}
                   </h3>
-                  <p className="text-xs text-text-secondary mt-1">{opt.desc}</p>
+                  <p className="mt-1 text-sm text-muted group-hover:text-accent-ink/75">{opt.desc}</p>
                 </button>
               ))}
             </div>
@@ -314,10 +314,10 @@ export function ProjectQuiz() {
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-border/60 pb-4">
               <div>
-                <span className="text-xs font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
+                <span className="rounded-full bg-highlight px-3 py-1 font-mono text-xs text-accent-ink">
                   {result.badge}
                 </span>
-                <h3 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-2">
+                <h3 className="mt-2 font-heading text-[clamp(2rem,3.5vw,3rem)] leading-none font-semibold tracking-[-0.04em] text-ink">
                   {result.title}
                 </h3>
               </div>

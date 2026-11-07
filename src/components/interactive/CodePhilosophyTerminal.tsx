@@ -29,13 +29,13 @@ export function CodePhilosophyTerminal() {
   return (
     <div className="rounded-[28px] border-[1.5px] border-ink bg-surface p-6 sm:p-10">
       <div className="max-w-2xl mb-8">
-        <span className="text-xs uppercase tracking-wider font-bold text-accent">
+        <span className="font-mono text-sm text-muted">
           {t.terminal.badge}
         </span>
-        <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
+        <h2 className="mt-3 font-heading text-[clamp(2.25rem,4.5vw,4rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-ink">
           {t.terminal.title}
         </h2>
-        <p className="mt-1.5 text-xs sm:text-sm text-text-secondary">
+        <p className="mt-4 text-base text-muted">
           {t.terminal.description}
         </p>
       </div>

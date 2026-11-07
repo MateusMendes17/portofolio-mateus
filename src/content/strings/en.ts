@@ -206,6 +206,7 @@ const en: Strings = {
     hero: {
       badge: "Behind the Code",
       title: "About Me.",
+      photoCaption: "Hi, I'm Mateus 👋",
       introBefore: "I am ",
       introAfter:
         ", a freelance web developer based in Portugal. I blend technical software engineering with modern design aesthetics to create websites, e-commerce stores, and digital tools that command authority and generate measurable results.",

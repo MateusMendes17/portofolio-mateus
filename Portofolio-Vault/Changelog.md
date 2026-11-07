@@ -4,6 +4,48 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-07 — Página de projetos afinada
+
+- Filtros com contagem por categoria ("Institucional 5") e `aria-pressed` (`ProjectCatalog.tsx`).
+- Cada projeto mostra os números medidos logo na lista (Avaliador em destaque, depois Desempenho, Acessibilidade, SEO), lidos de `site-metrics.ts`.
+- Removida a secção "critérios" de `ProjetosView.tsx`, que repetia o Sobre e os Serviços (página mais curta).
+
+## 2026-11-07 — Fotografia, domínio da Vercel e página 404
+
+- **Fotografia:** original em `docs/fotos/foto-mateus-original.jpeg`; versões otimizadas em `public/sobre/` (`mateus-retrato.webp` 4:5, 54 KB; `mateus-avatar.webp` quadrado, 15 KB). Aparece no topo do Sobre (moldura inclinada + autocolante "Olá, sou o Mateus 👋", novo `PageIntro.media`), no cartão "Sem agência" da home (avatar que liga ao Sobre), no rodapé e no JSON-LD `Person.image`.
+- **Domínio:** sem domínio próprio por agora; `SITE_CONFIG.url`, `.env.local` e `.env.local.example` passam a `https://portofolio-mateus.vercel.app`.
+- **404 nova:** "404" gigante com a lente raio-X da home (o `HeroName` passou a aceitar `rows`, `label`, `bandRow`, `specs`, `as` e `compact`), endereço pedido nas medidas da lente, atalhos para Projetos/Serviços/Avaliador/Contacto e botão que abre a pesquisa (Ctrl K). Título "Página não encontrada | Mateus Mendes" reposto com um `MutationObserver` (a Next repunha o título por omissão).
+- Newsletter: campos de email em pílula com hairline de tinta.
+- Preços: decidido não publicar (ver conversa).
+
+## 2026-11-07 — Auditoria completa: correções e melhorias
+
+**Erros corrigidos**
+- Âncoras entre páginas (`/servicos#x`) caíam no topo: removido `SmoothScroll.tsx` (forçava `scrollTo(0,0)`); `scroll-padding-top` global para a navbar.
+- Variantes `dark:` seguiam o sistema e não o botão de tema: `@custom-variant dark` em `globals.css` (blocos `.light` ficam claros).
+- Botões selecionados com texto branco sobre chartreuse no tema escuro (formulário de contacto, explorador de tecnologias).
+- Menu móvel mostrava "Avaliador" em PT com o site em EN (usa `NAV_LABEL_KEYS`).
+- Exemplo do Avaliador e fallbacks dos emails/user-agent apontavam para `mateusmendes.pt` fixo: usam `SITE_URL`.
+- Banner de cookies removido: falava de GA/Meta Pixel/Ads que não existem e não fazia nada. Nota "Sem cookies de rastreamento" no rodapé (o Avaliador continua a encontrar a menção a cookies).
+- "Iniciar Assistente" leva a `/sobre#assistente`.
+- Marcador chartreuse tapava a linha anterior em títulos de duas linhas (`.home-hl` com z-index -1 num contexto isolado).
+- Mancha chartreuse removida das imagens `public/hero/topo-*.webp`.
+- Rodapé, botão "voltar ao topo" e botão do WhatsApp no estilo novo; rodapé sem CTA repetido e colado ao "Vamos falar?".
+- `.container-page` a toda a largura: margens iguais às do cabeçalho das páginas.
+- Cartão "Sem agência", pilares do Sobre (linhas com altura mínima), lente raio-X no escuro (cinzenta, visível sobre a faixa), nome na navbar entre 768–1100 px (só ícone).
+- Widgets do Sobre (quiz, stack, terminal) com a escala tipográfica nova.
+- Pontos do formulário com `aria-label`; páginas da newsletter sem `<main>` duplicado e com título/noindex; ano do rodapé sem risco de hidratação; emails da newsletter com a paleta nova; capa do catálogo sem `priority` (pré-carregada à toa no telemóvel).
+- Título do `CtaPanel` com classe partida (`m-0max-w-[16ch]`).
+- Não resolvido: título da página 404 (o Next repõe o título por omissão; é noindex).
+
+**Melhorias**
+- Números do Sobre calculados das medições reais (`InteractiveStats.tsx`), com contador animado (`CountUp.tsx`, também em `MeasuredMetrics`).
+- Página própria por serviço: `/servicos/[slug]` (`ServiceDetailView.tsx`, `ServiceArticle.tsx`), no sitemap; na listagem os entregáveis ficam num acordeão (página mais curta). Cartões da home e rodapé apontam para elas.
+- Cursor com anel e botões magnéticos (`CursorFX.tsx`, só desktop com rato); cortina chartreuse entre páginas (`RouteCurtain.tsx`) e entrada da página (`app/template.tsx`).
+- Avaliador: guarda o último relatório no browser ("Ver de novo") e "Copiar link" (`?url=…&analisar=1` corre a análise ao abrir).
+- Formulário de contacto guarda rascunho no browser, com aviso e "Começar de novo".
+- Por fazer (precisa do Mateus): fotografia, preços indicativos, ligar o domínio `mateusmendes.pt` (e atualizar `NEXT_PUBLIC_SITE_URL`).
+
 ## 2026-11-06 — Nome do topo: lente "raio-X" (substitui o nome cinético)
 
 - `KineticName.tsx` removido; novo `src/components/home/HeroName.tsx`. O nome fica sólido (Bricolage Grotesque 800, sem eixos animados) e por cima passa uma lente circular que mostra o "esqueleto" das letras: contornos chartreuse, grelha técnica, linhas-guia (altura das maiúsculas e base), caixas dos glifos e as medidas tipográficas reais. Ideia: design por fora, rigor técnico por dentro.

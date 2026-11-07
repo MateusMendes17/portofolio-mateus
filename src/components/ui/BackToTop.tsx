@@ -38,9 +38,9 @@ export function BackToTop() {
       tabIndex={isVisible ? 0 : -1}
       className={cn(
         "fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 z-40 flex h-11 w-11 items-center justify-center",
-        "border border-line-strong bg-bg/90 text-ink backdrop-blur-sm",
-        "transition-[opacity,transform] duration-200 ease-[var(--ease-out)]",
-        "hover:bg-surface-2 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
+        "rounded-full border-[1.5px] border-ink bg-bg/90 text-ink backdrop-blur-sm",
+        "transition-[opacity,transform,background-color,color] duration-300 ease-[var(--ease-out)]",
+        "hover:bg-highlight hover:text-accent-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]",
         isVisible
           ? "pointer-events-auto translate-y-0 opacity-100"
           : "pointer-events-none translate-y-2 opacity-0"

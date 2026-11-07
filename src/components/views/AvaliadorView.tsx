@@ -8,7 +8,7 @@ import { LossCalculator } from "@/components/audit/LossCalculator";
 import { CompareResults } from "@/components/audit/CompareResults";
 import { streamAudit } from "@/components/audit/streamAudit";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
-import { SITE_CONFIG } from "@/lib/constants";
+import { SITE_CONFIG, SITE_URL } from "@/lib/constants";
 import type { AuditResult } from "@/lib/audit/types";
 import type { Strings } from "@/content/strings/pt";
 
@@ -33,9 +33,22 @@ const STEP_TARGET: Record<string, number> = { fetch: 30, checks: 50, pagespeed: 
 
 function getScoreRating(score: number, isEn: boolean) {
   if (score >= 90) return { label: isEn ? "Excellent" : "Excelente", color: "text-emerald-600 dark:text-emerald-400" };
-  if (score >= 75) return { label: isEn ? "Good" : "Bom", color: "text-chartreuse-600 dark:text-accent" };
+  if (score >= 75) return { label: isEn ? "Good" : "Bom", color: "text-ink dark:text-accent" };
   if (score >= 50) return { label: isEn ? "Needs work" : "A melhorar", color: "text-amber-600 dark:text-amber-400" };
   return { label: isEn ? "Critical" : "Crítico", color: "text-red-600 dark:text-red-400" };
+}
+
+/** Último relatório guardado no browser (só este dispositivo; nada vai para o servidor). */
+const LAST_KEY = "audit-last";
+type SavedReport = { result: AuditResult; savedAt: string };
+
+function readSaved(): SavedReport | null {
+  try {
+    const raw = localStorage.getItem(LAST_KEY);
+    return raw ? (JSON.parse(raw) as SavedReport) : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Valores iniciais vindos do URL (?url=, ?modo=comparar, ?vs=), lidos no servidor para a página sair completa no HTML. */
@@ -43,10 +56,12 @@ export function AvaliadorView({
   initialUrl = "",
   initialCompare = false,
   initialUrlB = "",
+  initialAuto = false,
 }: {
   initialUrl?: string;
   initialCompare?: boolean;
   initialUrlB?: string;
+  initialAuto?: boolean;
 }) {
   const { t, isEnglish } = useLanguage();
   // Pré-preenchido pelo formulário da home (/avaliador?url=...).
@@ -63,6 +78,40 @@ export function AvaliadorView({
   const [error, setError] = useState<string | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+  const [saved, setSaved] = useState<SavedReport | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  // Ao abrir: corre logo a análise de um link partilhado, ou oferece o último relatório.
+  useEffect(() => {
+    if (initialAuto && initialUrl) {
+      formRef.current?.requestSubmit();
+      return;
+    }
+    if (!initialUrl) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSaved(readSaved());
+    }
+  }, [initialAuto, initialUrl]);
+
+  function showSaved() {
+    if (!saved) return;
+    setResult(saved.result);
+    setUrl(saved.result.url);
+    setSaved(null);
+  }
+
+  async function copyShareLink() {
+    if (!result) return;
+    const link = `${window.location.origin}/avaliador?url=${encodeURIComponent(result.url)}&analisar=1`;
+    try {
+      await navigator.clipboard.writeText(link);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2200);
+    } catch {
+      window.prompt(isEnglish ? "Copy this link:" : "Copie este link:", link);
+    }
+  }
 
   // A barra aproxima-se suavemente do teto do passo atual (o PageSpeed demora 20–40 s).
   const currentStep = progress[progress.length - 1]?.step;
@@ -132,6 +181,12 @@ export function AvaliadorView({
       }
 
       setResult(first.result);
+      setSaved(null);
+      if (!compareMode) {
+        try {
+          localStorage.setItem(LAST_KEY, JSON.stringify({ result: first.result, savedAt: new Date().toISOString() }));
+        } catch {}
+      }
       // Expande os primeiros 3 itens por defeito
       const initialExpanded: Record<string, boolean> = {};
       first.result.improvements.slice(0, 3).forEach((imp) => {
@@ -280,7 +335,7 @@ export function AvaliadorView({
       <section className="container-page mt-10 lg:mt-12" data-hide-print>
         <div className="dark relative overflow-hidden rounded-[28px] border border-line bg-surface p-6 text-ink sm:p-9">
           <div className="home-scan pointer-events-none" aria-hidden="true" />
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row sm:items-end">
+          <form ref={formRef} onSubmit={handleSubmit} className="flex flex-col gap-4 sm:flex-row sm:items-end">
             <div className="flex-1">
               <label htmlFor="audit-url" className="block font-body text-label font-medium text-ink">
                 {a.form.urlLabel}
@@ -354,7 +409,7 @@ export function AvaliadorView({
               <span className="font-body text-micro text-muted">
                 {isEnglish ? "Try an example:" : "Experimente um exemplo:"}
               </span>
-              {["https://dentilusa.vercel.app", "https://mateusmendes.pt"].map((sample) => (
+              {["https://dentilusa.vercel.app", SITE_URL].map((sample) => (
                 <button
                   key={sample}
                   type="button"
@@ -367,9 +422,26 @@ export function AvaliadorView({
             </div>
           )}
 
+          {saved && !result && !loading && (
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-[20px] border border-line bg-bg px-4 py-3 text-sm">
+              <span className="text-ink-2">
+                {isEnglish ? "Your last report:" : "O seu último relatório:"}{" "}
+                <strong className="font-semibold text-ink">{saved.result.url.replace(/^https?:\/\//, "")}</strong>{" "}
+                <span className="font-mono text-xs text-muted">({saved.result.overallScore}/100)</span>
+              </span>
+              <button
+                type="button"
+                onClick={showSaved}
+                className="cursor-pointer rounded-full bg-highlight px-4 py-1.5 font-semibold text-accent-ink"
+              >
+                {isEnglish ? "View again" : "Ver de novo"}
+              </button>
+            </div>
+          )}
+
           {error && (
             <div
-              className="mt-4 border border-destructive/30 bg-destructive/5 p-4 font-body text-sm text-destructive"
+              className="mt-4 rounded-[20px] border border-destructive/30 bg-destructive/5 p-4 font-body text-sm text-destructive"
               role="alert"
             >
               <p className="font-semibold">{error}</p>
@@ -458,6 +530,18 @@ export function AvaliadorView({
                     {a.report.fromCache}
                   </span>
                 )}
+                <button
+                  type="button"
+                  onClick={copyShareLink}
+                  className="font-body text-sm font-medium text-ink underline decoration-line-strong underline-offset-4 hover:decoration-ink flex items-center gap-1.5"
+                  aria-live="polite"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                  </svg>
+                  {copied ? (isEnglish ? "Link copied" : "Link copiado") : isEnglish ? "Copy link" : "Copiar link"}
+                </button>
                 <button
                   type="button"
                   onClick={() => {

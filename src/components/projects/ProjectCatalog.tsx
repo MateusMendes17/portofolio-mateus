@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Project } from "@/content/projects";
+import { SITE_METRICS } from "@/content/site-metrics";
 import { useLanguage } from "@/context/LanguageContext";
 import { projectCategoryLabel } from "@/lib/projectCategory";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,14 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
     const set = new Set<string>();
     projects.forEach((project) => set.add(project.category));
     return ["all", ...Array.from(set)];
+  }, [projects]);
+
+  const counts = useMemo(() => {
+    const map: Record<string, number> = { all: projects.length };
+    projects.forEach((project) => {
+      map[project.category] = (map[project.category] ?? 0) + 1;
+    });
+    return map;
   }, [projects]);
 
   const filteredProjects = useMemo(() => {
@@ -122,14 +131,16 @@ export function ProjectCatalog({ projects }: ProjectCatalogProps) {
                 key={cat}
                 type="button"
                 onClick={() => setActiveCategory(cat)}
+                aria-pressed={activeCategory === cat}
                 className={cn(
-                  "min-h-[40px] cursor-pointer rounded-full border-[1.5px] px-4 font-body text-sm font-semibold transition-colors",
+                  "inline-flex min-h-[40px] cursor-pointer items-center gap-2 rounded-full border-[1.5px] px-4 font-body text-sm font-semibold transition-colors",
                   activeCategory === cat
                     ? "border-accent-ink bg-highlight text-accent-ink"
                     : "border-ink text-ink hover:bg-ink hover:text-bg"
                 )}
               >
                 {label}
+                <span className="font-mono text-xs opacity-60">{counts[cat] ?? 0}</span>
               </button>
             );
           })}
@@ -266,17 +277,18 @@ function ProjectEntry({
   category,
   setRef,
 }: ProjectEntryProps) {
-  const { t } = useLanguage();
+  const { t, isEnglish } = useLanguage();
   const [hovered, setHovered] = useState(false);
   const [focused, setFocused] = useState(false);
 
   const active = hovered || focused || centered;
+  const measurement = SITE_METRICS[project.slug];
 
   return (
     <article
       id={project.slug}
       ref={setRef}
-      className="scroll-mt-28 border-t-[1.5px] border-ink py-10 first:border-t-0 first:pt-0 lg:py-14 lg:first:pt-0"
+      className="border-t-[1.5px] border-ink py-10 first:border-t-0 first:pt-0 lg:py-14 lg:first:pt-0"
     >
       <Link
         href={`/projetos/${project.slug}`}
@@ -307,6 +319,31 @@ function ProjectEntry({
             <p className="mt-3 max-w-[56ch] font-body text-body text-ink-2">
               {study.summary}
             </p>
+
+            {/* Prova logo na lista: números medidos (Lighthouse mobile + Avaliador). */}
+            {measurement && (
+              <dl className="mt-5 flex flex-wrap gap-2 font-mono text-xs">
+                {[
+                  { label: isEnglish ? "Evaluator" : "Avaliador", value: measurement.overall },
+                  { label: isEnglish ? "Performance" : "Desempenho", value: measurement.performance },
+                  { label: isEnglish ? "Accessibility" : "Acessibilidade", value: measurement.accessibility },
+                  { label: "SEO", value: measurement.seo },
+                ]
+                  .filter((item) => item.value !== null)
+                  .map((item, i) => (
+                    <div
+                      key={item.label}
+                      className={cn(
+                        "flex items-baseline gap-1.5 rounded-full px-3 py-1.5",
+                        i === 0 ? "bg-highlight text-accent-ink" : "border border-line text-ink"
+                      )}
+                    >
+                      <dt className="opacity-70">{item.label}</dt>
+                      <dd className="m-0 font-semibold tabular-nums">{item.value}</dd>
+                    </div>
+                  ))}
+              </dl>
+            )}
           </div>
 
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-body text-label text-muted md:justify-end md:pt-1">
@@ -324,7 +361,6 @@ function ProjectEntry({
         <ProjectPreview
           project={project}
           active={active}
-          priority={index === 0}
           className="mt-6"
         />
 

@@ -45,13 +45,13 @@ export function TechStackExplorer() {
       {/* Cabeçalho */}
       <div className="space-y-4 mb-8">
         <div>
-          <span className="text-xs uppercase tracking-wider font-bold text-accent">
+          <span className="font-mono text-sm text-muted">
             {t.stackExplorer.badge}
           </span>
-          <h2 className="font-heading text-2xl sm:text-3xl font-bold text-text-primary mt-1">
+          <h2 className="mt-3 font-heading text-[clamp(2.25rem,4.5vw,4rem)] leading-[0.95] font-semibold tracking-[-0.045em] text-ink">
             {t.stackExplorer.title}
           </h2>
-          <p className="mt-1.5 text-xs sm:text-sm text-text-secondary max-w-2xl leading-relaxed">
+          <p className="mt-4 text-base text-muted max-w-2xl leading-relaxed">
             {t.stackExplorer.description}
           </p>
         </div>
@@ -70,9 +70,9 @@ export function TechStackExplorer() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveTab(cat.id)}
-                className={`rounded-[14px] px-3.5 sm:px-4 py-2 text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                className={`rounded-full px-4 py-2 text-sm font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   activeTab === cat.id
-                    ? "bg-accent text-white shadow-sm"
+                    ? "bg-highlight text-accent-ink shadow-sm"
                     : "text-text-secondary hover:text-text-primary hover:bg-surface/60"
                 }`}
               >
@@ -101,7 +101,7 @@ export function TechStackExplorer() {
                 }`}
               >
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-heading text-sm font-bold text-text-primary">
+                  <span className="font-heading text-base font-semibold text-ink">
                     {tech.name}
                   </span>
                   <span
@@ -129,7 +129,7 @@ export function TechStackExplorer() {
             >
               {/* Badge de Categoria */}
               <div className="flex items-center justify-between mb-4">
-                <span className="text-xs font-bold uppercase tracking-wider text-accent px-3 py-1 rounded-full bg-accent-subtle">
+                <span className="rounded-full bg-highlight px-3 py-1 font-mono text-xs text-accent-ink">
                   {currentSelected.categoryLabel}
                 </span>
                 <span className="text-xs text-text-muted font-mono">
@@ -137,7 +137,7 @@ export function TechStackExplorer() {
                 </span>
               </div>
 
-              <h3 className="font-heading text-xl sm:text-2xl font-bold text-text-primary">
+              <h3 className="font-heading text-[clamp(1.75rem,2.6vw,2.25rem)] leading-tight font-semibold tracking-[-0.03em] text-ink">
                 {currentSelected.name}
               </h3>
               <p className="mt-1 text-xs sm:text-sm font-medium text-accent">

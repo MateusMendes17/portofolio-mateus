@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { NAV_ITEMS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
+import { NAV_ITEMS, NAV_LABEL_KEYS, SITE_CONFIG, SOCIAL_LINKS } from "@/lib/constants";
 import { ThemeToggle } from "./ThemeToggle";
 import { LanguageToggle } from "./LanguageToggle";
 import { ButtonLink } from "../ui/Button";
@@ -30,13 +30,9 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const previousFocusRef = useRef<HTMLElement | null>(null);
 
-  const navLabels: Record<string, string> = {
-    "/": t.nav.home,
-    "/sobre": t.nav.about,
-    "/servicos": t.nav.services,
-    "/projetos": t.nav.projects,
-    "/contacto": t.nav.contact,
-  };
+  // Mesmas chaves de tradução da navbar (inclui o Avaliador).
+  const getNavLabel = (href: string) =>
+    t.nav[NAV_LABEL_KEYS[href] as keyof typeof t.nav] || href;
 
   // Fecha o menu quando a rota muda depois de uma navegação.
   useEffect(() => {
@@ -182,7 +178,7 @@ export function MobileNav({ isOpen, onClose }: MobileNavProps) {
                           : "font-heading text-[clamp(2.25rem,10vw,3.5rem)] leading-none font-semibold tracking-[-0.05em] text-ink-2"
                       }
                     >
-                      {navLabels[item.href] || item.label}
+                      {getNavLabel(item.href)}
                     </span>
                   </span>
                   <span

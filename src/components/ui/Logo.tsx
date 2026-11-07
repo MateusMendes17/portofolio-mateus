@@ -63,17 +63,20 @@ export function BrandLockup({
   name,
   className,
   showRole = true,
+  compactOnTablet = false,
 }: {
   name: string;
   className?: string;
   /** Esconde a linha "Web Developer" (ex.: em espaços muito estreitos). */
   showRole?: boolean;
+  /** Só o ícone entre 768 e 1100px, onde a navbar não tem espaço para o nome. */
+  compactOnTablet?: boolean;
 }) {
   return (
     <span className={cn("flex min-w-0 items-center gap-3", className)}>
       <Logo variant="icon" className="h-10 w-10 shrink-0" />
-      <span className="h-8 w-[1.5px] shrink-0 bg-ink" aria-hidden="true" />
-      <span className="flex min-w-0 flex-col leading-none">
+      <span className={cn("h-8 w-[1.5px] shrink-0 bg-ink", compactOnTablet && "md:max-[1100px]:hidden")} aria-hidden="true" />
+      <span className={cn("flex min-w-0 flex-col leading-none", compactOnTablet && "md:max-[1100px]:hidden")}>
         <span className="truncate font-heading text-[17px] font-semibold tracking-[-0.03em] text-ink">
           {name}
         </span>
