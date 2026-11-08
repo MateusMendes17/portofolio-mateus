@@ -4,6 +4,11 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-08 — Privacidade: subcontratantes (RGPD)
+
+- Nova secção "3. Subcontratantes" na política (PT/EN, `strings/*.ts` → `privacy.processors`, `PrivacidadeView.tsx`): Vercel (alojamento, registos técnicos, estatísticas anónimas sem cookies), Resend (emails do contacto, Avaliador, PDF e newsletter), Cal.com (marcação de chamadas) e Google PageSpeed Insights (só o endereço analisado). Parágrafo sobre transferências para fora da UE (cláusulas contratuais-tipo / Quadro de Privacidade de Dados UE-EUA).
+- A frase "nunca cedidos a terceiros" passa a dizer que os dados só são partilhados com estes subcontratantes, na medida do necessário. Secções seguintes renumeradas (4–7).
+
 ## 2026-11-08 — Pronto para publicar: partilha, formulários, medições
 
 - **Imagem de partilha** (`public/og-cover.jpg`, 1200×630) refeita no design atual: fundo topográfico, nome gigante com faixa chartreuse, fotografia e o URL real (`portofolio-mateus.vercel.app`). A antiga era castanha e dizia "mateusmendes.pt".

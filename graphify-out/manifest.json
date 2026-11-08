@@ -420,9 +420,9 @@
     "semantic_hash": ""
   },
   "src/components/views/PrivacidadeView.tsx": {
-    "mtime": 1794177261.6176093,
-    "seen": 1794177830.9950967,
-    "ast_hash": "97ebc1ed1693cfa81527c24847160194",
+    "mtime": 1794178351.05599,
+    "seen": 1794178416.1267023,
+    "ast_hash": "99ebe3fafb4af5656ead4232f7337c20",
     "semantic_hash": ""
   },
   "src/components/views/ProjectDetailView.tsx": {
@@ -468,15 +468,15 @@
     "semantic_hash": ""
   },
   "src/content/strings/en.ts": {
-    "mtime": 1794177280.6416452,
-    "seen": 1794177830.9951117,
-    "ast_hash": "c0dd1c52bb8ee00937d1f43a498aad6d",
+    "mtime": 1794178351.05599,
+    "seen": 1794178416.1267123,
+    "ast_hash": "d8283c9136c53368d251acc2dba3f6cb",
     "semantic_hash": ""
   },
   "src/content/strings/pt.ts": {
-    "mtime": 1794177280.6405747,
-    "seen": 1794177830.9951131,
-    "ast_hash": "48f2336ab00eb4792c2579cb89ed7a10",
+    "mtime": 1794178351.05499,
+    "seen": 1794178416.1267133,
+    "ast_hash": "6908e24fde81ec575816a8000c063e7c",
     "semantic_hash": ""
   },
   "src/context/LanguageContext.tsx": {
@@ -696,9 +696,9 @@
     "semantic_hash": ""
   },
   "Portofolio-Vault/Changelog.md": {
-    "mtime": 1794177823.363857,
-    "seen": 1794177830.995182,
-    "ast_hash": "a9c5036f1d13ad74fcf4c9c1fb7924e7",
+    "mtime": 1794178411.0719724,
+    "seen": 1794178416.1267579,
+    "ast_hash": "cf4876f97690157aee484c45ec7282ea",
     "semantic_hash": ""
   },
   "Portofolio-Vault/Pendentes.md": {

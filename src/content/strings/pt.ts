@@ -1543,23 +1543,52 @@ export const principiosDeEngenharia = {
       neverBefore: "Os seus dados",
       neverStrong: "nunca",
       neverAfter:
-        "serão vendidos, cedidos a terceiros para efeitos de marketing ou utilizados para qualquer fim não autorizado.",
+        "serão vendidos, cedidos a terceiros para efeitos de marketing ou utilizados para qualquer fim não autorizado. São partilhados apenas com os subcontratantes indicados na secção seguinte, e só na medida do necessário para prestar o serviço.",
+    },
+    processors: {
+      heading: "3. Subcontratantes",
+      intro:
+        "Para funcionar, este website recorre a fornecedores externos que tratam dados em nome do responsável, apenas segundo as suas instruções:",
+      items: [
+        {
+          name: "Vercel",
+          purpose:
+            "Alojamento do website e das funções do servidor. Regista dados técnicos dos pedidos (como o endereço IP) e fornece estatísticas de utilização agregadas e anónimas (Vercel Analytics e Speed Insights), sem cookies.",
+        },
+        {
+          name: "Resend",
+          purpose:
+            "Envio de emails: mensagens do formulário de contacto, pedidos feitos a partir do Avaliador, envio do relatório em PDF e newsletter (nome e endereço de email).",
+        },
+        {
+          name: "Cal.com",
+          purpose:
+            "Marcação de chamadas: nome, endereço de email, notas opcionais e o horário escolhido.",
+        },
+        {
+          name: "Google (PageSpeed Insights)",
+          purpose:
+            "Medição de desempenho usada pelo Avaliador de Sites. Recebe apenas o endereço do site analisado, nunca dados pessoais de quem faz a análise.",
+        },
+      ],
+      transfers:
+        "Alguns destes fornecedores estão sediados fora da União Europeia, nomeadamente nos Estados Unidos. Essas transferências baseiam-se nas garantias previstas no RGPD, como as cláusulas contratuais-tipo da Comissão Europeia ou o Quadro de Privacidade de Dados UE-EUA, conforme os termos de cada fornecedor.",
     },
     legalBasis: {
-      heading: "3. Base Legal para o Tratamento",
+      heading: "4. Base Legal para o Tratamento",
       body: "O tratamento dos seus dados fundamenta-se no consentimento expresso prestado pelo utilizador no momento da submissão do formulário de contacto (Artigo 6.º, n.º 1, alínea a) do Regulamento Geral sobre a Proteção de Dados — RGPD).",
     },
     retention: {
-      heading: "4. Conservação dos Dados",
+      heading: "5. Conservação dos Dados",
       body: "Os dados pessoais serão conservados apenas durante o período necessário para responder à sua solicitação e dar seguimento à eventual relação comercial, sendo eliminados decorrido o prazo legal ou caso solicite o seu apagamento.",
     },
     rights: {
-      heading: "5. Direitos do Titular dos Dados",
+      heading: "6. Direitos do Titular dos Dados",
       beforeLink:
         "Nos termos do RGPD, tem o direito de aceder, retificar, limitar ou solicitar o apagamento dos seus dados pessoais a qualquer momento. Para exercer estes direitos, basta enviar uma mensagem para",
     },
     cookies: {
-      heading: "6. Cookies e Rastreamento",
+      heading: "7. Cookies e Rastreamento",
       body: "Este website não utiliza cookies de rastreamento nem de publicidade. Usa apenas o armazenamento local do seu browser (localStorage), que nunca é enviado para nenhum servidor, para guardar: as preferências de tema (Dia / Noite) e idioma (PT / EN); o rascunho do formulário de contacto, para não perder o que escreveu (é apagado ao enviar ou ao escolher \"Começar de novo\"); e o último relatório do Avaliador de Sites, para o poder rever. Pode apagar estes dados a qualquer momento limpando os dados do site no browser. Para estatísticas agregadas e anónimas é usado o Vercel Analytics, que não recolhe dados pessoais nem define cookies.",
     },
   },

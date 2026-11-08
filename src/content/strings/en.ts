@@ -1546,23 +1546,52 @@ export const engineeringPrinciples = {
       neverBefore: "Your personal details are",
       neverStrong: "never",
       neverAfter:
-        "sold, rented, or distributed to 3rd parties for advertising or unauthorized uses.",
+        "sold, rented, or distributed to 3rd parties for advertising or unauthorized uses. They are shared only with the processors listed in the next section, and only as far as needed to provide the service.",
+    },
+    processors: {
+      heading: "3. Processors",
+      intro:
+        "To work, this website relies on external providers that process data on the controller's behalf, only under its instructions:",
+      items: [
+        {
+          name: "Vercel",
+          purpose:
+            "Hosting of the website and its server functions. Logs technical request data (such as the IP address) and provides aggregated, anonymous usage statistics (Vercel Analytics and Speed Insights), with no cookies.",
+        },
+        {
+          name: "Resend",
+          purpose:
+            "Email delivery: contact form messages, requests sent from the Evaluator, the PDF report and the newsletter (name and email address).",
+        },
+        {
+          name: "Cal.com",
+          purpose:
+            "Call booking: name, email address, optional notes and the chosen time.",
+        },
+        {
+          name: "Google (PageSpeed Insights)",
+          purpose:
+            "Performance measurement used by the Website Evaluator. It only receives the address of the site being analysed, never personal data about the person running it.",
+        },
+      ],
+      transfers:
+        "Some of these providers are based outside the European Union, namely in the United States. Those transfers rely on the safeguards provided by the GDPR, such as the European Commission's standard contractual clauses or the EU-US Data Privacy Framework, according to each provider's terms.",
     },
     legalBasis: {
-      heading: "3. Legal Basis for Processing",
+      heading: "4. Legal Basis for Processing",
       body: "Data processing is grounded upon explicit consent granted by the user when submitting the contact inquiry form (Article 6(1)(a) of the General Data Protection Regulation — GDPR).",
     },
     retention: {
-      heading: "4. Data Retention",
+      heading: "5. Data Retention",
       body: "Personal records are retained only for the duration required to address your consultation and support commercial communications, after which they are safely purged.",
     },
     rights: {
-      heading: "5. User Rights",
+      heading: "6. User Rights",
       beforeLink:
         "Under GDPR legislation, you hold the right to access, rectify, or request deletion of your stored details at any moment by sending a request to",
     },
     cookies: {
-      heading: "6. Cookies & Local Storage",
+      heading: "7. Cookies & Local Storage",
       body: "This website uses no tracking or advertising cookies. It only uses your browser's local storage (localStorage), which is never sent to any server, to keep: your theme (Light / Dark) and language (PT / EN) preferences; a draft of the contact form, so you do not lose what you wrote (deleted when you send it or choose \"Start over\"); and your last Website Evaluator report, so you can view it again. You can delete this data at any time by clearing the site data in your browser. Aggregated, anonymous statistics come from Vercel Analytics, which collects no personal data and sets no cookies.",
     },
   },

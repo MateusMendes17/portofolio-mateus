@@ -65,6 +65,22 @@ export function PrivacidadeView() {
 
         <section className="space-y-3">
           <h2 className="m-0 font-heading text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-semibold tracking-[-0.03em] text-ink">
+            {t.privacy.processors.heading}
+          </h2>
+          <p>{t.privacy.processors.intro}</p>
+          <dl className="m-0 divide-y divide-line overflow-hidden rounded-[20px] border border-line">
+            {t.privacy.processors.items.map((item) => (
+              <div key={item.name} className="grid gap-1 px-5 py-4 sm:grid-cols-[180px_minmax(0,1fr)] sm:gap-6">
+                <dt className="font-semibold text-ink">{item.name}</dt>
+                <dd className="m-0">{item.purpose}</dd>
+              </div>
+            ))}
+          </dl>
+          <p>{t.privacy.processors.transfers}</p>
+        </section>
+
+        <section className="space-y-3">
+          <h2 className="m-0 font-heading text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight font-semibold tracking-[-0.03em] text-ink">
             {t.privacy.legalBasis.heading}
           </h2>
           <p>{t.privacy.legalBasis.body}</p>
