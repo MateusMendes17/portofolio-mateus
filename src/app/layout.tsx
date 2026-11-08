@@ -62,6 +62,11 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  // Google Search Console: o código da meta tag "google-site-verification"
+  // vai na variável NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION (Vercel).
+  ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION } }
+    : {}),
 };
 
 /* ============================================================

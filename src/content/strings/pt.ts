@@ -1560,7 +1560,7 @@ export const principiosDeEngenharia = {
     },
     cookies: {
       heading: "6. Cookies e Rastreamento",
-      body: "Este website não utiliza cookies invasivos ou de publicidade direcionada. Utiliza unicamente armazenamento local estritamente necessário para guardar as suas preferências de tema (Dia / Noite) e idioma (PT / EN). Para estatísticas agregadas e anónimas de utilização é empregue o Vercel Analytics, que não recolhe dados pessoais nem define cookies de rastreamento.",
+      body: "Este website não utiliza cookies de rastreamento nem de publicidade. Usa apenas o armazenamento local do seu browser (localStorage), que nunca é enviado para nenhum servidor, para guardar: as preferências de tema (Dia / Noite) e idioma (PT / EN); o rascunho do formulário de contacto, para não perder o que escreveu (é apagado ao enviar ou ao escolher \"Começar de novo\"); e o último relatório do Avaliador de Sites, para o poder rever. Pode apagar estes dados a qualquer momento limpando os dados do site no browser. Para estatísticas agregadas e anónimas é usado o Vercel Analytics, que não recolhe dados pessoais nem define cookies.",
     },
   },
 

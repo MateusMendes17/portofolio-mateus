@@ -78,9 +78,9 @@
     "semantic_hash": ""
   },
   "src/app/layout.tsx": {
-    "mtime": 1794076978.9856527,
-    "seen": 1794079610.9241083,
-    "ast_hash": "97aa33091ceb474cbdd5394f87c38a01",
+    "mtime": 1794177292.4641957,
+    "seen": 1794177830.994972,
+    "ast_hash": "8680f52bb9706b07f7b20d77daa08731",
     "semantic_hash": ""
   },
   "src/app/manifest.ts": {
@@ -96,9 +96,9 @@
     "semantic_hash": ""
   },
   "src/app/not-found.tsx": {
-    "mtime": 1794079316.2233746,
-    "seen": 1794079610.9241157,
-    "ast_hash": "438ca5baff812b95388bd23836103232",
+    "mtime": 1794177648.535511,
+    "seen": 1794177830.9949799,
+    "ast_hash": "b47abffa526ff4518e63c1f6e62dc153",
     "semantic_hash": ""
   },
   "src/app/page.tsx": {
@@ -420,9 +420,9 @@
     "semantic_hash": ""
   },
   "src/components/views/PrivacidadeView.tsx": {
-    "mtime": 1793984977.2270613,
-    "seen": 1793985199.3379643,
-    "ast_hash": "ae02e836bbca1969af6ad2485bf6838c",
+    "mtime": 1794177261.6176093,
+    "seen": 1794177830.9950967,
+    "ast_hash": "97ebc1ed1693cfa81527c24847160194",
     "semantic_hash": ""
   },
   "src/components/views/ProjectDetailView.tsx": {
@@ -462,21 +462,21 @@
     "semantic_hash": ""
   },
   "src/content/site-metrics.ts": {
-    "mtime": 1793115041.6722076,
-    "seen": 1793985199.3379748,
-    "ast_hash": "465265f1a5a40b91e429c9ac8736a26b",
+    "mtime": 1794177596.4224117,
+    "seen": 1794177830.9951098,
+    "ast_hash": "120f9b172989dd4b0acf6b3422dedf88",
     "semantic_hash": ""
   },
   "src/content/strings/en.ts": {
-    "mtime": 1794076960.1666434,
-    "seen": 1794079610.9242413,
-    "ast_hash": "fa91b590feb103074ae1d31baf677b23",
+    "mtime": 1794177280.6416452,
+    "seen": 1794177830.9951117,
+    "ast_hash": "c0dd1c52bb8ee00937d1f43a498aad6d",
     "semantic_hash": ""
   },
   "src/content/strings/pt.ts": {
-    "mtime": 1794076960.1656413,
-    "seen": 1794079610.9242427,
-    "ast_hash": "1eda9dfa9eafe5329a13439e658cfeec",
+    "mtime": 1794177280.6405747,
+    "seen": 1794177830.9951131,
+    "ast_hash": "48f2336ab00eb4792c2579cb89ed7a10",
     "semantic_hash": ""
   },
   "src/context/LanguageContext.tsx": {
@@ -696,9 +696,9 @@
     "semantic_hash": ""
   },
   "Portofolio-Vault/Changelog.md": {
-    "mtime": 1794080251.2567737,
-    "seen": 1794080265.715573,
-    "ast_hash": "9ede8497226ca86ec355e0c6cdf52c17",
+    "mtime": 1794177823.363857,
+    "seen": 1794177830.995182,
+    "ast_hash": "a9c5036f1d13ad74fcf4c9c1fb7924e7",
     "semantic_hash": ""
   },
   "Portofolio-Vault/Pendentes.md": {
@@ -876,9 +876,9 @@
     "semantic_hash": ""
   },
   "public/og-cover.jpg": {
-    "mtime": 1791589677.132587,
-    "seen": 1793096748.1303563,
-    "ast_hash": "c8a9e77c596f761ae9117c188893d214",
+    "mtime": 1794177342.8711126,
+    "seen": 1794177830.995224,
+    "ast_hash": "51339d86b60fd7d2b926efec5988de56",
     "semantic_hash": ""
   },
   "public/projetos/aqualis/cover.webp": {

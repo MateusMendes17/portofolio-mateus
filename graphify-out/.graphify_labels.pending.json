@@ -1,8 +1,8 @@
 {
-  "0": "ProjectDetailView.tsx",
-  "1": "layout.tsx",
+  "0": "next",
+  "1": "InteractiveStats.tsx",
   "2": "audit/types.ts",
-  "3": "useContactForm.ts",
+  "3": "useLanguage",
   "4": "next",
   "5": "useLanguage",
   "6": "Changelog",
@@ -14,10 +14,8 @@
   "12": "AvaliadorView.tsx",
   "13": "Portfólio Mateus Mendes",
   "14": "ProjectCatalog.tsx",
-  "15": "react",
+  "15": "ProjectPreview.tsx",
   "16": "HomeView.tsx",
-  "17": "constants.ts",
-  "18": "FloatingElements.tsx",
   "19": "measure-sites.ts",
   "20": "Auditoria e levantamento — fases 0 e 1",
   "21": "ProjectDetailView.tsx",
@@ -26,10 +24,7 @@
   "24": "Portofolio Vault (Obsidian)",
   "25": "projects.archive.ts",
   "26": "AGENTS.md",
-  "27": "TimeCombobox",
   "28": "postcss.config.mjs",
   "29": "Bem-vindo.md",
-  "30": "LanguageContext.tsx",
-  "31": "vercel.json",
-  "32": "TechStackExplorer.tsx"
+  "31": "vercel.json"
 }

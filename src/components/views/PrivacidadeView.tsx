@@ -4,11 +4,15 @@ import Link from "next/link";
 import { SITE_CONFIG } from "@/lib/constants";
 import { useLanguage } from "@/context/LanguageContext";
 
+/** Data da última revisão da política (AAAA-MM-DD). */
+const PRIVACY_LAST_UPDATED = "2026-11-08T12:00:00Z";
+
 export function PrivacidadeView() {
   const { isEnglish, t } = useLanguage();
 
-  // Data dinâmica com formatação conforme a locale (valor, não texto fixo).
-  const lastUpdated = new Date().toLocaleDateString(isEnglish ? "en-US" : "pt-PT", {
+  // Data fixa da última revisão do texto: atualizar à mão quando a política mudar.
+  const lastUpdated = new Date(PRIVACY_LAST_UPDATED).toLocaleDateString(isEnglish ? "en-GB" : "pt-PT", {
+    day: "numeric",
     month: "long",
     year: "numeric",
   });

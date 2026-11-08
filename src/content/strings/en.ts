@@ -1563,7 +1563,7 @@ export const engineeringPrinciples = {
     },
     cookies: {
       heading: "6. Cookies & Local Storage",
-      body: "This website does not deploy invasive tracking or advertising cookies. It strictly utilizes localStorage to retain your interface preferences (Theme & Language selection). Aggregated, anonymous usage statistics are powered by Vercel Analytics, which collects no personal data and sets no tracking cookies.",
+      body: "This website uses no tracking or advertising cookies. It only uses your browser's local storage (localStorage), which is never sent to any server, to keep: your theme (Light / Dark) and language (PT / EN) preferences; a draft of the contact form, so you do not lose what you wrote (deleted when you send it or choose \"Start over\"); and your last Website Evaluator report, so you can view it again. You can delete this data at any time by clearing the site data in your browser. Aggregated, anonymous statistics come from Vercel Analytics, which collects no personal data and sets no cookies.",
     },
   },
 

@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { HeroName } from "@/components/home/HeroName";
 import { useLanguage } from "@/context/LanguageContext";
 
@@ -17,7 +16,13 @@ import { useLanguage } from "@/context/LanguageContext";
 
 export default function NotFound() {
   const { t, isEnglish } = useLanguage();
-  const pathname = usePathname();
+  // A 404 é gerada antes de se saber o endereço pedido: lê-se no cliente,
+  // depois de montar, para o HTML do servidor e do browser coincidirem.
+  const [pathname, setPathname] = useState("");
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setPathname(window.location.pathname);
+  }, []);
 
   // O not-found normal não aceita metadata e a Next repõe o título por
   // omissão depois de hidratar: repõe-se o da 404 sempre que mudar.

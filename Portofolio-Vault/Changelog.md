@@ -4,6 +4,16 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-08 — Pronto para publicar: partilha, formulários, medições
+
+- **Imagem de partilha** (`public/og-cover.jpg`, 1200×630) refeita no design atual: fundo topográfico, nome gigante com faixa chartreuse, fotografia e o URL real (`portofolio-mateus.vercel.app`). A antiga era castanha e dizia "mateusmendes.pt".
+- **Privacidade:** data fixa (`PRIVACY_LAST_UPDATED = 2026-11-08` em `PrivacidadeView.tsx`) e secção 6 atualizada com o que fica no localStorage (preferências, rascunho do contacto, último relatório do Avaliador).
+- **Formulários testados em produção** (15/15 OK): contacto normal e do Avaliador, validações (sem consentimento, email inválido), honeypot, bloqueio de outra origem, newsletter + PDF do checklist, cancelamento com token falso, horários e marcação real no Cal.com (28/11 13:15, para cancelar), análise do Avaliador, PDF por download e por email, recusa de relatório adulterado. Script: `scratchpad/audit-scripts/forms.mjs` (fora do repo).
+- **Encontrado no Cal.com (não é código):** disponibilidade das 02:00 às 19:45 (hora de Lisboa) em dias úteis; provável fuso/horário errado na conta.
+- **Medições refeitas** (`scripts/measure-sites.ts`): o próprio site passou a ser medido (antes falhava por apontar para `mateusmendes.pt`): Avaliador 91, Lighthouse mobile 89 / 100 / 100 / 100, LCP 3,3 s, CLS 0. "Este site, medido" aparece na home.
+- **404:** corrigido erro de hidratação (React #418) — o endereço pedido passa a ser lido no cliente.
+- **Google Search Console:** suporte para `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION` (meta tag de verificação).
+
 ## 2026-11-07 — Página de projetos afinada
 
 - Filtros com contagem por categoria ("Institucional 5") e `aria-pressed` (`ProjectCatalog.tsx`).
