@@ -32,13 +32,22 @@ export function checkWeight(html: string): Finding[] {
 
   // imagens sem width/height
   const imgs = root.querySelectorAll("img");
-  const noDims = imgs.filter((img) => !img.getAttribute("width") || !img.getAttribute("height"));
+  // (imagens "fill" do next/image e com tamanho no style não causam saltos de layout)
+  const noDims = imgs.filter((img) => {
+    if (img.getAttribute("width") && img.getAttribute("height")) return false;
+    if (img.getAttribute("data-nimg") === "fill") return false;
+    const style = img.getAttribute("style") ?? "";
+    return !(/(^|;)\s*width\s*:/i.test(style) && /(^|;)\s*height\s*:/i.test(style));
+  });
   if (noDims.length > 0) {
     out.push(finding("weight.img.noDims", "weight", "medium", "audit.findings.weight.img.noDims.title", "audit.findings.weight.img.noDims.what", "audit.findings.weight.img.noDims.why", "audit.findings.weight.img.noDims.how", `${noDims.length} imagem(ns)`));
   }
 
   // imagens sem lazy loading (exceto primeira)
-  const noLazy = imgs.filter((img, i) => i > 0 && img.getAttribute("loading") !== "lazy");
+  // (as marcadas com fetchpriority="high" são, de propósito, as do topo)
+  const noLazy = imgs.filter(
+    (img, i) => i > 0 && img.getAttribute("loading") !== "lazy" && img.getAttribute("fetchpriority") !== "high"
+  );
   if (noLazy.length > 2) {
     out.push(finding("weight.img.noLazy", "weight", "low", "audit.findings.weight.img.noLazy.title", "audit.findings.weight.img.noLazy.what", "audit.findings.weight.img.noLazy.why", "audit.findings.weight.img.noLazy.how", `${noLazy.length} imagem(ns)`));
   }

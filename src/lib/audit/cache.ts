@@ -1,11 +1,12 @@
 import type { AuditResult } from "./types";
 
 /**
- * Cache em memória (24h por URL normalizado) — por instância, não global.
+ * Cache em memória (1h por URL normalizado) — por instância, não global.
+ * Curta de propósito: quem corrige o site e volta a analisar quer ver a diferença.
  * Partilhada pela rota de análise e pela rota do relatório em PDF, que lê daqui
  * em vez de voltar a analisar o site.
  */
-const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const CACHE_TTL_MS = 60 * 60 * 1000;
 const MAX_ENTRIES = 500;
 // globalThis: as rotas /api/audit e /api/audit/report podem ser empacotadas em separado.
 const globalForCache = globalThis as unknown as { __auditCache?: Map<string, { result: AuditResult; expires: number }> };

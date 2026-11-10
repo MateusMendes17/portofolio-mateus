@@ -1,6 +1,7 @@
 const PAGESPEED_API = "https://www.googleapis.com/pagespeedonline/v5/runPagespeed";
-// O Lighthouse da Google demora tipicamente 20–40 s; a rota tem maxDuration de 60 s.
-const TIMEOUT_MS = 45_000;
+// O Lighthouse da Google demora 15–40 s, e mais de 60 s em sites pesados;
+// a rota tem maxDuration de 120 s.
+const TIMEOUT_MS = 95_000;
 
 export interface PageSpeedResult {
   scores: {
@@ -18,7 +19,7 @@ export interface PageSpeedResult {
   fetchedAt: string;
 }
 
-export async function fetchPageSpeed(url: string): Promise<PageSpeedResult | null> {
+export async function fetchPageSpeed(url: string, signal?: AbortSignal): Promise<PageSpeedResult | null> {
   const apiKey = process.env.PAGESPEED_API_KEY?.trim();
   if (!apiKey) {
     console.error("[pagespeed] PAGESPEED_API_KEY não definida (reinicia o servidor após editar .env.local).");
@@ -30,6 +31,7 @@ export async function fetchPageSpeed(url: string): Promise<PageSpeedResult | nul
   try {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    signal?.addEventListener("abort", () => controller.abort());
     let res: Response;
     try {
       res = await fetch(endpoint, { signal: controller.signal });
@@ -67,8 +69,10 @@ export async function fetchPageSpeed(url: string): Promise<PageSpeedResult | nul
     // oportunidades: audits com details.type === "opportunity", ordenar por savingsMs desc
     const opps: Array<{ id: string; title: string; savingsMs?: number }> = [];
     for (const [id, audit] of Object.entries(audits)) {
-      const a = audit as { details?: { type?: string; overallSavingsMs?: number }; title?: string };
-      if (a?.details?.type === "opportunity") {
+      const a = audit as { details?: { type?: string; overallSavingsMs?: number }; title?: string; score?: number | null };
+      // Só oportunidades reais: com poupança estimada e auditoria não aprovada.
+      const savings = a?.details?.overallSavingsMs ?? 0;
+      if (a?.details?.type === "opportunity" && savings > 0 && (a.score ?? 0) < 0.9) {
         opps.push({
           id,
           title: a.title ?? id,

@@ -90,7 +90,7 @@ export function checkSecurity(ctx: CheckContext): Finding[] {
   const mixed =
     u.protocol === "https:"
       ? root.querySelectorAll(
-          'img[src^="http:"], script[src^="http:"], iframe[src^="http:"], link[rel="stylesheet"][href^="http:"]'
+          'img[src^="http:"], script[src^="http:"], iframe[src^="http:"], link[rel="stylesheet"][href^="http:"], source[src^="http:"], video[src^="http:"], audio[src^="http:"]'
         )
       : [];
   if (mixed.length > 0) {

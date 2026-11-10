@@ -2,11 +2,12 @@ import type { AuditResult } from "@/lib/audit/types";
 
 export type StreamAuditOutcome =
   | { ok: true; result: AuditResult }
-  | { ok: false; error: string | null; status?: number };
+  | { ok: false; error: string | null; code?: string; status?: number };
 
 /**
  * Chama /api/audit e lê o stream NDJSON. `onStep` recebe cada passo de progresso.
- * `error: null` significa "usar a mensagem genérica da interface".
+ * `error: null` significa "usar a mensagem genérica da interface"; `code` permite
+ * mostrar a mensagem traduzida (o texto do servidor está só em português).
  */
 export async function streamAudit(
   url: string,
@@ -24,8 +25,8 @@ export async function streamAudit(
   }
 
   if (!res.ok) {
-    const data = (await res.json().catch(() => ({}))) as { error?: string };
-    return { ok: false, error: data.error ?? null, status: res.status };
+    const data = (await res.json().catch(() => ({}))) as { error?: string; code?: string };
+    return { ok: false, error: data.error ?? null, code: data.code, status: res.status };
   }
 
   const reader = res.body?.getReader();
@@ -35,6 +36,7 @@ export async function streamAudit(
   let buffer = "";
   let result: AuditResult | null = null;
   let error: string | null = null;
+  let code: string | undefined;
 
   const handleLine = (line: string) => {
     if (!line.trim()) return;
@@ -44,7 +46,10 @@ export async function streamAudit(
     } catch {
       return;
     }
-    if (obj.error) error = String(obj.error);
+    if (obj.error) {
+      error = String(obj.error);
+      if (typeof obj.code === "string") code = obj.code;
+    }
     else if (obj.result) result = obj.result as AuditResult;
     else if (obj.step) onStep({ step: String(obj.step), message: String(obj.message ?? ""), done: Boolean(obj.done) });
   };
@@ -64,5 +69,5 @@ export async function streamAudit(
   }
 
   if (result) return { ok: true, result };
-  return { ok: false, error };
+  return { ok: false, error, code };
 }

@@ -4,6 +4,21 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-10 — Avaliador: precisão verificada em sites reais
+
+Testado contra 12 sites reais, a API e a página num browser. Detalhe das regras em [[avaliador-metodologia]] (secção "Precisão").
+
+- **Já não dá nota a páginas que não são o site:** bloqueios anti-bots (Worten e CM Lisboa davam 71 à página "Just a moment..." da Cloudflare), páginas 404/500 e domínios inexistentes passam a dar uma mensagem clara (`safe-fetch.ts`: `isBotChallenge`, `http-error`, `dns-failed`).
+- **Falsos positivos corrigidos** (`checks/*.ts`): JSON-LD fora do `<head>` (o próprio portefólio era penalizado), campos escondidos sem rótulo (Apple, Continente), telefone com link de WhatsApp, formulário exigido na home, horário/mapa pedidos a sites que não são negócios locais, aviso de cookies pedido a sites sem rastreamento, CTA de lojas/jornais não reconhecido, imagens `fill` do next/image.
+- **Sites só com JavaScript** (ex.: cp.pt): nova falha `seo.jsOnly` em vez de "falta h1 / falta privacidade" inventados.
+- **Desempenho = nota Lighthouse** (Público 37 aparecia como 75). PageSpeed arranca em paralelo e tem até 95 s (sites pesados como IKEA e Vercel falhavam aos 45 s); `maxDuration` 120 s. Oportunidades só com poupança real.
+- Ponto forte "contacto direto" já não aparece em sites sem contacto; "bom desempenho" exige 90+.
+- HTML até 5 MB (Continente tem 3,6 MB); charset correto em sites antigos; cache 1 h e verificada antes dos limites.
+- **Erros traduzidos:** visitantes em inglês viam a mensagem em português (`ERROR_KEYS` em `AvaliadorView.tsx`; o erro guarda a chave, não o texto). A dica "endereços internos bloqueados" só aparece nos erros a que se aplica.
+- **Home do portefólio:** título (67 → 57 caracteres) e descrição (162 → 143) dentro dos limites que o próprio Avaliador verifica (`src/app/page.tsx`).
+- 15 testes novos em `src/lib/audit/accuracy.test.ts` (inclui verificação de que todas as falhas têm texto PT e EN). Total: 69.
+- **Segunda verificação (mesmo dia):** a deteção de "site só com JavaScript" apanhava páginas curtas mas reais com um script; passou a exigir um sinal de aplicação (ponto de montagem vazio como `#root`/`#app`, aviso `<noscript>` de JavaScript, ou zero texto) — cp.pt continua detetado, portefólio/Vercel/Público/example.com não. O PageSpeed já não é chamado para endereços que vão ser recusados (localhost, IPs privados). Novo `report-pdf.test.ts` (relatório completo → assinatura → PDF PT/EN, sem rede). Testados no browser também o modo de comparação e o erro em EN. Total: 71 testes.
+
 ## 2026-11-08 — Privacidade: subcontratantes (RGPD)
 
 - Nova secção "3. Subcontratantes" na política (PT/EN, `strings/*.ts` → `privacy.processors`, `PrivacidadeView.tsx`): Vercel (alojamento, registos técnicos, estatísticas anónimas sem cookies), Resend (emails do contacto, Avaliador, PDF e newsletter), Cal.com (marcação de chamadas) e Google PageSpeed Insights (só o endereço analisado). Parágrafo sobre transferências para fora da UE (cláusulas contratuais-tipo / Quadro de Privacidade de Dados UE-EUA).

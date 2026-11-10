@@ -6,7 +6,7 @@ function finding(id: string, category: Finding["category"], severity: Finding["s
   return { id, category, severity, titleKey, whatKey, whyKey, howKey, evidence, pointsLost: SEVERITY_PENALTY[severity] };
 }
 
-export function checkSeo(html: string): Finding[] {
+export function checkSeo(html: string, headers: Record<string, string> = {}): Finding[] {
   const out: Finding[] = [];
   const root = parse(html);
   const head = root.querySelector("head");
@@ -55,8 +55,11 @@ export function checkSeo(html: string): Finding[] {
   }
 
   // robots meta
-  const robotsMeta = head?.querySelector('meta[name="robots"]')?.getAttribute("content")?.toLowerCase() ?? "";
-  if (robotsMeta.includes("noindex")) {
+  // (meta robots/googlebot ou cabeçalho X-Robots-Tag)
+  const robotsMeta = ["robots", "googlebot"]
+    .map((name) => head?.querySelector(`meta[name="${name}"]`)?.getAttribute("content")?.toLowerCase() ?? "")
+    .join(" ");
+  if (robotsMeta.includes("noindex") || /noindex/i.test(headers["x-robots-tag"] ?? "")) {
     out.push(finding("seo.robots.noindex", "seo", "high", "audit.findings.seo.robots.noindex.title", "audit.findings.seo.robots.noindex.what", "audit.findings.seo.robots.noindex.why", "audit.findings.seo.robots.noindex.how"));
   }
 
@@ -74,8 +77,8 @@ export function checkSeo(html: string): Finding[] {
     out.push(finding("seo.twitter.missing", "seo", "low", "audit.findings.seo.twitter.missing.title", "audit.findings.seo.twitter.missing.what", "audit.findings.seo.twitter.missing.why", "audit.findings.seo.twitter.missing.how"));
   }
 
-  // JSON-LD
-  const jsonLd = head?.querySelectorAll('script[type="application/ld+json"]') ?? [];
+  // JSON-LD (válido em qualquer parte do documento, não só no <head>)
+  const jsonLd = root.querySelectorAll('script[type="application/ld+json"]');
   let validJsonLd = 0;
   for (const s of jsonLd) {
     try { JSON.parse(s.text); validJsonLd++; } catch { /* invalid */ }

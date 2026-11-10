@@ -26,7 +26,7 @@ A pontuação global (0–100) é uma média ponderada das pontuações das cate
 | **Mobile e usabilidade** | 14% | Meta viewport responsivo, links diretos (tel:, mailto:, WhatsApp), formulário, morada/mapa/horário |
 | **Acessibilidade básica** | 12% | Atributos alt em imagens, labels em inputs, idioma declarado, skip links |
 | **Conteúdo e conversão** | 12% | Chamada à ação (CTA) visível, prova social, política de privacidade, indício de cookies |
-| **Desempenho (PageSpeed)** | 14% | Métricas Google Lighthouse mobile (LCP, CLS, TBT) e oportunidades |
+| **Desempenho (PageSpeed)** | 14% | A nota da categoria é a nota Lighthouse mobile (performance); métricas LCP, CLS, TBT e oportunidades com poupança real |
 | **Peso da página** | 12% | Tamanho do documento HTML, número de scripts e CSS externos, dimensões e lazy loading de imagens |
 | **Total** | **100%** | **Nota geral (0–100)** |
 
@@ -82,7 +82,7 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 1. **CTA Visível (`content.cta.aboveFold.missing`)**: Deteta chamadas à ação claras (orçamento, contacto, agendamento).
 2. **Prova Social (`content.socialProof.missing`)**: Deteta testemunhos, certificações, casos de estudo ou avaliações.
 3. **Política de Privacidade (`content.privacy.missing`)**: Garante conformidade RGPD com link visível no rodapé.
-4. **Aviso de Cookies (`content.cookies.notice.missing`)**: Deteta indício de banner ou aviso de cookies.
+4. **Aviso de Cookies (`content.cookies.notice.missing`)**: Só se aplica quando a página carrega ferramentas de rastreamento (Google Analytics/Tag Manager, Meta Pixel, Hotjar, Clarity, LinkedIn, TikTok) e não tem indício de aviso de consentimento. Um site sem cookies de terceiros não precisa de banner.
 
 ### F. Peso da Página (`src/lib/audit/checks/weight.ts`)
 1. **Tamanho do HTML (`weight.html.large`, `weight.html.medium`)**: Penaliza documentos HTML > 200 KB e alerta > 100 KB.
@@ -94,6 +94,7 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 ### G. Desempenho Google PageSpeed (`src/lib/audit/pagespeed.ts`)
 - Utiliza a API Google PageSpeed Insights v5 com estratégia mobile.
 - Extrai notas Lighthouse (Performance, Acessibilidade, Boas Práticas, SEO), métricas Web Vitals (LCP, CLS, TBT) e as 3 a 5 principais oportunidades de otimização.
+- Arranca em paralelo com a obtenção da página (é a parte lenta, 15–90 s) e é cancelado se a página não puder ser analisada. Tempo limite 95 s; a rota tem `maxDuration` de 120 s.
 - **Graceful degradation**: Se a variável `PAGESPEED_API_KEY` não estiver definida, a Google falhar ou o pedido exceder o tempo limite, a análise continua normalmente com as verificações próprias e indica explicitamente *"Dados de desempenho indisponíveis agora"*.
 
 ---
@@ -105,7 +106,7 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 | **SSRF (Server-Side Request Forgery)** | Validação estrita de protocolo (`http:` e `https:` apenas, portas 80 e 443). Resolução DNS prévia antes de qualquer fetch com bloqueio de: loopback (`127.0.0.0/8`, `::1`), endereços privados RFC 1918 (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), link-local (`169.254.0.0/16`, `fe80::/10`), metadados de cloud (`169.254.169.254`), multicast e broadcast. |
 | **DNS Rebinding** | Fixação do endereço IP resolvido (IP pinning / custom fetch com agente socket fixado ou revalidação estrita) antes de enviar a requisição HTTP. |
 | **Redirecionamentos Maliciosos** | Validação de cada salto de redirecionamento (máximo de 5 redirects). Revalidação do novo URL e do novo IP de destino em cada salto. |
-| **Ataques de Negação de Serviço (DoS) e Timeout** | Timeout agressivo de 8 segundos por requisição de fetch. Limite de tamanho máximo de resposta a 2 MB (cancelamento do stream se excedido). Content-Type restrito exclusivamente a `text/html`. |
+| **Ataques de Negação de Serviço (DoS) e Timeout** | Timeout agressivo de 8 segundos por requisição de fetch. Limite de tamanho máximo de resposta a 5 MB (cancelamento do stream se excedido). Content-Type restrito exclusivamente a `text/html`. |
 | **Abuso da API e Força Bruta** | Rate limiting por IP (máximo 5 análises por hora) com janela deslizante e cabeçalho `Retry-After`. Limite global de proteção na instância. |
 | **CSRF (Cross-Site Request Forgery)** | Verificação do cabeçalho `Origin` contra o host do servidor no endpoint `/api/audit` e `/api/contact`. |
 | **Spam de Formulários** | Campo honeypot silencioso no formulário de contacto e no formulário de auditoria. |
@@ -138,3 +139,19 @@ A pontuação de qualquer categoria nunca desce abaixo de 0 nem ultrapassa 100.
 - **Comparação**: a interface analisa dois URLs em sequência (2 das 5 análises/hora) e mostra as notas lado a lado.
 - **Medições dos projetos**: `scripts/measure-sites.ts` grava `src/content/site-metrics.ts`; os números mostrados no site vêm sempre daí.
 
+## Precisão: casos tratados (2026-11-10)
+
+Testado contra sites reais (portefólio, Público, Apple, IKEA, Vercel, CP, Continente, Worten, CM Lisboa, example.com). Regras resultantes, com testes em `src/lib/audit/accuracy.test.ts`:
+
+- **Páginas que não são o site não recebem nota:** desafios anti-bots (Cloudflare "Just a moment...", Akamai, Imperva, DataDome) → erro `bot-protection`; respostas 4xx/5xx → `http-error`; domínio inexistente → `dns-failed`. Antes, a página de bloqueio era avaliada como se fosse o site.
+- **Sites só com JavaScript** (menos de 150 caracteres de texto visível, scripts e um sinal de aplicação: ponto de montagem vazio `#root`/`#app`/`#__next`/`app-root`, aviso `<noscript>` sobre JavaScript, ou praticamente nenhum texto): uma falha `seo.jsOnly` e as verificações que dependem do conteúdo (títulos, CTA, contactos, privacidade, imagens, rótulos) ficam de fora, em vez de darem falsas faltas.
+- **JSON-LD** aceite em qualquer parte do documento; **noindex** também pelo cabeçalho `X-Robots-Tag` e `meta googlebot`.
+- **Rótulos de campos:** ignorados `hidden`, botões, honeypots e campos escondidos (`aria-hidden`, `hidden`, `display:none`, `.d-none`); `title` conta como rótulo.
+- **Skip link:** qualquer âncora interna entre os primeiros 10 links com href ou texto de "saltar para o conteúdo".
+- **Contactos:** telefone ligado por WhatsApp conta como clicável; o formulário só é exigido se não houver caminho para contacto (link para página de contacto, mailto ou WhatsApp); horário e mapa só para negócios locais (morada ou telefone). O ponto forte "Canais diretos de contacto" só aparece se houver mesmo um link tel:, mailto: ou WhatsApp.
+- **CTA:** lê o texto dos links/botões do cabeçalho e da primeira secção (não o HTML), com ações de loja, assinatura e reserva, não só de contacto.
+- **Imagens:** `next/image` com `fill` ou tamanho no `style` não conta como "sem dimensões"; `fetchpriority="high"` não conta como "sem lazy".
+- **Desempenho:** a nota da categoria é a do Lighthouse (antes, Lighthouse 37 dava 75 por desconto fixo); o ponto forte "bom desempenho" passa a exigir 90+ (antes 80, e coexistia com a falha "pode melhorar").
+- **Charset:** páginas em ISO-8859-1/Windows-1252 descodificadas corretamente.
+- **Cache de 1 h** (antes 24 h), verificada antes dos limites de pedidos: quem corrige o site vê a diferença, e rever um resultado recente não gasta pedidos.
+- **Mensagens de erro traduzidas:** o servidor envia um código e a interface mostra o texto no idioma do visitante.

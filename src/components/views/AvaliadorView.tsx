@@ -29,7 +29,27 @@ function resolveKey(keyPath: string | undefined, t: Strings): string | undefined
 }
 
 /** Teto da barra (%) enquanto cada passo do servidor decorre; "done" e "cache" fecham a 100. */
-const STEP_TARGET: Record<string, number> = { fetch: 30, checks: 50, pagespeed: 92, done: 100, cache: 100 };
+/** Código de erro do servidor → mensagem traduzida. */
+type ErrorKey = keyof Strings["audit"]["errors"];
+const ERROR_KEYS: Record<string, ErrorKey> = {
+  "invalid-url": "invalidUrl",
+  "unsupported-protocol": "invalidUrl",
+  "unsupported-port": "invalidUrl",
+  "blocked-host": "blocked",
+  "blocked-ip": "blocked",
+  "dns-failed": "dnsFailed",
+  "too-large": "tooLarge",
+  "wrong-content-type": "notHtml",
+  timeout: "timeout",
+  inaccessible: "inaccessible",
+  "too-many-redirects": "inaccessible",
+  "invalid-certificate": "certificate",
+  "http-error": "httpError",
+  "bot-protection": "botProtection",
+  "daily-limit": "dailyLimit",
+};
+
+const STEP_TARGET: Record<string, number> ={ fetch: 30, checks: 50, pagespeed: 92, done: 100, cache: 100 };
 
 function getScoreRating(score: number, isEn: boolean) {
   if (score >= 90) return { label: isEn ? "Excellent" : "Excelente", color: "text-emerald-600 dark:text-emerald-400" };
@@ -75,7 +95,9 @@ export function AvaliadorView({
   const [resultB, setResultB] = useState<AuditResult | null>(null);
   const [phase, setPhase] = useState(0);
   const [result, setResult] = useState<AuditResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  // Guarda-se a chave, não o texto: a mensagem segue o idioma mesmo que mude depois
+  // (a análise automática do link partilhado arranca antes de o idioma carregar).
+  const [error, setError] = useState<ErrorKey | "empty" | { text: string } | null>(null);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const inputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -139,13 +161,15 @@ export function AvaliadorView({
 
   const consentId = useId();
   const a = t.audit;
+  const errorText =
+    error === null ? null : typeof error === "object" ? error.text : error === "empty" ? a.form.empty : a.errors[error];
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const cleanUrl = url.trim();
     const cleanUrlB = urlB.trim();
     if (!cleanUrl || (compareMode && !cleanUrlB)) {
-      setError(a.form.empty);
+      setError("empty");
       inputRef.current?.focus();
       return;
     }
@@ -163,9 +187,11 @@ export function AvaliadorView({
     const onStep = (p: { step: string; message: string; done: boolean }) =>
       setProgress((prev) => [...prev.filter((x) => x.step !== p.step), p]);
 
-    const fail = (outcome: { error: string | null; status?: number }) => {
-      if (outcome.status === 429) setError(a.errors.rateLimit);
-      else setError(outcome.error ?? a.errors.generic);
+    const fail = (outcome: { error: string | null; code?: string; status?: number }) => {
+      const key = outcome.code ? ERROR_KEYS[outcome.code] : undefined;
+      if (key) setError(key);
+      else if (outcome.status === 429) setError("rateLimit");
+      else setError(outcome.error ? { text: outcome.error } : "generic");
     };
 
     try {
@@ -194,7 +220,7 @@ export function AvaliadorView({
       });
       setExpanded(initialExpanded);
     } catch {
-      setError(a.errors.generic);
+      setError("generic");
     } finally {
       setLoading(false);
     }
@@ -439,17 +465,19 @@ export function AvaliadorView({
             </div>
           )}
 
-          {error && (
+          {errorText && (
             <div
               className="mt-4 rounded-[20px] border border-destructive/30 bg-destructive/5 p-4 font-body text-sm text-destructive"
               role="alert"
             >
-              <p className="font-semibold">{error}</p>
-              <p className="mt-1 text-xs opacity-90">
-                {isEnglish
-                  ? "Ensure the site is public and available via HTTP/HTTPS. Internal addresses and private networks are blocked for security."
-                  : "Certifique-se de que o website está público e acessível via HTTP/HTTPS. Endereços internos e IPs privados são bloqueados por segurança."}
-              </p>
+              <p className="font-semibold">{errorText}</p>
+              {(error === "blocked" || error === "invalidUrl" || error === "inaccessible") && (
+                <p className="mt-1 text-xs opacity-90">
+                  {isEnglish
+                    ? "Ensure the site is public and available via HTTP/HTTPS. Internal addresses and private networks are blocked for security."
+                    : "Certifique-se de que o website está público e acessível via HTTP/HTTPS. Endereços internos e IPs privados são bloqueados por segurança."}
+                </p>
+              )}
             </div>
           )}
         </div>

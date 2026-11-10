@@ -2,7 +2,9 @@ import { runAllChecks } from "./checks";
 import { fetchPageSpeed } from "./pagespeed";
 import { computeCategoryScore, computeOverallScore, sortFindingsByPriority, CATEGORY_WEIGHTS } from "./scoring";
 import type { AuditResult, Category, CategoryScore, Finding, PerformanceData } from "./types";
-import { safeFetch } from "./safe-fetch";
+import { parse } from "node-html-parser";
+import net from "node:net";
+import { safeFetch, isBlockedHost, isBlockedIp, type SafeFetchError } from "./safe-fetch";
 
 export interface ReportInput {
   url: string;
@@ -17,11 +19,20 @@ const LIMITATIONS = [
   "audit.limitationsKeys.indicative",
 ];
 
-export async function buildReport(input: ReportInput): Promise<AuditResult | { error: string }> {
+export async function buildReport(input: ReportInput): Promise<AuditResult | { error: string; code: SafeFetchError }> {
   input.onProgress?.("fetch", "A obter a página...");
+  // O PageSpeed é a parte lenta (15–90 s): arranca já, em paralelo com o resto,
+  // e é cancelado se a página não puder ser analisada.
+  const psAbort = new AbortController();
+  // (nunca para endereços que vão ser recusados, para não gastar quota da Google)
+  const host = new URL(input.url).hostname.replace(/^\[|\]$/g, "");
+  const psPromise = isBlockedHost(host) || (net.isIP(host) > 0 && isBlockedIp(host))
+    ? Promise.resolve(null)
+    : fetchPageSpeed(input.url, psAbort.signal);
   const fetchResult = await safeFetch(input.url);
   if (!fetchResult.ok) {
-    return { error: fetchResult.message };
+    psAbort.abort();
+    return { error: fetchResult.message, code: fetchResult.error };
   }
 
   input.onProgress?.("checks", "A verificar segurança, SEO e acessibilidade...");
@@ -35,7 +46,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
   // PageSpeed (opcional)
   let performance: PerformanceData | null = null;
   input.onProgress?.("pagespeed", "A obter dados de desempenho...");
-  const ps = await fetchPageSpeed(fetchResult.url);
+  const ps = await psPromise;
   if (ps) {
     performance = {
       strategy: "mobile",
@@ -55,7 +66,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
         whyKey: "audit.findings.performance.pagespeed.low.why",
         howKey: "audit.findings.performance.pagespeed.low.how",
         evidence: `Lighthouse mobile: ${ps.scores.performance}/100`,
-        pointsLost: 25,
+        pointsLost: 100 - ps.scores.performance,
       });
     } else if (ps.scores.performance !== null && ps.scores.performance < 90) {
       findings.push({
@@ -67,7 +78,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
         whyKey: "audit.findings.performance.pagespeed.medium.why",
         howKey: "audit.findings.performance.pagespeed.medium.how",
         evidence: `Lighthouse mobile: ${ps.scores.performance}/100`,
-        pointsLost: 12,
+        pointsLost: 100 - ps.scores.performance,
       });
     }
   } else {
@@ -98,6 +109,13 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     const cs = computeCategoryScore(c, byCategory.get(c) ?? []);
     // Sem dados do PageSpeed, "desempenho" não deve inflacionar a nota com um 100 por omissão.
     if (c === "performance" && !performance) cs.available = false;
+    // Com PageSpeed, a nota de desempenho é a do Lighthouse (não uma penalização fixa).
+    const lighthouse = performance?.scores.performance;
+    if (c === "performance" && typeof lighthouse === "number") {
+      cs.score = cs.earned = lighthouse;
+    } else if (c === "performance") {
+      cs.available = false;
+    }
     categories.push(cs);
   }
 
@@ -105,6 +123,8 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
 
   const strengths: Finding[] = [];
   const findingsIds = new Set(findings.map((f) => f.id));
+  // Num site só com JavaScript não se viu o conteúdo: não há pontos fortes de conteúdo a afirmar.
+  const sawContent = !findingsIds.has("seo.jsOnly");
 
   if (!findingsIds.has("security.https.missing")) {
     strengths.push({
@@ -145,7 +165,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     });
   }
 
-  if (!findingsIds.has("seo.h1.missing") && !findingsIds.has("seo.h1.multiple")) {
+  if (sawContent && !findingsIds.has("seo.h1.missing") && !findingsIds.has("seo.h1.multiple")) {
     strengths.push({
       id: "strengths.h1",
       category: "seo",
@@ -184,7 +204,10 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     });
   }
 
-  if (!findingsIds.has("mobile.tel.missing") && !findingsIds.has("mobile.mailto.missing") && !findingsIds.has("mobile.whatsapp.missing")) {
+  // Só é um ponto forte se houver mesmo contacto num toque (tel:, mailto: ou WhatsApp).
+  const hasTapContact =
+    parse(fetchResult.html).querySelectorAll('a[href^="tel:"], a[href^="mailto:"], a[href*="wa.me"], a[href*="whatsapp"]').length > 0;
+  if (hasTapContact && !findingsIds.has("mobile.tel.missing") && !findingsIds.has("mobile.mailto.missing")) {
     strengths.push({
       id: "strengths.contact",
       category: "mobile",
@@ -210,7 +233,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     });
   }
 
-  if (!findingsIds.has("content.privacy.missing")) {
+  if (sawContent && !findingsIds.has("content.privacy.missing")) {
     strengths.push({
       id: "strengths.privacy",
       category: "content",
@@ -236,7 +259,7 @@ export async function buildReport(input: ReportInput): Promise<AuditResult | { e
     });
   }
 
-  if (performance && performance.scores.performance !== null && performance.scores.performance >= 80) {
+  if (performance && performance.scores.performance !== null && performance.scores.performance >= 90) {
     strengths.push({
       id: "strengths.pagespeed",
       category: "performance",

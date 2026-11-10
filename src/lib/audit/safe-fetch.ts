@@ -7,7 +7,7 @@ import { SITE_URL } from "@/lib/constants";
 
 export const USER_AGENT = `AvaliadorMateus/1.0 (+${SITE_URL})`;
 
-export const MAX_BYTES = 2 * 1024 * 1024; // 2 MB
+export const MAX_BYTES = 5 * 1024 * 1024; // 5 MB (há lojas com HTML de 2–3 MB)
 export const TIMEOUT_MS = 8_000;
 export const MAX_REDIRECTS = 5;
 
@@ -23,7 +23,9 @@ export type SafeFetchError =
   | "timeout"
   | "inaccessible"
   | "too-many-redirects"
-  | "invalid-certificate";
+  | "invalid-certificate"
+  | "http-error"
+  | "bot-protection";
 
 export interface SafeFetchResult {
   ok: true;
@@ -167,7 +169,8 @@ export function isBlockedHost(host: string): boolean {
 /* Resolução DNS + validação                                           */
 /* ------------------------------------------------------------------ */
 
-export async function resolveAndValidate(host: string): Promise<{ ip: string; family: 4 | 6 } | null> {
+/** null = endereço bloqueado; "dns-failed" = o domínio não existe ou não resolve. */
+export async function resolveAndValidate(host: string): Promise<{ ip: string; family: 4 | 6 } | "dns-failed" | null> {
   if (isBlockedHost(host)) return null;
   // Se já for IP literal
   if (net.isIP(host)) {
@@ -176,11 +179,11 @@ export async function resolveAndValidate(host: string): Promise<{ ip: string; fa
   }
   try {
     const res = await dns.lookup(host, { all: false });
-    if (!res || !res.address) return null;
+    if (!res || !res.address) return "dns-failed";
     if (isBlockedIp(res.address)) return null;
     return { ip: res.address, family: res.family as 4 | 6 };
   } catch {
-    return null;
+    return "dns-failed";
   }
 }
 
@@ -214,6 +217,10 @@ function friendlyMessage(err: SafeFetchError): string {
       return "Demasiados redirecionamentos.";
     case "invalid-certificate":
       return "Certificado inválido.";
+    case "http-error":
+      return "O endereço devolveu uma página de erro (ex.: 404). Confirme o endereço.";
+    case "bot-protection":
+      return "O site bloqueia análises automáticas (proteção anti-bots), por isso não é possível avaliá-lo.";
     default:
       return "Erro desconhecido.";
   }
@@ -243,6 +250,7 @@ function doRequest(
       headers: {
         "User-Agent": USER_AGENT,
         Accept: "text/html,application/xhtml+xml",
+        "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8",
         Host: hostname,
       },
       lookup: (_hostname: string, _opts: unknown, cb: (err: Error | null, address: string, family: number) => void) => {
@@ -298,6 +306,29 @@ function doRequest(
   });
 }
 
+/** Descodifica com o charset do cabeçalho ou da meta tag (por omissão, UTF-8). */
+export function decodeBody(body: Buffer, contentType: string): string {
+  const fromHeader = /charset=["']?([\w-]+)/i.exec(contentType)?.[1];
+  const head = body.subarray(0, 2048).toString("latin1");
+  const fromMeta = /<meta[^>]+charset=["']?([\w-]+)/i.exec(head)?.[1];
+  const charset = (fromHeader ?? fromMeta ?? "utf-8").toLowerCase();
+  try {
+    return new TextDecoder(charset).decode(body);
+  } catch {
+    return body.toString("utf8");
+  }
+}
+
+export function isBotChallenge(status: number, headers: Record<string, string>, html: string): boolean {
+  if (headers["cf-mitigated"] === "challenge") return true;
+  if (status !== 403 && status !== 429 && status !== 503) return false;
+  const title = /<title[^>]*>([^<]*)<\/title>/i.exec(html)?.[1]?.trim().toLowerCase() ?? "";
+  return (
+    /just a moment|attention required|access denied|um momento|checking your browser|ddos-guard/.test(title) ||
+    /cf-browser-verification|challenge-platform|_incapsula_|captcha-delivery/i.test(html)
+  );
+}
+
 export async function safeFetch(startUrl: string): Promise<SafeFetchOutcome> {
   const normalized = normalizeUrl(startUrl);
   if (!normalized) return fail("invalid-url");
@@ -313,6 +344,7 @@ export async function safeFetch(startUrl: string): Promise<SafeFetchOutcome> {
     if (u.port && u.port !== "80" && u.port !== "443") return fail("unsupported-port");
 
     const resolved = await resolveAndValidate(u.hostname);
+    if (resolved === "dns-failed") return fail("dns-failed");
     if (!resolved) {
       // distinguir host vs ip
       if (isBlockedHost(u.hostname)) return fail("blocked-host");
@@ -349,7 +381,13 @@ export async function safeFetch(startUrl: string): Promise<SafeFetchOutcome> {
       return fail("wrong-content-type");
     }
 
-    const html = body.toString("utf8");
+    const html = decodeBody(body, ct);
+
+    // Páginas de desafio anti-bots (Cloudflare, Akamai, ...) não são o site:
+    // avaliá-las daria uma nota sobre a página de bloqueio.
+    if (isBotChallenge(status, headers, html)) return fail("bot-protection");
+    if (status >= 400) return fail("http-error");
+
     return { ok: true, url: currentUrl, status, html, headers };
   }
 }

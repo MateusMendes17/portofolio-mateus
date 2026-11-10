@@ -7,7 +7,8 @@ import { getCachedAudit, setCachedAudit, isAllowedOrigin } from "@/lib/audit/cac
 import { signResult } from "@/lib/audit/signature";
 
 export const runtime = "nodejs";
-export const maxDuration = 60;
+// O Lighthouse da Google demora até ~90 s em sites pesados.
+export const maxDuration = 120;
 
 const auditSchema = z.object({
   url: z.string().min(1).max(2048),
@@ -78,6 +79,30 @@ export async function POST(request: NextRequest) {
     });
   }
 
+  const normalized = normalizeUrl(parsed.data.url);
+  if (!normalized) {
+    return new Response(JSON.stringify({ error: "URL inválido.", code: "invalid-url" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // Cache antes dos limites: rever um resultado recente não gasta pedidos.
+  const cached = getCachedAudit(normalized);
+  if (cached) {
+    const stream = new ReadableStream({
+      start(controller) {
+        const enc = new TextEncoder();
+        controller.enqueue(enc.encode(JSON.stringify({ step: "cache", done: true, message: "Resultado em cache." }) + "\n"));
+        controller.enqueue(enc.encode(JSON.stringify({ result: { ...cached, fromCache: true } }) + "\n"));
+        controller.close();
+      },
+    });
+    return new Response(stream, {
+      headers: { "Content-Type": "application/x-ndjson; charset=utf-8" },
+    });
+  }
+
   const ip = getClientIp(request);
   const rl = checkRateLimit(ip, 5, 60 * 60 * 1000);
   if (!rl.allowed) {
@@ -91,33 +116,9 @@ export async function POST(request: NextRequest) {
   }
 
   if (!checkDailyLimit()) {
-    return new Response(JSON.stringify({ error: "Limite diário atingido. Tente mais tarde." }), {
+    return new Response(JSON.stringify({ error: "Limite diário atingido. Tente mais tarde.", code: "daily-limit" }), {
       status: 429,
       headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  const normalized = normalizeUrl(parsed.data.url);
-  if (!normalized) {
-    return new Response(JSON.stringify({ error: "URL inválido." }), {
-      status: 400,
-      headers: { "Content-Type": "application/json" },
-    });
-  }
-
-  // Cache check
-  const cached = getCachedAudit(normalized);
-  if (cached) {
-    const stream = new ReadableStream({
-      start(controller) {
-        const enc = new TextEncoder();
-        controller.enqueue(enc.encode(JSON.stringify({ step: "cache", done: true, message: "Resultado em cache." }) + "\n"));
-        controller.enqueue(enc.encode(JSON.stringify({ result: { ...cached, fromCache: true } }) + "\n"));
-        controller.close();
-      },
-    });
-    return new Response(stream, {
-      headers: { "Content-Type": "application/x-ndjson; charset=utf-8" },
     });
   }
 
@@ -134,7 +135,7 @@ export async function POST(request: NextRequest) {
         });
 
         if ("error" in report) {
-          send({ error: report.error });
+          send({ error: report.error, code: report.code });
           controller.close();
           return;
         }
