@@ -104,7 +104,8 @@ export async function POST(request: NextRequest) {
   }
 
   const ip = getClientIp(request);
-  const rl = checkRateLimit(ip, 5, 60 * 60 * 1000);
+  // Chave própria: partilhar o contador com o formulário de contacto bloqueava-o.
+  const rl = checkRateLimit(`audit:${ip}`, 5, 60 * 60 * 1000);
   if (!rl.allowed) {
     return new Response(JSON.stringify({ error: `Limite excedido. Tente novamente em ${rl.retryAfterSeconds}s.` }), {
       status: 429,

@@ -4,7 +4,7 @@ import { useState, type FormEvent } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import type { AuditResult } from "@/lib/audit/types";
 
-type Status = "idle" | "loading" | "sent" | "error";
+type Status = "idle" | "loading" | "sent" | "forwarded" | "error";
 
 /** Relatório em PDF: descarregar de imediato ou receber por email (com consentimento). */
 export function ReportActions({ result }: { result: AuditResult }) {
@@ -30,25 +30,29 @@ export function ReportActions({ result }: { result: AuditResult }) {
     return data.error ?? (isEnglish ? "Something went wrong. Please try again." : "Algo correu mal. Tente novamente.");
   }
 
+  /** Descarrega o PDF; devolve false se falhar. */
+  async function savePdf(): Promise<boolean> {
+    const res = await post({ delivery: "download" });
+    if (!res.ok) {
+      setMessage(await errorText(res));
+      return false;
+    }
+    const blob = await res.blob();
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "relatorio-avaliador.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(link.href), 10_000);
+    return true;
+  }
+
   async function download() {
     setStatus("loading");
     setMessage(null);
     try {
-      const res = await post({ delivery: "download" });
-      if (!res.ok) {
-        setStatus("error");
-        setMessage(await errorText(res));
-        return;
-      }
-      const blob = await res.blob();
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "relatorio-avaliador.pdf";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setTimeout(() => URL.revokeObjectURL(link.href), 10_000);
-      setStatus("idle");
+      setStatus((await savePdf()) ? "idle" : "error");
     } catch {
       setStatus("error");
       setMessage(isEnglish ? "Something went wrong. Please try again." : "Algo correu mal. Tente novamente.");
@@ -66,12 +70,26 @@ export function ReportActions({ result }: { result: AuditResult }) {
     setMessage(null);
     try {
       const res = await post({ delivery: "email", email: email.trim(), consent, honeypot });
-      if (!res.ok) {
-        setStatus("error");
-        setMessage(await errorText(res));
+      const data = (await res.clone().json().catch(() => ({}))) as { emailed?: boolean };
+      if (res.ok && data.emailed !== false) {
+        setStatus("sent");
         return;
       }
-      setStatus("sent");
+      // O email não seguiu: o visitante fica já com o PDF, nunca com um beco sem saída.
+      const saved = await savePdf().catch(() => false);
+      if (res.ok) {
+        setStatus("forwarded");
+      } else if (saved) {
+        setStatus("error");
+        setMessage(
+          isEnglish
+            ? "We couldn't email it, so the PDF has been downloaded to your device instead."
+            : "Não foi possível enviar por email, por isso o PDF foi descarregado para o seu dispositivo."
+        );
+      } else {
+        setStatus("error");
+        setMessage(await errorText(res));
+      }
     } catch {
       setStatus("error");
       setMessage(isEnglish ? "Something went wrong. Please try again." : "Algo correu mal. Tente novamente.");
@@ -101,7 +119,7 @@ export function ReportActions({ result }: { result: AuditResult }) {
         </button>
       </div>
 
-      {showEmail && status !== "sent" && (
+      {showEmail && status !== "sent" && status !== "forwarded" && (
         <form onSubmit={sendEmail} className="mt-4 max-w-[34rem] space-y-3">
           <label className="block font-body text-micro uppercase tracking-[0.12em] text-muted" htmlFor="report-email">
             Email
@@ -147,6 +165,10 @@ export function ReportActions({ result }: { result: AuditResult }) {
       <p className="mt-3 font-body text-sm text-ink-2" role="status" aria-live="polite">
         {status === "sent" &&
           (isEnglish ? "Done. Check your inbox (and spam folder)." : "Enviado. Verifique a caixa de entrada (e o spam).")}
+        {status === "forwarded" &&
+          (isEnglish
+            ? "The PDF has been downloaded to your device. Mateus has received your request and will reply by email within 24 hours."
+            : "O PDF foi descarregado para o seu dispositivo. O Mateus recebeu o seu pedido e vai responder-lhe por email em menos de 24 horas.")}
         {status === "error" && message && <span className="text-red-600 dark:text-red-400">{message}</span>}
       </p>
     </div>

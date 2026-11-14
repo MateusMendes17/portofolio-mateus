@@ -12,6 +12,7 @@ export function NewsletterThankYou() {
   const { isEnglish } = useLanguage();
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || "";
+  const emailed = searchParams.get("enviado") !== "0";
   const pathname = "/newsletter/obrigado";
 
   return (
@@ -40,9 +41,19 @@ export function NewsletterThankYou() {
 
       {/* Subtitle */}
       <p className="text-base sm:text-lg text-text-secondary mb-10 max-w-lg mx-auto leading-relaxed">
-        {isEnglish
-          ? `The checklist is on its way to <strong>${email || "your inbox"}</strong>. If you don't see it in 2 minutes, check spam/junk.`
-          : `O checklist está a caminho do <strong>${email || "seu email"}</strong>. Se não vir em 2 minutos, verifique spam/lixo.`}
+        {!emailed ? (
+          isEnglish
+            ? "Download the checklist below. I'll also write to you personally by email soon."
+            : "Descarregue o checklist já aqui em baixo. Vou também escrever-lhe pessoalmente por email em breve."
+        ) : isEnglish ? (
+          <>
+            The checklist is on its way to <strong>{email || "your inbox"}</strong>. If you don&apos;t see it in 2 minutes, check spam/junk.
+          </>
+        ) : (
+          <>
+            O checklist está a caminho do <strong>{email || "seu email"}</strong>. Se não vir em 2 minutos, verifique spam/lixo.
+          </>
+        )}
       </p>
 
       {/* Download Button */}

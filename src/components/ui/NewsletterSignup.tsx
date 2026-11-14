@@ -58,7 +58,8 @@ export function NewsletterSignup({
       }
 
       // Redirect to thank you page with email param
-      const thankYouUrl = `/newsletter/obrigado?email=${encodeURIComponent(email)}`;
+      // emailed=false: o email não seguiu, a página de agradecimento manda descarregar ali.
+      const thankYouUrl = `/newsletter/obrigado?email=${encodeURIComponent(email)}${data.emailed === false ? "&enviado=0" : ""}`;
       router.push(thankYouUrl);
     } catch (err) {
       setStatus("error");

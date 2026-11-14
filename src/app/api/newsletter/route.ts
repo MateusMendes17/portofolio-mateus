@@ -201,23 +201,27 @@ export async function POST(request: NextRequest) {
       const error = (await emailResponse.json().catch(() => ({}))) as { message?: string };
       console.error("Resend error:", emailResponse.status, error);
 
-      // Conta Resend em modo de teste: só entrega ao email da própria conta.
-      if (emailResponse.status === 403 && /testing emails|verify a domain/i.test(error.message ?? "")) {
-        return NextResponse.json(
-          {
-            success: false,
-            message:
-              process.env.NODE_ENV === "development"
-                ? "Modo de teste do Resend: só é possível subscrever com o email da conta Resend. Verifique um domínio em resend.com/domains para enviar a outros emails."
-                : "O envio de emails ainda não está disponível. Tente mais tarde.",
-          },
-          { status: 503 }
-        );
-      }
-      throw new Error("Falha ao enviar email de boas-vindas");
+      // Ex.: conta Resend sem domínio verificado só entrega ao email da própria
+      // conta. O subscritor não fica sem nada: descarrega o checklist na página de
+      // agradecimento, e o Mateus recebe o aviso para lhe escrever manualmente.
+      const notified = await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${resendApiKey}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from: CONTACT_FROM,
+          to: [CONTACT_RECIPIENT],
+          reply_to: [email],
+          subject: `⚠️ Novo subscritor sem email de boas-vindas: ${email}`,
+          html: `<p><strong>O email de boas-vindas da newsletter falhou</strong> (provável remetente sem domínio verificado no Resend).</p><p><strong>Email:</strong> ${email.replace(/[<>&"']/g, "")}</p><p><strong>Nome:</strong> ${(name ?? "").replace(/[<>&"']/g, "")}</p><p><strong>Idioma:</strong> ${locale}</p><p>O subscritor descarregou o checklist na página de agradecimento. Responda a este email para lhe dar as boas-vindas.</p>`,
+        }),
+      })
+        .then((r) => r.ok)
+        .catch(() => false);
+      if (!notified) console.error("[newsletter] aviso ao dono também falhou");
+      return NextResponse.json({ success: true, emailed: false, message: "Subscrito" });
     }
 
-    return NextResponse.json({ success: true, message: "Subscrito com sucesso" });
+    return NextResponse.json({ success: true, emailed: true, message: "Subscrito com sucesso" });
   } catch (error) {
     if (error instanceof z.ZodError) {
       const firstError = error.issues?.[0]?.message || "Dados inválidos";

@@ -258,25 +258,32 @@ export function AvaliadorView({
 
     const topImprovements = result.improvements
       .slice(0, 5)
-      .map((imp) => resolveKey(imp.titleKey, t) ?? imp.id);
+      .map((imp) => (resolveKey(imp.titleKey, t) ?? imp.id).slice(0, 200));
+
+    // A mensagem leva sempre o contexto do relatório: uma nota curta do visitante
+    // ("Olá") não pode falhar o mínimo de 10 caracteres do servidor.
+    const context = `Pedido de otimização para o website ${result.url} com base no relatório do Avaliador (Nota: ${result.overallScore}/100).`;
+    const userMessage = contactMessage.trim();
+    const message = (userMessage ? `${userMessage}\n\n${context}` : context).slice(0, 2000);
+    // WhatsApp só com um número utilizável; senão responde-se por email.
+    const phone = contactPhone.trim().slice(0, 40);
+    const hasPhone = phone.replace(/\D/g, "").length >= 6;
 
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: contactName.trim(),
+          name: contactName.trim().slice(0, 100),
           email: contactEmail.trim(),
-          phone: contactPhone.trim() || undefined,
+          phone: phone || undefined,
           projectType: isEnglish ? "Improve existing website" : "Melhorar site existente",
-          contactPreference: contactPhone.trim() ? "whatsapp" : "email",
+          contactPreference: hasPhone ? "whatsapp" : "email",
           features: ["Auditoria técnica", "Otimização de site"],
-          message:
-            contactMessage.trim() ||
-            `Pedido de otimização para o website ${result.url} com base no relatório do Avaliador (Nota: ${result.overallScore}/100).`,
+          message,
           consent: true,
           honeypot: honeypot || undefined,
-          auditUrl: result.url,
+          auditUrl: result.url.slice(0, 500),
           auditScore: result.overallScore,
           auditFindings: topImprovements,
         }),
@@ -286,7 +293,9 @@ export function AvaliadorView({
       if (res.ok && data.success) {
         setContactSuccess(true);
       } else {
-        setContactError(data.message ?? a.cta.error);
+        // Erros de validação vêm por campo (sem `message`): mostra o primeiro.
+        const fieldErrors = Object.values((data.errors ?? {}) as Record<string, string[] | undefined>).flat();
+        setContactError(data.message ?? fieldErrors[0] ?? a.cta.error);
       }
     } catch {
       setContactError(a.cta.error);

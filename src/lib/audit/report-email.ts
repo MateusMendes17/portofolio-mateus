@@ -5,7 +5,16 @@ import type { AuditResult } from "./types";
 const RESEND_API_URL = "https://api.resend.com/emails";
 const SEND_TIMEOUT_MS = 15_000;
 
-export type SendReportResult = { status: "enviado" } | { status: "sem-chave" } | { status: "falhou" };
+/**
+ * "reencaminhado": o envio ao visitante falhou (ex.: remetente sem domínio
+ * verificado no Resend só entrega ao dono da conta), mas o pedido e o PDF
+ * chegaram ao dono do site, que responde manualmente. O lead nunca se perde.
+ */
+export type SendReportResult =
+  | { status: "enviado" }
+  | { status: "reencaminhado" }
+  | { status: "sem-chave" }
+  | { status: "falhou" };
 
 const HTML_ENTITIES: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
 const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (c) => HTML_ENTITIES[c] ?? c);
@@ -60,6 +69,9 @@ export async function sendAuditReportEmail(input: {
     ? `<p>Hello,</p><p>Attached is the PDF report for <strong>${escapeHtml(host)}</strong>, with an overall score of <strong>${input.result.overallScore}/100</strong>.</p><p>If you want help with the priority fixes, just reply to this email.</p><p>Mateus Mendes</p>`
     : `<p>Olá,</p><p>Segue em anexo o relatório em PDF de <strong>${escapeHtml(host)}</strong>, com nota geral <strong>${input.result.overallScore}/100</strong>.</p><p>Se quiser ajuda com as correções prioritárias, basta responder a este email.</p><p>Mateus Mendes</p>`;
 
+  const filename = `relatorio-${host.replace(/[^a-z0-9.-]/gi, "")}.pdf`;
+  const attachment = { filename, content: Buffer.from(input.pdf).toString("base64") };
+
   const sent = await resend(
     {
       from: CONTACT_FROM,
@@ -67,16 +79,26 @@ export async function sendAuditReportEmail(input: {
       reply_to: [CONTACT_RECIPIENT],
       subject,
       html,
-      attachments: [
-        {
-          filename: `relatorio-${host.replace(/[^a-z0-9.-]/gi, "")}.pdf`,
-          content: Buffer.from(input.pdf).toString("base64"),
-        },
-      ],
+      attachments: [attachment],
     },
     apiKey
   );
-  if (!sent) return { status: "falhou" };
+
+  if (!sent) {
+    // Plano B: o pedido e o PDF seguem para o dono do site (sempre aceite pelo Resend).
+    const forwarded = await resend(
+      {
+        from: CONTACT_FROM,
+        to: [CONTACT_RECIPIENT],
+        reply_to: [input.to],
+        subject: `⚠️ Enviar relatório a ${input.to}: ${host} [${input.result.overallScore}/100]`,
+        html: `<p><strong>O envio automático do relatório ao visitante falhou</strong> (provável remetente sem domínio verificado no Resend). Responda a este email com o PDF em anexo — o "Responder" já vai para o visitante.</p><p><strong>Email:</strong> ${escapeHtml(input.to)}</p><p><strong>Site:</strong> ${escapeHtml(input.result.url)}</p><p><strong>Nota:</strong> ${input.result.overallScore}/100</p><p><strong>Idioma:</strong> ${en ? "inglês" : "português"}</p><p>O visitante pediu o relatório em PDF e autorizou o contacto. Já descarregou o PDF no site.</p>`,
+        attachments: [attachment],
+      },
+      apiKey
+    );
+    return { status: forwarded ? "reencaminhado" : "falhou" };
+  }
 
   // Lead: o visitante autorizou expressamente o contacto (consentimento obrigatório na rota).
   await resend(

@@ -42,7 +42,7 @@ export async function POST(request: Request): Promise<NextResponse> {
   // Sem cabeçalhos de proxy (ex.: `next start` exposto diretamente) não há
   // como identificar o cliente — nesse caso todos partilham o mesmo bucket,
   // por isso usamos um teto mais alto para não bloquear visitantes legítimos.
-  const limit = checkRateLimit(ip, ip === "unknown" ? 30 : undefined);
+  const limit = checkRateLimit(`contact:${ip}`, ip === "unknown" ? 30 : undefined);
   if (!limit.allowed) {
     return failure(
       "Demasiados pedidos em sequência. Aguarde um minuto e tente novamente.",

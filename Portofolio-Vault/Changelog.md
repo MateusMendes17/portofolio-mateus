@@ -4,6 +4,21 @@ tags: [changelog]
 
 # Changelog
 
+## 2026-11-14 — Emails a visitantes falhavam (Resend sem domínio) + plano B
+
+**Incidente:** em 13/11 (22:08 e 22:10) uma potencial cliente pediu o relatório do Avaliador por email e recebeu erro duas vezes. Logs da Vercel: `[audit-report] Resend respondeu 403`.
+
+**Causa:** o remetente é `@resend.dev` (sem domínio verificado). Nesse modo o Resend só entrega ao email do dono da conta, por isso **qualquer email para um visitante falha**: relatório do Avaliador por email e email de boas-vindas da newsletter. O formulário de contacto funcionava (o email vai para o Mateus). Os testes de 08/11 não apanharam isto porque usaram o email do próprio Mateus.
+
+**Corrigido (nenhum visitante volta a ver erro, nenhum contacto se perde):**
+- Relatório por email (`report-email.ts`, `report/route.ts`, `ReportActions.tsx`): se o envio ao visitante falhar, o pedido + PDF seguem para o Mateus (com "Responder" já dirigido ao visitante) e a interface descarrega logo o PDF e diz que a resposta segue em 24 h.
+- Newsletter (`newsletter/route.ts`, `NewsletterSignup.tsx`, `NewsletterThankYou.tsx`): se o email de boas-vindas falhar, o Mateus recebe o aviso do subscritor e a página de agradecimento diz para descarregar o checklist ali. Corrigido também o `<strong>` que aparecia como texto nessa página.
+- Formulário de contacto por baixo do relatório (`AvaliadorView.tsx`): uma mensagem curta ("Olá") ou um telefone incompleto faziam falhar a validação com erro genérico; agora a mensagem leva sempre o contexto do relatório, o WhatsApp só é pedido com número válido e os erros de validação aparecem com o texto do campo.
+- Limite de pedidos: o Avaliador e o contacto partilhavam o mesmo contador por IP (`audit:` / `contact:` agora).
+- Testes: `report-email.test.ts` simula o 403 do Resend. Testado com a chave real (visitante `@example.com` recusado → reencaminhado) e no browser. Total: 74 testes.
+
+**Pendente (decisão do Mateus):** para os emails chegarem mesmo aos visitantes é preciso um remetente verificado — domínio próprio verificado no Resend ou envio pelo Gmail.
+
 ## 2026-11-10 — Avaliador: precisão verificada em sites reais
 
 Testado contra 12 sites reais, a API e a página num browser. Detalhe das regras em [[avaliador-metodologia]] (secção "Precisão").

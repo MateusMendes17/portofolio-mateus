@@ -89,7 +89,10 @@ export async function POST(request: NextRequest) {
   }
 
   const sent = await sendAuditReportEmail({ to: data.email!, locale: data.locale, result, pdf });
-  if (sent.status === "enviado") return json({ ok: true }, 200);
+  if (sent.status === "enviado") return json({ ok: true, emailed: true }, 200);
+  // O visitante não recebeu o email, mas o pedido chegou ao Mateus: a interface
+  // descarrega o PDF de imediato e explica que a resposta segue por email.
+  if (sent.status === "reencaminhado") return json({ ok: true, emailed: false }, 200);
   if (sent.status === "sem-chave") return json({ error: "O envio por email não está configurado." }, 503);
   return json({ error: "Não foi possível enviar o email. Pode descarregar o PDF." }, 502);
 }
